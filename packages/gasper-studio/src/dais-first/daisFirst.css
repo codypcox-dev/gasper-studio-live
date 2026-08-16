@@ -1,0 +1,894 @@
+/**
+ * Dais-first presentation — Gasper Studio product only.
+ * EA-V007: hide Graph Editor placeholder, stage dominates, primary controls fit without scroll.
+ * Scoped under [data-product="gasper-studio"] — does not mutate desktop shell sources.
+ */
+
+/* —— Law: neutralize Graph Editor dominance under packaged product —— */
+[data-product="gasper-studio"] .gwc-graph-placeholder,
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-graph-placeholder,
+[data-product="gasper-studio"] [data-testid="gwc-graph-placeholder"] {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  flex: 0 0 0 !important;
+}
+
+/* —— Stage canvas dominates available viewport —— */
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-center {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-stage-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  place-items: stretch;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-stage-slot {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: stretch;
+}
+
+/* Narrow navigator; collapse inspector + shell timeline (rail/transport own controls).
+ * Default densification gives stage more pixels for owner-reviewable facial scale. */
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-body {
+  grid-template-columns: 40px minmax(0, 1fr) minmax(0, 0px) !important;
+  grid-template-rows: minmax(0, 1fr) 0px !important;
+  --gwc-timeline: 0px;
+}
+
+/* Shell timeline dock is tertiary chrome — never competes with stage mass under dais-first */
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-timeline-dock,
+[data-product="gasper-studio"][data-dais-first="1"] [data-testid="gwc-timeline"],
+[data-product="gasper-studio"][data-dais-first="1"] [data-testid="gwc-timeline-dock"] {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  flex: 0 0 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+/* Real shell root attributes (WorldClassStudioShell) */
+[data-product="gasper-studio"][data-dais-first="1"] [data-gasper-worldclass-shell],
+[data-product="gasper-studio"][data-dais-first="1"] [data-testid="gwc-shell-root"] {
+  min-height: 0;
+  height: 100%;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-panel-inspector,
+[data-product="gasper-studio"][data-dais-first="1"] [data-testid="gwc-inspector"] {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-panel:not(.gwc-panel-inspector) {
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+}
+
+/* —— Dais-first stage host composition —— */
+.dais-first-stage-host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--dais-rail-width, 200px);
+  grid-template-rows: minmax(0, 1fr) var(--dais-transport-height, 40px);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--gwc-text-0, #e8eaef);
+  font-size: 11px;
+  /* Base rail width kept for product contract string; facial-review densifies below. */
+  --dais-rail-width: 200px;
+  --dais-transport-height: 40px;
+  --dais-accent: #6ea8ff;
+  --dais-accent-active: #9bc4ff;
+  --dais-surf: rgba(12, 16, 24, 0.92);
+  --dais-surf-2: rgba(22, 28, 40, 0.95);
+  --dais-border: rgba(255, 255, 255, 0.1);
+  --dais-danger: #ff7b7b;
+  --dais-ok: #6ddea8;
+}
+
+.dais-first-canvas {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: stretch;
+}
+
+.dais-first-canvas > * {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+/* —— Control rail (right) — dense, fits primary controls without scroll/clip —— */
+.dais-control-rail {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--dais-surf);
+  border-left: 1px solid var(--dais-border);
+  z-index: 4;
+  justify-content: flex-start;
+}
+
+/* N120 Tuning Lab: a collapsible, direct control-plane receipt. */
+.tuning-lab {
+  border-top: 1px solid var(--dais-border);
+  padding-top: 3px;
+}
+
+.tuning-lab__summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.tuning-lab__summary::-webkit-details-marker {
+  display: none;
+}
+
+.tuning-lab__summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 12px;
+  opacity: 0.65;
+}
+
+.tuning-lab[open] .tuning-lab__summary::before {
+  content: "▾";
+}
+
+.tuning-lab__state {
+  color: var(--dais-accent-active);
+  float: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tuning-lab__note {
+  margin: 2px 0;
+}
+
+.tuning-lab__intent {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px;
+  margin: 2px 0;
+}
+
+.tuning-lab__intent input {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--dais-surf-2);
+  border: 1px solid var(--dais-border);
+  color: inherit;
+  border-radius: 3px;
+  padding: 3px 4px;
+  font-size: 10px;
+}
+
+.tuning-lab__param {
+  grid-template-columns: 56px 1fr 34px;
+}
+
+.tuning-lab__actions {
+  margin-top: 2px;
+}
+
+.tuning-lab__expert {
+  margin-top: 2px;
+  padding: 3px 0 0;
+  border-top: 1px solid var(--dais-border);
+}
+
+.tuning-lab__expert-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  color: color-mix(in srgb, var(--dais-accent-active) 75%, white);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tuning-lab__expert-summary::-webkit-details-marker {
+  display: none;
+}
+
+.tuning-lab__expert-summary::before {
+  content: "▸";
+  width: 10px;
+  color: var(--dais-accent-active);
+}
+
+.tuning-lab__expert[open] .tuning-lab__expert-summary::before {
+  content: "▾";
+}
+
+.tuning-lab__expert-summary span {
+  margin-left: auto;
+  padding: 1px 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-variant-numeric: tabular-nums;
+}
+
+.tuning-lab__receipt {
+  color: var(--dais-ok);
+}
+
+.tuning-lab__pilot {
+  display: grid;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid color-mix(in srgb, var(--dais-accent) 45%, var(--dais-border));
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(92, 132, 255, 0.09), rgba(120, 87, 255, 0.04));
+}
+
+.tuning-lab__pilot[data-status="running"] {
+  border-color: var(--dais-accent);
+  box-shadow: inset 2px 0 0 var(--dais-accent);
+}
+
+.tuning-lab__pilot[data-status="failed"],
+.tuning-lab__pilot[data-status="iteration_limit"] {
+  border-color: var(--dais-danger, #d46a6a);
+}
+
+.tuning-lab__pilot-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.tuning-lab__pilot-badges span {
+  padding: 1px 4px;
+  border: 1px solid var(--dais-border);
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: color-mix(in srgb, var(--dais-accent-active) 80%, white);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tuning-lab__pilot-receipts {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.tuning-lab__pilot-receipts summary {
+  cursor: pointer;
+}
+
+.tuning-lab__pilot-receipts p {
+  margin: 2px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.tuning-lab__pilot-receipts p > span {
+  color: var(--dais-ok);
+  text-transform: uppercase;
+}
+
+.tuning-lab__pilot-receipts p[data-status="failed"] > span,
+.tuning-lab__pilot-receipts p[data-status="cancelled"] > span {
+  color: var(--dais-danger, #e27c7c);
+}
+
+.tuning-lab__pilot-actions {
+  justify-content: flex-end;
+}
+
+.grok-successor {
+  display: grid;
+  gap: 5px;
+  padding: 7px;
+  border: 1px solid color-mix(in srgb, #62e6be 45%, var(--dais-border));
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(98, 230, 190, 0.13), transparent 42%),
+    linear-gradient(145deg, rgba(12, 28, 34, 0.94), rgba(17, 21, 38, 0.96));
+  box-shadow: inset 2px 0 0 rgba(98, 230, 190, 0.66);
+}
+
+.grok-successor__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.grok-successor__header > div {
+  display: grid;
+  gap: 1px;
+}
+
+.grok-successor__header strong {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.grok-successor__eyebrow {
+  color: #62e6be;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.grok-successor__header button {
+  padding: 2px 5px;
+  font-size: 8px;
+}
+
+.grok-successor__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.grok-successor__badges span {
+  padding: 2px 4px;
+  border: 1px solid var(--dais-border);
+  border-radius: 3px;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.grok-successor__badges span[data-state="good"] {
+  border-color: rgba(98, 230, 190, 0.5);
+  color: #8df3d2;
+  background: rgba(98, 230, 190, 0.08);
+}
+
+.grok-successor__badges span[data-state="warn"] {
+  border-color: rgba(245, 191, 85, 0.5);
+  color: #f5c866;
+}
+
+.grok-successor__badges span[data-state="bad"] {
+  border-color: rgba(226, 124, 124, 0.55);
+  color: #ef9a9a;
+}
+
+.grok-successor__facts {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.grok-successor__facts > div {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 5px;
+  font-size: 8px;
+}
+
+.grok-successor__facts dt {
+  color: rgba(255, 255, 255, 0.44);
+  text-transform: uppercase;
+}
+
+.grok-successor__facts dd {
+  margin: 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.8);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grok-successor__next,
+.grok-successor__warning,
+.grok-successor__compatible,
+.grok-successor__empty,
+.grok-successor__error {
+  margin: 0;
+  font-size: 8px;
+  line-height: 1.35;
+}
+
+.grok-successor__next {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 5px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.grok-successor__next span {
+  color: #62e6be;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.grok-successor__warning {
+  color: #f5c866;
+}
+
+.grok-successor__warning summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.grok-successor__warning p {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+  color: rgba(245, 200, 102, 0.72);
+}
+
+.grok-successor__compatible {
+  color: #8df3d2;
+}
+
+.grok-successor__empty {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.grok-successor__error {
+  color: var(--dais-danger, #e27c7c);
+}
+
+.dais-control-rail__section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.dais-control-rail__label {
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Group sub-header within a rail section (D-0022 control-surface catch-up). */
+.dais-control-rail__sublabel {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin: 5px 0 1px;
+  line-height: 1.1;
+}
+
+.dais-control-rail__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+/* Embodiment: compact 2×2 grid to save vertical space */
+.dais-control-rail__row--emb {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+
+.dais-control-rail button,
+.dais-transport-bar button {
+  appearance: none;
+  border: 1px solid var(--dais-border);
+  background: var(--dais-surf-2);
+  color: inherit;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 10px;
+  line-height: 1.15;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dais-control-rail__row--emb button {
+  padding: 3px 4px;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.dais-control-rail button:hover,
+.dais-transport-bar button:hover {
+  border-color: var(--dais-accent);
+  color: var(--dais-accent-active);
+}
+
+.dais-control-rail button[data-active="1"],
+.dais-control-rail button[aria-pressed="true"],
+.dais-transport-bar button[data-active="1"],
+.dais-transport-bar button[aria-pressed="true"] {
+  background: rgba(110, 168, 255, 0.18);
+  border-color: var(--dais-accent);
+  color: var(--dais-accent-active);
+  font-weight: 600;
+}
+
+.dais-control-rail select {
+  width: 100%;
+  background: var(--dais-surf-2);
+  border: 1px solid var(--dais-border);
+  color: inherit;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 10px;
+  height: 22px;
+}
+
+.dais-control-rail input[type="range"] {
+  width: 100%;
+  accent-color: var(--dais-accent);
+  margin: 0;
+  height: 16px;
+}
+
+.dais-control-rail__param {
+  display: grid;
+  grid-template-columns: 36px 1fr 28px;
+  gap: 2px;
+  align-items: center;
+  font-size: 10px;
+  line-height: 1.1;
+}
+
+.dais-control-rail__param-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+  font-size: 9px;
+}
+
+.dais-control-rail__note {
+  font-size: 9px;
+  opacity: 0.55;
+  line-height: 1.2;
+  margin: 0;
+  flex: 0 0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-height: 0;
+}
+
+/* —— Transport bar (bottom) —— */
+.dais-transport-bar {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  min-height: var(--dais-transport-height, 40px);
+  max-height: var(--dais-transport-height, 40px);
+  overflow: hidden; /* no scroll for primary transport */
+  background: var(--dais-surf);
+  border-top: 1px solid var(--dais-border);
+  z-index: 5;
+}
+
+.dais-transport-bar__group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.dais-transport-bar__playhead {
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  min-width: 8ch;
+  text-align: center;
+  opacity: 0.95;
+}
+
+.dais-transport-bar__status {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.dais-transport-bar button[data-kind="danger"] {
+  border-color: rgba(255, 123, 123, 0.45);
+  color: var(--dais-danger);
+}
+
+.dais-transport-bar button[data-kind="ok"] {
+  border-color: rgba(109, 222, 168, 0.4);
+}
+
+/*
+ * Diagnostics strip is a fixed ~28px status row. Never let ExpressionDaisPanel
+ * (or any secondary panel) overflow upward over the character stage.
+ * Rail owns expression/embodiment/gain — panel is neutralized on open Dais.
+ */
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-status,
+[data-product="gasper-studio"][data-dais-first="1"] [data-testid="gwc-status"] {
+  overflow: hidden !important;
+  max-height: var(--gwc-status, 22px);
+  min-height: 0;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"]
+  [data-testid="expression-studio-diagnostics"]
+  .expression-dais-panel,
+[data-product="gasper-studio"][data-dais-first="1"]
+  [data-testid="expression-studio-diagnostics"]
+  .expression-dais-panel.compact {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"]
+  [data-testid="expression-studio-diagnostics"] {
+  overflow: hidden;
+  max-height: 24px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* —— Eight-state primary grid: 2×4, no scroll —— */
+.dais-control-rail__row--states {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+
+.dais-control-rail__row--states button {
+  padding: 3px 4px;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* —— Facial-review scale contract (character mass dominates stage crop) —— */
+.dais-first-stage-host,
+.dais-first-canvas {
+  --dais-character-scale: 1;
+  --dais-facial-review-min-height-fraction: 0.62;
+  --dais-facial-review-target-height-fraction: 0.72;
+}
+
+/*
+ * Default presentation prioritizes facial scale (not review-mode only).
+ * Dense rail/transport free stage pixels; camera fit remains authoritative
+ * (no clip-only transform:scale as the sole framing fix).
+ */
+.dais-first-canvas[data-facial-review-scale="1"],
+.dais-first-stage-host[data-facial-review-scale="1"] .dais-first-canvas {
+  --dais-character-scale: 1.12;
+}
+
+.dais-first-stage-host[data-facial-review-scale="1"] {
+  --dais-rail-width: 168px;
+  --dais-transport-height: 38px;
+  grid-template-columns: minmax(0, 1fr) var(--dais-rail-width, 168px);
+  grid-template-rows: minmax(0, 1fr) var(--dais-transport-height, 38px);
+}
+
+/*
+ * The compact facial-review rail is ideal for quick pose checks, but it is too
+ * narrow for source links, inference state, and measured-physics receipts.
+ * Opening Tuning Lab makes authoring the primary task, so lend it enough width
+ * without changing the compact default or isolated review crops.
+ */
+.dais-first-stage-host[data-facial-review-scale="1"]:not([data-review-mode="1"]):has(.tuning-lab[open]) {
+  --dais-rail-width: clamp(220px, 32%, 280px);
+  grid-template-columns: minmax(0, 1fr) var(--dais-rail-width);
+}
+
+/* Stage content must not clip silhouette under facial-review densification */
+.dais-first-canvas[data-facial-review-scale="1"] .gasper-dais-content,
+.dais-first-stage-host[data-facial-review-scale="1"] .gasper-dais-content {
+  overflow: visible;
+}
+
+/* —— State-isolated review mode: hide irrelevant chrome; character crop primary —— */
+.dais-first-stage-host[data-review-mode="1"],
+.dais-first-stage-host.dais-review-mode {
+  --dais-rail-width: 148px;
+  --dais-transport-height: 36px;
+  grid-template-columns: minmax(0, 1fr) var(--dais-rail-width, 148px);
+  grid-template-rows: minmax(0, 1fr) var(--dais-transport-height, 36px);
+}
+
+/* Product root: collapse shell navigator + diagnostics under review mode */
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gwc-panel:not(.gwc-panel-inspector),
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gwc-navigator"] {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gwc-body {
+  grid-template-columns: 0px minmax(0, 1fr) minmax(0, 0px) !important;
+  /* Stage-only rows: collapse shell timeline dock during review crops */
+  grid-template-rows: minmax(0, 1fr) 0px !important;
+  --gwc-timeline: 0px;
+}
+
+/* Dual transport / timeline chrome must not steal facial crop height in review */
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gwc-timeline-dock,
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gwc-timeline"],
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gwc-timeline-dock"] {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  flex: 0 0 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+/* Stage chrome / HUD overlays — hide in review so crop is character-only */
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gwc-stage-chrome,
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gasper-hud,
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gasper-hud"],
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gwc-stage-chrome"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="expression-studio-diagnostics"],
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gwc-diagnostics,
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gwc-diagnostics"],
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  .gwc-status,
+[data-product="gasper-studio"][data-dais-first="1"]:has([data-review-mode="1"])
+  [data-testid="gwc-status"] {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Review overlay: labels sit in top band; character crop region below (never overlap) */
+.dais-review-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dais-review-character-crop {
+  box-sizing: border-box;
+  border: 1px dashed rgba(110, 168, 255, 0.35);
+  border-radius: 4px;
+  /* Crop outline only — character remains under canvas children */
+  background: transparent;
+}
+
+.dais-review-state-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dais-accent-active, #9bc4ff);
+  background: rgba(8, 12, 20, 0.72);
+  border: 1px solid rgba(110, 168, 255, 0.35);
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Labels are outside character crop geometry (computeReviewCropLabelGeometry) */
+  z-index: 7;
+}
+
+.dais-control-rail[data-review-mode="1"] {
+  overflow: hidden;
+}
+
+.dais-control-rail__section--review-only .dais-control-rail__note {
+  white-space: normal;
+  opacity: 0.7;
+}
+
+.dais-transport-bar[data-review-mode="1"] {
+  /* Keep play / interrupt / frame step only — secondary A/B collapsed in JSX */
+  gap: 4px;
+}
+
+
+/* —— Cinematic isolated-proof set (default first-run) ——
+ * Black room (D-0112). The only floor is worldRig's SVG ground/shadow.
+ * A CSS stage floor is a second world: it pins VIDEO lum>40 while kernel
+ * body.x and worldRig translate already travel. Chrome still recedes.
+ */
+[data-product="gasper-studio"][data-cinematic-set="1"] .gwc-stage-frame,
+[data-product="gasper-studio"][data-cinematic-set="1"] .gwc-stage-slot {
+  position: relative;
+  background: #000;
+}
+
+[data-product="gasper-studio"][data-cinematic-set="1"] .gwc-stage-chrome,
+[data-product="gasper-studio"][data-cinematic-set="1"] [data-testid="gwc-stage-chrome"] {
+  opacity: 0.28;
+}
+
+[data-product="gasper-studio"][data-cinematic-set="1"] .dais-control-rail,
+[data-product="gasper-studio"][data-cinematic-set="1"] .dais-transport-bar {
+  opacity: 0.42;
+}

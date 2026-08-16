@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentbridge.local/schemas/studio-protocol/command-request.json",
+  "title": "CommandRequest",
+  "type": "object",
+  "required": ["type", "requestId", "command", "input", "caller", "grantedScope", "timestamp"],
+  "properties": {
+    "type": { "const": "command.request" },
+    "requestId": { "type": "string", "minLength": 1 },
+    "command": { "type": "string", "minLength": 1 },
+    "input": { "type": "object" },
+    "documentId": { "type": ["string", "null"] },
+    "transactionId": { "type": ["string", "null"] },
+    "expectedRevision": { "type": ["integer", "null"] },
+    "caller": {
+      "type": "object",
+      "required": ["identity"],
+      "properties": {
+        "identity": { "type": "string" },
+        "profile": { "type": "string" }
+      }
+    },
+    "grantedScope": { "type": "array", "items": { "type": "string" } },
+    "timestamp": { "type": "string" }
+  },
+  "additionalProperties": false
+}

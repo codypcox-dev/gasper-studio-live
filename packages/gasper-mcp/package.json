@@ -1,0 +1,11 @@
+{
+  "name": "gasper-studio-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gasper Studio MCP server — exposes the Gasper animation/document command layer as MCP tools so AgentBridge and any MCP client can drive Gasper without embedding its source.",
+  "scripts": {
+    "start": "node --import tsx src/index.ts",
+    "typecheck": "tsc -p ../../tsconfig.json --noEmit"
+  }
+}

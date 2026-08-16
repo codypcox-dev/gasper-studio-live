@@ -1,0 +1,7 @@
+{
+  "name": "@gasper/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Gasper-only shared contracts and pure runtime utilities."
+}

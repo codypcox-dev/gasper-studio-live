@@ -1,0 +1,27 @@
+{
+  "failures": [
+    {
+      "time": 1786849705483,
+      "url": "http://127.0.0.1:5179/__gasper/tuning-lab/poll",
+      "method": "GET",
+      "errorText": "net::ERR_ABORTED"
+    },
+    {
+      "time": 1786850183808,
+      "url": "http://127.0.0.1:5179/__gasper/tuning-lab/poll",
+      "method": "GET",
+      "errorText": "net::ERR_ABORTED"
+    },
+    {
+      "time": 1786850407885,
+      "url": "http://127.0.0.1:5179/__gasper/tuning-lab/poll",
+      "method": "GET",
+      "errorText": "net::ERR_ABORTED"
+    }
+  ],
+  "validInspection": true,
+  "listenersAttachedAt": "2026-08-16T02:38:10.357Z",
+  "pageOpenedAt": "2026-08-16T02:40:03.021Z",
+  "pageOpen": true,
+  "note": "Empty failures mean no requestfailed events since attach — inspection ran."
+}

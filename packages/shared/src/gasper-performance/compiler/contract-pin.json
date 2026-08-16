@@ -1,0 +1,10 @@
+{
+  "affect_anchors_version": "1.0.0-synthetic-provisional",
+  "affect_anchors_hash": "9f14ba71f5903d5b84f33b96dd58c4f272f91de5efcf4e11c2a4e5893aec4226",
+  "projection_grammar_version": "1.0.0-synthetic-provisional",
+  "projection_grammar_hash": "959a9b443e301364ddbb030a9718f05755f9550e0566b47fab32edf1c2e815b5",
+  "channel_registry_hash": "0c33e59613424141abf720f9902bc1a47d18589d030aa219d4982a28e901c0d7",
+  "routes_hash": "f9a99c31392fa5e7d80634224f94875b5ace440de6800cc0840a106507cc39e1",
+  "interrupt_grammar_hash": "813cba68ef3b94e114a55011c5f7c98520d486205a87d99e86f15791d99262dd",
+  "freeze_status": "GASPER-006_PROVISIONAL_CONTRACTS_FROZEN"
+}

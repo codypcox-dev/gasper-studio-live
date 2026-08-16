@@ -1,0 +1,126 @@
+{
+  "schema": "gasper.clip-beats.v1",
+  "pack_id": "gasper-hero-pack-v1",
+  "authored": "2026-08-03",
+  "author": "codex-vec005-worker-20260803",
+  "note": "Every authored clip declares its three-beat arc (gather/peak/settle) from its actual keyframe labels. Gestures must satisfy recovery-longest (settle >= gather); the complete-reveal is a sequence and documents a macro beat envelope instead.",
+  "clips": {
+    "clip-presence-living-idle": {
+      "kind": "gesture",
+      "gatherMs": 0,
+      "peakMs": 4800,
+      "settleMs": 3200,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "loop idle: micro-gaze -> breath-peak (4800) -> loop-close (8000)"
+    },
+    "clip-listening-receive": {
+      "kind": "gesture",
+      "gatherMs": 600,
+      "peakMs": 800,
+      "settleMs": 1600,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "orient (600) -> open-reception (1400) -> listening-hold/acknowledge (3000)"
+    },
+    "clip-presence-thinking-knit": {
+      "kind": "gesture",
+      "gatherMs": 700,
+      "peakMs": 1700,
+      "settleMs": 800,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "gather (700) -> knit/cognitive-peak (2400) -> hold (3200)"
+    },
+    "clip-recognition-spark": {
+      "kind": "gesture",
+      "gatherMs": 350,
+      "peakMs": 750,
+      "settleMs": 400,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "recognition (350) -> spark (1100) -> pleased-containment (1500)"
+    },
+    "clip-presence-to-singularity": {
+      "kind": "gesture",
+      "gatherMs": 800,
+      "peakMs": 2000,
+      "settleMs": 2200,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "prepare/commitment (800) -> compression/horizon-birth (2800) -> accretion-lock/singularity-hold (5000)"
+    },
+    "clip-singularity-to-presence": {
+      "kind": "gesture",
+      "gatherMs": 1000,
+      "peakMs": 2000,
+      "settleMs": 2000,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "return-accretion (1000) -> return-horizon/compression (3000) -> return-commitment/prepare (5000)"
+    },
+    "clip-presence-to-comet-right": {
+      "kind": "gesture",
+      "gatherMs": 1200,
+      "peakMs": 1000,
+      "settleMs": 1800,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "prepare/aim (1200) -> launch (2200) -> held-flight/return (4000)"
+    },
+    "clip-presence-to-comet-left": {
+      "kind": "gesture",
+      "gatherMs": 1200,
+      "peakMs": 1000,
+      "settleMs": 1800,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "prepare/aim (1200) -> launch (2200) -> held-flight/return (4000)"
+    },
+    "clip-dormant-orbit-wake": {
+      "kind": "gesture",
+      "gatherMs": 2200,
+      "peakMs": 1400,
+      "settleMs": 3600,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "energy-withdraw/collapse (2200) -> dormant-hold (3600) -> wake-cue/form-recover/neutral (7200)"
+    },
+    "clip-presence-thinking-knit-intense-calm": {
+      "kind": "gesture",
+      "gatherMs": 700,
+      "peakMs": 1700,
+      "settleMs": 800,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "same arc as thinking-knit (intense-calm variant)"
+    },
+    "clip-presence-thinking-knit-excessive": {
+      "kind": "gesture",
+      "gatherMs": 700,
+      "peakMs": 1700,
+      "settleMs": 800,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "same arc as thinking-knit (excessive variant, lab comparison)"
+    },
+    "clip-presence-thinking-knit-corrected": {
+      "kind": "gesture",
+      "gatherMs": 700,
+      "peakMs": 1700,
+      "settleMs": 800,
+      "restMs": 0,
+      "recoveryLongest": true,
+      "rationale": "same arc as thinking-knit (corrected variant)"
+    },
+    "clip-complete-reveal-sequence": {
+      "kind": "sequence",
+      "gatherMs": 8000,
+      "peakMs": 22700,
+      "settleMs": 7400,
+      "restMs": 0,
+      "recoveryLongest": false,
+      "rationale": "macro sequence envelope: idle intro (0-8000) -> listening/thinking/recognition/singularity/comet (8000-30700) -> dormant/wake/neutral (30700-38100); not a single gesture, so recovery-longest is documented rather than enforced"
+    }
+  }
+}

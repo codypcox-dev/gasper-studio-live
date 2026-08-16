@@ -1,0 +1,79 @@
+/* AgentBridge Studio design tokens — stage-first creative shell */
+:root {
+  /* Spacing (8px system) */
+  --sp-0: 0;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-8: 48px;
+
+  /* Control heights */
+  --ctrl-min: 32px;
+  --ctrl-default: 36px;
+  --ctrl-compact: 28px;
+  --bar-workspace: 40px;
+  --bar-runtime: 36px;
+  --rail-nav: 200px;
+  --rail-inspector: 280px;
+
+  /* Typography */
+  --fs-xs: 12px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-lg: 14px;
+  --fs-xl: 16px;
+  --lh-tight: 1.25;
+  --lh-body: 1.4;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* Surfaces (≤3 elevations) */
+  --surf-0: #070708;
+  --surf-1: #0e0e10;
+  --surf-2: #16161a;
+  --surf-stage: #050506;
+  --surf-stage-veil: radial-gradient(ellipse 70% 60% at 50% 48%, #121218 0%, #050506 72%);
+
+  /* Borders (minimize use) */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-soft: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(168, 130, 255, 0.55);
+
+  /* Radii */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 8px;
+
+  /* Shadows */
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  /* Semantic accents */
+  --accent-select: #a882ff; /* purple — selection / authored */
+  --accent-live: #3dcfef; /* cyan — live/runtime */
+  --accent-ok: #3dd68c; /* green */
+  --accent-warn: #f0b429; /* amber */
+  --accent-danger: #f07178; /* red */
+  --text-primary: #ececf1;
+  --text-secondary: #9a9aa8;
+  --text-tertiary: #6a6a78;
+
+  /* Map legacy tokens used by non-studio pages */
+  --bg: var(--surf-0);
+  --bg-elevated: var(--surf-1);
+  --panel: var(--surf-1);
+  --panel-2: var(--surf-2);
+  --panel-hover: #1c1c22;
+  --border: var(--border-subtle);
+  --border-strong: var(--border-soft);
+  --text: var(--text-primary);
+  --muted: var(--text-secondary);
+  --accent: var(--text-primary);
+  --ok: var(--accent-ok);
+  --warn: var(--accent-warn);
+  --err: var(--accent-danger);
+}

@@ -1,0 +1,127 @@
+{
+  "schema": "triforce-kernel-lock/v1",
+  "installedAt": "2026-08-15T01:02:04.537Z",
+  "engines": {
+    "triforce-engine": {
+      "required": true,
+      "role": "admit-coordinator",
+      "package": "@triforce/engine",
+      "present": true,
+      "pinnedVersion": "3.0.0",
+      "contentDigest": "df88081214158b011398dda316c3cab1ec750557b522ae66022f4aa83a91f1b1"
+    },
+    "planops-engine": {
+      "required": false,
+      "role": "work-roles-proofs",
+      "package": "planops-engine",
+      "present": true,
+      "pinnedVersion": "4.0.0",
+      "contentDigest": "901b657333ccb0e0132672c3623a789d796c32c815f71f3a5550a4990aac7b25"
+    },
+    "designops-engine": {
+      "required": false,
+      "role": "surface-crystal",
+      "package": "designops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "255eb8685dd7fee568d34a45189df99450b674201f8c7349de98857d105cf5ba"
+    },
+    "thinkops-engine": {
+      "required": false,
+      "role": "word-residual-claim",
+      "package": "thinkops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "f415d1bd385fbc533133d9bd24ca49e7f2be83ea764fb661326d9133bfd2a465"
+    },
+    "gameops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/gameops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "b8978b5ed7ff38c9d57815955c351572e0144562378682b09f90b0a2ee6b145a"
+    },
+    "modelops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/modelops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "0a42a32b76bc340bb226da9a8151ba0636cbe992af60c90aa3f8a62dc5b768f8"
+    },
+    "audioops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/audioops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "e045a8e060576bbe44aa556760b76fbe301ff29569004157f320f2c896c1a4f6"
+    },
+    "codeops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/codeops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "cd972ef6652716f9686e74e1393c03b1b44293f0642c3bb5986cd404fd8778af"
+    },
+    "vfxops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/vfxops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "f0c873dd97414aac810654f987e10366061bc44ca8c4d70c50565793436b1961"
+    },
+    "renderops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/renderops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "057574a7f1a8a36afc9ad5083fa8750a2d66f3bf47d48f7c18f5cd3bd5f0080d"
+    },
+    "netops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/netops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "12593f6a4ab5287c5a42424bfbf72e8ea73dbdd878481f08b0feb335f8bd5222"
+    },
+    "videoops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/videoops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "92dd58667d1d64025d267ce58c2bf60c03fe67719d1d35b808fa4cbebe13add5"
+    },
+    "alignops-engine": {
+      "required": false,
+      "role": "domain-engine",
+      "package": "constituents/alignops-engine",
+      "present": true,
+      "pinnedVersion": "1.0.0",
+      "contentDigest": "6b6bd9d266dabaca81cfd71b0794e3a02962fbb161996d1731e9fcbed39373c7"
+    }
+  },
+  "enforcement": {
+    "startHere": "docs/triforce/START_HERE.md",
+    "agentsContract": "docs/triforce/AGENTS.md",
+    "cli": "bin/triforce.mjs",
+    "doctorRequiredBeforeShipClaim": true
+  },
+  "installer": {
+    "engineVersion": "3.0.0",
+    "syncedAt": "2026-08-15T22:46:58.493Z"
+  },
+  "syncSource": {
+    "engineRoot": "C:\\Users\\funny\\Documents\\GasperStudio\\vendor\\triforce-engine",
+    "version": "3.0.0",
+    "packageDigest": "df88081214158b011398dda316c3cab1ec750557b522ae66022f4aa83a91f1b1",
+    "commit": "a7b01d1ffab021b85e19742171e32322c6d55a5e",
+    "stampedAt": "2026-08-15T22:46:58.494Z"
+  }
+}

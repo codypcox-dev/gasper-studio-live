@@ -1,0 +1,36 @@
+{
+  "pack_id": "gasper-hero-pack-v1",
+  "generated_at": "2026-07-16T23:01:04.194Z",
+  "status": "PASS",
+  "error_count": 0,
+  "warning_count": 2,
+  "errors": [],
+  "warnings": [
+    "09-agent-directed-revision.gasper:clip-presence-thinking-knit-excessive: overdriven energy at 2400",
+    "clips\\revision\\clip-presence-thinking-knit-excessive.json: overdriven energy at 2400"
+  ],
+  "document_count": 10,
+  "clip_ids": [
+    "clip-complete-reveal-sequence",
+    "clip-dormant-orbit-wake",
+    "clip-listening-receive",
+    "clip-presence-living-idle",
+    "clip-presence-thinking-knit",
+    "clip-presence-thinking-knit-corrected",
+    "clip-presence-thinking-knit-excessive",
+    "clip-presence-thinking-knit-intense-calm",
+    "clip-presence-to-comet-left",
+    "clip-presence-to-comet-right",
+    "clip-presence-to-singularity",
+    "clip-recognition-spark",
+    "clip-singularity-to-presence"
+  ],
+  "content_sha256": "2a288db7035fb40bdce0fd6fbb36f80703dc3a8fd3a4276a8b67f13773ae66e0",
+  "gates": {
+    "schema_compatibility": true,
+    "document_hashes": true,
+    "bindings": true,
+    "required_documents": true,
+    "pack_integrity": true
+  }
+}

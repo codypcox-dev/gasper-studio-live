@@ -1,0 +1,48 @@
+{
+  "packet": "GASPER-MAT-004",
+  "version": "1",
+  "clock": "VEC-401",
+  "coordinateSpace": "material",
+  "cosmicFlecks": [
+    { "id": "fleck-01", "u": 0, "radial": 0.42, "depth": -0.28, "phase": 0, "frequency": 0.11 },
+    { "id": "fleck-02", "u": 0.61803399, "radial": 0.515, "depth": -0.19, "phase": 1.731, "frequency": 0.127 },
+    { "id": "fleck-03", "u": 0.23606798, "radial": 0.61, "depth": -0.1, "phase": 3.462, "frequency": 0.144 },
+    { "id": "fleck-04", "u": 0.85410197, "radial": 0.705, "depth": -0.01, "phase": 5.193, "frequency": 0.161 },
+    { "id": "fleck-05", "u": 0.47213596, "radial": 0.8, "depth": 0.08, "phase": 6.924, "frequency": 0.178 },
+    { "id": "fleck-06", "u": 0.09016994, "radial": 0.42, "depth": 0.17, "phase": 8.655, "frequency": 0.11 },
+    { "id": "fleck-07", "u": 0.70820393, "radial": 0.515, "depth": 0.26, "phase": 10.386, "frequency": 0.127 },
+    { "id": "fleck-08", "u": 0.32623792, "radial": 0.61, "depth": -0.28, "phase": 12.117, "frequency": 0.144 },
+    { "id": "fleck-09", "u": 0.94427191, "radial": 0.705, "depth": -0.19, "phase": 13.848, "frequency": 0.161 },
+    { "id": "fleck-10", "u": 0.5623059, "radial": 0.8, "depth": -0.1, "phase": 15.579, "frequency": 0.178 },
+    { "id": "fleck-11", "u": 0.18033989, "radial": 0.42, "depth": -0.01, "phase": 17.31, "frequency": 0.11 },
+    { "id": "fleck-12", "u": 0.79837388, "radial": 0.515, "depth": 0.08, "phase": 19.041, "frequency": 0.127 },
+    { "id": "fleck-13", "u": 0.41640787, "radial": 0.61, "depth": 0.17, "phase": 20.772, "frequency": 0.144 },
+    { "id": "fleck-14", "u": 0.03444185, "radial": 0.705, "depth": 0.26, "phase": 22.503, "frequency": 0.161 },
+    { "id": "fleck-15", "u": 0.65247584, "radial": 0.8, "depth": -0.28, "phase": 24.234, "frequency": 0.178 },
+    { "id": "fleck-16", "u": 0.27050983, "radial": 0.42, "depth": -0.19, "phase": 25.965, "frequency": 0.11 },
+    { "id": "fleck-17", "u": 0.88854382, "radial": 0.515, "depth": -0.1, "phase": 27.696, "frequency": 0.127 },
+    { "id": "fleck-18", "u": 0.50657781, "radial": 0.61, "depth": -0.01, "phase": 29.427, "frequency": 0.144 },
+    { "id": "fleck-19", "u": 0.1246118, "radial": 0.705, "depth": 0.08, "phase": 31.158, "frequency": 0.161 },
+    { "id": "fleck-20", "u": 0.74264579, "radial": 0.8, "depth": 0.17, "phase": 32.889, "frequency": 0.178 },
+    { "id": "fleck-21", "u": 0.36067978, "radial": 0.42, "depth": 0.26, "phase": 34.62, "frequency": 0.11 },
+    { "id": "fleck-22", "u": 0.97871376, "radial": 0.515, "depth": -0.28, "phase": 36.351, "frequency": 0.127 },
+    { "id": "fleck-23", "u": 0.59674775, "radial": 0.61, "depth": -0.19, "phase": 38.082, "frequency": 0.144 },
+    { "id": "fleck-24", "u": 0.21478174, "radial": 0.705, "depth": -0.1, "phase": 39.813, "frequency": 0.161 }
+  ],
+  "cosmicStreaks": [
+    { "id": "cosmic-streak-01", "u": 0.14, "radial": 0.58, "depth": -0.12, "phase": 0.4, "frequency": 0.09 },
+    { "id": "cosmic-streak-02", "u": 0.37, "radial": 0.66, "depth": -0.08, "phase": 1.55, "frequency": 0.11 },
+    { "id": "cosmic-streak-03", "u": 0.61, "radial": 0.52, "depth": -0.16, "phase": 2.7, "frequency": 0.08 },
+    { "id": "cosmic-streak-04", "u": 0.84, "radial": 0.71, "depth": -0.05, "phase": 3.95, "frequency": 0.1 }
+  ],
+  "subsurfaceBands": [
+    { "id": "subsurface-band-01", "u": 0.22, "radial": 0.38, "depth": -0.24, "phase": 0.2, "frequency": 0.05 },
+    { "id": "subsurface-band-02", "u": 0.5, "radial": 0.46, "depth": -0.18, "phase": 1.1, "frequency": 0.06 },
+    { "id": "subsurface-band-03", "u": 0.78, "radial": 0.34, "depth": -0.28, "phase": 2.05, "frequency": 0.05 }
+  ],
+  "hardHighlights": [
+    { "id": "highlight-nub-left", "u": 0.72, "radial": 0.68, "depth": 0.12, "phase": 0, "frequency": 0 },
+    { "id": "highlight-nub-right", "u": 0.28, "radial": 0.68, "depth": 0.12, "phase": 0, "frequency": 0 },
+    { "id": "highlight-face-left", "u": 0.58, "radial": 0.48, "depth": 0.18, "phase": 0, "frequency": 0 }
+  ]
+}

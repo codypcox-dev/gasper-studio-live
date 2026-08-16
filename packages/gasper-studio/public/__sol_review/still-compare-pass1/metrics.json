@@ -1,0 +1,152 @@
+[
+  {
+    "name": "t0.jpg",
+    "psnr": 48.8534,
+    "ssim": 0.999199,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t0-compare.png"
+  },
+  {
+    "name": "t-3.jpg",
+    "psnr": 46.869452,
+    "ssim": 0.998568,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-3-compare.png"
+  },
+  {
+    "name": "t-5.jpg",
+    "psnr": 46.941657,
+    "ssim": 0.998877,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-5-compare.png"
+  },
+  {
+    "name": "t-6.jpg",
+    "psnr": 49.969628,
+    "ssim": 0.998814,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-6-compare.png"
+  },
+  {
+    "name": "t-0p25000000000000006.jpg",
+    "psnr": 45.409028,
+    "ssim": 0.998669,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-0p25000000000000006-compare.png"
+  },
+  {
+    "name": "t-0p5000000000000001.jpg",
+    "psnr": 44.582862,
+    "ssim": 0.997817,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-0p5000000000000001-compare.png"
+  },
+  {
+    "name": "t-0p75.jpg",
+    "psnr": 45.476296,
+    "ssim": 0.998685,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-0p75-compare.png"
+  },
+  {
+    "name": "t-1p0000000000000002.jpg",
+    "psnr": 48.075007,
+    "ssim": 0.99868,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-1p0000000000000002-compare.png"
+  },
+  {
+    "name": "t-1p25.jpg",
+    "psnr": 44.121258,
+    "ssim": 0.997909,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-1p25-compare.png"
+  },
+  {
+    "name": "t-1p5.jpg",
+    "psnr": 46.264928,
+    "ssim": 0.998949,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-1p5-compare.png"
+  },
+  {
+    "name": "t-1p7500000000000002.jpg",
+    "psnr": 48.751484,
+    "ssim": 0.999199,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-1p7500000000000002-compare.png"
+  },
+  {
+    "name": "t-2p0000000000000004.jpg",
+    "psnr": 45.016882,
+    "ssim": 0.998505,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-2p0000000000000004-compare.png"
+  },
+  {
+    "name": "t-2p25.jpg",
+    "psnr": 46.963145,
+    "ssim": 0.99882,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-2p25-compare.png"
+  },
+  {
+    "name": "t-2p5.jpg",
+    "psnr": 48.035623,
+    "ssim": 0.999171,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-2p5-compare.png"
+  },
+  {
+    "name": "t-2p75.jpg",
+    "psnr": 45.563765,
+    "ssim": 0.998648,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-2p75-compare.png"
+  },
+  {
+    "name": "t-3p2500000000000004.jpg",
+    "psnr": 46.435803,
+    "ssim": 0.998519,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-3p2500000000000004-compare.png"
+  },
+  {
+    "name": "t-3p5000000000000004.jpg",
+    "psnr": 44.801982,
+    "ssim": 0.998125,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-3p5000000000000004-compare.png"
+  },
+  {
+    "name": "t-3p7500000000000004.jpg",
+    "psnr": 47.051451,
+    "ssim": 0.998537,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-3p7500000000000004-compare.png"
+  },
+  {
+    "name": "t-4p000000000000001.jpg",
+    "psnr": 46.358505,
+    "ssim": 0.998578,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-4p000000000000001-compare.png"
+  },
+  {
+    "name": "t-4p25.jpg",
+    "psnr": 45.808169,
+    "ssim": 0.99872,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-4p25-compare.png"
+  },
+  {
+    "name": "t-4p5.jpg",
+    "psnr": 49.081471,
+    "ssim": 0.999169,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-4p5-compare.png"
+  },
+  {
+    "name": "t-4p75.jpg",
+    "psnr": 45.978868,
+    "ssim": 0.998937,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-4p75-compare.png"
+  },
+  {
+    "name": "t-5p25.jpg",
+    "psnr": 48.404234,
+    "ssim": 0.99914,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-5p25-compare.png"
+  },
+  {
+    "name": "t-5p5.jpg",
+    "psnr": 50.035851,
+    "ssim": 0.999053,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-5p5-compare.png"
+  },
+  {
+    "name": "t-5p75.jpg",
+    "psnr": 50.599311,
+    "ssim": 0.998935,
+    "out": "packages\\gasper-studio\\public\\__sol_review\\still-compare-pass1\\t-5p75-compare.png"
+  }
+]

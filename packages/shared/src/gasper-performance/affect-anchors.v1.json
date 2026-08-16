@@ -1,0 +1,373 @@
+{
+  "schema": "gasper.performance.affect-anchors.v1",
+  "version": "1.0.0-synthetic-provisional",
+  "registry_id": "gasper-affect-anchors",
+  "status": "synthetic_provisional_post_d003s",
+  "human_validation": "none",
+  "authority_class": "synthetic_surrogate_v1",
+  "human_review_required": true,
+  "release_scope": "internal_production_candidate",
+  "limitation": "D003S is a same-model synthetic surrogate evaluation used to unblock engineering. It is not human perceptual validation. All calibrated anchors remain provisional and require later D003H Creative Authority review.",
+  "physical_baseline": "runtime_default",
+  "semantic_origin": "native:neutral-settled",
+  "d003s_disposition_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+  "future_replacement": "affect-anchors.v2.json via D003H without compiler redesign",
+  "anchors": [
+    {
+      "anchor_id": "syn-prov-blocked-strain-v1",
+      "fixture_record_id": "native:blocked-strain",
+      "embodiment": "presence",
+      "affect": {
+        "valence": -0.627805,
+        "arousal": 0.468252,
+        "expression_gain": 0.330416,
+        "attention": 0.462708,
+        "certainty": 0.151576,
+        "social_openness": 0.183256,
+        "urgency": 0.632872
+      },
+      "channel_deltas_from_physical_baseline": {
+        "corner_pull_l": -0.12,
+        "corner_pull_r": -0.12,
+        "energy_lag": 0.7,
+        "energy_level": 0.38,
+        "energy_pulse": 0.12,
+        "eye_openness": 0.42,
+        "eye_spacing": -0.1,
+        "face_emissive": 0.18,
+        "face_scale": 0.96,
+        "gaze": 0.05,
+        "ground_flattening": 0.12,
+        "inertia": 0.6,
+        "internal_glow": 0.32,
+        "mouth_openness": 0.18,
+        "mouth_width": 0.88,
+        "overall_height": 0.94,
+        "overall_width": 0.96,
+        "relief_amplitude": 0.35,
+        "settling": 0.25,
+        "skin_tension": 0.72
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_support",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "negative_strained",
+      "manifold_control_point": true,
+      "status": "synthetic_provisional"
+    },
+    {
+      "anchor_id": "syn-prov-listening-orient-v1",
+      "fixture_record_id": "native:listening-orient",
+      "embodiment": "presence",
+      "affect": {
+        "valence": -0.000704,
+        "arousal": 0.615844,
+        "expression_gain": 0.480792,
+        "attention": 0.726392,
+        "certainty": 0.470988,
+        "social_openness": 0.616816,
+        "urgency": 0.478728
+      },
+      "channel_deltas_from_physical_baseline": {
+        "corner_pull_l": 0.03,
+        "corner_pull_r": 0.03,
+        "crown_height": 0.1,
+        "energy_level": 0.86,
+        "eye_openness": 0.275,
+        "gaze": -0.14,
+        "mouth_openness": 0.045,
+        "mouth_width": 0.42,
+        "overall_height": 1,
+        "overall_width": 1
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_support",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "attentive_orient",
+      "manifold_control_point": false,
+      "status": "synthetic_provisional"
+    },
+    {
+      "anchor_id": "syn-prov-neutral-settled-v1",
+      "fixture_record_id": "native:neutral-settled",
+      "embodiment": "presence",
+      "affect": {
+        "valence": 0.329618,
+        "arousal": 0.339812,
+        "expression_gain": 0.3632,
+        "attention": 0.370736,
+        "certainty": 0.598888,
+        "social_openness": 0.61444,
+        "urgency": 0.231784
+      },
+      "channel_deltas_from_physical_baseline": {
+        "corner_pull_l": 0.03,
+        "corner_pull_r": 0.03,
+        "crown_height": 0,
+        "energy_level": 0.72,
+        "eye_openness": 0.22,
+        "gaze": 0,
+        "mouth_openness": 0.085,
+        "mouth_width": 0.48,
+        "overall_height": 1,
+        "overall_width": 1
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_support",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "semantic_origin",
+      "manifold_control_point": true,
+      "status": "synthetic_provisional"
+    },
+    {
+      "anchor_id": "syn-prov-neutral-social-v1",
+      "fixture_record_id": "native:neutral-social",
+      "embodiment": "presence",
+      "affect": {
+        "valence": 0.336505,
+        "arousal": 0.47178,
+        "expression_gain": 0.474912,
+        "attention": 0.47592,
+        "certainty": 0.569944,
+        "social_openness": 0.7202,
+        "urgency": 0.370808
+      },
+      "channel_deltas_from_physical_baseline": {
+        "corner_pull_l": 0.03,
+        "corner_pull_r": 0.03,
+        "crown_height": 0,
+        "energy_level": 0.76,
+        "eye_openness": 0.255,
+        "gaze": 0,
+        "mouth_openness": 0.1,
+        "mouth_width": 0.52,
+        "overall_height": 1,
+        "overall_width": 1
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_merge_with_neighbor",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "social_neighbor_fixture",
+      "manifold_control_point": false,
+      "status": "synthetic_provisional"
+    },
+    {
+      "anchor_id": "syn-prov-pleased-soft-v1",
+      "fixture_record_id": "native:pleased-soft",
+      "embodiment": "presence",
+      "affect": {
+        "valence": 0.563117,
+        "arousal": 0.511452,
+        "expression_gain": 0.479232,
+        "attention": 0.471888,
+        "certainty": 0.60004,
+        "social_openness": 0.72596,
+        "urgency": 0.247048
+      },
+      "channel_deltas_from_physical_baseline": {
+        "corner_pull_l": 0.08,
+        "corner_pull_r": 0.08,
+        "energy_level": 0.6,
+        "energy_pulse": 0.24,
+        "eye_openness": 0.58,
+        "face_emissive": 0.48,
+        "face_scale": 1.02,
+        "internal_glow": 0.55,
+        "mouth_openness": 0.4,
+        "mouth_width": 1.08,
+        "relief_amplitude": 0.48
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_revise",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "positive_open",
+      "manifold_control_point": true,
+      "status": "synthetic_provisional"
+    },
+    {
+      "anchor_id": "syn-prov-recovering-v1",
+      "fixture_record_id": "native:recovering",
+      "embodiment": "presence",
+      "affect": {
+        "valence": -0.113325,
+        "arousal": 0.336932,
+        "expression_gain": 0.359072,
+        "attention": 0.364976,
+        "certainty": 0.462744,
+        "social_openness": 0.466056,
+        "urgency": 0.232648
+      },
+      "channel_deltas_from_physical_baseline": {
+        "energy_lag": 0.45,
+        "energy_level": 0.48,
+        "energy_pulse": 0.2,
+        "eye_openness": 0.52,
+        "face_scale": 1,
+        "internal_glow": 0.44,
+        "mouth_openness": 0.3,
+        "overall_height": 0.98,
+        "rebound": 0.35,
+        "relief_amplitude": 0.44,
+        "settling": 0.5,
+        "skin_tension": 0.4
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_fixture_only_not_manifold_anchor",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "low_arousal_recovery_fixture",
+      "manifold_control_point": false,
+      "status": "synthetic_provisional"
+    },
+    {
+      "anchor_id": "syn-prov-thinking-knit-v1",
+      "fixture_record_id": "native:thinking-knit",
+      "embodiment": "presence",
+      "affect": {
+        "valence": -0.029164,
+        "arousal": 0.62038,
+        "expression_gain": 0.473184,
+        "attention": 0.710624,
+        "certainty": 0.34208,
+        "social_openness": 0.218968,
+        "urgency": 0.492048
+      },
+      "channel_deltas_from_physical_baseline": {
+        "corner_pull_l": 0.03,
+        "corner_pull_r": 0.03,
+        "crown_height": 0.12,
+        "energy_level": 0.76,
+        "eye_openness": 0.16,
+        "gaze": 0,
+        "mouth_openness": 0.025,
+        "mouth_width": 0.36,
+        "overall_height": 1,
+        "overall_width": 1
+      },
+      "human_validation_status": "not_human_validated",
+      "validation_status": "synthetic_provisional",
+      "authority_class": "synthetic_surrogate_v1",
+      "human_review_required": true,
+      "release_scope": "internal_production_candidate",
+      "synthetic_disposition": "synthetic_support",
+      "review_evidence_hash": "c0092a69ea26e45a0dffcc156f87e6006cf08b7797dcfddf2d02b8cf21f73bbb",
+      "source_evidence_hashes": {
+        "d003s_proof": "3ac9c733f049dbc54acbee92a2a7eb36fb7ec75d0c53cc5f528c8d8d708b8d75",
+        "machine_prior_calibration_id": "d003-machine-prior"
+      },
+      "confidence_by_coordinate": {
+        "valence": "synthetic_provisional_weak",
+        "arousal": "synthetic_provisional_weak",
+        "expression_gain": "synthetic_provisional_weak",
+        "attention": "synthetic_provisional_weak",
+        "certainty": "synthetic_provisional_weak",
+        "social_openness": "synthetic_provisional_weak",
+        "urgency": "synthetic_provisional_weak"
+      },
+      "manifold_role": "attentive_cognitive",
+      "manifold_control_point": true,
+      "status": "synthetic_provisional"
+    }
+  ]
+}

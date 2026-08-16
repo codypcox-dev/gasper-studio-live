@@ -1,0 +1,247 @@
+.reference-training {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 3px 0 5px;
+  padding: 5px;
+  border: 1px solid color-mix(in srgb, var(--dais-accent) 35%, var(--dais-border));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--dais-surf-2) 84%, transparent);
+}
+
+.reference-training__heading {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.reference-training__status {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--dais-ok);
+  font-size: 8px;
+  font-weight: 600;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reference-training__status[data-status="blocked"] {
+  color: var(--dais-danger);
+}
+
+.reference-training__law {
+  color: color-mix(in srgb, var(--dais-accent-active) 80%, white);
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.reference-training__pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.reference-training__pipeline span {
+  padding: 2px 1px;
+  border: 1px solid var(--dais-border);
+  border-radius: 2px;
+  color: var(--dais-muted);
+  font-size: 7px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.reference-training__pipeline span[data-ready="1"] {
+  border-color: color-mix(in srgb, var(--dais-ok) 55%, var(--dais-border));
+  color: var(--dais-ok);
+  background: color-mix(in srgb, var(--dais-ok) 8%, transparent);
+}
+
+.reference-training__source-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px;
+}
+
+.reference-training__source-row input {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 3px 4px;
+  border: 1px solid var(--dais-border);
+  border-radius: 3px;
+  outline: none;
+  background: var(--dais-surf);
+  color: inherit;
+  font-size: 9px;
+}
+
+.reference-training__intent {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 4px;
+  border: 1px solid var(--dais-border);
+  border-radius: 3px;
+  outline: none;
+  background: var(--dais-surf);
+  color: inherit;
+  font: inherit;
+  font-size: 8px;
+}
+
+.reference-training__source-row input:focus {
+  border-color: var(--dais-accent-active);
+}
+
+.reference-training__source video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--dais-border);
+  border-radius: 3px;
+  background: #06080d;
+  object-fit: contain;
+}
+
+.reference-training__source p,
+.reference-training__diagnostics p {
+  margin: 2px 0 0;
+  overflow-wrap: anywhere;
+  font-size: 8px;
+  line-height: 1.25;
+  opacity: 0.72;
+}
+
+.reference-training__metrics,
+.reference-training__availability {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: 2px;
+  font-size: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.reference-training__metrics span {
+  padding: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: center;
+}
+
+.reference-training__availability {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding-top: 2px;
+  border-top: 1px solid var(--dais-border);
+}
+
+.reference-training__availability span:nth-child(even) {
+  color: var(--dais-danger);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.reference-training__availability span[data-available="1"] {
+  color: var(--dais-ok);
+}
+
+.reference-training__progress {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px;
+  color: var(--dais-accent-active);
+  font-size: 8px;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+}
+
+.reference-training__progress progress {
+  width: 100%;
+  height: 4px;
+  accent-color: var(--dais-accent-active);
+}
+
+.reference-training__diagnostics p[data-severity="error"] {
+  color: var(--dais-danger);
+  opacity: 1;
+}
+
+.reference-training__analyze {
+  min-width: 0;
+}
+
+.reference-training__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px;
+}
+
+.reference-training__compiled {
+  padding: 4px;
+  border: 1px solid color-mix(in srgb, var(--dais-ok) 42%, var(--dais-border));
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--dais-ok) 5%, transparent);
+}
+
+.reference-training__compiled-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 8px;
+}
+
+.reference-training__compiled-heading strong {
+  color: var(--dais-ok);
+  font-size: 9px;
+}
+
+.reference-training__compiled p {
+  margin: 2px 0 0;
+  overflow-wrap: anywhere;
+  font-size: 8px;
+  line-height: 1.25;
+}
+
+.reference-training__physics {
+  margin-top: 3px;
+  font-size: 8px;
+}
+
+.reference-training__physics summary {
+  cursor: pointer;
+  color: var(--dais-accent-active);
+  font-weight: 700;
+}
+
+.reference-training__physics > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 3px;
+}
+
+.reference-training__physics p {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px 4px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid color-mix(in srgb, var(--dais-border) 60%, transparent);
+}
+
+.reference-training__physics p span:last-child {
+  grid-column: 1 / -1;
+  color: var(--dais-muted);
+  font-size: 7px;
+  text-transform: uppercase;
+}

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentbridge.local/schemas/gasper.performance.intent.v1.json",
+  "title": "Gasper Performance Intent v1",
+  "description": "Human- and MCP-authorable behavioral intent. Prose is never authority; this schema is. Unknown closed-enum values must fail validation (no silent drop). GASPER-006 D01–D16 / WS1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "seed",
+    "character",
+    "identity_lock",
+    "phases",
+    "global_constraints"
+  ],
+  "properties": {
+    "schema": {
+      "const": "gasper.performance.intent.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "character": {
+      "type": "string",
+      "const": "gasper"
+    },
+    "identity_lock": {
+      "type": "boolean"
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/phase"
+      }
+    },
+    "global_constraints": {
+      "$ref": "#/$defs/globalConstraints"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authored_by": {
+          "type": "string",
+          "enum": ["human", "mcp", "hybrid"]
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "intentTag": {
+      "type": "string",
+      "enum": [
+        "notice",
+        "orient",
+        "narrow_attention",
+        "think",
+        "knit",
+        "realize",
+        "excite",
+        "compress",
+        "launch",
+        "travel",
+        "settle",
+        "return",
+        "hold",
+        "listen",
+        "spark"
+      ]
+    },
+    "interruptClass": {
+      "type": "string",
+      "enum": ["soft", "hard", "barrier", "morph_safe"]
+    },
+    "embodimentId": {
+      "type": "string",
+      "enum": [
+        "presence",
+        "singularity",
+        "comet",
+        "comet-left",
+        "comet-right",
+        "dormant-orbit"
+      ]
+    },
+    "channelVelocity": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "affectPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valence",
+        "arousal",
+        "expression_gain",
+        "attention",
+        "certainty"
+      ],
+      "properties": {
+        "valence": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "arousal": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "expression_gain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "attention": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "certainty": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "social_openness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Provisional until WS3 freeze"
+        },
+        "urgency": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Provisional until WS3 freeze"
+        }
+      }
+    },
+    "durationHint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "target", "max"],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": 0
+        },
+        "target": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "phaseConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preserve_identity": {
+          "type": "boolean"
+        },
+        "max_channel_velocity": {
+          "$ref": "#/$defs/channelVelocity"
+        }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_tags",
+        "affect_target",
+        "interrupt_class"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "intent_tags": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/intentTag"
+          },
+          "uniqueItems": true
+        },
+        "duration_hint_ms": {
+          "$ref": "#/$defs/durationHint"
+        },
+        "affect_target": {
+          "$ref": "#/$defs/affectPoint"
+        },
+        "embodiment_preference": {
+          "$ref": "#/$defs/embodimentId"
+        },
+        "expression_anchor": {
+          "type": "string"
+        },
+        "interrupt_class": {
+          "$ref": "#/$defs/interruptClass"
+        },
+        "constraints": {
+          "$ref": "#/$defs/phaseConstraints"
+        }
+      }
+    },
+    "globalConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "topology_lock",
+        "legacy_authority_required",
+        "no_arbitrary_gsap"
+      ],
+      "properties": {
+        "topology_lock": {
+          "type": "boolean"
+        },
+        "legacy_authority_required": {
+          "type": "boolean"
+        },
+        "no_arbitrary_gsap": {
+          "type": "boolean"
+        },
+        "reduced_motion_policy": {
+          "type": "string",
+          "enum": ["scale_durations", "skip_secondary", "hold_static"]
+        }
+      }
+    }
+  }
+}

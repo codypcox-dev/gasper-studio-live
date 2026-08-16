@@ -1,0 +1,204 @@
+{
+  "id": "s4-comet",
+  "version": 2,
+  "intent": "comet",
+  "title": "S6+φ — daring: he braces against the far wall and spends everything on one crossing (golden-section timing, D-0105)",
+  "durationSeconds": 5.236,
+  "valueTurn": { "from": "tension", "to": "exhilaration" },
+  "holds": [
+    {
+      "id": "resolve-hold",
+      "t0": 0,
+      "t1": 0.618,
+      "intent": "the resolve — the opening stillness: the decision to dare (φ⁻¹ seconds)"
+    },
+    {
+      "id": "brace-hold",
+      "t0": 2.0,
+      "t1": 2.618,
+      "intent": "the brace — pinned to the far wall; the bound becomes the launchpad (bounds Layer 3 affordance; φ⁻¹ seconds)"
+    },
+    {
+      "id": "impact-hold",
+      "t0": 2.854,
+      "t1": 3.236,
+      "intent": "the impact — the wall answers; the hit lands and registers (bounds Layer 1; φ⁻² seconds)"
+    }
+  ],
+  "beats": [
+    {
+      "id": "eye",
+      "t0": 0,
+      "t1": 1.618,
+      "shotScale": "medium",
+      "primaryIdea": "The measure — a decision in stillness, then drifting toward the far edge to read the wall (the focus reads on the face)",
+      "valueTurn": "Tension -> aim: the wall stops being a limit and becomes a target.",
+      "objective": "read the far wall and decide it is a launchpad"
+    },
+    {
+      "id": "brace",
+      "t0": 1.618,
+      "t1": 2.618,
+      "shotScale": "medium",
+      "primaryIdea": "The brace — committing the whole body to the bound",
+      "valueTurn": "Aim -> trust: the wall is asked to hold him, and it does.",
+      "objective": "put the whole body against the bound"
+    },
+    {
+      "id": "fire",
+      "t0": 2.618,
+      "t1": 3.236,
+      "shotScale": "medium",
+      "primaryIdea": "The whip — one crack across the full frame with a depth dip mid-flight (φ⁻³ seconds, a handful of frames), then the wall",
+      "valueTurn": "Trust -> impact: everything is spent on a handful of frames.",
+      "objective": "spend everything on one crossing"
+    },
+    {
+      "id": "consequence",
+      "t0": 3.236,
+      "t1": 5.236,
+      "shotScale": "medium",
+      "primaryIdea": "The aftermath — the wall answers; recoil, wobble, drift home thrilled (the grin reads on the face)",
+      "valueTurn": "Impact -> exhilaration: the dare pays out as joy.",
+      "objective": "take the wall's answer and ride it home grinning"
+    }
+  ],
+  "segments": [
+    { "t0": 0, "t1": 1.618, "mode": "authored", "mechanical": false },
+    { "t0": 1.618, "t1": 2.618, "mode": "authored", "mechanical": false },
+    { "t0": 2.618, "t1": 3.236, "mode": "authored", "mechanical": false },
+    { "t0": 3.236, "t1": 5.236, "mode": "authored", "mechanical": false }
+  ],
+  "channels": {
+    "world_x": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 0.618, "v": 0, "out": "linear" },
+      { "t": 1.4, "v": -300, "out": "linear" },
+      { "t": 2.0, "v": -960, "out": "stepped" },
+      { "t": 2.618, "v": -960, "out": "linear" },
+      { "t": 2.854, "v": 960, "out": "stepped" },
+      { "t": 3.236, "v": 960, "out": "linear" },
+      { "t": 3.6, "v": 480, "out": "linear" },
+      { "t": 4.5, "v": 140, "out": "linear" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "world_y": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "world_z": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 2.618, "v": 0, "out": "linear" },
+      { "t": 2.736, "v": 780, "out": "linear" },
+      { "t": 2.854, "v": 0, "out": "stepped" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "tilt": [
+      { "t": 0, "v": 0, "out": "spline-auto" },
+      { "t": 1.2, "v": -6, "out": "spline-auto" },
+      { "t": 2.0, "v": -10, "out": "spline-auto" },
+      { "t": 2.5, "v": -14, "out": "spline-auto" },
+      { "t": 2.72, "v": 16, "out": "spline-auto" },
+      { "t": 2.9, "v": 20, "out": "spline-auto" },
+      { "t": 3.3, "v": 8, "out": "spline-auto" },
+      { "t": 3.85, "v": -4, "out": "spline-auto" },
+      { "t": 4.7, "v": 0, "out": "spline-auto" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "stretch": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 2.35, "v": 0, "out": "linear" },
+      { "t": 2.58, "v": -0.14, "out": "linear" },
+      { "t": 2.72, "v": 0.17, "out": "linear" },
+      { "t": 3.1, "v": 0, "out": "stepped" },
+      { "t": 3.6, "v": -0.06, "out": "spline-auto" },
+      { "t": 4.3, "v": 0, "out": "stepped" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "squash": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 2.35, "v": 0, "out": "linear" },
+      { "t": 2.5, "v": 0.15, "out": "linear" },
+      { "t": 2.62, "v": 0, "out": "stepped" },
+      { "t": 2.9, "v": 0.48, "out": "linear" },
+      { "t": 3.35, "v": 0, "out": "stepped" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "wake": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 2.618, "v": 0, "out": "linear" },
+      { "t": 2.72, "v": 2.2, "out": "stepped" },
+      { "t": 2.95, "v": 2.2, "out": "linear" },
+      { "t": 3.2, "v": 0, "out": "stepped" },
+      { "t": 3.55, "v": 0, "out": "linear" },
+      { "t": 3.75, "v": 0.8, "out": "stepped" },
+      { "t": 4.4, "v": 0.8, "out": "linear" },
+      { "t": 4.8, "v": 0, "out": "stepped" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ],
+    "light": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 2.6, "v": 0, "out": "linear" },
+      { "t": 2.7, "v": 7, "out": "stepped" },
+      { "t": 3.15, "v": 7, "out": "linear" },
+      { "t": 3.4, "v": 0, "out": "stepped" },
+      { "t": 3.7, "v": 0, "out": "linear" },
+      { "t": 3.9, "v": 2, "out": "stepped" },
+      { "t": 4.7, "v": 2, "out": "linear" },
+      { "t": 5.05, "v": 0, "out": "stepped" },
+      { "t": 5.236, "v": 0, "out": "flat-clamped" }
+    ]
+  },
+  "faceBeats": [
+    {
+      "id": "measure-focus",
+      "t0": 0.8,
+      "t1": 1.45,
+      "aus": ["AU4"],
+      "intensity": 0.7,
+      "onsetSeconds": 0.5,
+      "decaySeconds": 0.3,
+      "beatId": "eye"
+    },
+    {
+      "id": "brace-focus",
+      "t0": 2.05,
+      "t1": 2.55,
+      "aus": ["AU4"],
+      "intensity": 0.9,
+      "onsetSeconds": 0.25,
+      "decaySeconds": 0.15,
+      "beatId": "brace"
+    },
+    {
+      "id": "whip-excitement",
+      "t0": 2.62,
+      "t1": 2.95,
+      "aus": ["AU26", "AU6"],
+      "intensity": 0.85,
+      "onsetSeconds": 0.1,
+      "decaySeconds": 0.35,
+      "beatId": "fire"
+    },
+    {
+      "id": "wall-impact-focus",
+      "t0": 2.86,
+      "t1": 3.2,
+      "aus": ["AU4"],
+      "intensity": 0.95,
+      "onsetSeconds": 0.08,
+      "decaySeconds": 0.3,
+      "beatId": "fire"
+    },
+    {
+      "id": "thrill-smile",
+      "t0": 3.7,
+      "t1": 4.5,
+      "aus": ["AU6", "AU12"],
+      "intensity": 0.9,
+      "onsetSeconds": 0.6,
+      "decaySeconds": 0.7,
+      "beatId": "consequence"
+    }
+  ]
+}

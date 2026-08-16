@@ -1,0 +1,133 @@
+{
+  "schema": "gasper.performance.channel-couplings.v1",
+  "version": "0.1.0-draft",
+  "status": "provisional_frozen_post_d003s",
+  "resolution_policy": "Couplings must be deterministic and acyclic or resolved in an explicit ordered pass (campaign §18.7).",
+  "pass_order": [
+    "symmetry_enforcement",
+    "aperture_constraints",
+    "silhouette_containment",
+    "energy_relationships",
+    "relief_coupling",
+    "singularity_shell_void",
+    "orbital_constraints"
+  ],
+  "couplings": [
+    {
+      "coupling_id": "corner_pull_symmetry",
+      "type": "soft_symmetry",
+      "channels": [
+        "corner_pull_l",
+        "corner_pull_r"
+      ],
+      "rule": "unless intentional asymmetry intent tag present, |L-R| <= 0.05 after projection",
+      "conflict_group": "mouth_shape",
+      "priority": 55,
+      "rationale": "Tier-A native anchors use matched corner_pull values; asymmetry is rare authoring intent."
+    },
+    {
+      "coupling_id": "mouth_aperture_width",
+      "type": "ordered_constraint",
+      "channels": [
+        "mouth_openness",
+        "mouth_width"
+      ],
+      "rule": "mouth_width effective scale remains legal after openness projection; do not invent width from openness alone",
+      "note": "Range findings show FormMaster mouthWidth unit mismatch — coupling deferred until disposition finalized."
+    },
+    {
+      "coupling_id": "eye_aperture_layout",
+      "type": "soft_bound",
+      "channels": [
+        "eye_openness",
+        "eye_spacing",
+        "face_scale"
+      ],
+      "rule": "eye_openness in [0,1]; extreme spacing may reduce openness max by 0.1",
+      "conflict_groups": [
+        "face_aperture",
+        "face_layout"
+      ]
+    },
+    {
+      "coupling_id": "silhouette_containment",
+      "type": "product_bound",
+      "channels": [
+        "overall_width",
+        "overall_height"
+      ],
+      "rule": "overall_width * overall_height stays within [0.45, 2.0] relative to baseline product",
+      "topology_sensitive": true,
+      "priority": 72
+    },
+    {
+      "coupling_id": "energy_level_pulse",
+      "type": "ordered_relationship",
+      "channels": [
+        "energy_level",
+        "energy_pulse",
+        "energy_lag"
+      ],
+      "rule": "energy_pulse <= energy_level + 0.15; high lag implies reduced pulse for strain states",
+      "conflict_group": "energy"
+    },
+    {
+      "coupling_id": "relief_energy_motion",
+      "type": "multiplicative",
+      "channels": [
+        "relief_amplitude",
+        "relief_energy_coupling",
+        "relief_motion_coupling",
+        "energy_level"
+      ],
+      "rule": "effective_relief = relief_amplitude * lerp(1, energy_level, relief_energy_coupling)",
+      "conflict_group": "relief"
+    },
+    {
+      "coupling_id": "singularity_shell_void",
+      "type": "topology_invariant",
+      "channels": [
+        "shell_thickness",
+        "center_void",
+        "singularity_outer_radius",
+        "horizon_radius"
+      ],
+      "rule": "center_void + shell_thickness <= singularity_outer_radius; horizon_radius < singularity_outer_radius",
+      "topology_sensitive": true,
+      "embodiment_scope": [
+        "singularity"
+      ]
+    },
+    {
+      "coupling_id": "orbital_scale_tilt",
+      "type": "route_aware_bound",
+      "channels": [
+        "orbital_plane_scale",
+        "orbital_tilt",
+        "orbital_circulation"
+      ],
+      "rule": "dormant-orbit may use route-exceptional scale below registry min; presence must clamp to registry",
+      "note": "Linked to range findings ef1bc9ed8d99ac53 / 27d425018f21b5d4",
+      "embodiment_scope": [
+        "dormant-orbit",
+        "presence"
+      ]
+    },
+    {
+      "coupling_id": "skin_tension_settling",
+      "type": "anticorrelated_soft",
+      "channels": [
+        "skin_tension",
+        "settling"
+      ],
+      "rule": "high skin_tension tends to lower settling (strain); soft clamp if both extreme same sign",
+      "observed_in": [
+        "native:blocked-strain"
+      ]
+    }
+  ],
+  "analysis_status": "PRE_D003H_ANALYSIS",
+  "frozen": false,
+  "human_review_required": true,
+  "authority_class": "synthetic_surrogate_v1"
+}

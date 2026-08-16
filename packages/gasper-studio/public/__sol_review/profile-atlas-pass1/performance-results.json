@@ -1,0 +1,16 @@
+{
+  "status": "snapshot",
+  "navigationMs": 213.60000000149012,
+  "paints": [
+    {
+      "name": "first-paint",
+      "startTime": 220
+    },
+    {
+      "name": "first-contentful-paint",
+      "startTime": 288
+    }
+  ],
+  "now": 22208.60000000149,
+  "hzTargets": "not_run"
+}

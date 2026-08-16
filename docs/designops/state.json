@@ -1,0 +1,23 @@
+{
+  "kernelVersion": "1.0.0",
+  "phase": "idle",
+  "surfaceId": null,
+  "cartographyPath": null,
+  "lastCrystal": null,
+  "lastCrystalPass": null,
+  "lastCrystalInputDigest": null,
+  "lastCrystalOutputDigest": null,
+  "lastFlashPass": null,
+  "lastFlashReceipt": null,
+  "lastFlashCaptureDigest": null,
+  "lastFlashObserverDigest": null,
+  "residual": null,
+  "sterileCount": 0,
+  "proveOnlySinceFull": 0,
+  "lastFullAt": null,
+  "shipClaimAllowed": false,
+  "lastShipGrantId": null,
+  "lastShipGrantEventDigest": null,
+  "eventCount": 0,
+  "updatedAt": null
+}

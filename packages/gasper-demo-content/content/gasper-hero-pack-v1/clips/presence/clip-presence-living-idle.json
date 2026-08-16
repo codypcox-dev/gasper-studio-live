@@ -1,0 +1,251 @@
+{
+  "id": "clip-presence-living-idle",
+  "name": "Presence — Living Idle",
+  "duration_ms": 8000,
+  "loop_mode": "loop",
+  "tracks": [
+    {
+      "id": "track-face-gaze",
+      "label": "Face / Gaze",
+      "domain_id": "face",
+      "binding_ids": [
+        "eye_openness",
+        "eye_spacing",
+        "gaze",
+        "mouth_openness",
+        "face_scale"
+      ],
+      "blend_mode": "replace",
+      "muted": false,
+      "solo": false,
+      "locked": false,
+      "keyframes": [
+        {
+          "id": "kf-idle-f0",
+          "time_ms": 0,
+          "values": {
+            "eye_openness": 0.74,
+            "eye_spacing": 0,
+            "gaze": 0,
+            "mouth_openness": 0.26,
+            "face_scale": 1
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "settle"
+        },
+        {
+          "id": "kf-idle-f1",
+          "time_ms": 2200,
+          "values": {
+            "eye_openness": 0.7,
+            "eye_spacing": 0,
+            "gaze": 0.04,
+            "mouth_openness": 0.27,
+            "face_scale": 1
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "micro-gaze"
+        },
+        {
+          "id": "kf-idle-f2",
+          "time_ms": 4800,
+          "values": {
+            "eye_openness": 0.76,
+            "eye_spacing": 0,
+            "gaze": -0.03,
+            "mouth_openness": 0.25,
+            "face_scale": 1.01
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "breath-peak"
+        },
+        {
+          "id": "kf-idle-f3",
+          "time_ms": 8000,
+          "values": {
+            "eye_openness": 0.74,
+            "eye_spacing": 0,
+            "gaze": 0,
+            "mouth_openness": 0.26,
+            "face_scale": 1
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "loop-close"
+        }
+      ]
+    },
+    {
+      "id": "track-macro-form",
+      "label": "Macro / Form",
+      "domain_id": "macro",
+      "binding_ids": [
+        "overall_width",
+        "overall_height",
+        "crown_height",
+        "lower_body_fullness"
+      ],
+      "blend_mode": "replace",
+      "muted": false,
+      "solo": false,
+      "locked": false,
+      "keyframes": [
+        {
+          "id": "kf-idle-m0",
+          "time_ms": 0,
+          "values": {
+            "overall_width": 1,
+            "overall_height": 1,
+            "crown_height": 0.06,
+            "lower_body_fullness": 1
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-idle-m1",
+          "time_ms": 2800,
+          "values": {
+            "overall_width": 1.01,
+            "overall_height": 1.015,
+            "crown_height": 0.1,
+            "lower_body_fullness": 0.995
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "breath-in"
+        },
+        {
+          "id": "kf-idle-m2",
+          "time_ms": 5600,
+          "values": {
+            "overall_width": 0.995,
+            "overall_height": 0.992,
+            "crown_height": 0.05,
+            "lower_body_fullness": 1.005
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "breath-out"
+        },
+        {
+          "id": "kf-idle-m3",
+          "time_ms": 8000,
+          "values": {
+            "overall_width": 1,
+            "overall_height": 1,
+            "crown_height": 0.06,
+            "lower_body_fullness": 1
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        }
+      ]
+    },
+    {
+      "id": "track-energy-relief",
+      "label": "Energy / Relief / Dynamics",
+      "domain_id": "energy",
+      "binding_ids": [
+        "energy_level",
+        "energy_pulse",
+        "relief_amplitude",
+        "secondary_lag",
+        "settling",
+        "internal_glow"
+      ],
+      "blend_mode": "replace",
+      "muted": false,
+      "solo": false,
+      "locked": false,
+      "keyframes": [
+        {
+          "id": "kf-idle-e0",
+          "time_ms": 0,
+          "values": {
+            "energy_level": 0.38,
+            "energy_pulse": 0.1,
+            "relief_amplitude": 0.26,
+            "secondary_lag": 0.3,
+            "settling": 0.55,
+            "internal_glow": 0.38
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-idle-e1",
+          "time_ms": 3200,
+          "values": {
+            "energy_level": 0.44,
+            "energy_pulse": 0.16,
+            "relief_amplitude": 0.32,
+            "secondary_lag": 0.28,
+            "settling": 0.5,
+            "internal_glow": 0.44
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-idle-e2",
+          "time_ms": 6400,
+          "values": {
+            "energy_level": 0.4,
+            "energy_pulse": 0.12,
+            "relief_amplitude": 0.28,
+            "secondary_lag": 0.32,
+            "settling": 0.54,
+            "internal_glow": 0.4
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-idle-e3",
+          "time_ms": 8000,
+          "values": {
+            "energy_level": 0.38,
+            "energy_pulse": 0.1,
+            "relief_amplitude": 0.26,
+            "secondary_lag": 0.3,
+            "settling": 0.55,
+            "internal_glow": 0.38
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        }
+      ]
+    }
+  ],
+  "markers": [
+    {
+      "id": "mk-idle-start",
+      "time_ms": 0,
+      "label": "available"
+    },
+    {
+      "id": "mk-idle-gaze",
+      "time_ms": 2200,
+      "label": "micro-gaze"
+    },
+    {
+      "id": "mk-idle-breath",
+      "time_ms": 4800,
+      "label": "breath-peak"
+    },
+    {
+      "id": "mk-idle-loop",
+      "time_ms": 8000,
+      "label": "loop-close"
+    }
+  ],
+  "revision": 1,
+  "created_at": "2026-07-16T12:00:00.000Z",
+  "modified_at": "2026-07-16T12:00:00.000Z",
+  "content_hash": "da2c92930f28ad58fa7a5079ec112e3c351501bdaf4344a052a03b97273d985b",
+  "family": "presence"
+}

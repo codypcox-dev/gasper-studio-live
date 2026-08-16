@@ -1,0 +1,67 @@
+{
+  "welcome_title": "Welcome to Gasper Studio",
+  "sample_project_title": "Gasper Showcase",
+  "sample_project_description": "A curated first project with living presence, cognitive expression, and embodiment transitions.",
+  "empty_state_copy": "Open the Showcase project or create a new document to begin.",
+  "clip_descriptions": {
+    "clip-presence-living-idle": "Calm living idle — Gasper is present and available.",
+    "clip-presence-thinking-knit": "Thinking Knit — concentrated, intelligent focus.",
+    "clip-listening-receive": "Listening Receive — open, receptive attention.",
+    "clip-recognition-spark": "Recognition Spark — brief pleased acknowledgment.",
+    "clip-presence-to-singularity": "Transform into Singularity without losing identity.",
+    "clip-presence-to-comet-right": "Rightward Comet launch with clean return.",
+    "clip-dormant-orbit-wake": "Rest, orbit, and wake back to presence."
+  },
+  "embodiment_descriptions": {
+    "presence": "Primary form — face-forward character identity.",
+    "singularity": "Compressed mass with horizon and accretion structure.",
+    "comet": "Directional body with attached wake.",
+    "dormant-orbit": "Low-energy orbiting rest state with recoverable identity."
+  },
+  "expression_descriptions": {
+    "neutral-settled": "Calm resting face.",
+    "thinking-knit": "Concentrated inward focus.",
+    "listening-receive": "Open receptive attention.",
+    "recognition-spark": "Brief recognition and contained pleasure."
+  },
+  "timeline_hints": [
+    "Scrub to inspect markers without committing play.",
+    "Interrupt is always safe — Gasper will hold a readable state.",
+    "Living motion may continue on energy bindings during holds."
+  ],
+  "model_assistance_examples": [
+    "Make the thought feel more intense, but preserve calmness.",
+    "Make Gasper look like it just recognized the solution.",
+    "Turn this into a rightward Comet launch without losing the face.",
+    "Make the Singularity feel heavier and more controlled.",
+    "Reduce the strain in this expression while retaining concentration."
+  ],
+  "disconnection_explanation": "AgentBridge is offline. Pre-authored clips still play; model edits are unavailable until reconnected.",
+  "save_recovery_explanation": "Documents save to disk with content hashes. Reopen restores the last clean revision.",
+  "onboarding_steps": [
+    {
+      "id": "onb-1",
+      "title": "Meet Gasper",
+      "body": "Watch Living Idle — Gasper is already alive.",
+      "non_blocking": true
+    },
+    {
+      "id": "onb-2",
+      "title": "Try Thinking Knit",
+      "body": "Play the cognitive hero clip from the library.",
+      "non_blocking": true
+    },
+    {
+      "id": "onb-3",
+      "title": "Ask for a revision",
+      "body": "Use a model prompt or edit keyframes by hand.",
+      "non_blocking": true
+    },
+    {
+      "id": "onb-4",
+      "title": "Save your work",
+      "body": "Save anytime — reopen restores your document.",
+      "non_blocking": true
+    }
+  ]
+}

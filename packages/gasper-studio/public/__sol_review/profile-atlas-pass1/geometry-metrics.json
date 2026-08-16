@@ -1,0 +1,89 @@
+{
+  "ok": true,
+  "mode": "advanced_mesh",
+  "experimentalEnabled": false,
+  "experimentalAck": null,
+  "topologyMutationsAllowed": false,
+  "experimentalSoftEdit": false,
+  "inspectOnly": true,
+  "softSelect": {
+    "selectedNodeIds": [],
+    "pinnedNodeIds": [],
+    "influenceRadius": 0.12,
+    "falloff": "smooth",
+    "symmetry": "none",
+    "axisConstraint": "none",
+    "showHeatmap": false,
+    "showEdges": true,
+    "showTriangles": false,
+    "showProtected": true
+  },
+  "features": {
+    "structuralNodeDisplay": true,
+    "nodeSelection": true,
+    "softSelection": false,
+    "influenceRadius": true,
+    "falloffCurves": true,
+    "symmetryModes": false,
+    "axisConstraints": false,
+    "pinning": false,
+    "contourHandles": true,
+    "meshEdgeOverlay": true,
+    "triangleOverlay": true,
+    "reliefSampleOverlay": true,
+    "topologyDiagnostics": true,
+    "deformationHeatMap": false,
+    "volumeDifference": true,
+    "selfIntersectionWarnings": true,
+    "continuityWarnings": true,
+    "protectedNodeRegions": true
+  },
+  "protectedArchitecture": {
+    "contourSamples": 512,
+    "structuralNodes": 360,
+    "structuralTriangles": 672,
+    "note": "Topology-changing ops require separate experimental topology mode (not this soft-select path)."
+  },
+  "warnings": [
+    "Inspect-only soft-select: enable experimental mesh mode to apply transforms.",
+    "Topology never changes silently from Mode 1/2."
+  ],
+  "metrics": {
+    "ok": true,
+    "pathCount": 101,
+    "bodyPathLength": 21263,
+    "numericTokensInBody": 3074,
+    "nativeMetrics": {
+      "contourSamples": 512,
+      "structuralNodes": 360,
+      "structuralTriangles": 672,
+      "reliefSamples": 1000,
+      "activeReliefSamples": 0,
+      "topologyStable": true,
+      "bodyPathLength": 21263,
+      "projectedDepthRange": [
+        -18.390924136919416,
+        28.547981474362984
+      ]
+    },
+    "embodiment": null,
+    "markers": {
+      "mentions512": true,
+      "mentions360": true,
+      "mentions672": true,
+      "contourSamples": true,
+      "structuralNodes": true,
+      "structuralTriangles": true
+    },
+    "protected": true,
+    "topologyChanged": false,
+    "continuityOk": true,
+    "selfIntersection": "not_computed"
+  },
+  "diagnostics": {
+    "topologyChanged": false,
+    "continuityWarnings": [],
+    "selfIntersectionWarnings": [],
+    "protectedRegionsHonored": true
+  }
+}

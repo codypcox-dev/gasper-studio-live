@@ -1,0 +1,6 @@
+{
+  "name": "gsap",
+  "version": "3.12.5",
+  "main": "gsap.min.js",
+  "module": "gsap.min.js"
+}

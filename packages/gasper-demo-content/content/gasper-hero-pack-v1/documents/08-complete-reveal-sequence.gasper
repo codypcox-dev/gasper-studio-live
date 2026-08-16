@@ -1,0 +1,5017 @@
+{
+  "format": "gasper.document",
+  "schema_version": "1.1.0",
+  "id": "doc-complete-reveal-sequence",
+  "created_at": "2026-07-16T12:00:00.000Z",
+  "modified_at": "2026-07-16T12:00:00.000Z",
+  "provenance": "gasper-hero-pack-v1",
+  "topology": {
+    "contour_samples": 512,
+    "structural_nodes": 360,
+    "structural_triangles": 672,
+    "relief_width": 25,
+    "relief_height": 40,
+    "relief_max_samples": 1000
+  },
+  "base_bindings": {},
+  "embodiment_id": "presence",
+  "expression_fixture_id": "neutral-settled",
+  "behavior_policy_ref": null,
+  "animation": {
+    "active_clip_id": "clip-complete-reveal-sequence",
+    "clips": [
+      {
+        "id": "clip-complete-reveal-sequence",
+        "name": "Complete Reveal Sequence",
+        "duration_ms": 38100,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-seq-f-0-0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.74,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.26,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "settle"
+              },
+              {
+                "id": "kf-seq-f-0-2200",
+                "time_ms": 2200,
+                "values": {
+                  "eye_openness": 0.7,
+                  "eye_spacing": 0,
+                  "gaze": 0.04,
+                  "mouth_openness": 0.27,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "micro-gaze"
+              },
+              {
+                "id": "kf-seq-f-0-4800",
+                "time_ms": 4800,
+                "values": {
+                  "eye_openness": 0.76,
+                  "eye_spacing": 0,
+                  "gaze": -0.03,
+                  "mouth_openness": 0.25,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "breath-peak"
+              },
+              {
+                "id": "kf-seq-f-0-8000",
+                "time_ms": 8000,
+                "values": {
+                  "eye_openness": 0.74,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.26,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "loop-close"
+              },
+              {
+                "id": "kf-seq-f-1-0",
+                "time_ms": 8000,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "neutral"
+              },
+              {
+                "id": "kf-seq-f-1-600",
+                "time_ms": 8600,
+                "values": {
+                  "eye_openness": 0.78,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.1,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "orient"
+              },
+              {
+                "id": "kf-seq-f-1-1400",
+                "time_ms": 9400,
+                "values": {
+                  "eye_openness": 0.88,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.08,
+                  "mouth_openness": 0.32,
+                  "face_scale": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "open-reception"
+              },
+              {
+                "id": "kf-seq-f-1-2400",
+                "time_ms": 10400,
+                "values": {
+                  "eye_openness": 0.86,
+                  "eye_spacing": 0.03,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "listening-hold"
+              },
+              {
+                "id": "kf-seq-f-1-3000",
+                "time_ms": 11000,
+                "values": {
+                  "eye_openness": 0.82,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.04,
+                  "mouth_openness": 0.34,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "acknowledge"
+              },
+              {
+                "id": "kf-seq-f-2-0",
+                "time_ms": 11200,
+                "values": {
+                  "eye_openness": 0.85,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.22,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "neutral-settled"
+              },
+              {
+                "id": "kf-seq-f-2-700",
+                "time_ms": 11900,
+                "values": {
+                  "eye_openness": 0.62,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.2,
+                  "face_scale": 1.01
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "gather"
+              },
+              {
+                "id": "kf-seq-f-2-1600",
+                "time_ms": 12800,
+                "values": {
+                  "eye_openness": 0.42,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.12,
+                  "mouth_openness": 0.18,
+                  "face_scale": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "knit"
+              },
+              {
+                "id": "kf-seq-f-2-2400",
+                "time_ms": 13600,
+                "values": {
+                  "eye_openness": 0.32,
+                  "eye_spacing": 0.05,
+                  "gaze": 0.16,
+                  "mouth_openness": 0.15,
+                  "face_scale": 1.04
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "cognitive-peak"
+              },
+              {
+                "id": "kf-seq-f-2-3200",
+                "time_ms": 14400,
+                "values": {
+                  "eye_openness": 0.36,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.14,
+                  "mouth_openness": 0.16999999999999998,
+                  "face_scale": 1.03
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "hold"
+              },
+              {
+                "id": "kf-seq-f-3-0",
+                "time_ms": 14600,
+                "values": {
+                  "eye_openness": 0.86,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "listening"
+              },
+              {
+                "id": "kf-seq-f-3-350",
+                "time_ms": 14950,
+                "values": {
+                  "eye_openness": 0.92,
+                  "eye_spacing": 0.03,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.36,
+                  "face_scale": 1.03
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier",
+                "label": "recognition"
+              },
+              {
+                "id": "kf-seq-f-3-700",
+                "time_ms": 15300,
+                "values": {
+                  "eye_openness": 0.9,
+                  "eye_spacing": 0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.38,
+                  "face_scale": 1.04
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "micro-lift"
+              },
+              {
+                "id": "kf-seq-f-3-1100",
+                "time_ms": 15700,
+                "values": {
+                  "eye_openness": 0.84,
+                  "eye_spacing": 0.01,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.34,
+                  "face_scale": 1.02
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "spark"
+              },
+              {
+                "id": "kf-seq-f-3-1500",
+                "time_ms": 16100,
+                "values": {
+                  "eye_openness": 0.8,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.32,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "pleased-containment"
+              },
+              {
+                "id": "kf-seq-f-4-0",
+                "time_ms": 16300,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "prepare"
+              },
+              {
+                "id": "kf-seq-f-4-800",
+                "time_ms": 17100,
+                "values": {
+                  "eye_openness": 0.6,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.2,
+                  "face_scale": 0.96
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "commitment"
+              },
+              {
+                "id": "kf-seq-f-4-1800",
+                "time_ms": 18100,
+                "values": {
+                  "eye_openness": 0.45,
+                  "eye_spacing": -0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.14,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "compression"
+              },
+              {
+                "id": "kf-seq-f-4-2800",
+                "time_ms": 19100,
+                "values": {
+                  "eye_openness": 0.35,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.1,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "horizon-birth"
+              },
+              {
+                "id": "kf-seq-f-4-4000",
+                "time_ms": 20300,
+                "values": {
+                  "eye_openness": 0.3,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "accretion-lock"
+              },
+              {
+                "id": "kf-seq-f-4-5000",
+                "time_ms": 21300,
+                "values": {
+                  "eye_openness": 0.28,
+                  "eye_spacing": -0.03,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "singularity-hold"
+              },
+              {
+                "id": "kf-seq-f-5-0",
+                "time_ms": 21500,
+                "values": {
+                  "eye_openness": 0.28,
+                  "eye_spacing": -0.03,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "return-singularity-hold"
+              },
+              {
+                "id": "kf-seq-f-5-1000",
+                "time_ms": 22500,
+                "values": {
+                  "eye_openness": 0.3,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-accretion-lock"
+              },
+              {
+                "id": "kf-seq-f-5-2000",
+                "time_ms": 23500,
+                "values": {
+                  "eye_openness": 0.35,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.1,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-horizon-birth"
+              },
+              {
+                "id": "kf-seq-f-5-3000",
+                "time_ms": 24500,
+                "values": {
+                  "eye_openness": 0.45,
+                  "eye_spacing": -0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.14,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-compression"
+              },
+              {
+                "id": "kf-seq-f-5-4000",
+                "time_ms": 25500,
+                "values": {
+                  "eye_openness": 0.6,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.2,
+                  "face_scale": 0.96
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-commitment"
+              },
+              {
+                "id": "kf-seq-f-5-5000",
+                "time_ms": 26500,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-prepare"
+              },
+              {
+                "id": "kf-seq-f-6-0",
+                "time_ms": 26700,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "prepare"
+              },
+              {
+                "id": "kf-seq-f-6-500",
+                "time_ms": 27200,
+                "values": {
+                  "eye_openness": 0.78,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.22,
+                  "mouth_openness": 0.24,
+                  "face_scale": 1
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "aim"
+              },
+              {
+                "id": "kf-seq-f-6-1200",
+                "time_ms": 27900,
+                "values": {
+                  "eye_openness": 0.7,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.35,
+                  "mouth_openness": 0.2,
+                  "face_scale": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "launch"
+              },
+              {
+                "id": "kf-seq-f-6-2200",
+                "time_ms": 28900,
+                "values": {
+                  "eye_openness": 0.68,
+                  "eye_spacing": 0.05,
+                  "gaze": 0.4,
+                  "mouth_openness": 0.18,
+                  "face_scale": 0.96
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "held-flight"
+              },
+              {
+                "id": "kf-seq-f-6-3200",
+                "time_ms": 29900,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.15,
+                  "mouth_openness": 0.24,
+                  "face_scale": 0.99
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-begin"
+              },
+              {
+                "id": "kf-seq-f-6-4000",
+                "time_ms": 30700,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "return"
+              },
+              {
+                "id": "kf-seq-f-7-0",
+                "time_ms": 30900,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "presence"
+              },
+              {
+                "id": "kf-seq-f-7-1000",
+                "time_ms": 31900,
+                "values": {
+                  "eye_openness": 0.55,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.18,
+                  "face_scale": 0.95
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "energy-withdraw"
+              },
+              {
+                "id": "kf-seq-f-7-2200",
+                "time_ms": 33100,
+                "values": {
+                  "eye_openness": 0.25,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "collapse"
+              },
+              {
+                "id": "kf-seq-f-7-3600",
+                "time_ms": 34500,
+                "values": {
+                  "eye_openness": 0.12,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.05,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "dormant-hold"
+              },
+              {
+                "id": "kf-seq-f-7-4800",
+                "time_ms": 35700,
+                "values": {
+                  "eye_openness": 0.35,
+                  "eye_spacing": 0,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.12,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "wake-cue"
+              },
+              {
+                "id": "kf-seq-f-7-6000",
+                "time_ms": 36900,
+                "values": {
+                  "eye_openness": 0.6,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.22,
+                  "face_scale": 0.94
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "form-recover"
+              },
+              {
+                "id": "kf-seq-f-7-7200",
+                "time_ms": 38100,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "neutral-settled"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-seq-m-0-0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-0-2800",
+                "time_ms": 2800,
+                "values": {
+                  "overall_width": 1.01,
+                  "overall_height": 1.015,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 0.995
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "breath-in"
+              },
+              {
+                "id": "kf-seq-m-0-5600",
+                "time_ms": 5600,
+                "values": {
+                  "overall_width": 0.995,
+                  "overall_height": 0.992,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 1.005
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "breath-out"
+              },
+              {
+                "id": "kf-seq-m-0-8000",
+                "time_ms": 8000,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-1-0",
+                "time_ms": 8000,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-1-600",
+                "time_ms": 8600,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-1-1400",
+                "time_ms": 9400,
+                "values": {
+                  "overall_width": 1.04,
+                  "overall_height": 0.98,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 1.04
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-1-2400",
+                "time_ms": 10400,
+                "values": {
+                  "overall_width": 1.03,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.03
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-1-3000",
+                "time_ms": 11000,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 1,
+                  "crown_height": 0.07,
+                  "lower_body_fullness": 1.02
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-2-0",
+                "time_ms": 11200,
+                "values": {
+                  "overall_width": 0.92,
+                  "overall_height": 0.94,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 0.95
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-2-700",
+                "time_ms": 11900,
+                "values": {
+                  "overall_width": 0.93,
+                  "overall_height": 0.96,
+                  "crown_height": 0.16,
+                  "lower_body_fullness": 0.94
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-2-1600",
+                "time_ms": 12800,
+                "values": {
+                  "overall_width": 0.94,
+                  "overall_height": 0.98,
+                  "crown_height": 0.28,
+                  "lower_body_fullness": 0.92
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-2-2400",
+                "time_ms": 13600,
+                "values": {
+                  "overall_width": 0.95,
+                  "overall_height": 1,
+                  "crown_height": 0.38,
+                  "lower_body_fullness": 0.9
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-2-3200",
+                "time_ms": 14400,
+                "values": {
+                  "overall_width": 0.945,
+                  "overall_height": 0.99,
+                  "crown_height": 0.34,
+                  "lower_body_fullness": 0.91
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-3-0",
+                "time_ms": 14600,
+                "values": {
+                  "overall_width": 1.03,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.03
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-3-350",
+                "time_ms": 14950,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 1.03,
+                  "crown_height": 0.14,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-3-700",
+                "time_ms": 15300,
+                "values": {
+                  "overall_width": 1.01,
+                  "overall_height": 1.04,
+                  "crown_height": 0.16,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-3-1500",
+                "time_ms": 16100,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1.01,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-4-0",
+                "time_ms": 16300,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-4-800",
+                "time_ms": 17100,
+                "values": {
+                  "overall_width": 0.96,
+                  "overall_height": 0.94,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.96
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-4-1800",
+                "time_ms": 18100,
+                "values": {
+                  "overall_width": 0.88,
+                  "overall_height": 0.82,
+                  "crown_height": 0.18,
+                  "lower_body_fullness": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-4-2800",
+                "time_ms": 19100,
+                "values": {
+                  "overall_width": 0.78,
+                  "overall_height": 0.7,
+                  "crown_height": 0.22,
+                  "lower_body_fullness": 0.8
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-4-4000",
+                "time_ms": 20300,
+                "values": {
+                  "overall_width": 0.72,
+                  "overall_height": 0.62,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.75
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-4-5000",
+                "time_ms": 21300,
+                "values": {
+                  "overall_width": 0.7,
+                  "overall_height": 0.6,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.74
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-5-0",
+                "time_ms": 21500,
+                "values": {
+                  "overall_width": 0.7,
+                  "overall_height": 0.6,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.74
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-5-1000",
+                "time_ms": 22500,
+                "values": {
+                  "overall_width": 0.72,
+                  "overall_height": 0.62,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.75
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-5-2000",
+                "time_ms": 23500,
+                "values": {
+                  "overall_width": 0.78,
+                  "overall_height": 0.7,
+                  "crown_height": 0.22,
+                  "lower_body_fullness": 0.8
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-5-3000",
+                "time_ms": 24500,
+                "values": {
+                  "overall_width": 0.88,
+                  "overall_height": 0.82,
+                  "crown_height": 0.18,
+                  "lower_body_fullness": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-5-4000",
+                "time_ms": 25500,
+                "values": {
+                  "overall_width": 0.96,
+                  "overall_height": 0.94,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.96
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-5-5000",
+                "time_ms": 26500,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-6-0",
+                "time_ms": 26700,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-6-500",
+                "time_ms": 27200,
+                "values": {
+                  "overall_width": 1.06,
+                  "overall_height": 0.96,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-6-1200",
+                "time_ms": 27900,
+                "values": {
+                  "overall_width": 1.18,
+                  "overall_height": 0.88,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.92
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-6-2200",
+                "time_ms": 28900,
+                "values": {
+                  "overall_width": 1.22,
+                  "overall_height": 0.86,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.9
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-6-3200",
+                "time_ms": 29900,
+                "values": {
+                  "overall_width": 1.08,
+                  "overall_height": 0.96,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-6-4000",
+                "time_ms": 30700,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-0",
+                "time_ms": 30900,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-1000",
+                "time_ms": 31900,
+                "values": {
+                  "overall_width": 0.94,
+                  "overall_height": 0.92,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 0.95
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-2200",
+                "time_ms": 33100,
+                "values": {
+                  "overall_width": 0.78,
+                  "overall_height": 0.72,
+                  "crown_height": 0.02,
+                  "lower_body_fullness": 0.8
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-3600",
+                "time_ms": 34500,
+                "values": {
+                  "overall_width": 0.62,
+                  "overall_height": 0.55,
+                  "crown_height": 0,
+                  "lower_body_fullness": 0.65
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-4800",
+                "time_ms": 35700,
+                "values": {
+                  "overall_width": 0.72,
+                  "overall_height": 0.68,
+                  "crown_height": 0.04,
+                  "lower_body_fullness": 0.78
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-6000",
+                "time_ms": 36900,
+                "values": {
+                  "overall_width": 0.92,
+                  "overall_height": 0.92,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 0.95
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-m-7-7200",
+                "time_ms": 38100,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-seq-e-0-0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.38,
+                  "energy_pulse": 0.1,
+                  "relief_amplitude": 0.26,
+                  "secondary_lag": 0.3,
+                  "settling": 0.55,
+                  "internal_glow": 0.38
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-0-3200",
+                "time_ms": 3200,
+                "values": {
+                  "energy_level": 0.44,
+                  "energy_pulse": 0.16,
+                  "relief_amplitude": 0.32,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.44
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-0-6400",
+                "time_ms": 6400,
+                "values": {
+                  "energy_level": 0.4,
+                  "energy_pulse": 0.12,
+                  "relief_amplitude": 0.28,
+                  "secondary_lag": 0.32,
+                  "settling": 0.54,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-0-8000",
+                "time_ms": 8000,
+                "values": {
+                  "energy_level": 0.38,
+                  "energy_pulse": 0.1,
+                  "relief_amplitude": 0.26,
+                  "secondary_lag": 0.3,
+                  "settling": 0.55,
+                  "internal_glow": 0.38
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-1-0",
+                "time_ms": 8000,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-1-600",
+                "time_ms": 8600,
+                "values": {
+                  "energy_level": 0.48,
+                  "energy_pulse": 0.18,
+                  "relief_amplitude": 0.34,
+                  "secondary_lag": 0.3,
+                  "settling": 0.5,
+                  "internal_glow": 0.46
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-1-1400",
+                "time_ms": 9400,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.22,
+                  "relief_amplitude": 0.38,
+                  "secondary_lag": 0.26,
+                  "settling": 0.48,
+                  "internal_glow": 0.52
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-1-2400",
+                "time_ms": 10400,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.36,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.5
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-1-3000",
+                "time_ms": 11000,
+                "values": {
+                  "energy_level": 0.5,
+                  "energy_pulse": 0.24,
+                  "relief_amplitude": 0.35,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.54
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-2-0",
+                "time_ms": 11200,
+                "values": {
+                  "energy_level": 0.35,
+                  "energy_pulse": 0.12,
+                  "relief_amplitude": 0.28,
+                  "secondary_lag": 0.25,
+                  "settling": 0.45,
+                  "internal_glow": 0.32
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-2-700",
+                "time_ms": 11900,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.28,
+                  "relief_amplitude": 0.4,
+                  "secondary_lag": 0.32,
+                  "settling": 0.4,
+                  "internal_glow": 0.45
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-2-1600",
+                "time_ms": 12800,
+                "values": {
+                  "energy_level": 0.72,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.55,
+                  "secondary_lag": 0.42,
+                  "settling": 0.35,
+                  "internal_glow": 0.58
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-2-2400",
+                "time_ms": 13600,
+                "values": {
+                  "energy_level": 0.88,
+                  "energy_pulse": 0.62,
+                  "relief_amplitude": 0.68,
+                  "secondary_lag": 0.52,
+                  "settling": 0.28,
+                  "internal_glow": 0.72
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-2-3200",
+                "time_ms": 14400,
+                "values": {
+                  "energy_level": 0.8200000000000001,
+                  "energy_pulse": 0.5,
+                  "relief_amplitude": 0.6,
+                  "secondary_lag": 0.48,
+                  "settling": 0.32,
+                  "internal_glow": 0.6599999999999999
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-3-0",
+                "time_ms": 14600,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.36,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.5
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-3-350",
+                "time_ms": 14950,
+                "values": {
+                  "energy_level": 0.7,
+                  "energy_pulse": 0.45,
+                  "relief_amplitude": 0.5,
+                  "secondary_lag": 0.22,
+                  "settling": 0.42,
+                  "internal_glow": 0.68
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-3-700",
+                "time_ms": 15300,
+                "values": {
+                  "energy_level": 0.78,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.58,
+                  "secondary_lag": 0.2,
+                  "settling": 0.38,
+                  "internal_glow": 0.76
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-3-1100",
+                "time_ms": 15700,
+                "values": {
+                  "energy_level": 0.62,
+                  "energy_pulse": 0.35,
+                  "relief_amplitude": 0.45,
+                  "secondary_lag": 0.26,
+                  "settling": 0.46,
+                  "internal_glow": 0.6
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-3-1500",
+                "time_ms": 16100,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.24,
+                  "relief_amplitude": 0.38,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.54
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-4-0",
+                "time_ms": 16300,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-4-800",
+                "time_ms": 17100,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.3,
+                  "relief_amplitude": 0.42,
+                  "secondary_lag": 0.35,
+                  "settling": 0.4,
+                  "internal_glow": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-4-1800",
+                "time_ms": 18100,
+                "values": {
+                  "energy_level": 0.72,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.55,
+                  "secondary_lag": 0.4,
+                  "settling": 0.32,
+                  "internal_glow": 0.7
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-4-2800",
+                "time_ms": 19100,
+                "values": {
+                  "energy_level": 0.88,
+                  "energy_pulse": 0.6,
+                  "relief_amplitude": 0.65,
+                  "secondary_lag": 0.45,
+                  "settling": 0.25,
+                  "internal_glow": 0.82
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-4-5000",
+                "time_ms": 21300,
+                "values": {
+                  "energy_level": 0.92,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.6,
+                  "secondary_lag": 0.42,
+                  "settling": 0.3,
+                  "internal_glow": 0.86
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-5-0",
+                "time_ms": 21500,
+                "values": {
+                  "energy_level": 0.92,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.6,
+                  "secondary_lag": 0.42,
+                  "settling": 0.3,
+                  "internal_glow": 0.86
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-5-1250",
+                "time_ms": 22750,
+                "values": {
+                  "energy_level": 0.88,
+                  "energy_pulse": 0.6,
+                  "relief_amplitude": 0.65,
+                  "secondary_lag": 0.45,
+                  "settling": 0.25,
+                  "internal_glow": 0.82
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-5-2500",
+                "time_ms": 24000,
+                "values": {
+                  "energy_level": 0.72,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.55,
+                  "secondary_lag": 0.4,
+                  "settling": 0.32,
+                  "internal_glow": 0.7
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-5-3750",
+                "time_ms": 25250,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.3,
+                  "relief_amplitude": 0.42,
+                  "secondary_lag": 0.35,
+                  "settling": 0.4,
+                  "internal_glow": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-5-5000",
+                "time_ms": 26500,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-6-0",
+                "time_ms": 26700,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-6-500",
+                "time_ms": 27200,
+                "values": {
+                  "energy_level": 0.58,
+                  "energy_pulse": 0.32,
+                  "relief_amplitude": 0.42,
+                  "secondary_lag": 0.3,
+                  "settling": 0.4,
+                  "internal_glow": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-6-1200",
+                "time_ms": 27900,
+                "values": {
+                  "energy_level": 0.82,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.62,
+                  "secondary_lag": 0.35,
+                  "settling": 0.28,
+                  "internal_glow": 0.75
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-6-2200",
+                "time_ms": 28900,
+                "values": {
+                  "energy_level": 0.78,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.58,
+                  "secondary_lag": 0.38,
+                  "settling": 0.3,
+                  "internal_glow": 0.72
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-6-3200",
+                "time_ms": 29900,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.28,
+                  "relief_amplitude": 0.4,
+                  "secondary_lag": 0.3,
+                  "settling": 0.45,
+                  "internal_glow": 0.5
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-6-4000",
+                "time_ms": 30700,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-0",
+                "time_ms": 30900,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-1000",
+                "time_ms": 31900,
+                "values": {
+                  "energy_level": 0.28,
+                  "energy_pulse": 0.08,
+                  "relief_amplitude": 0.2,
+                  "secondary_lag": 0.35,
+                  "settling": 0.6,
+                  "internal_glow": 0.28
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-2200",
+                "time_ms": 33100,
+                "values": {
+                  "energy_level": 0.14,
+                  "energy_pulse": 0.04,
+                  "relief_amplitude": 0.12,
+                  "secondary_lag": 0.42,
+                  "settling": 0.72,
+                  "internal_glow": 0.16
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-3600",
+                "time_ms": 34500,
+                "values": {
+                  "energy_level": 0.14,
+                  "energy_pulse": 0.02,
+                  "relief_amplitude": 0.08,
+                  "secondary_lag": 0.48,
+                  "settling": 0.8,
+                  "internal_glow": 0.14
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-4800",
+                "time_ms": 35700,
+                "values": {
+                  "energy_level": 0.32,
+                  "energy_pulse": 0.18,
+                  "relief_amplitude": 0.22,
+                  "secondary_lag": 0.35,
+                  "settling": 0.55,
+                  "internal_glow": 0.35
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-6000",
+                "time_ms": 36900,
+                "values": {
+                  "energy_level": 0.48,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.32,
+                  "secondary_lag": 0.28,
+                  "settling": 0.48,
+                  "internal_glow": 0.48
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-seq-e-7-7200",
+                "time_ms": 38100,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-seq-0-start",
+            "time_ms": 0,
+            "label": "Presence — Living Idle"
+          },
+          {
+            "id": "mk-seq-0-mk-idle-start",
+            "time_ms": 0,
+            "label": "available"
+          },
+          {
+            "id": "mk-seq-0-mk-idle-gaze",
+            "time_ms": 2200,
+            "label": "micro-gaze"
+          },
+          {
+            "id": "mk-seq-0-mk-idle-breath",
+            "time_ms": 4800,
+            "label": "breath-peak"
+          },
+          {
+            "id": "mk-seq-0-mk-idle-loop",
+            "time_ms": 8000,
+            "label": "loop-close"
+          },
+          {
+            "id": "mk-seq-1-start",
+            "time_ms": 8000,
+            "label": "Presence — Listening Receive"
+          },
+          {
+            "id": "mk-seq-1-mk-lr-orient",
+            "time_ms": 8600,
+            "label": "orient"
+          },
+          {
+            "id": "mk-seq-1-mk-lr-open",
+            "time_ms": 9400,
+            "label": "open-reception"
+          },
+          {
+            "id": "mk-seq-1-mk-lr-hold",
+            "time_ms": 10400,
+            "label": "listening-hold"
+          },
+          {
+            "id": "mk-seq-1-mk-lr-ack",
+            "time_ms": 11000,
+            "label": "acknowledge"
+          },
+          {
+            "id": "mk-seq-2-start",
+            "time_ms": 11200,
+            "label": "Presence — Thinking Knit"
+          },
+          {
+            "id": "mk-seq-2-mk-gather",
+            "time_ms": 11900,
+            "label": "gather"
+          },
+          {
+            "id": "mk-seq-2-mk-knit",
+            "time_ms": 12800,
+            "label": "knit"
+          },
+          {
+            "id": "mk-seq-2-mk-resolve",
+            "time_ms": 13200,
+            "label": "resolve"
+          },
+          {
+            "id": "mk-seq-2-mk-peak",
+            "time_ms": 13600,
+            "label": "cognitive-peak"
+          },
+          {
+            "id": "mk-seq-2-mk-hold",
+            "time_ms": 14400,
+            "label": "hold"
+          },
+          {
+            "id": "mk-seq-3-start",
+            "time_ms": 14600,
+            "label": "Presence — Recognition Spark"
+          },
+          {
+            "id": "mk-seq-3-mk-rs-recog",
+            "time_ms": 14950,
+            "label": "recognition"
+          },
+          {
+            "id": "mk-seq-3-mk-rs-lift",
+            "time_ms": 15300,
+            "label": "micro-lift"
+          },
+          {
+            "id": "mk-seq-3-mk-rs-spark",
+            "time_ms": 15700,
+            "label": "energy-spark"
+          },
+          {
+            "id": "mk-seq-3-mk-rs-contain",
+            "time_ms": 16100,
+            "label": "pleased-containment"
+          },
+          {
+            "id": "mk-seq-4-start",
+            "time_ms": 16300,
+            "label": "Presence → Singularity"
+          },
+          {
+            "id": "mk-seq-4-mk-ps-commit",
+            "time_ms": 17100,
+            "label": "commitment"
+          },
+          {
+            "id": "mk-seq-4-mk-ps-compress",
+            "time_ms": 18100,
+            "label": "compression"
+          },
+          {
+            "id": "mk-seq-4-mk-ps-horizon",
+            "time_ms": 19100,
+            "label": "horizon-birth"
+          },
+          {
+            "id": "mk-seq-4-mk-ps-lock",
+            "time_ms": 20300,
+            "label": "accretion-lock"
+          },
+          {
+            "id": "mk-seq-4-mk-ps-hold",
+            "time_ms": 21300,
+            "label": "singularity-hold"
+          },
+          {
+            "id": "mk-seq-5-start",
+            "time_ms": 21500,
+            "label": "Singularity → Presence"
+          },
+          {
+            "id": "mk-seq-5-mk-sp-release",
+            "time_ms": 21500,
+            "label": "release-hold"
+          },
+          {
+            "id": "mk-seq-5-mk-sp-expand",
+            "time_ms": 23300,
+            "label": "expansion"
+          },
+          {
+            "id": "mk-seq-5-mk-sp-face",
+            "time_ms": 24700,
+            "label": "face-return"
+          },
+          {
+            "id": "mk-seq-5-mk-sp-settle",
+            "time_ms": 26500,
+            "label": "neutral-settled"
+          },
+          {
+            "id": "mk-seq-6-start",
+            "time_ms": 26700,
+            "label": "Presence → Comet (Right)"
+          },
+          {
+            "id": "mk-seq-6-mk-cm-right-aim",
+            "time_ms": 27200,
+            "label": "aim"
+          },
+          {
+            "id": "mk-seq-6-mk-cm-right-launch",
+            "time_ms": 27900,
+            "label": "short-launch"
+          },
+          {
+            "id": "mk-seq-6-mk-cm-right-flight",
+            "time_ms": 28900,
+            "label": "held-flight"
+          },
+          {
+            "id": "mk-seq-6-mk-cm-right-return",
+            "time_ms": 30700,
+            "label": "return"
+          },
+          {
+            "id": "mk-seq-7-start",
+            "time_ms": 30900,
+            "label": "Presence → Dormant Orbit → Wake"
+          },
+          {
+            "id": "mk-seq-7-mk-do-withdraw",
+            "time_ms": 31900,
+            "label": "energy-withdraw"
+          },
+          {
+            "id": "mk-seq-7-mk-do-collapse",
+            "time_ms": 33100,
+            "label": "collapse"
+          },
+          {
+            "id": "mk-seq-7-mk-do-hold",
+            "time_ms": 34500,
+            "label": "dormant-hold"
+          },
+          {
+            "id": "mk-seq-7-mk-do-wake",
+            "time_ms": 35700,
+            "label": "wake-cue"
+          },
+          {
+            "id": "mk-seq-7-mk-do-recover",
+            "time_ms": 36900,
+            "label": "form-recover"
+          },
+          {
+            "id": "mk-seq-7-mk-do-settle",
+            "time_ms": 38100,
+            "label": "neutral-settled"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-presence-living-idle",
+        "name": "Presence — Living Idle",
+        "duration_ms": 8000,
+        "loop_mode": "loop",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-idle-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.74,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.26,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "settle"
+              },
+              {
+                "id": "kf-idle-f1",
+                "time_ms": 2200,
+                "values": {
+                  "eye_openness": 0.7,
+                  "eye_spacing": 0,
+                  "gaze": 0.04,
+                  "mouth_openness": 0.27,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "micro-gaze"
+              },
+              {
+                "id": "kf-idle-f2",
+                "time_ms": 4800,
+                "values": {
+                  "eye_openness": 0.76,
+                  "eye_spacing": 0,
+                  "gaze": -0.03,
+                  "mouth_openness": 0.25,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "breath-peak"
+              },
+              {
+                "id": "kf-idle-f3",
+                "time_ms": 8000,
+                "values": {
+                  "eye_openness": 0.74,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.26,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "loop-close"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-idle-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-idle-m1",
+                "time_ms": 2800,
+                "values": {
+                  "overall_width": 1.01,
+                  "overall_height": 1.015,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 0.995
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "breath-in"
+              },
+              {
+                "id": "kf-idle-m2",
+                "time_ms": 5600,
+                "values": {
+                  "overall_width": 0.995,
+                  "overall_height": 0.992,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 1.005
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "breath-out"
+              },
+              {
+                "id": "kf-idle-m3",
+                "time_ms": 8000,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-idle-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.38,
+                  "energy_pulse": 0.1,
+                  "relief_amplitude": 0.26,
+                  "secondary_lag": 0.3,
+                  "settling": 0.55,
+                  "internal_glow": 0.38
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-idle-e1",
+                "time_ms": 3200,
+                "values": {
+                  "energy_level": 0.44,
+                  "energy_pulse": 0.16,
+                  "relief_amplitude": 0.32,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.44
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-idle-e2",
+                "time_ms": 6400,
+                "values": {
+                  "energy_level": 0.4,
+                  "energy_pulse": 0.12,
+                  "relief_amplitude": 0.28,
+                  "secondary_lag": 0.32,
+                  "settling": 0.54,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-idle-e3",
+                "time_ms": 8000,
+                "values": {
+                  "energy_level": 0.38,
+                  "energy_pulse": 0.1,
+                  "relief_amplitude": 0.26,
+                  "secondary_lag": 0.3,
+                  "settling": 0.55,
+                  "internal_glow": 0.38
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-idle-start",
+            "time_ms": 0,
+            "label": "available"
+          },
+          {
+            "id": "mk-idle-gaze",
+            "time_ms": 2200,
+            "label": "micro-gaze"
+          },
+          {
+            "id": "mk-idle-breath",
+            "time_ms": 4800,
+            "label": "breath-peak"
+          },
+          {
+            "id": "mk-idle-loop",
+            "time_ms": 8000,
+            "label": "loop-close"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-listening-receive",
+        "name": "Presence — Listening Receive",
+        "duration_ms": 3000,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-lr-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "neutral"
+              },
+              {
+                "id": "kf-lr-f1",
+                "time_ms": 600,
+                "values": {
+                  "eye_openness": 0.78,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.1,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "orient"
+              },
+              {
+                "id": "kf-lr-f2",
+                "time_ms": 1400,
+                "values": {
+                  "eye_openness": 0.88,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.08,
+                  "mouth_openness": 0.32,
+                  "face_scale": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "open-reception"
+              },
+              {
+                "id": "kf-lr-f3",
+                "time_ms": 2400,
+                "values": {
+                  "eye_openness": 0.86,
+                  "eye_spacing": 0.03,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "listening-hold"
+              },
+              {
+                "id": "kf-lr-f4",
+                "time_ms": 3000,
+                "values": {
+                  "eye_openness": 0.82,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.04,
+                  "mouth_openness": 0.34,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "acknowledge"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-lr-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m1",
+                "time_ms": 600,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m2",
+                "time_ms": 1400,
+                "values": {
+                  "overall_width": 1.04,
+                  "overall_height": 0.98,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 1.04
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m3",
+                "time_ms": 2400,
+                "values": {
+                  "overall_width": 1.03,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.03
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m4",
+                "time_ms": 3000,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 1,
+                  "crown_height": 0.07,
+                  "lower_body_fullness": 1.02
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-lr-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e1",
+                "time_ms": 600,
+                "values": {
+                  "energy_level": 0.48,
+                  "energy_pulse": 0.18,
+                  "relief_amplitude": 0.34,
+                  "secondary_lag": 0.3,
+                  "settling": 0.5,
+                  "internal_glow": 0.46
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e2",
+                "time_ms": 1400,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.22,
+                  "relief_amplitude": 0.38,
+                  "secondary_lag": 0.26,
+                  "settling": 0.48,
+                  "internal_glow": 0.52
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e3",
+                "time_ms": 2400,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.36,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.5
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e4",
+                "time_ms": 3000,
+                "values": {
+                  "energy_level": 0.5,
+                  "energy_pulse": 0.24,
+                  "relief_amplitude": 0.35,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.54
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-lr-orient",
+            "time_ms": 600,
+            "label": "orient"
+          },
+          {
+            "id": "mk-lr-open",
+            "time_ms": 1400,
+            "label": "open-reception"
+          },
+          {
+            "id": "mk-lr-hold",
+            "time_ms": 2400,
+            "label": "listening-hold"
+          },
+          {
+            "id": "mk-lr-ack",
+            "time_ms": 3000,
+            "label": "acknowledge"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-presence-thinking-knit",
+        "name": "Presence — Thinking Knit",
+        "duration_ms": 3200,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-tk-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.85,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.22,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "neutral-settled"
+              },
+              {
+                "id": "kf-tk-f1",
+                "time_ms": 700,
+                "values": {
+                  "eye_openness": 0.62,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.2,
+                  "face_scale": 1.01
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "gather"
+              },
+              {
+                "id": "kf-tk-f2",
+                "time_ms": 1600,
+                "values": {
+                  "eye_openness": 0.42,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.12,
+                  "mouth_openness": 0.18,
+                  "face_scale": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "knit"
+              },
+              {
+                "id": "kf-tk-f3",
+                "time_ms": 2400,
+                "values": {
+                  "eye_openness": 0.32,
+                  "eye_spacing": 0.05,
+                  "gaze": 0.16,
+                  "mouth_openness": 0.15,
+                  "face_scale": 1.04
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "cognitive-peak"
+              },
+              {
+                "id": "kf-tk-f4",
+                "time_ms": 3200,
+                "values": {
+                  "eye_openness": 0.36,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.14,
+                  "mouth_openness": 0.16999999999999998,
+                  "face_scale": 1.03
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "hold"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-tk-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 0.92,
+                  "overall_height": 0.94,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 0.95
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-m1",
+                "time_ms": 700,
+                "values": {
+                  "overall_width": 0.93,
+                  "overall_height": 0.96,
+                  "crown_height": 0.16,
+                  "lower_body_fullness": 0.94
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-m2",
+                "time_ms": 1600,
+                "values": {
+                  "overall_width": 0.94,
+                  "overall_height": 0.98,
+                  "crown_height": 0.28,
+                  "lower_body_fullness": 0.92
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-m3",
+                "time_ms": 2400,
+                "values": {
+                  "overall_width": 0.95,
+                  "overall_height": 1,
+                  "crown_height": 0.38,
+                  "lower_body_fullness": 0.9
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-m4",
+                "time_ms": 3200,
+                "values": {
+                  "overall_width": 0.945,
+                  "overall_height": 0.99,
+                  "crown_height": 0.34,
+                  "lower_body_fullness": 0.91
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-tk-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.35,
+                  "energy_pulse": 0.12,
+                  "relief_amplitude": 0.28,
+                  "secondary_lag": 0.25,
+                  "settling": 0.45,
+                  "internal_glow": 0.32
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-e1",
+                "time_ms": 700,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.28,
+                  "relief_amplitude": 0.4,
+                  "secondary_lag": 0.32,
+                  "settling": 0.4,
+                  "internal_glow": 0.45
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-e2",
+                "time_ms": 1600,
+                "values": {
+                  "energy_level": 0.72,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.55,
+                  "secondary_lag": 0.42,
+                  "settling": 0.35,
+                  "internal_glow": 0.58
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-e3",
+                "time_ms": 2400,
+                "values": {
+                  "energy_level": 0.88,
+                  "energy_pulse": 0.62,
+                  "relief_amplitude": 0.68,
+                  "secondary_lag": 0.52,
+                  "settling": 0.28,
+                  "internal_glow": 0.72
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-tk-e4",
+                "time_ms": 3200,
+                "values": {
+                  "energy_level": 0.8200000000000001,
+                  "energy_pulse": 0.5,
+                  "relief_amplitude": 0.6,
+                  "secondary_lag": 0.48,
+                  "settling": 0.32,
+                  "internal_glow": 0.6599999999999999
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-gather",
+            "time_ms": 700,
+            "label": "gather"
+          },
+          {
+            "id": "mk-knit",
+            "time_ms": 1600,
+            "label": "knit"
+          },
+          {
+            "id": "mk-resolve",
+            "time_ms": 2000,
+            "label": "resolve"
+          },
+          {
+            "id": "mk-peak",
+            "time_ms": 2400,
+            "label": "cognitive-peak"
+          },
+          {
+            "id": "mk-hold",
+            "time_ms": 3200,
+            "label": "hold"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-recognition-spark",
+        "name": "Presence — Recognition Spark",
+        "duration_ms": 1500,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale",
+              "corner_pull_l",
+              "corner_pull_r"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-rs-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.86,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01,
+                  "corner_pull_l": 0,
+                  "corner_pull_r": 0
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "listening"
+              },
+              {
+                "id": "kf-rs-f1",
+                "time_ms": 350,
+                "values": {
+                  "eye_openness": 0.92,
+                  "eye_spacing": 0.03,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.36,
+                  "face_scale": 1.03,
+                  "corner_pull_l": 0.12,
+                  "corner_pull_r": 0.12
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier",
+                "label": "recognition"
+              },
+              {
+                "id": "kf-rs-f2",
+                "time_ms": 700,
+                "values": {
+                  "eye_openness": 0.9,
+                  "eye_spacing": 0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.38,
+                  "face_scale": 1.04,
+                  "corner_pull_l": 0.18,
+                  "corner_pull_r": 0.16
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "micro-lift"
+              },
+              {
+                "id": "kf-rs-f3",
+                "time_ms": 1100,
+                "values": {
+                  "eye_openness": 0.84,
+                  "eye_spacing": 0.01,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.34,
+                  "face_scale": 1.02,
+                  "corner_pull_l": 0.1,
+                  "corner_pull_r": 0.1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "spark"
+              },
+              {
+                "id": "kf-rs-f4",
+                "time_ms": 1500,
+                "values": {
+                  "eye_openness": 0.8,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.32,
+                  "face_scale": 1.01,
+                  "corner_pull_l": 0.08,
+                  "corner_pull_r": 0.08
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "pleased-containment"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-rs-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1.03,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.03
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-m1",
+                "time_ms": 350,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 1.03,
+                  "crown_height": 0.14,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-m2",
+                "time_ms": 700,
+                "values": {
+                  "overall_width": 1.01,
+                  "overall_height": 1.04,
+                  "crown_height": 0.16,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-m3",
+                "time_ms": 1500,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1.01,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-rs-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.36,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.5
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e1",
+                "time_ms": 350,
+                "values": {
+                  "energy_level": 0.7,
+                  "energy_pulse": 0.45,
+                  "relief_amplitude": 0.5,
+                  "secondary_lag": 0.22,
+                  "settling": 0.42,
+                  "internal_glow": 0.68
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e2",
+                "time_ms": 700,
+                "values": {
+                  "energy_level": 0.78,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.58,
+                  "secondary_lag": 0.2,
+                  "settling": 0.38,
+                  "internal_glow": 0.76
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e3",
+                "time_ms": 1100,
+                "values": {
+                  "energy_level": 0.62,
+                  "energy_pulse": 0.35,
+                  "relief_amplitude": 0.45,
+                  "secondary_lag": 0.26,
+                  "settling": 0.46,
+                  "internal_glow": 0.6
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e4",
+                "time_ms": 1500,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.24,
+                  "relief_amplitude": 0.38,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.54
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-rs-recog",
+            "time_ms": 350,
+            "label": "recognition"
+          },
+          {
+            "id": "mk-rs-lift",
+            "time_ms": 700,
+            "label": "micro-lift"
+          },
+          {
+            "id": "mk-rs-spark",
+            "time_ms": 1100,
+            "label": "energy-spark"
+          },
+          {
+            "id": "mk-rs-contain",
+            "time_ms": 1500,
+            "label": "pleased-containment"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-presence-to-singularity",
+        "name": "Presence → Singularity",
+        "duration_ms": 5000,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-ps-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "prepare"
+              },
+              {
+                "id": "kf-ps-f1",
+                "time_ms": 800,
+                "values": {
+                  "eye_openness": 0.6,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.2,
+                  "face_scale": 0.96
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "commitment"
+              },
+              {
+                "id": "kf-ps-f2",
+                "time_ms": 1800,
+                "values": {
+                  "eye_openness": 0.45,
+                  "eye_spacing": -0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.14,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "compression"
+              },
+              {
+                "id": "kf-ps-f3",
+                "time_ms": 2800,
+                "values": {
+                  "eye_openness": 0.35,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.1,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "horizon-birth"
+              },
+              {
+                "id": "kf-ps-f4",
+                "time_ms": 4000,
+                "values": {
+                  "eye_openness": 0.3,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "accretion-lock"
+              },
+              {
+                "id": "kf-ps-f5",
+                "time_ms": 5000,
+                "values": {
+                  "eye_openness": 0.28,
+                  "eye_spacing": -0.03,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "singularity-hold"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness",
+              "ground_flattening"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-ps-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1,
+                  "ground_flattening": 0
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-m1",
+                "time_ms": 800,
+                "values": {
+                  "overall_width": 0.96,
+                  "overall_height": 0.94,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.96,
+                  "ground_flattening": 0.05
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-m2",
+                "time_ms": 1800,
+                "values": {
+                  "overall_width": 0.88,
+                  "overall_height": 0.82,
+                  "crown_height": 0.18,
+                  "lower_body_fullness": 0.88,
+                  "ground_flattening": 0.12
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-m3",
+                "time_ms": 2800,
+                "values": {
+                  "overall_width": 0.78,
+                  "overall_height": 0.7,
+                  "crown_height": 0.22,
+                  "lower_body_fullness": 0.8,
+                  "ground_flattening": 0.18
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-m4",
+                "time_ms": 4000,
+                "values": {
+                  "overall_width": 0.72,
+                  "overall_height": 0.62,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.75,
+                  "ground_flattening": 0.22
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-m5",
+                "time_ms": 5000,
+                "values": {
+                  "overall_width": 0.7,
+                  "overall_height": 0.6,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.74,
+                  "ground_flattening": 0.24
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-ps-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-e1",
+                "time_ms": 800,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.3,
+                  "relief_amplitude": 0.42,
+                  "secondary_lag": 0.35,
+                  "settling": 0.4,
+                  "internal_glow": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-e2",
+                "time_ms": 1800,
+                "values": {
+                  "energy_level": 0.72,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.55,
+                  "secondary_lag": 0.4,
+                  "settling": 0.32,
+                  "internal_glow": 0.7
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-e3",
+                "time_ms": 2800,
+                "values": {
+                  "energy_level": 0.88,
+                  "energy_pulse": 0.6,
+                  "relief_amplitude": 0.65,
+                  "secondary_lag": 0.45,
+                  "settling": 0.25,
+                  "internal_glow": 0.82
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-e4",
+                "time_ms": 5000,
+                "values": {
+                  "energy_level": 0.92,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.6,
+                  "secondary_lag": 0.42,
+                  "settling": 0.3,
+                  "internal_glow": 0.86
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-singularity-form",
+            "label": "Singularity Form",
+            "domain_id": "singularity",
+            "binding_ids": [
+              "singularity_outer_radius",
+              "singularity_vertical_compression",
+              "center_void",
+              "horizon_radius",
+              "horizon_depth",
+              "gravity_well_depth",
+              "spectral_energy_envelope",
+              "shell_thickness",
+              "orbital_plane_scale",
+              "horizon_pulse"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-ps-s0",
+                "time_ms": 0,
+                "values": {
+                  "singularity_outer_radius": 1,
+                  "singularity_vertical_compression": 0.2,
+                  "center_void": 0.1,
+                  "horizon_radius": 0.2,
+                  "horizon_depth": 0.15,
+                  "gravity_well_depth": 0.15,
+                  "spectral_energy_envelope": 0.25,
+                  "shell_thickness": 0.55,
+                  "orbital_plane_scale": 0.4,
+                  "horizon_pulse": 0.1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-s1",
+                "time_ms": 800,
+                "values": {
+                  "singularity_outer_radius": 0.95,
+                  "singularity_vertical_compression": 0.3,
+                  "center_void": 0.25,
+                  "horizon_radius": 0.35,
+                  "horizon_depth": 0.28,
+                  "gravity_well_depth": 0.3,
+                  "spectral_energy_envelope": 0.4,
+                  "shell_thickness": 0.5,
+                  "orbital_plane_scale": 0.55,
+                  "horizon_pulse": 0.18
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-s2",
+                "time_ms": 1800,
+                "values": {
+                  "singularity_outer_radius": 0.88,
+                  "singularity_vertical_compression": 0.45,
+                  "center_void": 0.45,
+                  "horizon_radius": 0.5,
+                  "horizon_depth": 0.45,
+                  "gravity_well_depth": 0.48,
+                  "spectral_energy_envelope": 0.62,
+                  "shell_thickness": 0.42,
+                  "orbital_plane_scale": 0.75,
+                  "horizon_pulse": 0.28
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-s3",
+                "time_ms": 2800,
+                "values": {
+                  "singularity_outer_radius": 0.8,
+                  "singularity_vertical_compression": 0.55,
+                  "center_void": 0.62,
+                  "horizon_radius": 0.62,
+                  "horizon_depth": 0.58,
+                  "gravity_well_depth": 0.65,
+                  "spectral_energy_envelope": 0.78,
+                  "shell_thickness": 0.38,
+                  "orbital_plane_scale": 0.92,
+                  "horizon_pulse": 0.35
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-s4",
+                "time_ms": 4000,
+                "values": {
+                  "singularity_outer_radius": 0.76,
+                  "singularity_vertical_compression": 0.6,
+                  "center_void": 0.72,
+                  "horizon_radius": 0.68,
+                  "horizon_depth": 0.65,
+                  "gravity_well_depth": 0.72,
+                  "spectral_energy_envelope": 0.88,
+                  "shell_thickness": 0.35,
+                  "orbital_plane_scale": 1,
+                  "horizon_pulse": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-ps-s5",
+                "time_ms": 5000,
+                "values": {
+                  "singularity_outer_radius": 0.74,
+                  "singularity_vertical_compression": 0.62,
+                  "center_void": 0.75,
+                  "horizon_radius": 0.7,
+                  "horizon_depth": 0.68,
+                  "gravity_well_depth": 0.75,
+                  "spectral_energy_envelope": 0.9,
+                  "shell_thickness": 0.34,
+                  "orbital_plane_scale": 1.02,
+                  "horizon_pulse": 0.42
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-ps-commit",
+            "time_ms": 800,
+            "label": "commitment"
+          },
+          {
+            "id": "mk-ps-compress",
+            "time_ms": 1800,
+            "label": "compression"
+          },
+          {
+            "id": "mk-ps-horizon",
+            "time_ms": 2800,
+            "label": "horizon-birth"
+          },
+          {
+            "id": "mk-ps-lock",
+            "time_ms": 4000,
+            "label": "accretion-lock"
+          },
+          {
+            "id": "mk-ps-hold",
+            "time_ms": 5000,
+            "label": "singularity-hold"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-singularity-to-presence",
+        "name": "Singularity → Presence",
+        "duration_ms": 5000,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-sp-track-face-gaze-0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.28,
+                  "eye_spacing": -0.03,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "return-singularity-hold"
+              },
+              {
+                "id": "kf-sp-track-face-gaze-1",
+                "time_ms": 1000,
+                "values": {
+                  "eye_openness": 0.3,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-accretion-lock"
+              },
+              {
+                "id": "kf-sp-track-face-gaze-2",
+                "time_ms": 2000,
+                "values": {
+                  "eye_openness": 0.35,
+                  "eye_spacing": -0.04,
+                  "gaze": 0,
+                  "mouth_openness": 0.1,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-horizon-birth"
+              },
+              {
+                "id": "kf-sp-track-face-gaze-3",
+                "time_ms": 3000,
+                "values": {
+                  "eye_openness": 0.45,
+                  "eye_spacing": -0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.14,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-compression"
+              },
+              {
+                "id": "kf-sp-track-face-gaze-4",
+                "time_ms": 4000,
+                "values": {
+                  "eye_openness": 0.6,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.2,
+                  "face_scale": 0.96
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-commitment"
+              },
+              {
+                "id": "kf-sp-track-face-gaze-5",
+                "time_ms": 5000,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-prepare"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness",
+              "ground_flattening"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-sp-track-macro-form-0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 0.7,
+                  "overall_height": 0.6,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.74,
+                  "ground_flattening": 0.24
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-macro-form-1",
+                "time_ms": 1000,
+                "values": {
+                  "overall_width": 0.72,
+                  "overall_height": 0.62,
+                  "crown_height": 0.24,
+                  "lower_body_fullness": 0.75,
+                  "ground_flattening": 0.22
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-macro-form-2",
+                "time_ms": 2000,
+                "values": {
+                  "overall_width": 0.78,
+                  "overall_height": 0.7,
+                  "crown_height": 0.22,
+                  "lower_body_fullness": 0.8,
+                  "ground_flattening": 0.18
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-macro-form-3",
+                "time_ms": 3000,
+                "values": {
+                  "overall_width": 0.88,
+                  "overall_height": 0.82,
+                  "crown_height": 0.18,
+                  "lower_body_fullness": 0.88,
+                  "ground_flattening": 0.12
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-macro-form-4",
+                "time_ms": 4000,
+                "values": {
+                  "overall_width": 0.96,
+                  "overall_height": 0.94,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.96,
+                  "ground_flattening": 0.05
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-macro-form-5",
+                "time_ms": 5000,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1,
+                  "ground_flattening": 0
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-sp-track-energy-relief-0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.92,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.6,
+                  "secondary_lag": 0.42,
+                  "settling": 0.3,
+                  "internal_glow": 0.86
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-energy-relief-1",
+                "time_ms": 1250,
+                "values": {
+                  "energy_level": 0.88,
+                  "energy_pulse": 0.6,
+                  "relief_amplitude": 0.65,
+                  "secondary_lag": 0.45,
+                  "settling": 0.25,
+                  "internal_glow": 0.82
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-energy-relief-2",
+                "time_ms": 2500,
+                "values": {
+                  "energy_level": 0.72,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.55,
+                  "secondary_lag": 0.4,
+                  "settling": 0.32,
+                  "internal_glow": 0.7
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-energy-relief-3",
+                "time_ms": 3750,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.3,
+                  "relief_amplitude": 0.42,
+                  "secondary_lag": 0.35,
+                  "settling": 0.4,
+                  "internal_glow": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-energy-relief-4",
+                "time_ms": 5000,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-singularity-form",
+            "label": "Singularity Form",
+            "domain_id": "singularity",
+            "binding_ids": [
+              "singularity_outer_radius",
+              "singularity_vertical_compression",
+              "center_void",
+              "horizon_radius",
+              "horizon_depth",
+              "gravity_well_depth",
+              "spectral_energy_envelope",
+              "shell_thickness",
+              "orbital_plane_scale",
+              "horizon_pulse"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-sp-track-singularity-form-0",
+                "time_ms": 0,
+                "values": {
+                  "singularity_outer_radius": 0.74,
+                  "singularity_vertical_compression": 0.62,
+                  "center_void": 0.75,
+                  "horizon_radius": 0.7,
+                  "horizon_depth": 0.68,
+                  "gravity_well_depth": 0.75,
+                  "spectral_energy_envelope": 0.9,
+                  "shell_thickness": 0.34,
+                  "orbital_plane_scale": 1.02,
+                  "horizon_pulse": 0.42
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-singularity-form-1",
+                "time_ms": 1000,
+                "values": {
+                  "singularity_outer_radius": 0.76,
+                  "singularity_vertical_compression": 0.6,
+                  "center_void": 0.72,
+                  "horizon_radius": 0.68,
+                  "horizon_depth": 0.65,
+                  "gravity_well_depth": 0.72,
+                  "spectral_energy_envelope": 0.88,
+                  "shell_thickness": 0.35,
+                  "orbital_plane_scale": 1,
+                  "horizon_pulse": 0.4
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-singularity-form-2",
+                "time_ms": 2000,
+                "values": {
+                  "singularity_outer_radius": 0.8,
+                  "singularity_vertical_compression": 0.55,
+                  "center_void": 0.62,
+                  "horizon_radius": 0.62,
+                  "horizon_depth": 0.58,
+                  "gravity_well_depth": 0.65,
+                  "spectral_energy_envelope": 0.78,
+                  "shell_thickness": 0.38,
+                  "orbital_plane_scale": 0.92,
+                  "horizon_pulse": 0.35
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-singularity-form-3",
+                "time_ms": 3000,
+                "values": {
+                  "singularity_outer_radius": 0.88,
+                  "singularity_vertical_compression": 0.45,
+                  "center_void": 0.45,
+                  "horizon_radius": 0.5,
+                  "horizon_depth": 0.45,
+                  "gravity_well_depth": 0.48,
+                  "spectral_energy_envelope": 0.62,
+                  "shell_thickness": 0.42,
+                  "orbital_plane_scale": 0.75,
+                  "horizon_pulse": 0.28
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-singularity-form-4",
+                "time_ms": 4000,
+                "values": {
+                  "singularity_outer_radius": 0.95,
+                  "singularity_vertical_compression": 0.3,
+                  "center_void": 0.25,
+                  "horizon_radius": 0.35,
+                  "horizon_depth": 0.28,
+                  "gravity_well_depth": 0.3,
+                  "spectral_energy_envelope": 0.4,
+                  "shell_thickness": 0.5,
+                  "orbital_plane_scale": 0.55,
+                  "horizon_pulse": 0.18
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-sp-track-singularity-form-5",
+                "time_ms": 5000,
+                "values": {
+                  "singularity_outer_radius": 1,
+                  "singularity_vertical_compression": 0.2,
+                  "center_void": 0.1,
+                  "horizon_radius": 0.2,
+                  "horizon_depth": 0.15,
+                  "gravity_well_depth": 0.15,
+                  "spectral_energy_envelope": 0.25,
+                  "shell_thickness": 0.55,
+                  "orbital_plane_scale": 0.4,
+                  "horizon_pulse": 0.1
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-sp-release",
+            "time_ms": 0,
+            "label": "release-hold"
+          },
+          {
+            "id": "mk-sp-expand",
+            "time_ms": 1800,
+            "label": "expansion"
+          },
+          {
+            "id": "mk-sp-face",
+            "time_ms": 3200,
+            "label": "face-return"
+          },
+          {
+            "id": "mk-sp-settle",
+            "time_ms": 5000,
+            "label": "neutral-settled"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-presence-to-comet-right",
+        "name": "Presence → Comet (Right)",
+        "duration_ms": 4000,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-cm-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "prepare"
+              },
+              {
+                "id": "kf-cm-f1",
+                "time_ms": 500,
+                "values": {
+                  "eye_openness": 0.78,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.22,
+                  "mouth_openness": 0.24,
+                  "face_scale": 1
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "aim"
+              },
+              {
+                "id": "kf-cm-f2",
+                "time_ms": 1200,
+                "values": {
+                  "eye_openness": 0.7,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.35,
+                  "mouth_openness": 0.2,
+                  "face_scale": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "launch"
+              },
+              {
+                "id": "kf-cm-f3",
+                "time_ms": 2200,
+                "values": {
+                  "eye_openness": 0.68,
+                  "eye_spacing": 0.05,
+                  "gaze": 0.4,
+                  "mouth_openness": 0.18,
+                  "face_scale": 0.96
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "held-flight"
+              },
+              {
+                "id": "kf-cm-f4",
+                "time_ms": 3200,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.15,
+                  "mouth_openness": 0.24,
+                  "face_scale": 0.99
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "return-begin"
+              },
+              {
+                "id": "kf-cm-f5",
+                "time_ms": 4000,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "return"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-cm-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-m1",
+                "time_ms": 500,
+                "values": {
+                  "overall_width": 1.06,
+                  "overall_height": 0.96,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-m2",
+                "time_ms": 1200,
+                "values": {
+                  "overall_width": 1.18,
+                  "overall_height": 0.88,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.92
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-m3",
+                "time_ms": 2200,
+                "values": {
+                  "overall_width": 1.22,
+                  "overall_height": 0.86,
+                  "crown_height": 0.12,
+                  "lower_body_fullness": 0.9
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-m4",
+                "time_ms": 3200,
+                "values": {
+                  "overall_width": 1.08,
+                  "overall_height": 0.96,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-m5",
+                "time_ms": 4000,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow",
+              "key_direction"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-cm-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4,
+                  "key_direction": 0
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-e1",
+                "time_ms": 500,
+                "values": {
+                  "energy_level": 0.58,
+                  "energy_pulse": 0.32,
+                  "relief_amplitude": 0.42,
+                  "secondary_lag": 0.3,
+                  "settling": 0.4,
+                  "internal_glow": 0.55,
+                  "key_direction": 0.25
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-e2",
+                "time_ms": 1200,
+                "values": {
+                  "energy_level": 0.82,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.62,
+                  "secondary_lag": 0.35,
+                  "settling": 0.28,
+                  "internal_glow": 0.75,
+                  "key_direction": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-e3",
+                "time_ms": 2200,
+                "values": {
+                  "energy_level": 0.78,
+                  "energy_pulse": 0.48,
+                  "relief_amplitude": 0.58,
+                  "secondary_lag": 0.38,
+                  "settling": 0.3,
+                  "internal_glow": 0.72,
+                  "key_direction": 0.5
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-e4",
+                "time_ms": 3200,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.28,
+                  "relief_amplitude": 0.4,
+                  "secondary_lag": 0.3,
+                  "settling": 0.45,
+                  "internal_glow": 0.5,
+                  "key_direction": 0.15
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-e5",
+                "time_ms": 4000,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4,
+                  "key_direction": 0
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-spectral-motion",
+            "label": "Spectral / Motion Intent",
+            "domain_id": "energy",
+            "binding_ids": [
+              "spectral_energy_envelope",
+              "center_of_mass_y",
+              "relief_motion_coupling"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-cm-s0",
+                "time_ms": 0,
+                "values": {
+                  "spectral_energy_envelope": 0.3,
+                  "center_of_mass_y": 0,
+                  "relief_motion_coupling": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-s1",
+                "time_ms": 500,
+                "values": {
+                  "spectral_energy_envelope": 0.5,
+                  "center_of_mass_y": 0.05,
+                  "relief_motion_coupling": 0.55
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-s2",
+                "time_ms": 1200,
+                "values": {
+                  "spectral_energy_envelope": 0.82,
+                  "center_of_mass_y": 0.1,
+                  "relief_motion_coupling": 0.75
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-s3",
+                "time_ms": 2200,
+                "values": {
+                  "spectral_energy_envelope": 0.78,
+                  "center_of_mass_y": 0.08,
+                  "relief_motion_coupling": 0.7
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-cm-s4",
+                "time_ms": 4000,
+                "values": {
+                  "spectral_energy_envelope": 0.3,
+                  "center_of_mass_y": 0,
+                  "relief_motion_coupling": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-cm-right-aim",
+            "time_ms": 500,
+            "label": "aim"
+          },
+          {
+            "id": "mk-cm-right-launch",
+            "time_ms": 1200,
+            "label": "short-launch"
+          },
+          {
+            "id": "mk-cm-right-flight",
+            "time_ms": 2200,
+            "label": "held-flight"
+          },
+          {
+            "id": "mk-cm-right-return",
+            "time_ms": 4000,
+            "label": "return"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-dormant-orbit-wake",
+        "name": "Presence → Dormant Orbit → Wake",
+        "duration_ms": 7200,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-do-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "presence"
+              },
+              {
+                "id": "kf-do-f1",
+                "time_ms": 1000,
+                "values": {
+                  "eye_openness": 0.55,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.18,
+                  "face_scale": 0.95
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "energy-withdraw"
+              },
+              {
+                "id": "kf-do-f2",
+                "time_ms": 2200,
+                "values": {
+                  "eye_openness": 0.25,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.08,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "collapse"
+              },
+              {
+                "id": "kf-do-f3",
+                "time_ms": 3600,
+                "values": {
+                  "eye_openness": 0.12,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.05,
+                  "face_scale": 0.88
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "dormant-hold"
+              },
+              {
+                "id": "kf-do-f4",
+                "time_ms": 4800,
+                "values": {
+                  "eye_openness": 0.35,
+                  "eye_spacing": 0,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.12,
+                  "face_scale": 0.88
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "wake-cue"
+              },
+              {
+                "id": "kf-do-f5",
+                "time_ms": 6000,
+                "values": {
+                  "eye_openness": 0.6,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.22,
+                  "face_scale": 0.94
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "form-recover"
+              },
+              {
+                "id": "kf-do-f6",
+                "time_ms": 7200,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "neutral-settled"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness",
+              "ground_flattening"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-do-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1,
+                  "ground_flattening": 0
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-m1",
+                "time_ms": 1000,
+                "values": {
+                  "overall_width": 0.94,
+                  "overall_height": 0.92,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 0.95,
+                  "ground_flattening": 0.08
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-m2",
+                "time_ms": 2200,
+                "values": {
+                  "overall_width": 0.78,
+                  "overall_height": 0.72,
+                  "crown_height": 0.02,
+                  "lower_body_fullness": 0.8,
+                  "ground_flattening": 0.25
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-m3",
+                "time_ms": 3600,
+                "values": {
+                  "overall_width": 0.62,
+                  "overall_height": 0.55,
+                  "crown_height": 0,
+                  "lower_body_fullness": 0.65,
+                  "ground_flattening": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-m4",
+                "time_ms": 4800,
+                "values": {
+                  "overall_width": 0.72,
+                  "overall_height": 0.68,
+                  "crown_height": 0.04,
+                  "lower_body_fullness": 0.78,
+                  "ground_flattening": 0.28
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-m5",
+                "time_ms": 6000,
+                "values": {
+                  "overall_width": 0.92,
+                  "overall_height": 0.92,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 0.95,
+                  "ground_flattening": 0.08
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-m6",
+                "time_ms": 7200,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1,
+                  "ground_flattening": 0
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-do-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-e1",
+                "time_ms": 1000,
+                "values": {
+                  "energy_level": 0.28,
+                  "energy_pulse": 0.08,
+                  "relief_amplitude": 0.2,
+                  "secondary_lag": 0.35,
+                  "settling": 0.6,
+                  "internal_glow": 0.28
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-e2",
+                "time_ms": 2200,
+                "values": {
+                  "energy_level": 0.14,
+                  "energy_pulse": 0.04,
+                  "relief_amplitude": 0.12,
+                  "secondary_lag": 0.42,
+                  "settling": 0.72,
+                  "internal_glow": 0.16
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-e3",
+                "time_ms": 3600,
+                "values": {
+                  "energy_level": 0.14,
+                  "energy_pulse": 0.02,
+                  "relief_amplitude": 0.08,
+                  "secondary_lag": 0.48,
+                  "settling": 0.8,
+                  "internal_glow": 0.14
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-e4",
+                "time_ms": 4800,
+                "values": {
+                  "energy_level": 0.32,
+                  "energy_pulse": 0.18,
+                  "relief_amplitude": 0.22,
+                  "secondary_lag": 0.35,
+                  "settling": 0.55,
+                  "internal_glow": 0.35
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-e5",
+                "time_ms": 6000,
+                "values": {
+                  "energy_level": 0.48,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.32,
+                  "secondary_lag": 0.28,
+                  "settling": 0.48,
+                  "internal_glow": 0.48
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-e6",
+                "time_ms": 7200,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-orbit-structures",
+            "label": "Orbit Structures",
+            "domain_id": "singularity",
+            "binding_ids": [
+              "orbital_plane_scale",
+              "orbital_tilt",
+              "orbital_circulation",
+              "spectral_energy_envelope",
+              "center_void"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-do-o0",
+                "time_ms": 0,
+                "values": {
+                  "orbital_plane_scale": 0.2,
+                  "orbital_tilt": 0,
+                  "orbital_circulation": 0.1,
+                  "spectral_energy_envelope": 0.25,
+                  "center_void": 0.05
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-o1",
+                "time_ms": 1000,
+                "values": {
+                  "orbital_plane_scale": 0.45,
+                  "orbital_tilt": 0.08,
+                  "orbital_circulation": 0.28,
+                  "spectral_energy_envelope": 0.2,
+                  "center_void": 0.15
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-o2",
+                "time_ms": 2200,
+                "values": {
+                  "orbital_plane_scale": 0.85,
+                  "orbital_tilt": 0.15,
+                  "orbital_circulation": 0.55,
+                  "spectral_energy_envelope": 0.15,
+                  "center_void": 0.35
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-o3",
+                "time_ms": 3600,
+                "values": {
+                  "orbital_plane_scale": 1.05,
+                  "orbital_tilt": 0.18,
+                  "orbital_circulation": 0.7,
+                  "spectral_energy_envelope": 0.12,
+                  "center_void": 0.5
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-o4",
+                "time_ms": 4800,
+                "values": {
+                  "orbital_plane_scale": 0.75,
+                  "orbital_tilt": 0.1,
+                  "orbital_circulation": 0.4,
+                  "spectral_energy_envelope": 0.35,
+                  "center_void": 0.3
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-o5",
+                "time_ms": 6000,
+                "values": {
+                  "orbital_plane_scale": 0.35,
+                  "orbital_tilt": 0.04,
+                  "orbital_circulation": 0.18,
+                  "spectral_energy_envelope": 0.3,
+                  "center_void": 0.12
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-do-o6",
+                "time_ms": 7200,
+                "values": {
+                  "orbital_plane_scale": 0.15,
+                  "orbital_tilt": 0,
+                  "orbital_circulation": 0.08,
+                  "spectral_energy_envelope": 0.25,
+                  "center_void": 0.05
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-do-withdraw",
+            "time_ms": 1000,
+            "label": "energy-withdraw"
+          },
+          {
+            "id": "mk-do-collapse",
+            "time_ms": 2200,
+            "label": "collapse"
+          },
+          {
+            "id": "mk-do-hold",
+            "time_ms": 3600,
+            "label": "dormant-hold"
+          },
+          {
+            "id": "mk-do-wake",
+            "time_ms": 4800,
+            "label": "wake-cue"
+          },
+          {
+            "id": "mk-do-recover",
+            "time_ms": 6000,
+            "label": "form-recover"
+          },
+          {
+            "id": "mk-do-settle",
+            "time_ms": 7200,
+            "label": "neutral-settled"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      }
+    ]
+  },
+  "revision": 1,
+  "dirty": false,
+  "content_hash": "918e26d3b538ab8ecdd725f7d058e457261cf255fadd73a8db4fb65292c832c7",
+  "content_meta": {
+    "title": "Complete Reveal Sequence",
+    "description": "Showreel combining living presence, listening, thinking, spark, singularity, comet, dormant, return.",
+    "intent": "Fallback recording asset and offline showpiece (20–35s+).",
+    "authoring_notes": [
+      "Not the only live demo route.",
+      "Continuous sequence clip plus individual clips for scrub."
+    ],
+    "visual_checkpoints": [
+      {
+        "time_ms": 0,
+        "label": "open",
+        "expect": "Living idle begins."
+      },
+      {
+        "time_ms": 19050,
+        "label": "mid",
+        "expect": "Embodiment spectacle underway."
+      },
+      {
+        "time_ms": 38100,
+        "label": "end",
+        "expect": "Settled presence."
+      }
+    ],
+    "interruption": {
+      "interruptible": true,
+      "preferred_hold_state": "current-authored-hold",
+      "return_route": "ease-to-neutral-settled",
+      "max_interrupt_latency_ms": 120,
+      "notes": "Interrupt must leave face readable; living motion may resume on permitted bindings only."
+    },
+    "living_motion": {
+      "compatible": true,
+      "permitted_bindings": [
+        "energy_pulse",
+        "settling",
+        "relief_amplitude",
+        "secondary_lag"
+      ],
+      "suppressed_bindings": [
+        "eye_openness",
+        "mouth_openness",
+        "crown_height",
+        "overall_width"
+      ],
+      "amplitude_cap": 0.08,
+      "notes": "Living motion must not override authored face peaks or embodiment commitment phases."
+    },
+    "fallback": {
+      "when_optional_missing": "Ignore optional singularity/spectral keys; keep face+macro+energy tracks.",
+      "degrade_to_embodiment": "presence",
+      "degrade_to_expression": "neutral-settled",
+      "notes": "Always remain playable offline with required bindings only."
+    },
+    "loop_policy": "none",
+    "pack_id": "gasper-hero-pack-v1",
+    "pack_version": "1.0.0"
+  }
+}

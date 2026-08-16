@@ -1,0 +1,35 @@
+export {
+  GasperPilotHost,
+  createGasperPilotHost,
+  type GasperPilotHostOptions,
+  type PilotGsapHandoff,
+} from "./GasperPilotHost";
+export {
+  mountStudioPilotAdapter,
+  applyPilotHandoffToLiving,
+  resolveDefaultPackagedStage,
+  wireLivingSettleToPilot,
+  type StudioPilotAdapter,
+  type StudioPilotAdapterOptions,
+  type StudioPilotHandoffOutcome,
+  type StudioPilotHandoffMeasured,
+  type PilotStageTarget,
+  type PilotLivingRuntimeTarget,
+} from "./studioPilotAdapter";
+export {
+  resolveInterruptTiming,
+  evaluateMidBlink,
+  evaluateMouthRetarget,
+  evaluateTopologyStability,
+  evaluateDisconnectSurvival,
+  architectureTopology,
+  compactLivingStatus,
+  INTERRUPT_DURATION_SEC,
+  MID_BLINK_PHASE_THRESHOLD,
+  type LivingStatusSnapshot,
+  type HandoffTimingHint,
+  type MidBlinkEvaluation,
+  type MouthRetargetEvaluation,
+  type TopologyStabilityEvaluation,
+  type DisconnectSurvivalEvaluation,
+} from "./handoffPolicy";

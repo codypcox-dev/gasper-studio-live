@@ -1,0 +1,289 @@
+{
+  "id": "clip-listening-receive",
+  "name": "Presence — Listening Receive",
+  "duration_ms": 3000,
+  "loop_mode": "none",
+  "tracks": [
+    {
+      "id": "track-face-gaze",
+      "label": "Face / Gaze",
+      "domain_id": "face",
+      "binding_ids": [
+        "eye_openness",
+        "eye_spacing",
+        "gaze",
+        "mouth_openness",
+        "face_scale"
+      ],
+      "blend_mode": "replace",
+      "muted": false,
+      "solo": false,
+      "locked": false,
+      "keyframes": [
+        {
+          "id": "kf-lr-f0",
+          "time_ms": 0,
+          "values": {
+            "eye_openness": 0.72,
+            "eye_spacing": 0,
+            "gaze": 0,
+            "mouth_openness": 0.28,
+            "face_scale": 1
+          },
+          "easing": "power1.out",
+          "interpolation": "bezier",
+          "label": "neutral"
+        },
+        {
+          "id": "kf-lr-f1",
+          "time_ms": 600,
+          "values": {
+            "eye_openness": 0.78,
+            "eye_spacing": 0.02,
+            "gaze": 0.1,
+            "mouth_openness": 0.3,
+            "face_scale": 1.01
+          },
+          "easing": "power2.inOut",
+          "interpolation": "bezier",
+          "label": "orient"
+        },
+        {
+          "id": "kf-lr-f2",
+          "time_ms": 1400,
+          "values": {
+            "eye_openness": 0.88,
+            "eye_spacing": 0.04,
+            "gaze": 0.08,
+            "mouth_openness": 0.32,
+            "face_scale": 1.02
+          },
+          "easing": "power2.inOut",
+          "interpolation": "bezier",
+          "label": "open-reception"
+        },
+        {
+          "id": "kf-lr-f3",
+          "time_ms": 2400,
+          "values": {
+            "eye_openness": 0.86,
+            "eye_spacing": 0.03,
+            "gaze": 0.06,
+            "mouth_openness": 0.3,
+            "face_scale": 1.01
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "listening-hold"
+        },
+        {
+          "id": "kf-lr-f4",
+          "time_ms": 3000,
+          "values": {
+            "eye_openness": 0.82,
+            "eye_spacing": 0.02,
+            "gaze": 0.04,
+            "mouth_openness": 0.34,
+            "face_scale": 1.01
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier",
+          "label": "acknowledge"
+        }
+      ]
+    },
+    {
+      "id": "track-macro-form",
+      "label": "Macro / Form",
+      "domain_id": "macro",
+      "binding_ids": [
+        "overall_width",
+        "overall_height",
+        "crown_height",
+        "lower_body_fullness"
+      ],
+      "blend_mode": "replace",
+      "muted": false,
+      "solo": false,
+      "locked": false,
+      "keyframes": [
+        {
+          "id": "kf-lr-m0",
+          "time_ms": 0,
+          "values": {
+            "overall_width": 1,
+            "overall_height": 1,
+            "crown_height": 0.08,
+            "lower_body_fullness": 1
+          },
+          "easing": "power1.out",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-m1",
+          "time_ms": 600,
+          "values": {
+            "overall_width": 1.02,
+            "overall_height": 0.99,
+            "crown_height": 0.06,
+            "lower_body_fullness": 1.02
+          },
+          "easing": "power2.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-m2",
+          "time_ms": 1400,
+          "values": {
+            "overall_width": 1.04,
+            "overall_height": 0.98,
+            "crown_height": 0.05,
+            "lower_body_fullness": 1.04
+          },
+          "easing": "power2.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-m3",
+          "time_ms": 2400,
+          "values": {
+            "overall_width": 1.03,
+            "overall_height": 0.99,
+            "crown_height": 0.06,
+            "lower_body_fullness": 1.03
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-m4",
+          "time_ms": 3000,
+          "values": {
+            "overall_width": 1.02,
+            "overall_height": 1,
+            "crown_height": 0.07,
+            "lower_body_fullness": 1.02
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        }
+      ]
+    },
+    {
+      "id": "track-energy-relief",
+      "label": "Energy / Relief / Dynamics",
+      "domain_id": "energy",
+      "binding_ids": [
+        "energy_level",
+        "energy_pulse",
+        "relief_amplitude",
+        "secondary_lag",
+        "settling",
+        "internal_glow"
+      ],
+      "blend_mode": "replace",
+      "muted": false,
+      "solo": false,
+      "locked": false,
+      "keyframes": [
+        {
+          "id": "kf-lr-e0",
+          "time_ms": 0,
+          "values": {
+            "energy_level": 0.42,
+            "energy_pulse": 0.14,
+            "relief_amplitude": 0.3,
+            "secondary_lag": 0.28,
+            "settling": 0.52,
+            "internal_glow": 0.4
+          },
+          "easing": "power1.out",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-e1",
+          "time_ms": 600,
+          "values": {
+            "energy_level": 0.48,
+            "energy_pulse": 0.18,
+            "relief_amplitude": 0.34,
+            "secondary_lag": 0.3,
+            "settling": 0.5,
+            "internal_glow": 0.46
+          },
+          "easing": "power2.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-e2",
+          "time_ms": 1400,
+          "values": {
+            "energy_level": 0.55,
+            "energy_pulse": 0.22,
+            "relief_amplitude": 0.38,
+            "secondary_lag": 0.26,
+            "settling": 0.48,
+            "internal_glow": 0.52
+          },
+          "easing": "power2.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-e3",
+          "time_ms": 2400,
+          "values": {
+            "energy_level": 0.52,
+            "energy_pulse": 0.2,
+            "relief_amplitude": 0.36,
+            "secondary_lag": 0.28,
+            "settling": 0.5,
+            "internal_glow": 0.5
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        },
+        {
+          "id": "kf-lr-e4",
+          "time_ms": 3000,
+          "values": {
+            "energy_level": 0.5,
+            "energy_pulse": 0.24,
+            "relief_amplitude": 0.35,
+            "secondary_lag": 0.28,
+            "settling": 0.52,
+            "internal_glow": 0.54
+          },
+          "easing": "power1.inOut",
+          "interpolation": "bezier"
+        }
+      ]
+    }
+  ],
+  "markers": [
+    {
+      "id": "mk-lr-orient",
+      "time_ms": 600,
+      "label": "orient"
+    },
+    {
+      "id": "mk-lr-open",
+      "time_ms": 1400,
+      "label": "open-reception"
+    },
+    {
+      "id": "mk-lr-hold",
+      "time_ms": 2400,
+      "label": "listening-hold"
+    },
+    {
+      "id": "mk-lr-ack",
+      "time_ms": 3000,
+      "label": "acknowledge"
+    }
+  ],
+  "revision": 1,
+  "created_at": "2026-07-16T12:00:00.000Z",
+  "modified_at": "2026-07-16T12:00:00.000Z",
+  "content_hash": "703e4251ade76da4e917fa6f3c3f1646c0e7ef1341a12635e5b727964becaf6b",
+  "family": "expression"
+}

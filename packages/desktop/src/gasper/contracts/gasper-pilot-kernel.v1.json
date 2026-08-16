@@ -1,0 +1,82 @@
+{
+  "id": "gasper.pilot.kernel",
+  "version": "1.0.0",
+  "status": "BOUNDED_V1",
+  "schema": "gasper.pilot.plan.v1",
+  "stateSchema": "gasper.pilot.state.v1",
+  "resultSchema": "gasper.pilot.result.v1",
+  "ops": ["get_state", "validate_plan", "apply_plan", "get_result"],
+  "intentKinds": [
+    "set_operational_state",
+    "transition_scenario",
+    "hold",
+    "recover",
+    "interrupt"
+  ],
+  "interruptPolicies": ["hold", "blend", "retarget", "queue"],
+  "recoveryModes": [
+    "standalone_resume",
+    "hold_last_good",
+    "return_to_settled"
+  ],
+  "animationHandoff": "gsap-native",
+  "frameAuthorityAllowed": ["gsap-native", "hold"],
+  "frameAuthorityForbidden": [
+    "mcp",
+    "cdp",
+    "playwright",
+    "rest",
+    "react",
+    "postMessage",
+    "iframe"
+  ],
+  "revisionRules": {
+    "optimisticConcurrencyField": "expectedRevision",
+    "bumpOnSuccessfulApply": true,
+    "noBumpOnIdempotentReplay": true,
+    "noBumpOnReject": true,
+    "noBumpOnQueue": true
+  },
+  "idempotencyRules": {
+    "keyField": "idempotencyKey",
+    "matchOn": ["idempotencyKey", "planContentHash"],
+    "mismatchCode": "IDEMPOTENCY_MISMATCH",
+    "replayStatus": "idempotent_replay"
+  },
+  "standaloneRecovery": {
+    "bridgeRequiredForSurvival": false,
+    "hqRequiredForSurvival": false,
+    "modes": [
+      "standalone_resume",
+      "hold_last_good",
+      "return_to_settled"
+    ]
+  },
+  "topologyLock": {
+    "contour_samples": 512,
+    "structural_nodes": 360,
+    "structural_triangles": 672,
+    "relief_width": 25,
+    "relief_height": 40,
+    "relief_max_samples": 1000
+  },
+  "eyeMouthCoherence": {
+    "blinkGazeExclusive": true,
+    "mouthRetargetFromCurrent": true,
+    "temporalPolicyDefault": "eight-state-gaze-blink"
+  },
+  "authorities": {
+    "frames": "gsap-native",
+    "lowFrequencyPilot": "gasper-pilot-kernel",
+    "visualAcceptance": "Cody",
+    "productIdentity": "gasper-studio-packaged-native"
+  },
+  "nonGoals": [
+    "Drive frames through MCP",
+    "Couple Gasper runtime survival to HQ or AgentBridge",
+    "Replace GSAP as continuous animation authority",
+    "Substitute browser-dev or Sidekick fixture for packaged Gasper Studio",
+    "Claim human visual acceptance without Cody"
+  ],
+  "module": "@agentbridge/shared/gasper-pilot"
+}

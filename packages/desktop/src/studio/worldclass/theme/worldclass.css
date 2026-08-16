@@ -1,0 +1,1156 @@
+/**
+ * World-class Gasper shell structural CSS.
+ * ALL rules scoped under [data-gasper-worldclass-shell].
+ */
+
+@import "./tokens.css";
+
+[data-gasper-worldclass-shell] {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: var(--gwc-app-bar) var(--gwc-ctx-bar) minmax(0, 1fr) var(--gwc-status);
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--gwc-text-0);
+  background: var(--gwc-surf-0);
+}
+
+[data-gasper-worldclass-shell] *,
+[data-gasper-worldclass-shell] *::before,
+[data-gasper-worldclass-shell] *::after {
+  box-sizing: border-box;
+}
+
+[data-gasper-worldclass-shell] button,
+[data-gasper-worldclass-shell] input,
+[data-gasper-worldclass-shell] select {
+  font: inherit;
+  color: inherit;
+}
+
+[data-gasper-worldclass-shell] :focus-visible {
+  outline: 2px solid var(--gwc-border-focus);
+  outline-offset: 1px;
+}
+
+/* —— Application bar —— */
+[data-gasper-worldclass-shell] .gwc-app-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-2);
+  height: var(--gwc-app-bar);
+  padding: 0 var(--gwc-sp-3);
+  background: var(--gwc-surf-1);
+  border-bottom: 1px solid var(--gwc-border-0);
+  min-width: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gwc-sp-2);
+  flex: 0 0 auto;
+  user-select: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-brand-mark {
+  font-size: var(--gwc-fs-lg);
+  font-weight: var(--gwc-fw-semi);
+  letter-spacing: -0.03em;
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-brand-sub {
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+[data-gasper-worldclass-shell] .gwc-doc-title {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-1);
+  min-width: 0;
+  margin-left: var(--gwc-sp-3);
+  font-size: var(--gwc-fs-sm);
+  color: var(--gwc-text-1);
+}
+
+[data-gasper-worldclass-shell] .gwc-doc-title strong {
+  color: var(--gwc-text-0);
+  font-weight: var(--gwc-fw-med);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 28ch;
+}
+
+[data-gasper-worldclass-shell] .gwc-dirty {
+  color: var(--gwc-accent-warn);
+  font-size: 10px;
+  line-height: 1;
+}
+
+[data-gasper-worldclass-shell] .gwc-ws-tabs {
+  display: inline-flex;
+  align-items: stretch;
+  margin-left: var(--gwc-sp-4);
+  background: var(--gwc-surf-0);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-md);
+  padding: 2px;
+  gap: 2px;
+}
+
+[data-gasper-worldclass-shell] .gwc-ws-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--gwc-text-1);
+  padding: 4px 12px;
+  border-radius: var(--gwc-r-sm);
+  font-size: var(--gwc-fs-sm);
+  font-weight: var(--gwc-fw-med);
+  cursor: pointer;
+  min-height: var(--gwc-ctrl-sm);
+  transition: background var(--gwc-dur) var(--gwc-ease), color var(--gwc-dur) var(--gwc-ease);
+}
+
+[data-gasper-worldclass-shell] .gwc-ws-tab:hover {
+  color: var(--gwc-text-0);
+  background: var(--gwc-surf-hover);
+}
+
+[data-gasper-worldclass-shell] .gwc-ws-tab[aria-selected="true"] {
+  background: var(--gwc-surf-3);
+  color: var(--gwc-text-0);
+  box-shadow: var(--gwc-shadow-1);
+}
+
+[data-gasper-worldclass-shell] .gwc-app-bar-spacer {
+  flex: 1 1 auto;
+  min-width: var(--gwc-sp-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-app-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-1);
+  flex: 0 0 auto;
+}
+
+/* —— Context toolbar —— */
+[data-gasper-worldclass-shell] .gwc-ctx-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-2);
+  height: var(--gwc-ctx-bar);
+  padding: 0 var(--gwc-sp-3);
+  background: var(--gwc-surf-1);
+  border-bottom: 1px solid var(--gwc-border-0);
+  min-width: 0;
+  overflow: hidden;
+}
+
+[data-gasper-worldclass-shell] .gwc-ctx-label {
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex: 0 0 auto;
+}
+
+[data-gasper-worldclass-shell] .gwc-seg {
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--gwc-surf-0);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-md);
+  padding: 2px;
+  gap: 1px;
+}
+
+[data-gasper-worldclass-shell] .gwc-seg button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--gwc-text-1);
+  padding: 3px 10px;
+  border-radius: var(--gwc-r-sm);
+  font-size: var(--gwc-fs-xs);
+  cursor: pointer;
+  min-height: var(--gwc-ctrl-sm);
+}
+
+[data-gasper-worldclass-shell] .gwc-seg button[aria-pressed="true"] {
+  background: var(--gwc-surf-active);
+  color: var(--gwc-accent-authored);
+}
+
+[data-gasper-worldclass-shell] .gwc-ctx-spacer {
+  flex: 1 1 auto;
+}
+
+/* —— Body: nav | stage | inspector —— */
+[data-gasper-worldclass-shell] .gwc-body {
+  display: grid;
+  grid-template-columns: var(--gwc-nav) minmax(0, 1fr) var(--gwc-inspector);
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+[data-gasper-worldclass-shell][data-layout="compact"] .gwc-body {
+  grid-template-columns: 48px minmax(0, 1fr) minmax(200px, 240px);
+}
+
+[data-gasper-worldclass-shell][data-layout="ultrawide"] .gwc-body {
+  grid-template-columns: 260px minmax(0, 1fr) 320px;
+}
+
+[data-gasper-worldclass-shell][data-workspace="animate"] .gwc-body {
+  grid-template-rows: minmax(0, 1fr) var(--gwc-timeline);
+  grid-template-columns: var(--gwc-nav) minmax(0, 1fr) var(--gwc-inspector);
+}
+
+[data-gasper-worldclass-shell][data-layout="compact"][data-workspace="animate"] .gwc-body {
+  grid-template-columns: 48px minmax(0, 1fr) minmax(200px, 240px);
+}
+
+[data-gasper-worldclass-shell][data-layout="ultrawide"][data-workspace="animate"] .gwc-body {
+  grid-template-columns: 260px minmax(0, 1fr) 320px;
+}
+
+/* Explicit placement: nav | stage | inspector on row 1; timeline spans row 2 */
+[data-gasper-worldclass-shell][data-workspace="animate"] .gwc-panel:not(.gwc-panel-inspector) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+[data-gasper-worldclass-shell][data-workspace="animate"] .gwc-center {
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 0;
+}
+
+[data-gasper-worldclass-shell][data-workspace="animate"] .gwc-panel-inspector {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+[data-gasper-worldclass-shell][data-workspace="animate"] .gwc-timeline-dock {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-height: 0;
+}
+
+/* —— Panels —— */
+[data-gasper-worldclass-shell] .gwc-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: var(--gwc-surf-1);
+  border-right: 1px solid var(--gwc-border-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-panel-inspector {
+  border-right: 0;
+  border-left: 1px solid var(--gwc-border-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 var(--gwc-sp-3);
+  border-bottom: 1px solid var(--gwc-border-0);
+  font-size: var(--gwc-fs-xs);
+  font-weight: var(--gwc-fw-semi);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gwc-text-2);
+  flex: 0 0 auto;
+}
+
+[data-gasper-worldclass-shell] .gwc-panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--gwc-sp-2);
+}
+
+/* —— Navigator —— */
+[data-gasper-worldclass-shell] .gwc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-2);
+  width: 100%;
+  text-align: left;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--gwc-text-1);
+  padding: 6px 8px;
+  border-radius: var(--gwc-r-sm);
+  font-size: var(--gwc-fs-sm);
+  cursor: pointer;
+  min-height: var(--gwc-ctrl);
+}
+
+[data-gasper-worldclass-shell] .gwc-nav-item:hover {
+  background: var(--gwc-surf-hover);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-nav-item[aria-selected="true"] {
+  background: var(--gwc-surf-active);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-nav-kind {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gwc-text-2);
+  flex: 0 0 auto;
+}
+
+[data-gasper-worldclass-shell] .gwc-nav-item[data-kind="character"] .gwc-nav-kind {
+  background: var(--gwc-accent-authored);
+}
+[data-gasper-worldclass-shell] .gwc-nav-item[data-kind="clip"] .gwc-nav-kind {
+  background: var(--gwc-accent-live);
+}
+[data-gasper-worldclass-shell] .gwc-nav-item[data-kind="binding"] .gwc-nav-kind {
+  background: var(--gwc-accent-energy);
+}
+
+[data-gasper-worldclass-shell][data-layout="compact"] .gwc-nav-item span:not(.gwc-nav-kind) {
+  display: none;
+}
+
+/* —— Stage —— */
+[data-gasper-worldclass-shell] .gwc-center {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: var(--gwc-surf-stage);
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-frame {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--gwc-surf-stage-veil);
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-slot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-chrome {
+  position: absolute;
+  top: var(--gwc-sp-2);
+  left: var(--gwc-sp-2);
+  right: var(--gwc-sp-2);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-2);
+  pointer-events: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-chrome > * {
+  pointer-events: auto;
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-badge {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gwc-text-2);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-sm);
+  padding: 3px 8px;
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-modes {
+  display: inline-flex;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-sm);
+  padding: 2px;
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-mode-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--gwc-text-2);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-mode-btn[aria-pressed="true"] {
+  background: var(--gwc-surf-active);
+  color: var(--gwc-accent-authored);
+}
+
+[data-gasper-worldclass-shell] .gwc-stage-mode-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 3;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gwc-text-2);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-sm);
+  padding: 2px 8px;
+  pointer-events: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-safe-bounds {
+  position: absolute;
+  inset: 8%;
+  border: 1px dashed rgba(168, 130, 255, 0.35);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-search {
+  display: block;
+  margin-bottom: var(--gwc-sp-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-search input {
+  width: 100%;
+  background: var(--gwc-surf-0);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-sm);
+  color: var(--gwc-text-0);
+  padding: 6px 8px;
+  font-size: var(--gwc-fs-xs);
+}
+
+[data-gasper-worldclass-shell] .gwc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-row {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-control {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-slider {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-slider input[type="range"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--gwc-text-0);
+  font-size: var(--gwc-fs-xs);
+  min-width: 3.5ch;
+  text-align: right;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-number,
+[data-gasper-worldclass-shell] .gwc-insp-text,
+[data-gasper-worldclass-shell] .gwc-insp-select {
+  width: 100%;
+  max-width: 120px;
+  background: var(--gwc-surf-0);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-sm);
+  color: var(--gwc-text-0);
+  padding: 3px 6px;
+  font-size: var(--gwc-fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-unavailable {
+  color: var(--gwc-text-2);
+  font-size: var(--gwc-fs-xs);
+  font-style: italic;
+}
+
+[data-gasper-worldclass-shell] .gwc-easing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--gwc-fs-xs);
+}
+
+[data-gasper-worldclass-shell] .gwc-easing select {
+  background: var(--gwc-surf-0);
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-sm);
+  color: var(--gwc-text-0);
+  padding: 2px 6px;
+  font-size: var(--gwc-fs-xs);
+}
+
+[data-gasper-worldclass-shell] .gwc-tc-sep {
+  color: var(--gwc-text-2);
+}
+
+/* —— Inspector —— */
+[data-gasper-worldclass-shell] .gwc-disclosure {
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-md);
+  margin-bottom: var(--gwc-sp-2);
+  background: var(--gwc-surf-2);
+  overflow: hidden;
+}
+
+[data-gasper-worldclass-shell] .gwc-disclosure > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  font-size: var(--gwc-fs-sm);
+  font-weight: var(--gwc-fw-med);
+  color: var(--gwc-text-0);
+  user-select: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-disclosure > summary::after {
+  content: "▸";
+  color: var(--gwc-text-2);
+  font-size: 10px;
+  transition: transform var(--gwc-dur) var(--gwc-ease);
+}
+
+[data-gasper-worldclass-shell] .gwc-disclosure[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+[data-gasper-worldclass-shell] .gwc-disclosure-body {
+  padding: 0 10px 10px;
+  display: grid;
+  gap: 6px;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--gwc-sp-2);
+  align-items: center;
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-1);
+  min-height: 24px;
+}
+
+[data-gasper-worldclass-shell] .gwc-insp-row strong {
+  font-weight: var(--gwc-fw-reg);
+  color: var(--gwc-text-0);
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— Buttons —— */
+[data-gasper-worldclass-shell] .gwc-btn {
+  appearance: none;
+  border: 1px solid var(--gwc-border-1);
+  background: var(--gwc-surf-2);
+  color: var(--gwc-text-0);
+  border-radius: var(--gwc-r-sm);
+  padding: 0 10px;
+  min-height: var(--gwc-ctrl);
+  font-size: var(--gwc-fs-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background var(--gwc-dur) var(--gwc-ease), border-color var(--gwc-dur) var(--gwc-ease);
+}
+
+[data-gasper-worldclass-shell] .gwc-btn:hover:not(:disabled) {
+  background: var(--gwc-surf-3);
+  border-color: var(--gwc-border-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+[data-gasper-worldclass-shell] .gwc-btn-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--gwc-text-1);
+}
+
+[data-gasper-worldclass-shell] .gwc-btn-ghost:hover:not(:disabled) {
+  background: var(--gwc-surf-hover);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-btn-icon {
+  width: var(--gwc-ctrl);
+  min-width: var(--gwc-ctrl);
+  padding: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-btn-primary {
+  border-color: rgba(168, 130, 255, 0.35);
+  background: rgba(168, 130, 255, 0.14);
+  color: var(--gwc-accent-authored);
+}
+
+[data-gasper-worldclass-shell] .gwc-btn-live {
+  border-color: rgba(61, 207, 239, 0.35);
+  background: rgba(61, 207, 239, 0.12);
+  color: var(--gwc-accent-live);
+}
+
+/* —— Connection pill —— */
+[data-gasper-worldclass-shell] .gwc-conn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-1);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--gwc-border-0);
+  background: var(--gwc-surf-0);
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-gasper-worldclass-shell] .gwc-conn-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gwc-text-2);
+  flex: 0 0 auto;
+}
+
+[data-gasper-worldclass-shell] .gwc-conn[data-tone="ok"] .gwc-conn-dot {
+  background: var(--gwc-accent-ok);
+}
+[data-gasper-worldclass-shell] .gwc-conn[data-tone="warn"] .gwc-conn-dot {
+  background: var(--gwc-accent-warn);
+}
+[data-gasper-worldclass-shell] .gwc-conn[data-tone="danger"] .gwc-conn-dot {
+  background: var(--gwc-accent-danger);
+}
+[data-gasper-worldclass-shell] .gwc-conn[data-tone="live"] .gwc-conn-dot {
+  background: var(--gwc-accent-live);
+}
+
+/* —— Status line —— */
+[data-gasper-worldclass-shell] .gwc-status {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-3);
+  height: var(--gwc-status);
+  padding: 0 var(--gwc-sp-3);
+  background: var(--gwc-surf-1);
+  border-top: 1px solid var(--gwc-border-0);
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-2);
+  min-width: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-status-msg {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--gwc-text-1);
+}
+
+[data-gasper-worldclass-shell] .gwc-status-meta {
+  display: flex;
+  gap: var(--gwc-sp-3);
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— Design workspace —— */
+[data-gasper-worldclass-shell] .gwc-design-domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gwc-sp-2);
+  padding: var(--gwc-sp-3);
+  border-bottom: 1px solid var(--gwc-border-0);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+[data-gasper-worldclass-shell] .gwc-domain-card {
+  flex: 1 1 120px;
+  min-width: 100px;
+  max-width: 180px;
+  padding: 10px 12px;
+  border-radius: var(--gwc-r-md);
+  border: 1px solid var(--gwc-border-0);
+  background: var(--gwc-surf-2);
+  cursor: pointer;
+  text-align: left;
+  color: var(--gwc-text-1);
+}
+
+[data-gasper-worldclass-shell] .gwc-domain-card[aria-pressed="true"] {
+  border-color: rgba(168, 130, 255, 0.4);
+  background: var(--gwc-surf-active);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-domain-card strong {
+  display: block;
+  font-size: var(--gwc-fs-sm);
+  color: var(--gwc-text-0);
+  margin-bottom: 2px;
+}
+
+[data-gasper-worldclass-shell] .gwc-domain-card span {
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-2);
+}
+
+/* —— Behavior —— */
+[data-gasper-worldclass-shell] .gwc-behavior-shell {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--gwc-sp-6);
+  text-align: center;
+  color: var(--gwc-text-1);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-shell h2 {
+  margin: 0 0 var(--gwc-sp-2);
+  font-size: var(--gwc-fs-xl);
+  font-weight: var(--gwc-fw-semi);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-shell p {
+  margin: 0;
+  max-width: 42ch;
+  font-size: var(--gwc-fs-sm);
+  color: var(--gwc-text-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-pill {
+  display: inline-block;
+  margin-top: var(--gwc-sp-3);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--gwc-border-1);
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-accent-warn);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* —— Empty / state —— */
+[data-gasper-worldclass-shell] .gwc-empty {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--gwc-sp-5);
+  text-align: center;
+  color: var(--gwc-text-2);
+  font-size: var(--gwc-fs-sm);
+}
+
+[data-gasper-worldclass-shell] .gwc-empty strong {
+  display: block;
+  color: var(--gwc-text-0);
+  margin-bottom: var(--gwc-sp-1);
+}
+
+/* —— Timeline dock —— */
+[data-gasper-worldclass-shell] .gwc-timeline-dock {
+  display: grid;
+  grid-template-rows: 36px var(--gwc-ruler-h) minmax(0, 1fr);
+  min-height: 0;
+  background: var(--gwc-surf-1);
+  border-top: 1px solid var(--gwc-border-1);
+  outline: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-2);
+  padding: 0 var(--gwc-sp-3);
+  border-bottom: 1px solid var(--gwc-border-0);
+  min-width: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-toolbar .gwc-tc {
+  font-family: var(--gwc-font-mono);
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-accent-live);
+  font-variant-numeric: tabular-nums;
+  min-width: 7ch;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-body {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
+}
+
+[data-gasper-worldclass-shell][data-layout="compact"] .gwc-tl-body {
+  grid-template-columns: 120px minmax(0, 1fr);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-labels {
+  border-right: 1px solid var(--gwc-border-0);
+  overflow: auto;
+  background: var(--gwc-surf-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-track-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--gwc-track-h);
+  padding: 0 8px;
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-1);
+  border-bottom: 1px solid var(--gwc-border-0);
+  cursor: pointer;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-track-label[aria-selected="true"] {
+  background: var(--gwc-surf-active);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-track-label .flags {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+}
+
+[data-gasper-worldclass-shell] .gwc-flag {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--gwc-text-2);
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-flag[data-on="true"] {
+  color: var(--gwc-accent-authored);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-lanes {
+  position: relative;
+  overflow: auto;
+  background:
+    linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), var(--gwc-border-0) 100%),
+    var(--gwc-surf-0);
+  background-size: 80px 100%;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-ruler {
+  position: relative;
+  height: var(--gwc-ruler-h);
+  border-bottom: 1px solid var(--gwc-border-0);
+  background: var(--gwc-surf-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-ruler-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--gwc-border-1);
+  pointer-events: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-ruler-label {
+  position: absolute;
+  top: 2px;
+  font-size: 9px;
+  color: var(--gwc-text-2);
+  font-family: var(--gwc-font-mono);
+  transform: translateX(3px);
+  pointer-events: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-marker-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  min-height: 28px;
+  border-bottom: 1px solid var(--gwc-border-0);
+  background: rgba(78, 45, 112, 0.18);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-marker-label {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  color: var(--gwc-text-2);
+  font-size: var(--gwc-fs-xs);
+  border-right: 1px solid var(--gwc-border-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-marker-lane {
+  position: relative;
+  min-height: 28px;
+  overflow: hidden;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-marker {
+  position: absolute;
+  top: 5px;
+  transform: translateX(-50%);
+  max-width: 128px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 1px solid var(--gwc-accent-authored);
+  border-radius: 3px;
+  background: rgba(128, 76, 183, 0.92);
+  color: var(--gwc-text-0);
+  padding: 2px 5px;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-marker:hover {
+  background: rgba(176, 111, 232, 0.98);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-track-lane {
+  position: relative;
+  height: var(--gwc-track-h);
+  border-bottom: 1px solid var(--gwc-border-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-tl-track-lane[data-muted="true"] {
+  opacity: 0.45;
+}
+
+[data-gasper-worldclass-shell] .gwc-keyframe {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  background: var(--gwc-keyframe);
+  transform: rotate(45deg);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  z-index: 2;
+  transition: transform var(--gwc-dur) var(--gwc-ease), background var(--gwc-dur) var(--gwc-ease);
+}
+
+[data-gasper-worldclass-shell] .gwc-keyframe:hover {
+  transform: rotate(45deg) scale(1.15);
+}
+
+[data-gasper-worldclass-shell] .gwc-keyframe[aria-selected="true"] {
+  background: var(--gwc-keyframe-sel);
+  box-shadow: 0 0 0 1px var(--gwc-accent-authored);
+  z-index: 3;
+}
+
+[data-gasper-worldclass-shell] .gwc-keyframe[data-preview="true"] {
+  background: var(--gwc-accent-live);
+  opacity: 0.85;
+}
+
+[data-gasper-worldclass-shell] .gwc-playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--gwc-playhead);
+  z-index: 5;
+  pointer-events: none;
+}
+
+[data-gasper-worldclass-shell] .gwc-playhead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid var(--gwc-playhead);
+}
+
+[data-gasper-worldclass-shell] .gwc-playhead-hit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  margin-left: -6px;
+  z-index: 6;
+  cursor: ew-resize;
+  background: transparent;
+}
+
+/* —— Lab-only marker (also used if stage is placeholder) —— */
+[data-gasper-worldclass-shell] .gwc-lab-watermark {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* —— Graph editor intentional placeholder (Animate) —— */
+[data-gasper-worldclass-shell] .gwc-graph-placeholder {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--gwc-sp-3);
+  padding: 6px 12px;
+  border-top: 1px solid var(--gwc-border-0);
+  background: rgba(0, 0, 0, 0.28);
+  font-size: var(--gwc-fs-xs);
+  color: var(--gwc-text-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-graph-placeholder-label {
+  font-weight: var(--gwc-fw-semi);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gwc-text-1);
+  flex: 0 0 auto;
+}
+
+[data-gasper-worldclass-shell] .gwc-graph-placeholder-body {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* —— Behavior overview —— */
+[data-gasper-worldclass-shell] .gwc-behavior-layout {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+  gap: var(--gwc-sp-3);
+  padding: var(--gwc-sp-4);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-shell {
+  text-align: left;
+  place-items: start;
+  height: auto;
+  padding: 0;
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--gwc-sp-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-card {
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-md);
+  background: var(--gwc-surf-2);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 64px;
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-card strong {
+  font-size: var(--gwc-fs-xs);
+  font-weight: var(--gwc-fw-semi);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gwc-text-2);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-card span {
+  font-size: var(--gwc-fs-sm);
+  color: var(--gwc-text-0);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-stage-mini {
+  min-height: 0;
+  border: 1px solid var(--gwc-border-0);
+  border-radius: var(--gwc-r-md);
+  overflow: hidden;
+  background: var(--gwc-surf-stage);
+}
+
+[data-gasper-worldclass-shell] .gwc-behavior-stage-mini .gwc-stage-frame {
+  min-height: 160px;
+}

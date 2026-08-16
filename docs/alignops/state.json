@@ -1,0 +1,30 @@
+{
+  "kernelVersion": "1.0.0",
+  "phase": "idle",
+  "eventCount": 0,
+  "updatedAt": null,
+  "sparks": [],
+  "visions": [],
+  "identities": [],
+  "systems": [],
+  "worlds": [],
+  "feels": [],
+  "locks": [],
+  "handoffs": [],
+  "extractions": [],
+  "appliedFrameworks": [],
+  "contradictions": [],
+  "mirrors": [],
+  "scenarios": [],
+  "flowCalibrations": [],
+  "milestones": [],
+  "automationLevels": {},
+  "proofIds": [],
+  "alignmentMetrics": {
+    "decidedCount": 0,
+    "leaningCount": 0,
+    "unknownCount": 0,
+    "contradictedCount": 0,
+    "totalQuestions": 0
+  }
+}

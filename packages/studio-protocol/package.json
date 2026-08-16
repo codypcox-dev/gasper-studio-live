@@ -1,0 +1,28 @@
+{
+  "name": "@gasper/studio-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./animation-v2": {
+      "types": "./dist/animation-v2/index.d.ts",
+      "import": "./dist/animation-v2/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "echo \"studio-protocol: covered by structural tests\""
+  },
+  "dependencies": {
+    "@gasper/shared": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

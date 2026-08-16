@@ -1,0 +1,28 @@
+{
+  "id": "prompt-08-return-presence",
+  "prompt": "Return Gasper to Presence and neutral-settled.",
+  "intended_semantic_interpretation": "Play reverse embodiment clip and set expression neutral-settled.",
+  "expected_command_categories": [
+    "play_clip",
+    "set_embodiment",
+    "set_expression_fixture"
+  ],
+  "expected_bindings": [
+    "eye_openness",
+    "energy_level"
+  ],
+  "protected_bindings": [],
+  "maximum_ranges": {},
+  "expected_visible_result": "Presence + neutral face.",
+  "validation_assertions": [
+    "embodiment=presence",
+    "expression=neutral-settled"
+  ],
+  "failure_conditions": [
+    "stale-orbit-rings",
+    "stale-wake"
+  ],
+  "acceptable_fallback": "Jump to living idle clip",
+  "expected_undo_behavior": "Restore prior embodiment hold",
+  "target_clip_id": "clip-singularity-to-presence"
+}

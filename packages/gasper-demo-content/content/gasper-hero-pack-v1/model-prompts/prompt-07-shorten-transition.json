@@ -1,0 +1,25 @@
+{
+  "id": "prompt-07-shorten-transition",
+  "prompt": "Shorten the transition without making it feel abrupt.",
+  "intended_semantic_interpretation": "Scale duration of transition segment with easing preserved.",
+  "expected_command_categories": [
+    "time_scale_clip",
+    "edit_keyframe_times"
+  ],
+  "expected_bindings": [],
+  "protected_bindings": [
+    "loop discontinuity"
+  ],
+  "maximum_ranges": {},
+  "expected_visible_result": "Faster but continuous motion.",
+  "validation_assertions": [
+    "no-abrupt-first-frame",
+    "easing-preserved"
+  ],
+  "failure_conditions": [
+    "duration_cut>40%",
+    "easing-all-linear"
+  ],
+  "acceptable_fallback": "Use pre-authored shorter variant if available",
+  "expected_undo_behavior": "Restore original timing"
+}

@@ -1,0 +1,5 @@
+vendor/triforce-engine/** text eol=lf
+vendor/triforce-engine/**/*.png binary !eol
+
+# PlanOps receipts are immutable command evidence; preserve their exact output.
+.planops/runs/** -whitespace

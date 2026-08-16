@@ -1,0 +1,212 @@
+{
+  "schema": "gasper.performance.embodiment-routes.v1",
+  "version": "1.0.0",
+  "description": "Initial accepted embodiment transition graph (GASPER-006 §4.6). O02 singularity→comet is gated pending WS5; not silently added as a direct edge.",
+  "embodiments": [
+    "presence",
+    "singularity",
+    "comet",
+    "comet-left",
+    "comet-right",
+    "dormant-orbit"
+  ],
+  "priority_band": {
+    "min": 70,
+    "max": 89,
+    "label": "embodiment_route"
+  },
+  "routes": [
+    {
+      "route_id": "presence_to_singularity",
+      "from": "presence",
+      "to": "singularity",
+      "duration_ms_default": 1400,
+      "channel_mask": [
+        "singularity_outer_radius",
+        "singularity_vertical_compression",
+        "shell_thickness",
+        "center_void",
+        "horizon_radius",
+        "horizon_depth",
+        "gravity_well_depth",
+        "orbital_plane_scale",
+        "orbital_tilt",
+        "orbital_circulation",
+        "spectral_energy_envelope",
+        "center_of_mass_y",
+        "horizon_pulse",
+        "overall_height",
+        "overall_width",
+        "energy_level"
+      ],
+      "clip_template_ref": "clip-presence-to-singularity",
+      "interrupt_class_default": "morph_safe",
+      "identity_checks": true,
+      "status": "accepted"
+    },
+    {
+      "route_id": "singularity_to_presence",
+      "from": "singularity",
+      "to": "presence",
+      "duration_ms_default": 1200,
+      "channel_mask": [
+        "singularity_outer_radius",
+        "singularity_vertical_compression",
+        "shell_thickness",
+        "center_void",
+        "horizon_radius",
+        "horizon_depth",
+        "gravity_well_depth",
+        "orbital_plane_scale",
+        "orbital_tilt",
+        "orbital_circulation",
+        "spectral_energy_envelope",
+        "center_of_mass_y",
+        "horizon_pulse",
+        "overall_height",
+        "overall_width",
+        "energy_level"
+      ],
+      "clip_template_ref": "clip-singularity-to-presence",
+      "interrupt_class_default": "morph_safe",
+      "identity_checks": true,
+      "status": "accepted"
+    },
+    {
+      "route_id": "presence_to_comet_left",
+      "from": "presence",
+      "to": "comet-left",
+      "duration_ms_default": 1600,
+      "channel_mask": [
+        "overall_height",
+        "overall_width",
+        "center_of_mass_y",
+        "energy_level",
+        "energy_pulse",
+        "secondary_lag",
+        "settling"
+      ],
+      "clip_template_ref": "clip-presence-to-comet-left",
+      "interrupt_class_default": "soft",
+      "identity_checks": true,
+      "status": "accepted",
+      "notes": "comet-left is a directional comet embodiment alias; abstract target may normalize to comet."
+    },
+    {
+      "route_id": "presence_to_comet_right",
+      "from": "presence",
+      "to": "comet-right",
+      "duration_ms_default": 1600,
+      "channel_mask": [
+        "overall_height",
+        "overall_width",
+        "center_of_mass_y",
+        "energy_level",
+        "energy_pulse",
+        "secondary_lag",
+        "settling"
+      ],
+      "clip_template_ref": "clip-presence-to-comet-right",
+      "interrupt_class_default": "soft",
+      "identity_checks": true,
+      "status": "accepted",
+      "notes": "comet-right is a directional comet embodiment alias; abstract target may normalize to comet."
+    },
+    {
+      "route_id": "comet_to_presence",
+      "from": "comet",
+      "to": "presence",
+      "duration_ms_default": 1200,
+      "channel_mask": [
+        "overall_height",
+        "overall_width",
+        "center_of_mass_y",
+        "energy_level",
+        "energy_pulse",
+        "secondary_lag",
+        "settling"
+      ],
+      "clip_template_ref": null,
+      "interrupt_class_default": "soft",
+      "identity_checks": true,
+      "status": "accepted",
+      "notes": "Canonical return from abstract comet. Directional aliases comet-left/right also return via multi-hop or this abstract edge after normalization."
+    },
+    {
+      "route_id": "presence_to_dormant_orbit",
+      "from": "presence",
+      "to": "dormant-orbit",
+      "duration_ms_default": 1800,
+      "channel_mask": [
+        "orbital_circulation",
+        "orbital_plane_scale",
+        "orbital_tilt",
+        "energy_level",
+        "settling",
+        "secondary_lag"
+      ],
+      "clip_template_ref": "clip-dormant-orbit-wake",
+      "interrupt_class_default": "barrier",
+      "identity_checks": true,
+      "status": "accepted",
+      "notes": "Enter dormant-orbit phase of dormant-orbit-wake pair."
+    },
+    {
+      "route_id": "dormant_orbit_to_presence_wake",
+      "from": "dormant-orbit",
+      "to": "presence",
+      "duration_ms_default": 1400,
+      "channel_mask": [
+        "orbital_circulation",
+        "orbital_plane_scale",
+        "orbital_tilt",
+        "energy_level",
+        "settling",
+        "secondary_lag",
+        "internal_glow"
+      ],
+      "clip_template_ref": "clip-dormant-orbit-wake",
+      "interrupt_class_default": "soft",
+      "identity_checks": true,
+      "status": "accepted",
+      "notes": "Wake return to presence (presence/wake)."
+    }
+  ],
+  "gated_routes": [
+    {
+      "route_id": "singularity_to_comet",
+      "from": "singularity",
+      "to": "comet",
+      "status": "unsupported_pending_ws5",
+      "open_decision": "O02",
+      "reason": "Illegal direct edge unless future ADR; multi-hop via presence is the default. Do not silently create this route.",
+      "allowed_workaround": "singularity → presence → comet (multi-hop)"
+    },
+    {
+      "route_id": "singularity_to_comet_left",
+      "from": "singularity",
+      "to": "comet-left",
+      "status": "unsupported_pending_ws5",
+      "open_decision": "O02",
+      "reason": "Directional form of O02; unsupported as direct edge.",
+      "allowed_workaround": "singularity → presence → comet-left"
+    },
+    {
+      "route_id": "singularity_to_comet_right",
+      "from": "singularity",
+      "to": "comet-right",
+      "status": "unsupported_pending_ws5",
+      "open_decision": "O02",
+      "reason": "Directional form of O02; unsupported as direct edge.",
+      "allowed_workaround": "singularity → presence → comet-right"
+    }
+  ],
+  "selection_rules": [
+    "If S == T, emit expression-only route (no embodiment clip).",
+    "If direct accepted edge exists, select canonical route_id.",
+    "If path length > 1, emit multi-hop via presence by default.",
+    "If interrupted mid-route, re-plan from actual-rendered-state sample (D07)."
+  ],
+  "o02_resolution": "singularity_to_comet_mediated_via_presence",
+  "o02_status": "resolved_safe_default"
+}

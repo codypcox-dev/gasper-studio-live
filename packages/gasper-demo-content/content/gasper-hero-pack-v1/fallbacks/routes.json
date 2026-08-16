@@ -1,0 +1,41 @@
+{
+  "offline_showreel": {
+    "id": "fallback-offline-showreel",
+    "document_id": "doc-complete-reveal-sequence",
+    "clip_id": "clip-complete-reveal-sequence",
+    "when": [
+      "agentbridge-disconnected",
+      "model-delayed",
+      "live-edit-failed"
+    ],
+    "notes": "Play complete reveal sequence offline."
+  },
+  "living_idle_only": {
+    "id": "fallback-living-idle",
+    "document_id": "doc-presence-living-idle",
+    "clip_id": "clip-presence-living-idle",
+    "when": [
+      "embodiment-unavailable",
+      "save-risky"
+    ],
+    "notes": "Safe ambient presence only."
+  },
+  "preauthored_revision": {
+    "id": "fallback-preauthored-revision",
+    "document_id": "doc-agent-directed-revision",
+    "clip_id": "clip-presence-thinking-knit-intense-calm",
+    "when": [
+      "model-response-failed"
+    ],
+    "notes": "Swap to pre-authored intense-calm instead of live model edit."
+  },
+  "no_network": {
+    "id": "fallback-no-network",
+    "document_id": "doc-showcase-project",
+    "clip_id": "clip-presence-living-idle",
+    "when": [
+      "network-unavailable"
+    ],
+    "notes": "Local pack only; no MCP."
+  }
+}

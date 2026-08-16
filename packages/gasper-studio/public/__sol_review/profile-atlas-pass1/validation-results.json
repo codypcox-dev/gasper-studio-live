@@ -1,0 +1,111 @@
+{
+  "summary": {
+    "pass": 12,
+    "warning": 3,
+    "fail": 0,
+    "not_run": 1,
+    "unsupported": 0,
+    "blocked": 0
+  },
+  "results": [
+    {
+      "id": "candidate_file",
+      "title": "Candidate HTML exists",
+      "status": "pass",
+      "detail": "C:\\Users\\funny\\Documents\\GasperStudio-worktrees\\integrate-main-20260814\\index.html"
+    },
+    {
+      "id": "html_parse_heuristic",
+      "title": "HTML has svg avatar",
+      "status": "warning",
+      "detail": "bytes=441"
+    },
+    {
+      "id": "protected_architecture_markers",
+      "title": "Protected architecture markers present",
+      "status": "warning",
+      "detail": "heuristic string check only"
+    },
+    {
+      "id": "runtime_ready",
+      "title": "Runtime readiness",
+      "status": "pass",
+      "detail": "adapter=contract bodyPath=true",
+      "ms": 139
+    },
+    {
+      "id": "document_complete",
+      "title": "document.readyState complete",
+      "status": "pass",
+      "detail": "true"
+    },
+    {
+      "id": "svg_present",
+      "title": "SVG avatar present",
+      "status": "pass",
+      "detail": "true"
+    },
+    {
+      "id": "page_errors",
+      "title": "No fatal page errors",
+      "status": "pass",
+      "detail": "pageErrors=0 (empty means none observed after attach)"
+    },
+    {
+      "id": "console_messages",
+      "title": "Console inspected",
+      "status": "pass",
+      "detail": "entries=100 (empty array is valid when no console events fired)"
+    },
+    {
+      "id": "all_embodiments_render",
+      "title": "Core embodiments render (smoke)",
+      "status": "pass",
+      "detail": "tested=presence,singularity,dormant-orbit,low-orbit; failed=none; discovered=8",
+      "ms": 1276
+    },
+    {
+      "id": "singularity_orbit_both_directions",
+      "title": "Singularity↔Orbit both directions (coarse)",
+      "status": "pass",
+      "detail": "steps 0/0.5/1 both directions",
+      "ms": 2436
+    },
+    {
+      "id": "all_fixtures_render",
+      "title": "Emotional fixtures discovery",
+      "status": "pass",
+      "detail": "discovered=18"
+    },
+    {
+      "id": "geometry_architecture_markers",
+      "title": "Geometry architecture markers (512/360/672)",
+      "status": "pass",
+      "detail": "{\"m512\":true,\"m360\":true,\"m672\":true}"
+    },
+    {
+      "id": "geometry_native_metrics",
+      "title": "Native getGeometryMetrics",
+      "status": "pass",
+      "detail": "present keys=contourSamples,structuralNodes,structuralTriangles,reliefSamples,activeReliefSamples,topologyStable,bodyPathLength,projectedDepthRange"
+    },
+    {
+      "id": "geometry_body_path",
+      "title": "Body path present",
+      "status": "pass",
+      "detail": "true"
+    },
+    {
+      "id": "determinism_repeat_screenshot",
+      "title": "Deterministic repeat screenshot (seed+time)",
+      "status": "warning",
+      "detail": "sha differ under freeze (may be animation residual) a=09e79c5e0823 b=15b61eee9aab"
+    },
+    {
+      "id": "performance_frame_timing",
+      "title": "Performance frame timing",
+      "status": "not_run",
+      "detail": "Not executed in this validation profile (pass runPerformance:true)"
+    }
+  ]
+}

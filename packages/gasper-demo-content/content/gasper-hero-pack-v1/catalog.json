@@ -1,0 +1,359 @@
+{
+  "pack_id": "gasper-hero-pack-v1",
+  "version": "1.0.0",
+  "entries": [
+    {
+      "kind": "document",
+      "id": "doc-showcase-project",
+      "title": "Gasper Showcase",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "neutral-settled"
+      ],
+      "summary": "Recommended first-run sample project with all hero clips, organized tracks, presentation-safe defaults."
+    },
+    {
+      "kind": "document",
+      "id": "doc-presence-living-idle",
+      "title": "Living Presence Idle",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "neutral-settled"
+      ],
+      "summary": "Gasper is alive before interaction — slow breath, rare micro-gaze, calm availability."
+    },
+    {
+      "kind": "document",
+      "id": "doc-thinking-knit-focus",
+      "title": "Thinking Knit",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "thinking-knit"
+      ],
+      "summary": "Hero cognitive animation — attention gathers, eyes narrow, energy collects, controlled hold."
+    },
+    {
+      "kind": "document",
+      "id": "doc-listening-recognition",
+      "title": "Listening Receive",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "listening-receive"
+      ],
+      "summary": "Receptive attention — orient, open, hold, acknowledge. Contrasts Thinking Knit."
+    },
+    {
+      "kind": "document",
+      "id": "doc-recognition-spark",
+      "title": "Recognition Spark",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "recognition-spark"
+      ],
+      "summary": "Compact expressive payoff after model completes a task."
+    },
+    {
+      "kind": "document",
+      "id": "doc-presence-to-singularity",
+      "title": "Presence to Singularity",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "focused-calm"
+      ],
+      "summary": "Coherent embodiment transform: prepare, compress, horizon, accretion, hold. Reversible return clip included."
+    },
+    {
+      "kind": "document",
+      "id": "doc-presence-to-comet",
+      "title": "Presence to Comet",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "neutral-settled"
+      ],
+      "summary": "Directional embodiment intent — left and right launch, held flight, clean return without stale wake."
+    },
+    {
+      "kind": "document",
+      "id": "doc-dormant-orbit-wake",
+      "title": "Dormant Orbit to Wake",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "neutral-settled"
+      ],
+      "summary": "Energy withdraw, collapse, orbit stabilize, dormant hold, wake, form recover, face return."
+    },
+    {
+      "kind": "document",
+      "id": "doc-complete-reveal-sequence",
+      "title": "Complete Reveal Sequence",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "neutral-settled"
+      ],
+      "summary": "Showreel combining living presence, listening, thinking, spark, singularity, comet, dormant, return."
+    },
+    {
+      "kind": "document",
+      "id": "doc-agent-directed-revision",
+      "title": "Agent-Directed Revision",
+      "path": "documents/undefined",
+      "tags": [
+        "presence",
+        "thinking-knit"
+      ],
+      "summary": "Baseline Thinking Knit + intense-calm + excessive + corrected variants for model command, compare, undo, refine."
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-living-idle",
+      "title": "Presence — Living Idle",
+      "path": "clips/presence/clip-presence-living-idle.json",
+      "tags": [
+        "presence",
+        "loop"
+      ],
+      "summary": "8000ms, 3 tracks, 4 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-thinking-knit",
+      "title": "Presence — Thinking Knit",
+      "path": "clips/expression/clip-presence-thinking-knit.json",
+      "tags": [
+        "expression",
+        "none"
+      ],
+      "summary": "3200ms, 3 tracks, 5 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-listening-receive",
+      "title": "Presence — Listening Receive",
+      "path": "clips/expression/clip-listening-receive.json",
+      "tags": [
+        "expression",
+        "none"
+      ],
+      "summary": "3000ms, 3 tracks, 4 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-recognition-spark",
+      "title": "Presence — Recognition Spark",
+      "path": "clips/expression/clip-recognition-spark.json",
+      "tags": [
+        "expression",
+        "none"
+      ],
+      "summary": "1500ms, 3 tracks, 4 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-to-singularity",
+      "title": "Presence → Singularity",
+      "path": "clips/embodiment/clip-presence-to-singularity.json",
+      "tags": [
+        "embodiment",
+        "none"
+      ],
+      "summary": "5000ms, 4 tracks, 5 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-singularity-to-presence",
+      "title": "Singularity → Presence",
+      "path": "clips/embodiment/clip-singularity-to-presence.json",
+      "tags": [
+        "embodiment",
+        "none"
+      ],
+      "summary": "5000ms, 4 tracks, 4 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-to-comet-right",
+      "title": "Presence → Comet (Right)",
+      "path": "clips/embodiment/clip-presence-to-comet-right.json",
+      "tags": [
+        "embodiment",
+        "none"
+      ],
+      "summary": "4000ms, 4 tracks, 4 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-to-comet-left",
+      "title": "Presence → Comet (Left)",
+      "path": "clips/embodiment/clip-presence-to-comet-left.json",
+      "tags": [
+        "embodiment",
+        "none"
+      ],
+      "summary": "4000ms, 4 tracks, 4 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-dormant-orbit-wake",
+      "title": "Presence → Dormant Orbit → Wake",
+      "path": "clips/embodiment/clip-dormant-orbit-wake.json",
+      "tags": [
+        "embodiment",
+        "none"
+      ],
+      "summary": "7200ms, 4 tracks, 6 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-thinking-knit-intense-calm",
+      "title": "Presence — Thinking Knit (Intense Calm)",
+      "path": "clips/revision/clip-presence-thinking-knit-intense-calm.json",
+      "tags": [
+        "revision",
+        "none"
+      ],
+      "summary": "3200ms, 3 tracks, 5 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-thinking-knit-excessive",
+      "title": "Presence — Thinking Knit (Excessive)",
+      "path": "clips/revision/clip-presence-thinking-knit-excessive.json",
+      "tags": [
+        "revision",
+        "none"
+      ],
+      "summary": "3200ms, 3 tracks, 5 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-presence-thinking-knit-corrected",
+      "title": "Presence — Thinking Knit (Corrected)",
+      "path": "clips/revision/clip-presence-thinking-knit-corrected.json",
+      "tags": [
+        "revision",
+        "none"
+      ],
+      "summary": "3200ms, 3 tracks, 5 markers"
+    },
+    {
+      "kind": "clip",
+      "id": "clip-complete-reveal-sequence",
+      "title": "Complete Reveal Sequence",
+      "path": "clips/sequence/clip-complete-reveal-sequence.json",
+      "tags": [
+        "sequence",
+        "none"
+      ],
+      "summary": "38100ms, 3 tracks, 44 markers"
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-01-intense-calm",
+      "title": "Make the thought feel more intense, but preserve calmness.",
+      "path": "model-prompts/prompt-01-intense-calm.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Increase cognitive peak energy and slight crown while keeping eye/mouth from overdriven strain."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-02-recognized-solution",
+      "title": "Make Gasper look like it just recognized the solution.",
+      "path": "model-prompts/prompt-02-recognized-solution.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Play Recognition Spark arc from listening toward pleased containment."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-03-comet-right",
+      "title": "Turn this into a rightward Comet launch without losing the face.",
+      "path": "model-prompts/prompt-03-comet-right.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Directional mass + gaze right with spectral envelope; face remains legible."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-04-heavier-singularity",
+      "title": "Make the Singularity feel heavier and more controlled.",
+      "path": "model-prompts/prompt-04-heavier-singularity.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Increase gravity_well_depth and damping; reduce wobble/pulse chaos."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-05-reduce-strain",
+      "title": "Reduce the strain in this expression while retaining concentration.",
+      "path": "model-prompts/prompt-05-reduce-strain.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Open eyes slightly, soften mouth, lower crown peak while keeping knit energy."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-06-anticipation",
+      "title": "Add a subtle anticipation before the cognitive peak.",
+      "path": "model-prompts/prompt-06-anticipation.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Insert or emphasize gather phase micro-lift before peak."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-07-shorten-transition",
+      "title": "Shorten the transition without making it feel abrupt.",
+      "path": "model-prompts/prompt-07-shorten-transition.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Scale duration of transition segment with easing preserved."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-08-return-presence",
+      "title": "Return Gasper to Presence and neutral-settled.",
+      "path": "model-prompts/prompt-08-return-presence.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Play reverse embodiment clip and set expression neutral-settled."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-09-compare-explain",
+      "title": "Compare this revision to the original and explain the semantic changes.",
+      "path": "model-prompts/prompt-09-compare-explain.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Diff baseline vs active revision; report binding deltas in product language."
+    },
+    {
+      "kind": "prompt",
+      "id": "prompt-10-undo-revision",
+      "title": "Undo the model-authored revision.",
+      "path": "model-prompts/prompt-10-undo-revision.json",
+      "tags": [
+        "model"
+      ],
+      "summary": "Transaction undo to pre-model document revision."
+    }
+  ]
+}

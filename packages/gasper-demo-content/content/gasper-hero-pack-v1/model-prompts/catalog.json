@@ -1,0 +1,45 @@
+{
+  "count": 10,
+  "prompts": [
+    {
+      "id": "prompt-01-intense-calm",
+      "prompt": "Make the thought feel more intense, but preserve calmness."
+    },
+    {
+      "id": "prompt-02-recognized-solution",
+      "prompt": "Make Gasper look like it just recognized the solution."
+    },
+    {
+      "id": "prompt-03-comet-right",
+      "prompt": "Turn this into a rightward Comet launch without losing the face."
+    },
+    {
+      "id": "prompt-04-heavier-singularity",
+      "prompt": "Make the Singularity feel heavier and more controlled."
+    },
+    {
+      "id": "prompt-05-reduce-strain",
+      "prompt": "Reduce the strain in this expression while retaining concentration."
+    },
+    {
+      "id": "prompt-06-anticipation",
+      "prompt": "Add a subtle anticipation before the cognitive peak."
+    },
+    {
+      "id": "prompt-07-shorten-transition",
+      "prompt": "Shorten the transition without making it feel abrupt."
+    },
+    {
+      "id": "prompt-08-return-presence",
+      "prompt": "Return Gasper to Presence and neutral-settled."
+    },
+    {
+      "id": "prompt-09-compare-explain",
+      "prompt": "Compare this revision to the original and explain the semantic changes."
+    },
+    {
+      "id": "prompt-10-undo-revision",
+      "prompt": "Undo the model-authored revision."
+    }
+  ]
+}

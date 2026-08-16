@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "4.0.0",
+  "kernelVersion": "4.0.0",
+  "turn": "worker",
+  "phase": "dispatched",
+  "mode": "normal",
+  "gate": "GASPER-GROK-SUCCESSOR-003-W-WAVE-WANDER-001-dispatched",
+  "bookId": "GASPER-GROK-SUCCESSOR-003",
+  "bookTitle": "Fix wander stop and plan refresh so a 120fps walk is a walk",
+  "chapterId": "WANDER-STOP-001",
+  "activeWorkId": "W-WAVE-WANDER-001",
+  "activeWork": {
+    "id": "W-WAVE-WANDER-001",
+    "title": "Wander plan refresh and real stop",
+    "scope": [
+      "packages/desktop/src/gasper/behavior/GoldenWander.ts",
+      "packages/desktop/src/gasper/behavior/GoldenWander.test.ts",
+      "packages/desktop/src/gasper/behavior/GoldenWanderDriver.ts",
+      "packages/desktop/src/gasper/behavior/LifeDirector.ts",
+      "packages/desktop/src/gasper/behavior/LifeDirector.test.ts",
+      "packages/desktop/src/gasper/behavior/LifeDirectorDriver.ts",
+      "packages/desktop/src/gasper/behavior/EmbodimentLocomotion.ts",
+      "packages/desktop/src/gasper/behavior/EmbodimentLocomotion.test.ts",
+      "scripts/gasper-physics-001/",
+      ".planops/",
+      "docs/planops/",
+      "work/grok-successor-001/HANDOFF.md",
+      "research/proofs/grok-successor-002/wave-wander/"
+    ],
+    "forbidden": [
+      "C:/Users/funny/Documents/Grimoire/",
+      "toolkit/grimoire/",
+      "git push, force-push, reset, clean, rebase, or discarding dirty work",
+      "credential, billing, or global package changes",
+      "world-physics core contact solver",
+      "formmaster mesh/face/shadow",
+      "tuning-lab embodiment identity",
+      "gasper-grok-lane",
+      "inventing human knees, ankles, or toes",
+      "replacing physics with canned clip playback",
+      "committing raw capture media, caches, logs, or oversized proof videos",
+      "self-issuing owner acceptance for motion quality"
+    ],
+    "ownerRole": "worker",
+    "proofSpec": {
+      "commands": [
+        "npx vitest run packages/desktop/src/gasper/behavior/GoldenWander.test.ts packages/desktop/src/gasper/behavior/LifeDirector.test.ts packages/desktop/src/gasper/behavior/EmbodimentLocomotion.test.ts",
+        "git diff --check"
+      ],
+      "caseIds": []
+    },
+    "bookId": "GASPER-GROK-SUCCESSOR-003",
+    "chapterId": "WANDER-STOP-001",
+    "mode": "normal"
+  },
+  "mandateId": "pkt-wave-wander-stop-mandate-20260814",
+  "mandateLevel": 2,
+  "lastPacketId": "pkt-wave-wander-stop-dispatch-20260814",
+  "lastEventId": "ev-3ac9b96c",
+  "blockReason": null,
+  "eventCount": 20,
+  "updatedAt": "2026-08-14T07:09:28",
+  "hostsSeen": [
+    "codex-local",
+    "grok-local"
+  ],
+  "openWorkIds": [
+    "W-GROK-SUCCESSOR-002",
+    "W-WAVE-WANDER-001"
+  ],
+  "proofIds": [
+    "proof-8717c2af",
+    "proof-fb27b468",
+    "proof-64852e88",
+    "proof-9bc11636",
+    "proof-cd5cdc66",
+    "proof-580d055a",
+    "proof-d1622f7e",
+    "proof-debe06bd",
+    "proof-41458f7d",
+    "proof-12dc236e",
+    "proof-dfe1894e",
+    "proof-115d4a06",
+    "proof-4880a8ea"
+  ],
+  "stopCondition": "Owner movement acceptance is not self-issued.",
+  "proofStatus": "successor engineering foundation accepted"
+}

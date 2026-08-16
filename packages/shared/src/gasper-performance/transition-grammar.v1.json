@@ -1,0 +1,112 @@
+{
+  "schema": "gasper.performance.transition-grammar.v1",
+  "version": "0.1.0-draft",
+  "status": "provisional_frozen_post_d003s",
+  "embodiments": [
+    "presence",
+    "singularity",
+    "comet",
+    "comet-left",
+    "comet-right",
+    "dormant-orbit"
+  ],
+  "accepted_route_ids": [
+    "presence_to_singularity",
+    "singularity_to_presence",
+    "presence_to_comet_left",
+    "presence_to_comet_right",
+    "comet_to_presence",
+    "presence_to_dormant_orbit",
+    "dormant_orbit_to_presence_wake"
+  ],
+  "gated_route_ids": [
+    "singularity_to_comet",
+    "singularity_to_comet_left",
+    "singularity_to_comet_right"
+  ],
+  "o02_default": {
+    "decision": "mediated_via_presence",
+    "direct_edge": "unsupported",
+    "composite": "singularity → return_presence → presence bridge/settle seam → enter_comet_{left|right}",
+    "adr": "artifacts/gasper-006-performance-grammar/D005-transition-interruption-grammar/O02-ADR-draft.md"
+  },
+  "selection_rules": [
+    "If S == T, emit expression-only route (no embodiment clip).",
+    "If direct accepted edge exists, select canonical route_id.",
+    "If path length > 1, emit multi-hop via presence by default.",
+    "If interrupted mid-route, re-plan from actual-rendered-state sample (D07)."
+  ],
+  "multi_hop_defaults": [
+    {
+      "from": "singularity",
+      "to": "comet-left",
+      "path": [
+        "singularity",
+        "presence",
+        "comet-left"
+      ],
+      "route_ids": [
+        "singularity_to_presence",
+        "presence_to_comet_left"
+      ],
+      "decision": "O02_default_mediated"
+    },
+    {
+      "from": "singularity",
+      "to": "comet-right",
+      "path": [
+        "singularity",
+        "presence",
+        "comet-right"
+      ],
+      "route_ids": [
+        "singularity_to_presence",
+        "presence_to_comet_right"
+      ],
+      "decision": "O02_default_mediated"
+    },
+    {
+      "from": "singularity",
+      "to": "comet",
+      "path": [
+        "singularity",
+        "presence",
+        "comet"
+      ],
+      "note": "Requires presence→comet abstract or directional choice policy",
+      "decision": "O02_default_mediated"
+    },
+    {
+      "from": "singularity",
+      "to": "dormant-orbit",
+      "path": [
+        "singularity",
+        "presence",
+        "dormant-orbit"
+      ]
+    },
+    {
+      "from": "comet",
+      "to": "singularity",
+      "path": [
+        "comet",
+        "presence",
+        "singularity"
+      ]
+    },
+    {
+      "from": "dormant-orbit",
+      "to": "singularity",
+      "path": [
+        "dormant-orbit",
+        "presence",
+        "singularity"
+      ]
+    }
+  ],
+  "frozen": false,
+  "human_review_required": true,
+  "authority_class": "synthetic_surrogate_v1",
+  "o02_resolution": "singularity_to_comet_mediated_via_presence",
+  "o02_status": "resolved_safe_default"
+}

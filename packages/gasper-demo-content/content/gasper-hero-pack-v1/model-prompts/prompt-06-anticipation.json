@@ -1,0 +1,33 @@
+{
+  "id": "prompt-06-anticipation",
+  "prompt": "Add a subtle anticipation before the cognitive peak.",
+  "intended_semantic_interpretation": "Insert or emphasize gather phase micro-lift before peak.",
+  "expected_command_categories": [
+    "add_keyframe",
+    "edit_keyframe_values"
+  ],
+  "expected_bindings": [
+    "crown_height",
+    "energy_level",
+    "eye_openness"
+  ],
+  "protected_bindings": [
+    "loop_mode"
+  ],
+  "maximum_ranges": {
+    "crown_height": {
+      "min": 0.1,
+      "max": 0.3
+    }
+  },
+  "expected_visible_result": "Readable gather before peak.",
+  "validation_assertions": [
+    "marker-gather-present"
+  ],
+  "failure_conditions": [
+    "keyframe-density-excessive"
+  ],
+  "acceptable_fallback": "Keep authored gather at 700ms",
+  "expected_undo_behavior": "Remove anticipation keyframe",
+  "target_clip_id": "clip-presence-thinking-knit"
+}

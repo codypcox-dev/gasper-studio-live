@@ -1,0 +1,48 @@
+{
+  "id": "prompt-01-intense-calm",
+  "prompt": "Make the thought feel more intense, but preserve calmness.",
+  "intended_semantic_interpretation": "Increase cognitive peak energy and slight crown while keeping eye/mouth from overdriven strain.",
+  "expected_command_categories": [
+    "edit_keyframe_values",
+    "adjust_binding_amplitude"
+  ],
+  "expected_bindings": [
+    "energy_level",
+    "crown_height",
+    "internal_glow",
+    "eye_openness"
+  ],
+  "protected_bindings": [
+    "gaze",
+    "overall_width"
+  ],
+  "maximum_ranges": {
+    "energy_level": {
+      "min": 0.6,
+      "max": 0.92
+    },
+    "crown_height": {
+      "min": 0.25,
+      "max": 0.5
+    },
+    "eye_openness": {
+      "min": 0.25,
+      "max": 0.4
+    }
+  },
+  "expected_visible_result": "Stronger knit without angry eyes or maxed energy.",
+  "validation_assertions": [
+    "variant-differs-from-baseline",
+    "eye_openness>0.22",
+    "energy_level<=0.92"
+  ],
+  "failure_conditions": [
+    "eye_openness<0.2",
+    "energy_level>0.95",
+    "mouth_openness<0.08"
+  ],
+  "acceptable_fallback": "Switch to pre-authored clip-presence-thinking-knit-intense-calm",
+  "expected_undo_behavior": "Restore baseline Thinking Knit keyframes",
+  "target_document_id": "doc-agent-directed-revision",
+  "target_clip_id": "clip-presence-thinking-knit"
+}

@@ -1,0 +1,35 @@
+export {
+  SCAFFOLD_RINGS,
+  SCAFFOLD_SECTORS,
+  SCAFFOLD_VERTEX_COUNT,
+  SCAFFOLD_FACE_COUNT,
+  LATTICE_NODE_COUNT,
+  LATTICE_TRIANGLE_COUNT,
+  SCAFFOLD_COUPLING_LAW,
+  SCAFFOLD_COUPLING,
+  SCAFFOLD_SOURCE_KINDS,
+  SCAFFOLD_FORBIDDEN,
+  restLatticeNodes,
+  latticeCouplingGamma,
+  composeScaffoldVertices,
+  composeAdaptiveShellScaffold,
+  sourcesFromCausalGoals,
+  assertScaffoldContract,
+  transientFaces,
+  zeroSource,
+} from "./AdaptiveShellScaffold";
+export type {
+  AdaptiveShellFrame,
+  ScaffoldSource,
+  ScaffoldSourceKind,
+  ScaffoldCoupling,
+  LocalFrame,
+} from "./AdaptiveShellScaffold";
+export {
+  RELIEF_RESAMPLE,
+  reliefScaffoldSource,
+  pressureScaffoldSource,
+  capturedScaffoldSource,
+  resampleFieldToScaffold,
+  sampleFieldBilinear,
+} from "./ReliefScaffoldSource";

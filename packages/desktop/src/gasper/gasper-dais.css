@@ -1,0 +1,474 @@
+/* Gasper Dais — serious character laboratory stage */
+
+.gasper-dais {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* GASPER-PHYSICS-001 · D-0112 black room (owner law N5): the environment is
+     a black room — pure black, no scenery. His floor reads from his own
+     motivated light + penumbra drop shadow, nothing else. */
+  background: #000;
+  touch-action: none;
+  user-select: none;
+  cursor: default;
+  /* Character mass target for owner facial review (floor 0.62 / target 0.72) */
+  --dais-character-scale: 1;
+  --dais-facial-review-min-height-fraction: 0.62;
+  --dais-facial-review-target-height-fraction: 0.72;
+}
+
+/* When parent host requests facial-review scale, keep character mass dominant.
+ * Scale var is a presentation signal — fitCameraFromSafeBounds is authoritative.
+ * Content overflow stays visible so silhouette is not severed by clip-only zoom. */
+.dais-first-canvas[data-facial-review-scale="1"] .gasper-dais,
+.dais-first-stage-host[data-facial-review-scale="1"] .gasper-dais,
+[data-facial-review-scale="1"] .gasper-dais {
+  --dais-character-scale: 1.12;
+  --dais-facial-review-min-height-fraction: 0.62;
+  --dais-facial-review-target-height-fraction: 0.72;
+}
+
+[data-facial-review-scale="1"] .gasper-dais-content,
+.dais-first-canvas[data-facial-review-scale="1"] .gasper-dais-content {
+  overflow: visible;
+}
+
+/* GASPER-PHYSICS-001 · D-0112 black room: the retired dais scenery lived here
+   (.gasper-dais-env / -radial / -pool / -guide — the vignette, the CSS light
+   pool, the guide ring the owner named "a dais attached to him"). Owner law:
+   he needs nothing else in the scene — a black room is the environment. The
+   floor reads from his own motivated light + penumbra shadow (SVG ground
+   contact layer), never from scenery. */
+
+.gasper-dais-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  z-index: 1;
+  pointer-events: none; /* handles capture interaction */
+}
+
+.gasper-dais-content .gasper-svg-host,
+.gasper-dais-content svg {
+  pointer-events: none;
+  overflow: visible !important;
+}
+
+/* No nested page chrome */
+.gasper-dais-content main,
+.gasper-dais-content header,
+.gasper-dais-content .reference-panel {
+  display: none !important;
+}
+
+/* GASPER-007 DOPS-01 — legacy FormMaster compatibility hosts are never product-interactive */
+[data-gasper-legacy-only],
+[data-legacy-compat],
+[data-gasper-stubs] {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+/* Render-only Dais: shell owns domain + stage-mode chrome (belt + suspenders with JSX). */
+.gasper-dais[data-interaction-mode="render-only"] .gasper-tools,
+.gasper-dais[data-interaction-mode="render-only"] .gasper-mode-seg,
+.gasper-dais[data-interaction-mode="render-only"] [data-testid="stage-mode-segment"],
+.gasper-dais[data-interaction-mode="render-only"] [data-testid="face-isolation-toggle"],
+.gasper-dais[data-interaction-mode="render-only"] [data-testid="dais-bounds-overlay"],
+.gasper-dais[data-interaction-mode="render-only"] [data-testid="compare-repin"] {
+  display: none !important;
+}
+
+.gasper-handles {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.gasper-handle {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border: none;
+  background: transparent;
+  pointer-events: auto;
+  cursor: grab;
+  z-index: 5;
+}
+
+/* Mis-projected / off-viewport form handles must not paint purple residue. */
+.gasper-handle[data-off-stage="1"] {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+.gasper-handle.active {
+  cursor: grabbing;
+}
+
+.gasper-handle-knob {
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: 10px auto;
+  border-radius: 50%;
+  background: rgba(168, 130, 255, 0.95);
+  box-shadow: 0 0 0 2px rgba(8, 8, 10, 0.85), 0 0 12px rgba(168, 130, 255, 0.35);
+}
+
+.gasper-handle.active .gasper-handle-knob {
+  background: #3dcfef;
+  box-shadow: 0 0 0 2px rgba(8, 8, 10, 0.85), 0 0 14px rgba(61, 207, 239, 0.45);
+}
+
+.gasper-handle-value {
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-family: ui-monospace, Consolas, monospace;
+  color: #ececf1;
+  background: rgba(8, 8, 10, 0.85);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.gasper-hud {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 6;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.gasper-hud-mode {
+  height: 28px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #3dcfef;
+  background: rgba(61, 207, 239, 0.1);
+}
+
+.gasper-hud-mode[data-stage-mode="AUTHORING"] {
+  color: #a882ff;
+  background: rgba(168, 130, 255, 0.12);
+}
+
+.gasper-hud-chip {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #c8c8d4;
+  background: rgba(8, 8, 10, 0.78);
+}
+
+.gasper-hud-chip.muted {
+  color: #8a8a98;
+}
+
+.gasper-hud-chip.mono {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 11px;
+}
+
+.gasper-hud-chip .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3dcfef;
+}
+
+.gasper-tools {
+  position: absolute;
+  left: 12px;
+  bottom: 48px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgba(8, 8, 10, 0.82);
+}
+
+.gasper-tools button,
+.gasper-view-controls button {
+  min-height: 32px;
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #9a9aa8;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.gasper-tools button:hover,
+.gasper-view-controls button:hover {
+  color: #ececf1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.gasper-tools button.active,
+.gasper-view-controls button.active {
+  color: #a882ff;
+  background: rgba(168, 130, 255, 0.14);
+}
+
+.gasper-view-controls {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 6;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgba(8, 8, 10, 0.82);
+}
+
+.gasper-dais-error {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  max-width: 28rem;
+  padding: 16px 20px;
+  border-radius: 8px;
+  background: rgba(40, 12, 16, 0.95);
+  color: #f07178;
+  font-size: 13px;
+}
+
+.gasper-dais-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  color: #8a8a98;
+  font-size: 13px;
+}
+
+/* Dispatch 002 — bounds truth overlay */
+.gasper-bounds-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Studio integration: stage column is pure dais — the black room (D-0112) */
+.studio-stage:has(.gasper-dais) {
+  background: #000;
+}
+
+.studio-stage:has(.gasper-dais) .stage-gasper-frame,
+.studio-stage:has(.gasper-dais) .viewport-iframe {
+  display: none !important;
+}
+
+/* —— Stage mode segment (single control; no duplicate COMP badge) —— */
+.gasper-mode-seg {
+  display: inline-flex;
+  gap: 1px;
+  margin-left: 4px;
+  padding: 2px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.gasper-mode-seg button {
+  min-width: 52px;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 8px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+}
+
+.gasper-view-controls button.active,
+.gasper-mode-seg button.active {
+  color: #3dcfef;
+  background: rgba(61, 207, 239, 0.16);
+}
+
+/* —— Real Compare surfaces (only when data-compare-active) —— */
+.gasper-compare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Baseline host clone — real character markup at pinned bindings */
+.gasper-compare-ghost-host {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  filter: grayscale(0.25) saturate(0.7);
+}
+
+.gasper-compare-ghost-host .gasper-svg-host,
+.gasper-compare-ghost-host svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none !important;
+}
+
+.gasper-compare-ghost {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: min(42%, 340px);
+  height: min(42%, 340px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.5px dashed rgba(168, 130, 255, 0.55);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(168, 130, 255, 0.12) 0%,
+    rgba(80, 60, 140, 0.06) 45%,
+    transparent 70%
+  );
+  box-shadow: 0 0 40px rgba(168, 130, 255, 0.12);
+  opacity: 0.85;
+}
+
+.gasper-compare-contour {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.gasper-compare-hud {
+  position: absolute;
+  left: 50%;
+  bottom: 56px;
+  transform: translateX(-50%);
+  z-index: 7;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  max-width: min(92%, 640px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(8, 8, 10, 0.88);
+  border: 1px solid rgba(168, 130, 255, 0.25);
+  pointer-events: auto;
+  font-size: 12px;
+  color: #c8c8d4;
+}
+
+.gasper-compare-hud .sep {
+  color: #6a6a78;
+}
+
+.gasper-compare-hud .mono {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 11px;
+  color: #a882ff;
+}
+
+.gasper-compare-hud .delta {
+  color: #3dcfef;
+}
+
+.gasper-compare-modes {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.gasper-compare-modes button {
+  min-height: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #9a9aa8;
+  font-size: 11px;
+  text-transform: capitalize;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.gasper-compare-modes button.active {
+  color: #3dcfef;
+  background: rgba(61, 207, 239, 0.14);
+}
+
+.gasper-compare-hud input[type="range"] {
+  width: 100px;
+  accent-color: #a882ff;
+}
+
+/* —— Face Isolation frame —— */
+.gasper-face-iso-frame {
+  position: absolute;
+  z-index: 4;
+  border: 1.5px solid rgba(61, 207, 239, 0.65);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(8, 8, 10, 0.6),
+    inset 0 0 24px rgba(61, 207, 239, 0.08);
+  pointer-events: none;
+}
+
+.gasper-dais[data-face-isolation="1"] .gasper-face-iso-frame {
+  animation: gasper-face-iso-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes gasper-face-iso-pulse {
+  0%,
+  100% {
+    border-color: rgba(61, 207, 239, 0.55);
+  }
+  50% {
+    border-color: rgba(168, 130, 255, 0.75);
+  }
+}
+
+/* Safe-frame hint when clipped */
+.gasper-dais[data-clipped="1"] .gasper-hud-chip.mono {
+  color: #f0a060;
+}

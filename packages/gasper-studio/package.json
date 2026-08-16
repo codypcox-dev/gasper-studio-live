@@ -1,0 +1,7 @@
+{
+  "name": "gasper-studio-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone Gasper Studio application surface."
+}

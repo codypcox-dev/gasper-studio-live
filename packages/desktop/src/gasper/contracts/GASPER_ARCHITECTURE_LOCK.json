@@ -1,0 +1,779 @@
+{
+  "id": "gasper.architecture.lock",
+  "version": "0.7.0",
+  "status": "AUTHORITATIVE",
+  "packet_authority": "VEC-801",
+  "planbook_id": "GASPER-VECTOR-ORGANISM-COMPLETION-2026-07-31",
+  "organism_representation": "continuous-live-vector",
+  "organism_clock": {
+    "required": true,
+    "packet": "VEC-401",
+    "protocol_version": "1",
+    "single_authority": true,
+    "module": "packages/desktop/src/gasper/clock/GasperOrganismClock.ts",
+    "export_marker": "GasperOrganismClock",
+    "global_key": "__GASPER_ORGANISM_CLOCK__",
+    "lifecycle_owner": "GasperRigController",
+    "global_adoption": "structural-protocol-no-instanceof",
+    "split_brain_policy": "refuse",
+    "consumer_lifecycle_control_forbidden": true,
+    "formmaster_fallback_scope": "standalone-only",
+    "gsap_root_clock_driven": true,
+    "gsap_bridge_module": "packages/desktop/src/gasper/clock/GasperGsapClockBridge.ts",
+    "teardown_disposal_required": true,
+    "subscriber_faults_fail_closed": true,
+    "reentrant_dispatch_forbidden": true,
+    "subscriber_order": [
+      "10:gsap-root",
+      "20:eight-state-living",
+      "30:gasper-living-runtime",
+      "40:gasper-rig-domain-tick",
+      "90:formmaster-render"
+    ],
+    "capabilities": [
+      "realtime",
+      "pause",
+      "resume",
+      "deterministic_fixed_time",
+      "fixed_step",
+      "scrub",
+      "delta",
+      "signed_delta",
+      "elapsed",
+      "frame_index",
+      "seed",
+      "ordered_subscribers",
+      "inspection",
+      "fault_inspection",
+      "split_brain_refusal",
+      "gsap_root_advancement",
+      "teardown_disposal"
+    ],
+    "converged_authorities": [
+      "GasperRigController.domain_projection_tick",
+      "EightStateLoopController.living_advancement",
+      "GasperLivingRuntime.gsap_continuous_advancement",
+      "FormMaster.all-script-3.render_morph_proof",
+      "GSAP.root_timeline_advancement"
+    ],
+    "independent_perpetual_raf_forbidden": true,
+    "direct_wall_clock_organism_time_forbidden": true,
+    "do_not_converge": [
+      "one_shot_layout_scheduling",
+      "bridge_timers",
+      "benchmarking_identifier_timing",
+      "GasperDaisStage",
+      "GasperDaisLayoutReady",
+      "candidate-script-3.js"
+    ]
+  },
+  "pixel_buffers_forbidden": true,
+  "bitmap_substitution_forbidden": true,
+  "pixel_derived_geometry_forbidden": true,
+  "image_space_material_effects_forbidden": true,
+  "svg_filter_primitives_forbidden": true,
+  "mix_blend_mode_forbidden": true,
+  "css_image_space_compositing_forbidden": true,
+  "mask_image_space_forbidden": true,
+  "geometric_clip_path_allowed": true,
+  "single_live_svg_root_required": true,
+  "external_capture_observer_only": true,
+  "analytic_relief_provenance": {
+    "required": true,
+    "provenance_id": "analytic-vector-primitives",
+    "module": "packages/desktop/src/gasper/relief/analyticFeatureRelief.ts",
+    "export_marker": "ANALYTIC_FEATURE_RELIEF",
+    "form_master_const": "FEATURE_RELIEF",
+    "form_master_render_fn": "renderFeatureRelief",
+    "svg_material_layer": "analytic-feature-relief",
+    "svg_layer_id": "reliefFeatureLayer",
+    "primitives": [
+      "gaussian-ring",
+      "soft-disk-sdf",
+      "segment-distance-ridge",
+      "parametric-g-glyph",
+      "embodiment-analytic-field",
+      "face-anchor-affine"
+    ]
+  },
+  "deterministic_state": {
+    "required": true,
+    "fixed_inputs": [
+      "canonical_document",
+      "state",
+      "clock",
+      "seed",
+      "viewport",
+      "optical_mode"
+    ],
+    "equivalent_vector_state_within_tolerance": true,
+    "pixel_intermediate_forbidden": true
+  },
+  "fail_closed_transitions": {
+    "required": true,
+    "unsupported_routes_preserve_last_valid_vector_state": true,
+    "bitmap_fallback_forbidden": true,
+    "hide_live_svg_for_snapshot_substitution_forbidden": true,
+    "canvas_transition_snapshot_forbidden": true,
+    "vector_morph_required_for_supported_routes": true
+  },
+  "live_svg_root": {
+    "required_count": 1,
+    "must_remain_mounted": true,
+    "must_remain_visible_during_transitions": true,
+    "object_identity_stable_across_supported_routes": true
+  },
+  "forbidden_runtime_apis": [
+    "HTMLCanvasElement",
+    "OffscreenCanvas",
+    "CanvasRenderingContext2D",
+    "new Image(",
+    "HTMLImageElement",
+    "ImageData",
+    "ImageBitmap",
+    "createImageBitmap",
+    "drawImage",
+    "getImageData",
+    "putImageData",
+    "toDataURL",
+    "toBlob",
+    "bitmaprenderer",
+    "createElement(\"canvas\")",
+    "createElement('canvas')",
+    "getContext(\"2d\")",
+    "getContext('2d')",
+    "XMLSerializer",
+    "RELIEF_RASTER",
+    "buildRasterHeightmap",
+    "sampleRaster",
+    "renderReliefRaster",
+    "reliefRasterLayer",
+    "reliefRasterHighlight",
+    "reliefRasterShadow",
+    "__RELIEF_RASTER_ERR__",
+    "captureLivingProfileSnapshot",
+    "replaceLivingSnapshotNode",
+    "applyLivingEmbodimentDissolve",
+    "setAttribute('filter'",
+    "setAttribute(\"filter\"",
+    "mix-blend-mode",
+    "mixBlendMode"
+  ],
+  "forbidden_runtime_api_notes": {
+    "Image": "Bare Image is not scanned (too many false positives). Match new Image( and HTMLImageElement as the Image constructor / element surface from section 3.1.",
+    "createObjectURL": "Not listed as a hard token: FormMaster mesh JSON download may use object URLs for non-image files. SVG-to-image / blob snapshot substitution is still forbidden via new Image(, drawImage, canvas, XMLSerializer, and transition snapshot tokens.",
+    "XMLSerializer": "Forbidden when used to serialize live SVG for image/canvas decode substitution.",
+    "setAttribute filter": "VEC-302: forbids runtime SVG filter attribute writes on organism nodes.",
+    "mix-blend-mode": "VEC-302: forbids CSS mix-blend-mode compositing as organism material authority."
+  },
+  "forbidden_svg_raster_media_markers": [
+    "<image",
+    "<foreignObject",
+    "<foreignobject",
+    "data:image/",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".gif",
+    ".bmp",
+    ".avif",
+    "image-rendering"
+  ],
+  "forbidden_svg_image_space_markers": [
+    "<filter",
+    "<fe",
+    "filter=",
+    "mix-blend-mode",
+    "mixBlendMode",
+    "<mask",
+    " mask=",
+    "mask-image",
+    "mask-type",
+    "style.filter",
+    "filter:"
+  ],
+  "forbidden_svg_raster_media_notes": {
+    "scope": "Applied only to .svg source files under scan roots. SVG is scanned as raw source — no JavaScript comment stripping.",
+    "href_src_extensions": "Bare raster extensions (.png, .jpg, .jpeg, .webp, .gif, .bmp, .avif) catch href/src/xlink:href raster-file references and inline paths in SVG.",
+    "image_element": "<image forbids SVG image element embedding of bitmaps or external rasters.",
+    "foreignObject": "<foreignObject / <foreignobject forbids HTML/canvas hosts inside the live SVG organism root.",
+    "data_image": "data:image/ forbids inline raster data URIs as organism media.",
+    "image_rendering": "image-rendering forbids pixel-sampling/CSS bitmap presentation hints on organism SVG.",
+    "image_space": "VEC-302: forbidden_svg_image_space_markers ban filter primitives, filter attributes, mix-blend-mode, masks, and CSS image-space compositing. Geometric clipPath remains allowed."
+  },
+  "vector_material_replacement_coverage": {
+    "required": true,
+    "packet": "VEC-302",
+    "semantic_layers": [
+      "ground-shadow",
+      "shell-saturation",
+      "face-glow",
+      "face-recess",
+      "relief-highlight-shadow",
+      "tss-sheen-glint",
+      "event-horizon",
+      "edge-rims",
+      "cosmic-texture",
+      "key-reflection",
+      "secondary-reflection",
+      "lobe-glints",
+      "aura",
+      "expression-occlusion",
+      "shell-tension",
+      "violet-crown",
+      "cyan-reservoir",
+      "inner-volume"
+    ],
+    "marker_attr": "data-vector-material",
+    "allowed_clip_path": true,
+    "allowed_clip_path_ids": [
+      "bodyClip"
+    ]
+  },
+  "scan_scope": {
+    "roots": [
+      "packages/desktop/src/gasper",
+      "packages/gasper-studio/src"
+    ],
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".cjs",
+      ".svg"
+    ],
+    "svg_scan_mode": "raw-source-no-js-comment-strip",
+    "code_scan_mode": "js-comment-stripped-forbidden-runtime-apis",
+    "exclude_only": [
+      "documentation (.md and contracts describing defects are not scanned as executable APIs when extension is non-code)",
+      "tests (*.test.ts, *.spec.ts, **/__tests__/**, tests/** when outside package runtime roots)",
+      "evidence and artifacts directories",
+      "generated outputs (dist/, build stamps outside runtime source)",
+      "non-executable historical .bak files",
+      "candidate-script-3.js (exact basename only — non-production FormMaster alternate; live authority is all-script-3.js; outside VEC-302 lease)",
+      "continuity/liveSvgVisibilityInvariant.ts (exact path — continuity root visibility restore helper, not organism material filter authority; outside VEC-302 lease)"
+    ],
+    "no_broad_wildcard_exclusions": true,
+    "non_production_exact_exclusions": [
+      "candidate-script-3.js",
+      "continuity/liveSvgVisibilityInvariant.ts"
+    ]
+  },
+  "frozen_packet_hashes": {
+    "VEC-101": {
+      "path": "packages/desktop/src/gasper/GasperRigController.ts",
+    "sha256": "EC8BF46C924A2350355A06577A517CA65DD68717DA907B40C7D1B228C201C79B",
+      "note": "Cumulative authority: VEC-101 live-SVG transitions retained; VEC-801 controller decomposition facade."
+    },
+    "VEC-201": {
+      "all_script_3": {
+        "path": "packages/desktop/src/gasper/assets/all-script-3.js",
+        "sha256": "2078E9032E61E671955408F5008E1EE074A96FB2435D15C24E76BF4F6A9DD9AA",
+        "note": "Cumulative authority: analytic relief retained; VEC-401 clock adoption and VEC-701 production render transaction added. VEC-802 external-authoring postMessage isolation."
+      },
+      "svg": {
+        "path": "packages/desktop/src/gasper/assets/gasper-rig-v655.svg",
+        "sha256": "C511E5A1F6BF8D5A627E1047AE7CD9E548D3A3FE79B663B3C7E41004A9BCA5C9",
+        "note": "Analytic pure-vector relief/material SVG retained; R4 opticalDepth serialization cap aligned with the optical-legibility contract."
+      }
+    },
+    "VEC-302": {
+      "all_script_3": {
+        "path": "packages/desktop/src/gasper/assets/all-script-3.js",
+        "sha256": "2078E9032E61E671955408F5008E1EE074A96FB2435D15C24E76BF4F6A9DD9AA",
+        "note": "Cumulative authority: pure-vector material implementation retained under VEC-401 single-clock projection and VEC-701 render transaction. VEC-802 external-authoring postMessage isolation."
+      },
+      "svg": {
+        "path": "packages/desktop/src/gasper/assets/gasper-rig-v655.svg",
+        "sha256": "C511E5A1F6BF8D5A627E1047AE7CD9E548D3A3FE79B663B3C7E41004A9BCA5C9",
+        "note": "Pure-vector material SVG retained; R4 opticalDepth serialization cap aligned with the VEC-302 optical-legibility contract."
+      }
+    },
+    "VEC-401": {
+      "clock_module": {
+        "path": "packages/desktop/src/gasper/clock/GasperOrganismClock.ts",
+        "sha256": "D172A96D974BFE802EE611182637446BD4870904D4AF179C900A4A7E61EA4914",
+        "note": "Structural global protocol, one driver, signed scrub, deterministic frames, ordered subscribers, fail-closed faults."
+      },
+      "clock_index": {
+        "path": "packages/desktop/src/gasper/clock/index.ts",
+        "sha256": "B1C32981AE17416D2E711C72A7577BFBFC9D4F94C93F614B23A584EFEEBA32C7",
+        "note": "Canonical VEC-401 clock and GSAP bridge export surface."
+      },
+      "gsap_bridge": {
+        "path": "packages/desktop/src/gasper/clock/GasperGsapClockBridge.ts",
+        "sha256": "C2D23B556C87E16344C0CCE31F83FE70BB1DDC8D20F4D48BC575930490D64549",
+        "note": "Ref-counted GSAP root bridge; autonomous ticker detached while organism clock owns time."
+      },
+      "gsap_shim": {
+        "path": "packages/desktop/src/gasper/gsap-shim.ts",
+        "sha256": "08186ADA5B18E34541AD80BA8C12BDE516AD4404F7369B14DF0E98C1F1125817",
+        "note": "Typed updateRoot and ticker control contract required by VEC-401."
+      },
+      "document_mount": {
+        "path": "packages/desktop/src/gasper/GasperDocument.ts",
+        "sha256": "1E9CE6BC7D2A94ACD9BFA5F3A1E7DC6239E5A1597ECF92A958220A923A80B87F",
+        "note": "Cumulative authority: VEC-401 clock discipline and VEC-601/602 shared living/facial authority retained; VEC-701 production lease lifecycle added."
+      },
+      "controller": {
+        "path": "packages/desktop/src/gasper/GasperRigController.ts",
+        "sha256": "EC8BF46C924A2350355A06577A517CA65DD68717DA907B40C7D1B228C201C79B",
+        "note": "Host facade after VEC-801 decomposition; still sole GSAP/domain tick owner."
+      },
+      "all_script_3": {
+        "path": "packages/desktop/src/gasper/assets/all-script-3.js",
+        "sha256": "2078E9032E61E671955408F5008E1EE074A96FB2435D15C24E76BF4F6A9DD9AA",
+        "note": "Structural clock adoption; standalone-only fallback; priority-90 projection; VEC-701 production render transaction; no self-perpetual render RAF."
+      },
+      "eight_state": {
+        "path": "packages/desktop/src/gasper/eight-state-loop/EightStateLoopController.ts",
+        "sha256": "13AAD245D0AED32B43DBC0BA4DBD51CC5B965C7A509A937A95DDAA1DCBE995F5",
+        "note": "Cumulative authority: VEC-401 clock-owned route due times; VEC-601/602 shared living/facial temporal authority; dormant long-rest maintenance; Unified Theory status telemetry."
+      },
+      "living_runtime": {
+        "path": "packages/desktop/src/gasper/GasperLivingRuntime.ts",
+        "sha256": "7B4210DDBC9C6C2E920C2FA9881875A21632C03F27FC894ED2FCDA32C248A36B",
+        "note": "Cumulative authority: VEC-401 clock-owned legacy route due times; VEC-601/602 shared living/facial temporal authority; Unified Theory status telemetry."
+      },
+      "svg": {
+        "path": "packages/desktop/src/gasper/assets/gasper-rig-v655.svg",
+        "sha256": "C511E5A1F6BF8D5A627E1047AE7CD9E548D3A3FE79B663B3C7E41004A9BCA5C9",
+        "note": "Live pure-vector SVG with the R4 opticalDepth serialization cap aligned under the cumulative VEC-401 clock contract."
+      }
+    },
+    "VEC-501": {
+      "compositor": {
+        "path": "packages/desktop/src/gasper/compositor/ResolvedPoseCompositor.ts",
+        "sha256": "5232DDB1920C69CD25CC3E1084655422B76A46830FC688ECE438F4AACDF21766",
+        "note": "Only canonical layer ordering, blending, constraints, character-state final authority, trace, hold, and deterministic hash."
+      },
+      "types": {
+        "path": "packages/desktop/src/gasper/compositor/types.ts",
+        "sha256": "2C58E664D98E85AEFA1D7DFE7281FF37974FCF875E15AC0BAFFB2DC3AEFADFD0",
+        "note": "Traceable contribution, constraint, final-owner, and SVG-target contracts."
+      },
+      "index": {
+        "path": "packages/desktop/src/gasper/compositor/index.ts",
+        "sha256": "4FA0490D223FF1C4AEF17EBE0E97C1DF8B9838ED8FE93FB17A186782FBB0DF61",
+        "note": "Canonical compositor public export surface."
+      },
+      "compatibility_adapter": {
+        "path": "packages/desktop/src/gasper/GasperLayerMixer.ts",
+        "sha256": "B0C3CC8D539944FDD62555B1BD7495F44E418A285916FB07C8898967FB8DA2CA",
+        "note": "Historical API delegates every result to composeResolvedPose."
+      },
+      "controller": {
+        "path": "packages/desktop/src/gasper/GasperRigController.ts",
+        "sha256": "EC8BF46C924A2350355A06577A517CA65DD68717DA907B40C7D1B228C201C79B",
+        "note": "Controller character-state path and binding target inspection use canonical compositor; no new GasperLayerMixer path."
+      },
+      "execution_spec": {
+        "path": "docs/gasper/planbooks/VEC-501_CANONICAL_COMPOSITOR_EXECUTION_SPEC.md",
+        "sha256": "084F9C100585A131AE4947DF5E1DD1F69A469FDEA23CB1E979F803209C45778F",
+        "note": "Binding VEC-501 packet contract."
+      },
+      "focused_test": {
+        "path": "tests/structural/gasper-vector-organism/canonical-compositor-vec501.test.ts",
+        "sha256": "E1803B0B40381307436869790B555F97E3A977A528C9BFF46FE5E908C00285BA",
+        "note": "Exact order, constraint timing, final ownership, SVG targets, determinism, and adapter discipline."
+      }
+    },
+    "VEC-602": {
+      "authority": {
+        "path": "packages/desktop/src/gasper/living/GasperLivingFacialAuthority.ts",
+        "sha256": "3CE8B182F809F63FBD0410AF5F8998E520F9A0281348E913771DC278CF9201C3",
+        "note": "Single synchronous living and facial temporal authority; emits the Unified Theory field and same-frame audio projection."
+      },
+      "living_index": {
+        "path": "packages/desktop/src/gasper/living/index.ts",
+        "sha256": "C4CD52C4EB21F372AD74FBDFC1EFFBF4712E2A731302D94F0CA00B389B7D0D15",
+        "note": "Public living/facial authority surface."
+      },
+      "eight_state": {
+        "path": "packages/desktop/src/gasper/eight-state-loop/EightStateLoopController.ts",
+        "sha256": "13AAD245D0AED32B43DBC0BA4DBD51CC5B965C7A509A937A95DDAA1DCBE995F5",
+        "note": "Priority-20 route adapter; clock-owned transport due times; no facial or living scheduler."
+      },
+      "living_runtime": {
+        "path": "packages/desktop/src/gasper/GasperLivingRuntime.ts",
+        "sha256": "7B4210DDBC9C6C2E920C2FA9881875A21632C03F27FC894ED2FCDA32C248A36B",
+        "note": "Legacy compatibility facade shares the same authority object and clock-owned sequence transport."
+      },
+      "document_mount": {
+        "path": "packages/desktop/src/gasper/GasperDocument.ts",
+        "sha256": "1E9CE6BC7D2A94ACD9BFA5F3A1E7DC6239E5A1597ECF92A958220A923A80B87F",
+        "note": "Native lab candidate whole-face inspection binding; VEC-701 now also governs the production FormMaster render boundary."
+      },
+      "root_index": {
+        "path": "packages/desktop/src/gasper/index.ts",
+        "sha256": "3ADB5E7026D00AB1041F3FD95A03E5D0BC2E1B803757179DBCF5DC57F81B0A91",
+        "note": "Exports living authority and the VEC-701 production projection contract."
+      },
+      "spec": {
+        "path": "docs/gasper/planbooks/VEC-601-602_SINGLE_LIVING_AND_FACIAL_AUTHORITY_EXECUTION_SPEC.md",
+        "sha256": "403D260E482F4602E1124E8B86534FCA0DBDCD73EA34E4698A7CF4C6D0A42494",
+        "note": "Binding packet contract."
+      },
+      "test": {
+        "path": "tests/structural/gasper-vector-organism/living-facial-authority-vec601-602.test.ts",
+        "sha256": "7A9F942EADF0433580193553D68EB6CFAEF8CFBCAC32958569378B57E3B80D97",
+        "note": "Determinism, ownership, scheduler discipline, bounds, reduced motion, parity, and Unified Theory projection proof."
+      }
+    },
+    "VEC-701": {
+      "authority": {
+        "path": "packages/desktop/src/gasper/projection/GasperVectorProjectionTransaction.ts",
+        "sha256": "7F2B1A52F182CC8A36A0F7853CAA4C9635CFD14976C9B655845EBC5CBB3863D4",
+        "note": "One structural projection authority, one active lease per SVG root, fail-closed frame transaction, revision and fault inspection."
+      },
+      "projection_index": {
+        "path": "packages/desktop/src/gasper/projection/index.ts",
+        "sha256": "89BA5F593D6879CC14DD0F7E3F3A1772BECFFCA12D7C08F7EB8EE5548CBFBB88",
+        "note": "Canonical public projection export surface."
+      },
+      "document_mount": {
+        "path": "packages/desktop/src/gasper/GasperDocument.ts",
+        "sha256": "1E9CE6BC7D2A94ACD9BFA5F3A1E7DC6239E5A1597ECF92A958220A923A80B87F",
+        "note": "Claims production lease before FormMaster script execution and disposes it at teardown."
+      },
+      "formmaster": {
+        "path": "packages/desktop/src/gasper/assets/all-script-3.js",
+        "sha256": "2078E9032E61E671955408F5008E1EE074A96FB2435D15C24E76BF4F6A9DD9AA",
+        "note": "Production render boundary inside projection transaction; VEC-802 isolates postMessage external-authoring bridge."
+      },
+      "native_mixer": {
+        "path": "packages/desktop/src/gasper/GasperRenderMixer.ts",
+        "sha256": "C647FF4999B9B099CD3D410C222B9F4C31EAB26F802E9F01723E1205A04BCC3B",
+        "note": "Complete native SVG flush is leased and drained by the organism clock with no independent RAF."
+      },
+      "controller": {
+        "path": "packages/desktop/src/gasper/GasperRigController.ts",
+        "sha256": "EC8BF46C924A2350355A06577A517CA65DD68717DA907B40C7D1B228C201C79B",
+        "note": "Facade after VEC-801 decomposition; requests FormMaster frames; no post-paint SVG writer."
+      },
+      "root_index": {
+        "path": "packages/desktop/src/gasper/index.ts",
+        "sha256": "3ADB5E7026D00AB1041F3FD95A03E5D0BC2E1B803757179DBCF5DC57F81B0A91",
+        "note": "Exports the VEC-701 projection contract and VEC-801 controller surface."
+      },
+      "execution_spec": {
+        "path": "docs/gasper/planbooks/VEC-701_SINGLE_VECTOR_PROJECTION_TRANSACTION_EXECUTION_SPEC.md",
+        "sha256": "5D6E41A00EBFDACF31F867EB0FC121BEE65D21A35C4FFB4FE6835CB4DE7A2754",
+        "note": "Binding packet execution and machine-gate contract."
+      },
+      "transaction_test": {
+        "path": "tests/structural/gasper-vector-organism/vector-projection-transaction.test.ts",
+        "sha256": "7565B387A76709A636CE216D8217FB7AA824B9D12DEBBA9CB13ED41007647EBD",
+        "note": "Lease, split-brain, frame monotonicity, revision, reentrancy, and fault behavior proof."
+      },
+      "wiring_test": {
+        "path": "tests/structural/gasper-vector-organism/vec701-production-wiring.test.ts",
+        "sha256": "15358F38C6E0AFB3EF4965C6F196DDF2CA0932E8417D0753A87E39FC79D314F5",
+        "note": "Production and native source-wiring proof."
+      }
+    },
+    "VEC-801": {
+      "facade": {
+        "path": "packages/desktop/src/gasper/GasperRigController.ts",
+        "sha256": "2BD243B45A54168A2AF6E012018EC552DB234ABBF2F7327D39758C3E597E1AAC",
+        "note": "Public facade/orchestrator after bounded decomposition."
+      },
+      "controller_index": {
+        "path": "packages/desktop/src/gasper/controller/index.ts",
+        "sha256": "4CDF90D495F06823B0DB09451161D43FD16123CD1937B7FB92591EC9F0A81336",
+        "note": "Canonical export surface for extracted controller modules."
+      },
+      "legacy_policy": {
+        "path": "packages/desktop/src/gasper/controller/legacyFormMasterPolicy.ts",
+      "sha256": "B7B4D580EFFC46EC5A56547B2DEFD3A078276154576A2EBCA95B6FB915A0E376",
+        "note": "FormMaster-safe living/endpoint policy."
+      },
+      "living_intent": {
+        "path": "packages/desktop/src/gasper/controller/livingIntent.ts",
+        "sha256": "65F80B9EAADB061F3E455DBF84EE8F4F70E428CC1BB874914766800213BE34D2",
+        "note": "Eight-state living-intent and live-SVG embodiment morph helpers."
+      },
+      "state_resolver": {
+        "path": "packages/desktop/src/gasper/controller/stateResolver.ts",
+        "sha256": "6DA2E90A04A285D306680EE4201A11770F7CF01B6748FF37F074A9568F2357DE",
+        "note": "Canonical compositor routing helper."
+      },
+      "formmaster": {
+        "path": "packages/desktop/src/gasper/assets/all-script-3.js",
+        "sha256": "CC648FE1932338EFC0CD05062C2F02D777FC0CAD0B3C55D68C5D40242BDAE9AC",
+        "note": "External-authoring postMessage bridge gated for VEC-802."
+      },
+      "test": {
+        "path": "tests/structural/gasper-vector-organism/controller-decomposition-vec801-802.test.ts",
+        "sha256": "AC4DD660BDECF3E1FFC3ED925ABA4391029C380EA52746D6C89418DD49771E3C",
+        "note": "Structural proof of decomposition, isolation, and retained VEC-701 wiring."
+      }
+    }
+  },
+  "topology": {
+    "canonical_contour_samples": 512,
+    "structural_nodes": 360,
+    "structural_triangles": 672,
+    "stable_shared_topology_required": true,
+    "adaptive_relief_field": {
+      "width": 25,
+      "height": 40,
+      "max_samples": 1000,
+      "sample_role": "animated normal/depth relief field",
+      "changes_silhouette_topology": false,
+      "changes_face_topology": false,
+      "decorative_texture_only": false,
+      "movement_bearing": true
+    }
+  },
+  "embodiments": [
+    "presence",
+    "singularity",
+    "dormant-orbit",
+    "low-orbit",
+    "comet",
+    "wispwalker",
+    "halo",
+    "lantern"
+  ],
+  "expression_system": {
+    "authored_families": 6,
+    "authored_fixtures": 18,
+    "transient_microstates": 13
+  },
+  "forbidden_interactive_hot_paths": [
+    "MCP",
+    "REST",
+    "CDP",
+    "Playwright",
+    "iframe",
+    "postMessage",
+    "React per-frame geometry rerender"
+  ],
+  "gsap_rules": {
+    "continuous_executor": true,
+    "book_004_animation_plan_adapter_required": true,
+    "numeric_proxy_animation_preferred": true,
+    "quick_setter_or_quick_to_for_interactive_preview": true,
+    "required_track_domains": [
+      "macro structural deformation",
+      "face-plane deformation",
+      "adaptive relief field",
+      "internal energy volume",
+      "skin and surface material",
+      "normal/curvature response",
+      "world-space optical channels",
+      "secondary dynamics"
+    ]
+  },
+  "morphology_domains": [
+    "canonical_contour",
+    "structural_lattice",
+    "macro_deformation_field",
+    "adaptive_relief_field",
+    "face_plane",
+    "internal_volume_energy",
+    "skin_surface",
+    "surface_texture_relief",
+    "normal_curvature_field",
+    "world_space_optical_rig",
+    "secondary_dynamics"
+  ],
+  "stage_rules": {
+    "normal_authoring_surface": "GasperDaisStage",
+    "nested_candidate_page_forbidden": true,
+    "direct_manipulation_required": true,
+    "single_authoritative_selection_model": true
+  },
+  "build_gates": [
+    "Fail when a visible inspector control lacks a registered rig binding.",
+    "Fail when topology counts drift without an explicit migration.",
+    "Fail when an iframe or standalone candidate webpage becomes the normal authoring stage.",
+    "Fail when an interactive slider invokes REST, MCP, CDP, Playwright, or postMessage.",
+    "Fail when the 25x40 adaptive relief field is omitted, flattened into static texture, or treated as decorative-only.",
+    "Fail when internal energy is represented only as a color or glow without its own animated volume/state.",
+    "Fail when skin/material, surface relief, and structural geometry are collapsed into one undifferentiated parameter layer.",
+    "Fail when embodiment morphing updates only the contour while leaving structural, relief, energy, face, and optical layers unsynchronized.",
+    "Fail when organism_representation is not continuous-live-vector.",
+    "Fail when pixel buffers, bitmap substitution, or pixel-derived geometry appear in executable Gasper or packaged Studio runtime source.",
+    "Fail when any forbidden runtime API/token from this lock is present in scannable executable runtime files.",
+    "Fail when any forbidden SVG raster-media marker is present in scannable .svg organism sources (raw scan, no JS comment stripping).",
+    "Fail when any forbidden SVG image-space marker is present in scannable .svg organism sources (filters, fe*, filter=, mix-blend-mode, masks, style.filter, filter:).",
+    "Fail when organism executable source writes setAttribute('filter' / setAttribute(\"filter\" or mix-blend-mode / mixBlendMode.",
+    "Fail when vector material replacement coverage markers are missing for required semantic layers.",
+    "Fail when more or fewer than one continuously mounted live SVG root is required by contract.",
+    "Fail when analytic feature-relief provenance markers are missing from relief module, FormMaster, or SVG.",
+    "Fail when VEC-101 GasperRigController or VEC-201/VEC-302/VEC-401 FormMaster/SVG/clock frozen hashes drift without an explicit packet.",
+    "Fail when external capture tooling feeds pixels back into organism state (external_capture_observer_only).",
+    "Fail when unsupported transitions fall open to bitmap substitution instead of preserving last valid vector state.",
+    "Fail when organism_clock.required is not true or single_authority is not true.",
+    "Fail when more than one independent perpetual organism-time RAF authority remains among converged controllers.",
+    "Fail when GasperRigController domain tick, EightStateLoop living advance, GasperLivingRuntime continuous advance, or FormMaster continuous render own independent perpetual RAF loops.",
+    "Fail when the global organism clock is adopted through instanceof rather than the structural protocol.",
+    "Fail when a second compatible organism clock overwrites the installed authority instead of refusing split-brain.",
+    "Fail when GasperLivingRuntime or EightStateLoopController starts, pauses, resumes, seeds, resets, steps, scrubs, or changes the organism clock mode.",
+    "Fail when GSAP updateRoot advances from its autonomous ticker while the organism clock bridge is active.",
+    "Fail when subscriber order differs from GSAP 10, EightState 20, LivingRuntime 30, domain tick 40, FormMaster render 90.",
+    "Fail when FormMaster creates or starts a second clock in the packaged desktop path.",
+    "Fail when FormMaster or typed subscribers survive Gasper document teardown.",
+    "Fail when deterministic replay with identical seed and command trace produces a different frame trace hash.",
+    "Fail when canonical_compositor.required is not true or single_authority is not true.",
+    "Fail when canonical compositor order differs from document base, embodiment, expression, clip, runtime, living, manual preview, constraints, character state.",
+    "Fail when constraints execute after explicit character-state final authority.",
+    "Fail when GasperLayerMixer implements an independent final-value loop instead of delegating to composeResolvedPose.",
+    "Fail when controller character-state application constructs a GasperLayerMixer or bypasses the canonical compositor.",
+    "Fail when a resolved visible binding lacks contribution trace, final owner, final value, or registered SVG targets.",
+    "Fail when identical compositor inputs produce different values, traces, or deterministic hashes.",
+    "Fail when VEC-501 frozen hashes drift without an explicit later packet.",
+    "Fail when living_facial_authority.required or single_temporal_authority is not true.",
+    "Fail when legacy and eight-state routes do not share one GasperLivingFacialAuthority instance.",
+    "Fail when both priority-20 and priority-30 living subscriber routes evaluate simultaneously.",
+    "Fail when an independent breath, blink, gaze, saccade, wobble, or facial scheduler exists outside GasperLivingFacialAuthority.",
+    "Fail when route adapters animate a FACIAL_TEMPORAL_BINDINGS channel instead of setting a continuum target.",
+    "Fail when the living/facial authority owns RAF, timer, GSAP, DOM, SVG, or network work.",
+    "Fail when reduced motion permits autonomous blink or saccade.",
+    "Fail when identical living/facial seed and frame trace produce different values or hashes.",
+    "Fail when VEC-602 frozen hashes drift without an explicit later packet.",
+    "Fail when vector_projection_transaction.required or single_writer_per_svg_root is not true.",
+    "Fail when a mounted SVG root accepts more than one active projection lease, including a duplicate lease with the same writer identity.",
+    "Fail when FormMaster production render executes outside the VEC-701 projection transaction.",
+    "Fail when GasperRigController performs a post-FormMaster SVG mutation or retains a retired operational overlay writer symbol.",
+    "Fail when GasperRenderMixer native SVG writes execute outside one complete projection transaction.",
+    "Fail when GasperRenderMixer owns an independent requestAnimationFrame or timer render scheduler.",
+    "Fail when a committed projection frame lacks one monotonic inspection revision, writer identity, mode, frame index, time, and resolved-state hash.",
+    "Fail when duplicate, split-brain, reentrant, stale, or malformed projection requests do not refuse fail-closed.",
+    "Fail when VEC-701 frozen hashes drift without an explicit later packet.",
+    "Fail when GasperRigController re-implements extracted controller module mechanics instead of remaining the public facade.",
+    "Fail when controller_decomposition.required is not true or single authority invariants (SVG root, clock, compositor, living/facial, projection writer) are false.",
+    "Fail when FormMaster sidekick-form-control postMessage is installed on the packaged non-standalone path without __GASPER_EXTERNAL_AUTHORING_BRIDGE__ opt-in.",
+    "Fail when live-source GasperRigController or all-script-3 .bak executables reappear under packages/desktop/src/gasper.",
+    "Fail when LegacyAuthorityRenderer claims native-gasper-production is packaged production authority."
+  ],
+  "canonical_compositor": {
+    "required": true,
+    "packet": "VEC-501",
+    "single_authority": true,
+    "module": "packages/desktop/src/gasper/compositor/ResolvedPoseCompositor.ts",
+    "export_marker": "composeResolvedPose",
+    "compatibility_adapter": "packages/desktop/src/gasper/GasperLayerMixer.ts",
+    "compatibility_adapter_may_not_resolve_independently": true,
+    "canonical_order": [
+      "document_base",
+      "embodiment",
+      "expression",
+      "clip",
+      "runtime",
+      "living",
+      "manual_preview",
+      "constraints",
+      "character_state"
+    ],
+    "legacy_preview_alias": "manual_preview",
+    "constraints_before_character_state": true,
+    "explicit_character_state_final_authority": true,
+    "one_final_owner_per_binding": true,
+    "contribution_trace_required": true,
+    "constraint_trace_required": true,
+    "final_value_trace_required": true,
+    "svg_target_trace_required": true,
+    "deterministic_hash_required": true,
+    "scrub_suppresses_living": true,
+    "interrupt_holds_resolved_pose": true,
+    "controller_character_path_uses_canonical_compositor": true
+  },
+  "living_facial_authority": {
+    "required": true,
+    "packet": "VEC-602",
+    "single_temporal_authority": true,
+    "module": "packages/desktop/src/gasper/living/GasperLivingFacialAuthority.ts",
+    "export_marker": "GasperLivingFacialAuthority",
+    "shared_instance_legacy_and_eight_state": true,
+    "organism_clock_synchronous": true,
+    "autonomous_timer_forbidden": true,
+    "independent_raf_forbidden": true,
+    "gsap_temporal_ownership_forbidden": true,
+    "dom_and_svg_write_forbidden": true,
+    "facial_continuum_module": "packages/desktop/src/gasper/facial/FacialBodyContinuum.ts",
+    "complete_face_channel_vocabulary_required": true,
+    "fixtures_and_semantic_states_are_targets_only": true,
+    "blink_owner": "gasper-living-facial-authority",
+    "gaze_saccade_owner": "gasper-living-facial-authority",
+    "mouth_and_face_owner": "FacialBodyContinuum",
+    "breath_and_microvariation_owner": "gasper-living-facial-authority",
+    "reduced_motion_suppresses_autonomous_blink_saccade": true,
+    "deterministic_seeded_replay_required": true,
+    "one_active_subscriber_route": true,
+    "eight_state_priority": 20,
+    "legacy_priority": 30,
+    "legacy_suppressed_when_eight_state_active": true,
+    "production_projection": "canonical-compositor-to-formmaster",
+    "native_candidate_lab_only": true
+  },
+  "vector_projection_transaction": {
+    "required": true,
+    "packet": "VEC-701",
+    "single_writer_per_svg_root": true,
+    "module": "packages/desktop/src/gasper/projection/GasperVectorProjectionTransaction.ts",
+    "export_marker": "GasperVectorProjectionAuthority",
+    "global_key": "__GASPER_VECTOR_PROJECTION__",
+    "production_writer": "formmaster-vector-projector",
+    "native_writer": "native-vector-projector",
+    "production_mode": "production",
+    "native_mode": "native-lab",
+    "production_projection_owner": "FormMaster.all-script-3.render",
+    "native_projection_owner": "GasperRenderMixer.flush",
+    "controller_post_paint_svg_write_forbidden": true,
+    "native_complete_flush_transaction_required": true,
+    "native_independent_render_scheduler_forbidden": true,
+    "organism_clock_driven": true,
+    "one_revision_per_committed_frame": true,
+    "duplicate_active_lease_refusal": true,
+    "writer_split_brain_refusal": true,
+    "mode_split_brain_refusal": true,
+    "reentrant_transaction_refusal": true,
+    "stale_or_duplicate_frame_refusal": true,
+    "fault_inspection_required": true,
+    "teardown_disposal_required": true,
+    "native_candidate_lab_only": true,
+    "retired_controller_writer_symbols": [
+      "commitOperationalOverlay",
+      "wrapFormMasterPaintHook",
+      "paintOperationalReliefToAuthority",
+      "tickOperationalEmbodiments",
+      "ensureOperationalPath",
+      "stampPath"
+    ]
+  },
+  "controller_decomposition": {
+    "required": true,
+    "packet": "VEC-801",
+    "cleanup_packet": "VEC-802",
+    "facade": "GasperRigController",
+    "module_root": "packages/desktop/src/gasper/controller",
+    "modules": {
+      "renderer_adapter": "controller/legacyAuthorityAdapter.ts",
+      "organism_clock": "controller/organismClockIntegration.ts",
+      "state_resolver": "controller/stateResolver.ts",
+      "living_intent": "controller/livingIntent.ts",
+      "animation_editor": "controller/animationEditorAdapter.ts",
+      "vector_projection": "controller/projectionCoordination.ts",
+      "inspection": "controller/inspectionService.ts",
+      "binding_catalog": "controller/bindingCatalog.ts",
+      "legacy_policy": "controller/legacyFormMasterPolicy.ts",
+      "external_authoring_bridge": "controller/externalAuthoringBridge.ts"
+    },
+    "single_live_svg_root": true,
+    "single_organism_clock": true,
+    "single_canonical_compositor": true,
+    "single_living_facial_authority": true,
+    "single_vector_projection_writer": true,
+    "empty_wrappers_forbidden": true,
+    "live_source_bak_removed": true,
+    "external_authoring_postmessage_isolated": true,
+    "production_authority": "legacy-authority-formmaster-v655",
+    "native_candidate_lab_only": true
+  }
+}

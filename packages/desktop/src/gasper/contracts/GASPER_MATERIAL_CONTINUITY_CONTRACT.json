@@ -1,0 +1,105 @@
+{
+  "id": "gasper.material.continuity",
+  "version": 1,
+  "packet": "GASPER-MAT-002",
+  "status": "DECLARED_IDENTITY",
+  "clock": "VEC-401",
+  "clockBinding": "projection_consumes_organism_frame",
+  "coordinateSpace": "material",
+  "projection": {
+    "required": true,
+    "packet": "GASPER-MAT-002",
+    "primitive": "projectMaterialFeature",
+    "clock": "VEC-401",
+    "identityFrom": "material-anchor-id",
+    "families": ["cosmic_flecks", "cosmic_streaks", "subsurface_bands", "hard_highlights"],
+    "forbiddenIdentitySources": [
+      "mesh-index",
+      "contour-topology-index",
+      "silhouetteProfile",
+      "eightStateId"
+    ],
+    "persistentHosts": ["materialFlecksLayer", "cosmicStreaks", "subsurfaceBands"],
+    "legacyDynamicHost": "cosmicFlecks"
+  },
+  "calibration": {
+    "id": "gasper-6.5-vivid-depth-v1",
+    "sourceRig": "gasper-rig-v655.svg",
+    "paletteRoles": {
+      "bodyBase": ["#12063a", "#d08aff"],
+      "cyanReservoir": ["#0f4e75", "#85fff4"],
+      "opticalDepth": ["#080414", "#25104a"],
+      "hardHighlight": ["#fffaff", "#ffffff"]
+    },
+    "responseBounds": {
+      "fleckOpacity": [0.32, 0.85],
+      "streakOpacity": [0.1, 0.55],
+      "subsurfaceBandOpacity": [0.05, 0.18],
+      "hardHighlightOpacity": [0.42, 1.0],
+      "opticalDepthOpacity": [0.0, 0.52]
+    },
+    "invariants": [
+      "body-core-contrast-preserved",
+      "violet-cyan-separation-preserved",
+      "optical-depth-remains-bounded",
+      "hard-highlights-remain-dominant",
+      "subsurface-bands-remain-faint"
+    ]
+  },
+  "features": {
+    "cosmic_flecks": {
+      "count": 24,
+      "coordinateSpace": "material",
+      "idPrefix": "fleck-",
+      "ids": [
+        "fleck-01", "fleck-02", "fleck-03", "fleck-04", "fleck-05", "fleck-06",
+        "fleck-07", "fleck-08", "fleck-09", "fleck-10", "fleck-11", "fleck-12",
+        "fleck-13", "fleck-14", "fleck-15", "fleck-16", "fleck-17", "fleck-18",
+        "fleck-19", "fleck-20", "fleck-21", "fleck-22", "fleck-23", "fleck-24"
+      ]
+    },
+    "cosmic_streaks": {
+      "count": 4,
+      "coordinateSpace": "material",
+      "ids": [
+        "cosmic-streak-01",
+        "cosmic-streak-02",
+        "cosmic-streak-03",
+        "cosmic-streak-04"
+      ]
+    },
+    "subsurface_bands": {
+      "count": 3,
+      "coordinateSpace": "material",
+      "ids": [
+        "subsurface-band-01",
+        "subsurface-band-02",
+        "subsurface-band-03"
+      ]
+    },
+    "hard_highlights": {
+      "count": 3,
+      "coordinateSpace": "material",
+      "ids": [
+        "highlight-nub-left",
+        "highlight-nub-right",
+        "highlight-face-left"
+      ],
+      "sourceRibbonNotes": "Existing hard white key/lobe ribbon content is the visual source; packet 1 only names identity nodes."
+    }
+  },
+  "forbidden": [
+    "canvas",
+    "bitmap",
+    "filter",
+    "fe",
+    "mix-blend-mode",
+    "mask"
+  ],
+  "notes": [
+    "DECLARED_IDENTITY status retained for named anchors; MAT-002 projects them through projectMaterialFeature on the shared VEC-401 organism frame.",
+    "VEC-401 is the projection clock (frame.timeMs / elapsedMs). Mesh index, silhouetteProfile, and eightStateId are not identity keys.",
+    "Persistent fleck identity nodes live under materialFlecksLayer; legacy cosmicFlecks remains the dynamic replaceChildren host only.",
+    "Does not claim visual acceptance. Visual vividness/depth calibration remains deferred to MAT-003."
+  ]
+}

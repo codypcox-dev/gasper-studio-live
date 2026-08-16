@@ -1,0 +1,333 @@
+/**
+ * Wave R3 — native expression fixture registry.
+ * Core fixtures map to multi-domain bindings (not FormMaster setFixture).
+ * Expanded catalog can grow; anchors align with Book 004 / living microstates.
+ *
+ * GASPER-007-G R2: eight showcase scenarios map onto these fixtures via
+ * `SCENARIO_TO_EXPRESSION_FIXTURE` in `./scenario` (historical 18 remain anchors).
+ */
+
+import type { DomainScalarMap } from "./GasperDomainState";
+
+export type GasperExpressionFixture = {
+  id: string;
+  family: string;
+  label: string;
+  note: string;
+  /** Domain binding targets for native mixer. */
+  bindings: DomainScalarMap;
+};
+
+/** Eight-state showcase → native fixture affinity (mapping only; R2). */
+export const EIGHT_STATE_EXPRESSION_AFFINITY: Record<string, string> = {
+  "presence-neutral-settled": "neutral-settled",
+  "presence-listening-receive": "listening-orient",
+  "presence-thinking-knit": "thinking-knit",
+  "presence-recognition-spark": "recognition-spark",
+  "comet-executing-drive": "thinking-knit",
+  "presence-blocked-strain": "blocked-strain",
+  "presence-pleased-resolve": "pleased-soft",
+  "dormant-orbit-maintain": "neutral-settled",
+};
+
+/** Authoritative fixture → domain map (native path). */
+export const GASPER_EXPRESSION_FIXTURES: Record<string, GasperExpressionFixture> =
+  {
+    "neutral-settled": {
+      id: "neutral-settled",
+      family: "neutral",
+      label: "Settled",
+      note: "Quiet, socially available resting state — whole-face morphology Neutral floor.",
+      bindings: {
+        energy_level: 0.52,
+        energy_pulse: 0.16,
+        energy_lag: 0.35,
+        eye_openness: 0.56,
+        eye_spacing: 0,
+        mouth_openness: 0.32,
+        mouth_width: 1,
+        face_scale: 1,
+        gaze: 0.02,
+        corner_pull_l: 0.02,
+        corner_pull_r: 0.02,
+        brow_raise: 0.04,
+        upper_lid_aperture: 0.56,
+        lower_lid_aperture: 0.48,
+        eye_tilt: 0,
+        inter_eye_relation: 0,
+        mouth_curvature: 0.04,
+        mouth_aperture: 0.32,
+        cheek_tension: 0.3,
+        face_plane_tension: 0.34,
+        contour_bias: 0,
+        face_asymmetry: 0.01,
+        gaze_action: 0.02,
+        relief_amplitude: 0.42,
+        skin_tension: 0.36,
+        internal_glow: 0.48,
+        face_emissive: 0.32,
+        overall_height: 1,
+        overall_width: 1,
+        crown_height: 0.04,
+      },
+    },
+    "neutral-social": {
+      id: "neutral-social",
+      family: "neutral",
+      label: "Social",
+      note: "Slightly more open and receptive neutral.",
+      bindings: {
+        energy_level: 0.58,
+        energy_pulse: 0.2,
+        eye_openness: 0.62,
+        mouth_openness: 0.36,
+        mouth_width: 1.04,
+        face_scale: 1.02,
+        face_emissive: 0.4,
+        relief_amplitude: 0.45,
+      },
+    },
+    "listening-orient": {
+      id: "listening-orient",
+      family: "listening",
+      label: "Orient",
+      note: "Receptive attention — raised brow, open upper lid, soft mouth, attend-gaze.",
+      bindings: {
+        energy_level: 0.64,
+        energy_pulse: 0.22,
+        energy_lag: 0.28,
+        eye_openness: 0.639,
+        eye_spacing: 0.09,
+        mouth_openness: 0.22,
+        mouth_width: 1.02,
+        face_scale: 1.02,
+        gaze: 0.187,
+        corner_pull_l: 0.017,
+        corner_pull_r: -0.017,
+        brow_raise: 0.28,
+        upper_lid_aperture: 0.74,
+        lower_lid_aperture: 0.38,
+        eye_tilt: 0.06,
+        inter_eye_relation: 0.09,
+        mouth_curvature: 0.0,
+        mouth_aperture: 0.22,
+        cheek_tension: 0.26,
+        face_plane_tension: 0.4,
+        contour_bias: 0.06,
+        face_asymmetry: 0.05,
+        gaze_action: 0.22,
+        relief_amplitude: 0.5,
+        skin_tension: 0.351,
+        internal_glow: 0.56,
+        face_emissive: 0.4,
+        overall_height: 1.02,
+        overall_width: 1.015,
+        crown_height: 0.08,
+      },
+    },
+    "thinking-knit": {
+      id: "thinking-knit",
+      family: "thinking",
+      label: "Knit",
+      note: "Inward knit — drawn brow, dual-lid compress, compressed mouth.",
+      bindings: {
+        energy_level: 0.58,
+        energy_pulse: 0.36,
+        energy_lag: 0.55,
+        eye_openness: 0.435,
+        eye_spacing: -0.11,
+        mouth_openness: 0.16,
+        mouth_width: 0.96,
+        face_scale: 0.98,
+        gaze: -0.136,
+        corner_pull_l: -0.086,
+        corner_pull_r: -0.024,
+        brow_raise: -0.2,
+        upper_lid_aperture: 0.34,
+        lower_lid_aperture: 0.68,
+        eye_tilt: -0.12,
+        inter_eye_relation: -0.11,
+        mouth_curvature: -0.1,
+        mouth_aperture: 0.16,
+        cheek_tension: 0.54,
+        face_plane_tension: 0.64,
+        contour_bias: -0.07,
+        face_asymmetry: -0.09,
+        gaze_action: -0.16,
+        relief_amplitude: 0.58,
+        skin_tension: 0.605,
+        internal_glow: 0.5,
+        overall_height: 0.99,
+        overall_width: 0.975,
+        crown_height: 0.12,
+        inertia: 0.48,
+      },
+    },
+    "blocked-strain": {
+      id: "blocked-strain",
+      family: "blocked",
+      label: "Strain",
+      note: "Guarded strain — compressed brow, dual-lid guard, tight down-curve mouth.",
+      bindings: {
+        energy_level: 0.36,
+        energy_pulse: 0.12,
+        energy_lag: 0.7,
+        eye_openness: 0.409,
+        eye_spacing: -0.14,
+        mouth_openness: 0.12,
+        mouth_width: 0.88,
+        face_scale: 0.96,
+        gaze: 0.068,
+        corner_pull_l: -0.186,
+        corner_pull_r: -0.144,
+        brow_raise: -0.28,
+        upper_lid_aperture: 0.28,
+        lower_lid_aperture: 0.74,
+        eye_tilt: -0.06,
+        inter_eye_relation: -0.14,
+        mouth_curvature: -0.3,
+        mouth_aperture: 0.12,
+        cheek_tension: 0.78,
+        face_plane_tension: 0.82,
+        contour_bias: -0.14,
+        face_asymmetry: -0.06,
+        gaze_action: 0.08,
+        relief_amplitude: 0.34,
+        skin_tension: 0.806,
+        internal_glow: 0.3,
+        face_emissive: 0.16,
+        overall_height: 0.94,
+        overall_width: 0.95,
+        ground_flattening: 0.12,
+        inertia: 0.6,
+        settling: 0.24,
+      },
+    },
+    recovering: {
+      id: "recovering",
+      family: "recovering",
+      label: "Recovering",
+      note: "Return toward availability.",
+      bindings: {
+        energy_level: 0.48,
+        energy_pulse: 0.2,
+        energy_lag: 0.45,
+        eye_openness: 0.52,
+        mouth_openness: 0.3,
+        face_scale: 1,
+        relief_amplitude: 0.44,
+        skin_tension: 0.4,
+        internal_glow: 0.44,
+        overall_height: 0.98,
+        settling: 0.5,
+        rebound: 0.35,
+      },
+    },
+    "pleased-soft": {
+      id: "pleased-soft",
+      family: "pleased",
+      label: "Soft please",
+      note: "Warm soft approval — soft brow lift, mouth curve up, cheek raise.",
+      bindings: {
+        energy_level: 0.66,
+        energy_pulse: 0.28,
+        eye_openness: 0.521,
+        mouth_openness: 0.4,
+        mouth_width: 1.09,
+        face_scale: 1.025,
+        corner_pull_l: 0.209,
+        corner_pull_r: 0.188,
+        brow_raise: 0.12,
+        upper_lid_aperture: 0.56,
+        lower_lid_aperture: 0.42,
+        eye_tilt: 0.03,
+        inter_eye_relation: 0.03,
+        mouth_curvature: 0.36,
+        mouth_aperture: 0.4,
+        cheek_tension: 0.58,
+        face_plane_tension: 0.28,
+        contour_bias: 0.06,
+        face_asymmetry: 0.03,
+        gaze_action: 0.05,
+        face_emissive: 0.54,
+        internal_glow: 0.64,
+        relief_amplitude: 0.5,
+        skin_tension: 0.385,
+      },
+    },
+    /**
+     * Recognition — distinct multi-domain whole-face morphology
+     * (not Neutral/Listening eye-line scale variants).
+     */
+    "recognition-spark": {
+      id: "recognition-spark",
+      family: "recognition",
+      label: "Spark",
+      note: "Bright spark — open dual lids, lifted brow, approach gaze, mouth curve up.",
+      bindings: {
+        energy_level: 0.76,
+        energy_pulse: 0.46,
+        energy_lag: 0.2,
+        eye_openness: 0.68,
+        eye_spacing: 0.07,
+        mouth_openness: 0.44,
+        mouth_width: 1.08,
+        corner_pull_l: 0.16,
+        corner_pull_r: 0.104,
+        face_scale: 1.035,
+        gaze: 0.204,
+        brow_raise: 0.34,
+        upper_lid_aperture: 0.82,
+        lower_lid_aperture: 0.32,
+        eye_tilt: 0.09,
+        inter_eye_relation: 0.07,
+        mouth_curvature: 0.24,
+        mouth_aperture: 0.44,
+        cheek_tension: 0.48,
+        face_plane_tension: 0.34,
+        contour_bias: 0.1,
+        face_asymmetry: 0.08,
+        gaze_action: 0.24,
+        face_emissive: 0.56,
+        internal_glow: 0.66,
+        relief_amplitude: 0.54,
+        skin_tension: 0.389,
+        overall_height: 1.035,
+        overall_width: 1.02,
+        crown_height: 0.12,
+        ground_flattening: 0,
+        inertia: 0.28,
+        settling: 0.32,
+        rebound: 0.32,
+      },
+    },
+  };
+
+export const GASPER_EXPRESSION_FAMILIES: Record<string, string[]> = {
+  neutral: ["neutral-settled", "neutral-social"],
+  listening: ["listening-orient"],
+  thinking: ["thinking-knit"],
+  recognition: ["recognition-spark"],
+  blocked: ["blocked-strain"],
+  recovering: ["recovering"],
+  pleased: ["pleased-soft"],
+};
+
+export function getExpressionFixture(
+  id: string,
+): GasperExpressionFixture | null {
+  return GASPER_EXPRESSION_FIXTURES[id] ?? null;
+}
+
+export function listExpressionFamilies(): Array<{
+  family: string;
+  fixtures: Array<{ id: string; label: string }>;
+}> {
+  return Object.entries(GASPER_EXPRESSION_FAMILIES).map(([family, ids]) => ({
+    family,
+    fixtures: ids.map((id) => ({
+      id,
+      label: GASPER_EXPRESSION_FIXTURES[id]?.label ?? id,
+    })),
+  }));
+}

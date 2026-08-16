@@ -1,0 +1,101 @@
+{
+  "schema": "gasper.performance.affect-dimensions.v1",
+  "version": "1.0.0",
+  "description": "Canonical continuous affect dimensions (GASPER-006 D01). Day-1 compiler requires freeze status dimensions; provisional may be omitted.",
+  "priority_band_note": "Affect projection into expression channels uses priority band 50–69 (expression affect).",
+  "dimensions": [
+    {
+      "id": "valence",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "unit": "signed_normalized",
+      "meaning": "Negative ↔ positive tone",
+      "status": "freeze",
+      "required_day1": true,
+      "source": "expression-manifold CoreAffect"
+    },
+    {
+      "id": "arousal",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "unit": "normalized",
+      "meaning": "Calm ↔ activated",
+      "status": "freeze",
+      "required_day1": true,
+      "source": "expression-manifold CoreAffect"
+    },
+    {
+      "id": "expression_gain",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "unit": "normalized",
+      "meaning": "How strongly affect drives expression",
+      "status": "freeze",
+      "required_day1": true,
+      "source": "expression-manifold CoreAffect"
+    },
+    {
+      "id": "attention",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "unit": "normalized",
+      "meaning": "Diffuse ↔ narrowed",
+      "status": "freeze",
+      "required_day1": true,
+      "source": "performance-grammar (new)"
+    },
+    {
+      "id": "certainty",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "unit": "normalized",
+      "meaning": "Uncertain ↔ realized (maps cognition load/focus inverse)",
+      "status": "freeze",
+      "required_day1": true,
+      "source": "performance-grammar (new)"
+    },
+    {
+      "id": "social_openness",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.5,
+      "unit": "normalized",
+      "meaning": "Withdrawn ↔ available",
+      "status": "provisional",
+      "required_day1": false,
+      "freeze_gate": "WS3",
+      "source": "performance-grammar provisional"
+    },
+    {
+      "id": "urgency",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.3,
+      "unit": "normalized",
+      "meaning": "Leisurely ↔ time-pressured",
+      "status": "provisional",
+      "required_day1": false,
+      "freeze_gate": "WS3",
+      "source": "performance-grammar provisional"
+    }
+  ]
+}

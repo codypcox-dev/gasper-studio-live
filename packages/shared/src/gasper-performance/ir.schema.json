@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentbridge.local/schemas/gasper.performance.ir.v1.json",
+  "title": "Gasper Performance IR v1",
+  "description": "Authoritative compiled Performance Intermediate Representation. content_hash excludes compiled_at. Compiler body is out of scope for D001; this freezes the envelope. GASPER-006 WS1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "ir_version",
+    "compiler_id",
+    "compiler_version",
+    "intent_id",
+    "intent_content_hash",
+    "seed",
+    "content_hash",
+    "affect_trajectory",
+    "channel_trajectories",
+    "routes",
+    "interrupt_plan",
+    "validation"
+  ],
+  "properties": {
+    "schema": {
+      "const": "gasper.performance.ir.v1"
+    },
+    "ir_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "compiler_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compiler_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intent_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intent_content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$|^[a-f0-9]{64}$"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "compiled_at": {
+      "type": "string",
+      "description": "ISO-8601 wall-clock. Excluded from content_hash / determinism basis."
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$|^[a-f0-9]{64}$"
+    },
+    "registry_hash": {
+      "type": "string",
+      "description": "Hash of channel registry used at compile time"
+    },
+    "route_graph_hash": {
+      "type": "string"
+    },
+    "affect_dimension_registry_hash": {
+      "type": "string"
+    },
+    "affect_trajectory": {
+      "$ref": "#/$defs/affectTrajectory"
+    },
+    "channel_trajectories": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/channelTrajectory"
+      },
+      "description": "Keys are channel registry ids. Unknown channel ids are invalid."
+    },
+    "routes": {
+      "$ref": "#/$defs/routePlan"
+    },
+    "interrupt_plan": {
+      "$ref": "#/$defs/interruptPlan"
+    },
+    "lowered": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "animation_plan_ref": {
+          "type": ["string", "null"]
+        },
+        "clip_library_delta": {
+          "type": ["object", "null"]
+        },
+        "schema_target": {
+          "type": "string"
+        }
+      }
+    },
+    "causal_index": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/causalEntry"
+      }
+    },
+    "validation": {
+      "$ref": "#/$defs/validationReport"
+    }
+  },
+  "$defs": {
+    "interruptClass": {
+      "type": "string",
+      "enum": ["soft", "hard", "barrier", "morph_safe"]
+    },
+    "affectPoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valence",
+        "arousal",
+        "expression_gain",
+        "attention",
+        "certainty"
+      ],
+      "properties": {
+        "valence": { "type": "number", "minimum": -1, "maximum": 1 },
+        "arousal": { "type": "number", "minimum": 0, "maximum": 1 },
+        "expression_gain": { "type": "number", "minimum": 0, "maximum": 1 },
+        "attention": { "type": "number", "minimum": 0, "maximum": 1 },
+        "certainty": { "type": "number", "minimum": 0, "maximum": 1 },
+        "social_openness": { "type": "number", "minimum": 0, "maximum": 1 },
+        "urgency": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "affectSpan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t0_ms", "t1_ms", "from", "to", "easing"],
+      "properties": {
+        "t0_ms": { "type": "number", "minimum": 0 },
+        "t1_ms": { "type": "number", "minimum": 0 },
+        "from": { "$ref": "#/$defs/affectPoint" },
+        "to": { "$ref": "#/$defs/affectPoint" },
+        "easing": { "type": "string" }
+      }
+    },
+    "affectHold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t_ms", "point", "duration_ms"],
+      "properties": {
+        "t_ms": { "type": "number", "minimum": 0 },
+        "point": { "$ref": "#/$defs/affectPoint" },
+        "duration_ms": { "type": "number", "minimum": 0 }
+      }
+    },
+    "affectTrajectory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spans"],
+      "properties": {
+        "sample_rate_hz_hint": { "type": "number", "minimum": 1 },
+        "spans": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/affectSpan" }
+        },
+        "holds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/affectHold" }
+        }
+      }
+    },
+    "channelKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t_ms", "value"],
+      "properties": {
+        "t_ms": { "type": "number", "minimum": 0 },
+        "value": { "type": "number" },
+        "easing": { "type": "string" }
+      }
+    },
+    "channelTrajectory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel_id", "keys"],
+      "properties": {
+        "channel_id": { "type": "string", "minLength": 1 },
+        "keys": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/channelKey" }
+        },
+        "priority": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "combinator": {
+          "type": "string",
+          "enum": ["replace", "max", "weighted_sum", "override_by_priority"]
+        }
+      }
+    },
+    "routeStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_id", "from", "to"],
+      "properties": {
+        "route_id": { "type": "string" },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "t0_ms": { "type": "number", "minimum": 0 },
+        "duration_ms": { "type": "number", "minimum": 0 },
+        "clip_template_ref": { "type": ["string", "null"] },
+        "interrupt_class": { "$ref": "#/$defs/interruptClass" }
+      }
+    },
+    "routePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["steps"],
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/routeStep" }
+        },
+        "expression_only": { "type": "boolean" }
+      }
+    },
+    "interruptBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase_id", "interrupt_class"],
+      "properties": {
+        "phase_id": { "type": "string" },
+        "t_ms": { "type": "number", "minimum": 0 },
+        "interrupt_class": { "$ref": "#/$defs/interruptClass" },
+        "notes": { "type": "string" }
+      }
+    },
+    "interruptPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_class", "boundaries"],
+      "properties": {
+        "default_class": { "$ref": "#/$defs/interruptClass" },
+        "boundaries": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/interruptBoundary" }
+        }
+      }
+    },
+    "causalContribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "channels", "weight"],
+      "properties": {
+        "source": { "type": "string" },
+        "channels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "weight": { "type": "number" }
+      }
+    },
+    "causalEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t_ms", "phase_id", "contributions"],
+      "properties": {
+        "t_ms": { "type": "number", "minimum": 0 },
+        "phase_id": { "type": "string" },
+        "contributions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/causalContribution" }
+        }
+      }
+    },
+    "validationIssue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "path": { "type": "string" },
+        "severity": {
+          "type": "string",
+          "enum": ["error", "warning", "info"]
+        }
+      }
+    },
+    "validationReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "issues"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["compiled", "warnings", "failed"]
+        },
+        "issues": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/validationIssue" }
+        }
+      }
+    }
+  }
+}

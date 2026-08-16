@@ -1,0 +1,36 @@
+{
+  "source": "host_node_fetch",
+  "note": "AgentBridge health checked outside candidate page origin (no CORS).",
+  "status": 200,
+  "body": {
+    "ok": true,
+    "coreServiceHealthy": true,
+    "ready": true,
+    "serviceAuthority": "scm",
+    "serviceGeneration": "scm-15336-1786850253044672200",
+    "state": "operational",
+    "stateLabel": "Operational",
+    "product": "AgentBridge Desktop",
+    "version": "0.5.8",
+    "runtimeIdentity": {
+      "sourceCommit": "27a2f24e304e6bb826f1f50962e8da9c7a6c4bb2",
+      "buildId": "18dcc9efafcf367f",
+      "deployedAt": "2026-08-15T23:18:36.922Z",
+      "configHash": "9385cb8f5b89d24930bdac061fc82bcac9fff49be9712802ed5fe335527b4d81",
+      "toolCount": 384,
+      "toolSchemaHash": "0d27055adb00550f195dd971110cf144a1014ec5e6b6ffbb64b1ceb5a2339016",
+      "loaded_bundle": {
+        "root": "C:\\Program Files\\AgentBridge\\node_modules\\@agentbridge\\gateway\\dist",
+        "files": {
+          "runtime-manifest.js": "1801e56c8257aaa5087097341b798b58a1a41eed44c9704e59027aeb782d64ac",
+          "triforce\\admission-kernel.js": "ce4cfb52c65f752274ca82b5fd4161206716c05e01af5994e946ec720b584b36",
+          "triforce\\register-tools.js": "047585b1f2f7d5f561eb83946a8699de16992655b3a0348d934cdadbeb235b22",
+          "terminal-pilot\\reasonix-path.js": "f8e50234422bef8becdea0f14cf5e0516cbbcdc2876c9ca195bc4c59bd6bcd93",
+          "reasonix/reasonix.exe": "cf120e1d6276a9aa13b8e034fbada6d0fb9dfdd8fb1e9310a0b16cd3bf371ba4"
+        },
+        "digest": "109dcff624829d6560f778231ff24573561a07ea21e03541b21f8ef6526ae98b"
+      },
+      "warnings": []
+    }
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "schema": "gasper.performance.intent-modifiers.v1",
+  "version": "0.1.0-draft",
+  "status": "provisional_frozen_post_d003s",
+  "policy": "No unknown tag is silently ignored. Unknown closed-enum fails validation.",
+  "modifiers": [
+    {
+      "tag": "notice",
+      "channels": {
+        "eye_openness": {
+          "delta": 0.04
+        },
+        "gaze": {
+          "delta": 0.03
+        }
+      },
+      "maximum_magnitude": 0.08,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 56,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "brief attention bump",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "orient",
+      "channels": {
+        "gaze": {
+          "delta": 0.06
+        },
+        "eye_spacing": {
+          "delta": -0.02
+        },
+        "crown_height": {
+          "delta": 0.03
+        }
+      },
+      "maximum_magnitude": 0.1,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 57,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "listening orient posture",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "narrow_attention",
+      "channels": {
+        "eye_spacing": {
+          "delta": -0.04
+        },
+        "face_scale": {
+          "delta": -0.02
+        },
+        "gaze": {
+          "delta": 0.02
+        }
+      },
+      "maximum_magnitude": 0.1,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 57,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "focus compression",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "think",
+      "channels": {
+        "eye_openness": {
+          "delta": -0.03
+        },
+        "internal_glow": {
+          "delta": 0.04
+        },
+        "energy_lag": {
+          "delta": 0.05
+        }
+      },
+      "maximum_magnitude": 0.12,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 58,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "cognitive load",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "knit",
+      "channels": {
+        "skin_tension": {
+          "delta": 0.06
+        },
+        "relief_amplitude": {
+          "delta": 0.05
+        },
+        "settling": {
+          "delta": -0.04
+        }
+      },
+      "maximum_magnitude": 0.12,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 58,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "thinking-knit structure",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "realize",
+      "channels": {
+        "eye_openness": {
+          "delta": 0.06
+        },
+        "energy_level": {
+          "delta": 0.05
+        },
+        "face_emissive": {
+          "delta": 0.05
+        }
+      },
+      "maximum_magnitude": 0.12,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 58,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "insight open",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "excite",
+      "channels": {
+        "energy_pulse": {
+          "delta": 0.08
+        },
+        "energy_level": {
+          "delta": 0.06
+        },
+        "rebound": {
+          "delta": 0.04
+        }
+      },
+      "maximum_magnitude": 0.15,
+      "eligible_embodiments": [
+        "presence",
+        "comet",
+        "comet-left",
+        "comet-right"
+      ],
+      "priority": 58,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "activation",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "compress",
+      "channels": {
+        "overall_height": {
+          "delta": -0.04
+        },
+        "overall_width": {
+          "delta": -0.03
+        },
+        "skin_tension": {
+          "delta": 0.08
+        }
+      },
+      "maximum_magnitude": 0.12,
+      "eligible_embodiments": [
+        "presence",
+        "singularity"
+      ],
+      "priority": 60,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "blocked/compress body",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "launch",
+      "channels": {
+        "energy_level": {
+          "delta": 0.1
+        },
+        "center_of_mass_y": {
+          "delta": 0.05
+        },
+        "secondary_lag": {
+          "delta": -0.04
+        }
+      },
+      "maximum_magnitude": 0.15,
+      "eligible_embodiments": [
+        "presence",
+        "comet",
+        "comet-left",
+        "comet-right"
+      ],
+      "priority": 72,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "comet launch energy",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "travel",
+      "channels": {
+        "secondary_lag": {
+          "delta": 0.05
+        },
+        "energy_pulse": {
+          "delta": 0.04
+        }
+      },
+      "maximum_magnitude": 0.1,
+      "eligible_embodiments": [
+        "comet",
+        "comet-left",
+        "comet-right"
+      ],
+      "priority": 55,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "in-flight secondary",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "settle",
+      "channels": {
+        "settling": {
+          "delta": 0.1
+        },
+        "energy_pulse": {
+          "delta": -0.05
+        },
+        "inertia": {
+          "delta": -0.04
+        }
+      },
+      "maximum_magnitude": 0.15,
+      "eligible_embodiments": [
+        "presence",
+        "comet",
+        "comet-left",
+        "comet-right",
+        "dormant-orbit"
+      ],
+      "priority": 55,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "return to calm",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "return",
+      "channels": {
+        "settling": {
+          "delta": 0.06
+        },
+        "energy_level": {
+          "delta": -0.03
+        }
+      },
+      "maximum_magnitude": 0.1,
+      "eligible_embodiments": [
+        "presence",
+        "singularity",
+        "comet",
+        "comet-left",
+        "comet-right",
+        "dormant-orbit"
+      ],
+      "priority": 55,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "route return ease",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "hold",
+      "channels": {
+        "settling": {
+          "delta": 0.08
+        },
+        "secondary_lag": {
+          "delta": 0.04
+        }
+      },
+      "maximum_magnitude": 0.1,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 54,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "listening hold",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "listen",
+      "channels": {
+        "eye_openness": {
+          "delta": 0.03
+        },
+        "gaze": {
+          "delta": 0.04
+        },
+        "mouth_openness": {
+          "delta": -0.02
+        }
+      },
+      "maximum_magnitude": 0.08,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 56,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "receive attention",
+      "status": "draft_pre_d003h"
+    },
+    {
+      "tag": "spark",
+      "channels": {
+        "energy_pulse": {
+          "delta": 0.1
+        },
+        "face_emissive": {
+          "delta": 0.06
+        },
+        "corner_pull_l": {
+          "delta": 0.03
+        },
+        "corner_pull_r": {
+          "delta": 0.03
+        }
+      },
+      "maximum_magnitude": 0.15,
+      "eligible_embodiments": [
+        "presence"
+      ],
+      "priority": 58,
+      "conflict_group": "intent_modifier",
+      "semantic_rationale": "mischievous spark",
+      "status": "draft_pre_d003h"
+    }
+  ],
+  "frozen": false,
+  "human_review_required": true,
+  "authority_class": "synthetic_surrogate_v1"
+}

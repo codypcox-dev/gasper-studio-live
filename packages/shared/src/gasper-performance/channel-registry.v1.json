@@ -1,0 +1,1207 @@
+{
+  "schema": "gasper.performance.channel-registry.v1",
+  "version": "1.0.0",
+  "description": "Stable animation channel ids mined from production hero pack, expression fixtures, and Legacy Authority domain flatten. Unknown channel ids must fail compile (D03/D04).",
+  "priority_bands": {
+    "identity_lock": {
+      "min": 90,
+      "max": 100
+    },
+    "embodiment_route": {
+      "min": 70,
+      "max": 89
+    },
+    "expression_affect": {
+      "min": 50,
+      "max": 69
+    },
+    "living_idle_secondary": {
+      "min": 20,
+      "max": 49
+    },
+    "debug_lab_override": {
+      "min": 0,
+      "max": 19
+    }
+  },
+  "combinators": [
+    "replace",
+    "max",
+    "weighted_sum",
+    "override_by_priority"
+  ],
+  "default_combinator": "replace",
+  "sources_scanned": [
+    "packages/gasper-demo-content/content/gasper-hero-pack-v1/bindings-used.json",
+    "packages/gasper-demo-content/content/gasper-hero-pack-v1/clips/**",
+    "packages/desktop/src/gasper/GasperExpressionFixtures.ts",
+    "packages/desktop/src/gasper/GasperDomainState.ts",
+    "packages/shared/src/gasper-animation/"
+  ],
+  "channels": [
+    {
+      "id": "corner_pull_l",
+      "domain": "face",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 55,
+      "combinator": "replace",
+      "conflict_group": "mouth_shape",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "corner_pull_l",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "corner_pull_r",
+      "domain": "face",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 55,
+      "combinator": "replace",
+      "conflict_group": "mouth_shape",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "corner_pull_r",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "crown_height",
+      "domain": "macro",
+      "unit": "normalized",
+      "range": {
+        "min": -0.5,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 60,
+      "combinator": "replace",
+      "conflict_group": "macro_height",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "crown_height",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "energy_level",
+      "domain": "energy",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 58,
+      "combinator": "weighted_sum",
+      "conflict_group": "energy",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "energy_level",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "energy_pulse",
+      "domain": "energy",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.2,
+      "priority": 45,
+      "combinator": "replace",
+      "conflict_group": "energy",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "energy_pulse",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "energy_lag",
+      "domain": "energy",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "energy",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "energy_lag",
+      "coverage": [
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "energy_occlusion",
+      "domain": "energy",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.15,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "energy",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "energy_occlusion",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "eye_openness",
+      "domain": "face",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 58,
+      "combinator": "replace",
+      "conflict_group": "face_aperture",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "eye_openness",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "eye_spacing",
+      "domain": "face",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -0.5,
+        "max": 0.5
+      },
+      "default": 0,
+      "priority": 55,
+      "combinator": "replace",
+      "conflict_group": "face_layout",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "eye_spacing",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "face_scale",
+      "domain": "face",
+      "unit": "scale",
+      "range": {
+        "min": 0.5,
+        "max": 1.5
+      },
+      "default": 1,
+      "priority": 56,
+      "combinator": "replace",
+      "conflict_group": "face_layout",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "face_scale",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "face_emissive",
+      "domain": "optics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "priority": 52,
+      "combinator": "replace",
+      "conflict_group": "face_optics",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "face_emissive",
+      "coverage": [
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "gaze",
+      "domain": "face",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 57,
+      "combinator": "replace",
+      "conflict_group": "gaze",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "gaze",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "ground_flattening",
+      "domain": "macro",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 62,
+      "combinator": "replace",
+      "conflict_group": "macro_base",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "ground_flattening",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "internal_glow",
+      "domain": "optics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.5,
+      "priority": 52,
+      "combinator": "replace",
+      "conflict_group": "energy_optics",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "internal_glow",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "key_direction",
+      "domain": "optics",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 48,
+      "combinator": "replace",
+      "conflict_group": "key_light",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "key_direction",
+      "coverage": [
+        "hero_required",
+        "domain"
+      ]
+    },
+    {
+      "id": "key_intensity",
+      "domain": "optics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.6,
+      "priority": 48,
+      "combinator": "replace",
+      "conflict_group": "key_light",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "key_intensity",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "lower_body_fullness",
+      "domain": "macro",
+      "unit": "scale",
+      "range": {
+        "min": 0.5,
+        "max": 1.5
+      },
+      "default": 1,
+      "priority": 60,
+      "combinator": "replace",
+      "conflict_group": "macro_body",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "lower_body_fullness",
+      "coverage": [
+        "hero_required",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "mouth_openness",
+      "domain": "face",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "priority": 55,
+      "combinator": "replace",
+      "conflict_group": "mouth_shape",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "mouth_openness",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "mouth_width",
+      "domain": "face",
+      "unit": "scale",
+      "range": {
+        "min": 0.5,
+        "max": 1.5
+      },
+      "default": 1,
+      "priority": 54,
+      "combinator": "replace",
+      "conflict_group": "mouth_shape",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "mouth_width",
+      "coverage": [
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "overall_height",
+      "domain": "macro",
+      "unit": "scale",
+      "range": {
+        "min": 0.5,
+        "max": 1.5
+      },
+      "default": 1,
+      "priority": 72,
+      "combinator": "replace",
+      "conflict_group": "macro_silhouette",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "overall_height",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "overall_width",
+      "domain": "macro",
+      "unit": "scale",
+      "range": {
+        "min": 0.5,
+        "max": 1.5
+      },
+      "default": 1,
+      "priority": 72,
+      "combinator": "replace",
+      "conflict_group": "macro_silhouette",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "overall_width",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain",
+        "animation"
+      ]
+    },
+    {
+      "id": "relief_amplitude",
+      "domain": "relief",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.45,
+      "priority": 45,
+      "combinator": "weighted_sum",
+      "conflict_group": "relief",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "relief_amplitude",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "relief_motion_coupling",
+      "domain": "relief",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 42,
+      "combinator": "replace",
+      "conflict_group": "relief",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "relief_motion_coupling",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ]
+    },
+    {
+      "id": "relief_energy_coupling",
+      "domain": "relief",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 42,
+      "combinator": "replace",
+      "conflict_group": "relief",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "relief_energy_coupling",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "secondary_lag",
+      "domain": "dynamics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 35,
+      "combinator": "replace",
+      "conflict_group": "secondary_dynamics",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "secondary_lag",
+      "coverage": [
+        "hero_required",
+        "domain"
+      ]
+    },
+    {
+      "id": "settling",
+      "domain": "dynamics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.5,
+      "priority": 35,
+      "combinator": "replace",
+      "conflict_group": "secondary_dynamics",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "settling",
+      "coverage": [
+        "hero_required",
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "inertia",
+      "domain": "dynamics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "priority": 35,
+      "combinator": "replace",
+      "conflict_group": "secondary_dynamics",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "inertia",
+      "coverage": [
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "rebound",
+      "domain": "dynamics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.3,
+      "priority": 35,
+      "combinator": "replace",
+      "conflict_group": "secondary_dynamics",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "rebound",
+      "coverage": [
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "skin_tension",
+      "domain": "skin",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 50,
+      "combinator": "replace",
+      "conflict_group": "skin",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "skin_tension",
+      "coverage": [
+        "fixture",
+        "domain"
+      ]
+    },
+    {
+      "id": "skin_damping",
+      "domain": "skin",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.5,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "skin",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "skin_damping",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "skin_coupling",
+      "domain": "skin",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.45,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "skin",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "skin_coupling",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "texture_amount",
+      "domain": "texture",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 30,
+      "combinator": "replace",
+      "conflict_group": "texture",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "texture_amount",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "texture_scale",
+      "domain": "texture",
+      "unit": "scale",
+      "range": {
+        "min": 0.25,
+        "max": 4
+      },
+      "default": 1,
+      "priority": 30,
+      "combinator": "replace",
+      "conflict_group": "texture",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "texture_scale",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "normal_strength",
+      "domain": "normals",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 30,
+      "combinator": "replace",
+      "conflict_group": "normals",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "normal_strength",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "curvature_response",
+      "domain": "normals",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.45,
+      "priority": 30,
+      "combinator": "replace",
+      "conflict_group": "normals",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "curvature_response",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "rim",
+      "domain": "optics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.45,
+      "priority": 48,
+      "combinator": "replace",
+      "conflict_group": "optics_secondary",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "rim",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "pearl_intensity",
+      "domain": "material",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 48,
+      "combinator": "replace",
+      "conflict_group": "material",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "pearl_intensity",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "absorption",
+      "domain": "optics",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.2,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "optics_secondary",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "absorption",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "roughness",
+      "domain": "material",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "material",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "roughness",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "clearcoat",
+      "domain": "material",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 40,
+      "combinator": "replace",
+      "conflict_group": "material",
+      "interrupt_sample": false,
+      "topology_sensitive": false,
+      "legacy_binding": "clearcoat",
+      "coverage": [
+        "domain"
+      ]
+    },
+    {
+      "id": "center_of_mass_y",
+      "domain": "singularity",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 75,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "center_of_mass_y",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "center_void",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 78,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "center_void",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "gravity_well_depth",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.55,
+      "priority": 78,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "gravity_well_depth",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "horizon_depth",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.5,
+      "priority": 76,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "horizon_depth",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "horizon_pulse",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.25,
+      "priority": 70,
+      "combinator": "replace",
+      "conflict_group": "embodiment_secondary",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "horizon_pulse",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "horizon_radius",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.62,
+      "priority": 78,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "horizon_radius",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "horizon_vertical_position",
+      "domain": "singularity",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 74,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "horizon_vertical_position",
+      "coverage": [
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "lens_compression",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 74,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "lens_compression",
+      "coverage": [
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "orbital_circulation",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.4,
+      "priority": 72,
+      "combinator": "replace",
+      "conflict_group": "orbital",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "orbital_circulation",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "orbital_plane_scale",
+      "domain": "singularity",
+      "unit": "scale",
+      "range": {
+        "min": 0.25,
+        "max": 2
+      },
+      "default": 1,
+      "priority": 74,
+      "combinator": "replace",
+      "conflict_group": "orbital",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "orbital_plane_scale",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "orbital_tilt",
+      "domain": "singularity",
+      "unit": "signed_normalized",
+      "range": {
+        "min": -1,
+        "max": 1
+      },
+      "default": 0,
+      "priority": 72,
+      "combinator": "replace",
+      "conflict_group": "orbital",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "orbital_tilt",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "shell_thickness",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.45,
+      "priority": 78,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "shell_thickness",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "singularity_outer_radius",
+      "domain": "singularity",
+      "unit": "scale",
+      "range": {
+        "min": 0.25,
+        "max": 2
+      },
+      "default": 1,
+      "priority": 80,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "singularity_outer_radius",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "singularity_vertical_compression",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.35,
+      "priority": 80,
+      "combinator": "replace",
+      "conflict_group": "embodiment_form",
+      "interrupt_sample": true,
+      "topology_sensitive": true,
+      "legacy_binding": "singularity_vertical_compression",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "singularity_damping",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.45,
+      "priority": 70,
+      "combinator": "replace",
+      "conflict_group": "embodiment_secondary",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "singularity_damping",
+      "coverage": [
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "singularity_wobble",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.2,
+      "priority": 68,
+      "combinator": "replace",
+      "conflict_group": "embodiment_secondary",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "singularity_wobble",
+      "coverage": [
+        "domain"
+      ],
+      "embodiment_gated": true
+    },
+    {
+      "id": "spectral_energy_envelope",
+      "domain": "singularity",
+      "unit": "normalized",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "default": 0.5,
+      "priority": 72,
+      "combinator": "replace",
+      "conflict_group": "embodiment_energy",
+      "interrupt_sample": true,
+      "topology_sensitive": false,
+      "legacy_binding": "spectral_energy_envelope",
+      "coverage": [
+        "hero_optional",
+        "domain"
+      ],
+      "embodiment_gated": true
+    }
+  ]
+}

@@ -1,0 +1,656 @@
+{
+  "format": "gasper.document",
+  "schema_version": "1.1.0",
+  "id": "doc-listening-recognition",
+  "created_at": "2026-07-16T12:00:00.000Z",
+  "modified_at": "2026-07-16T12:00:00.000Z",
+  "provenance": "gasper-hero-pack-v1",
+  "topology": {
+    "contour_samples": 512,
+    "structural_nodes": 360,
+    "structural_triangles": 672,
+    "relief_width": 25,
+    "relief_height": 40,
+    "relief_max_samples": 1000
+  },
+  "base_bindings": {},
+  "embodiment_id": "presence",
+  "expression_fixture_id": "listening-receive",
+  "behavior_policy_ref": null,
+  "animation": {
+    "active_clip_id": "clip-listening-receive",
+    "clips": [
+      {
+        "id": "clip-listening-receive",
+        "name": "Presence — Listening Receive",
+        "duration_ms": 3000,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-lr-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.72,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.28,
+                  "face_scale": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "neutral"
+              },
+              {
+                "id": "kf-lr-f1",
+                "time_ms": 600,
+                "values": {
+                  "eye_openness": 0.78,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.1,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "orient"
+              },
+              {
+                "id": "kf-lr-f2",
+                "time_ms": 1400,
+                "values": {
+                  "eye_openness": 0.88,
+                  "eye_spacing": 0.04,
+                  "gaze": 0.08,
+                  "mouth_openness": 0.32,
+                  "face_scale": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "open-reception"
+              },
+              {
+                "id": "kf-lr-f3",
+                "time_ms": 2400,
+                "values": {
+                  "eye_openness": 0.86,
+                  "eye_spacing": 0.03,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "listening-hold"
+              },
+              {
+                "id": "kf-lr-f4",
+                "time_ms": 3000,
+                "values": {
+                  "eye_openness": 0.82,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.04,
+                  "mouth_openness": 0.34,
+                  "face_scale": 1.01
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "acknowledge"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-lr-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1,
+                  "crown_height": 0.08,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m1",
+                "time_ms": 600,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.02
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m2",
+                "time_ms": 1400,
+                "values": {
+                  "overall_width": 1.04,
+                  "overall_height": 0.98,
+                  "crown_height": 0.05,
+                  "lower_body_fullness": 1.04
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m3",
+                "time_ms": 2400,
+                "values": {
+                  "overall_width": 1.03,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.03
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-m4",
+                "time_ms": 3000,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 1,
+                  "crown_height": 0.07,
+                  "lower_body_fullness": 1.02
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-lr-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.42,
+                  "energy_pulse": 0.14,
+                  "relief_amplitude": 0.3,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.4
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e1",
+                "time_ms": 600,
+                "values": {
+                  "energy_level": 0.48,
+                  "energy_pulse": 0.18,
+                  "relief_amplitude": 0.34,
+                  "secondary_lag": 0.3,
+                  "settling": 0.5,
+                  "internal_glow": 0.46
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e2",
+                "time_ms": 1400,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.22,
+                  "relief_amplitude": 0.38,
+                  "secondary_lag": 0.26,
+                  "settling": 0.48,
+                  "internal_glow": 0.52
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e3",
+                "time_ms": 2400,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.36,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.5
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-lr-e4",
+                "time_ms": 3000,
+                "values": {
+                  "energy_level": 0.5,
+                  "energy_pulse": 0.24,
+                  "relief_amplitude": 0.35,
+                  "secondary_lag": 0.28,
+                  "settling": 0.52,
+                  "internal_glow": 0.54
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-lr-orient",
+            "time_ms": 600,
+            "label": "orient"
+          },
+          {
+            "id": "mk-lr-open",
+            "time_ms": 1400,
+            "label": "open-reception"
+          },
+          {
+            "id": "mk-lr-hold",
+            "time_ms": 2400,
+            "label": "listening-hold"
+          },
+          {
+            "id": "mk-lr-ack",
+            "time_ms": 3000,
+            "label": "acknowledge"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      },
+      {
+        "id": "clip-recognition-spark",
+        "name": "Presence — Recognition Spark",
+        "duration_ms": 1500,
+        "loop_mode": "none",
+        "tracks": [
+          {
+            "id": "track-face-gaze",
+            "label": "Face / Gaze",
+            "domain_id": "face",
+            "binding_ids": [
+              "eye_openness",
+              "eye_spacing",
+              "gaze",
+              "mouth_openness",
+              "face_scale",
+              "corner_pull_l",
+              "corner_pull_r"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-rs-f0",
+                "time_ms": 0,
+                "values": {
+                  "eye_openness": 0.86,
+                  "eye_spacing": 0.02,
+                  "gaze": 0.06,
+                  "mouth_openness": 0.3,
+                  "face_scale": 1.01,
+                  "corner_pull_l": 0,
+                  "corner_pull_r": 0
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier",
+                "label": "listening"
+              },
+              {
+                "id": "kf-rs-f1",
+                "time_ms": 350,
+                "values": {
+                  "eye_openness": 0.92,
+                  "eye_spacing": 0.03,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.36,
+                  "face_scale": 1.03,
+                  "corner_pull_l": 0.12,
+                  "corner_pull_r": 0.12
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier",
+                "label": "recognition"
+              },
+              {
+                "id": "kf-rs-f2",
+                "time_ms": 700,
+                "values": {
+                  "eye_openness": 0.9,
+                  "eye_spacing": 0.02,
+                  "gaze": 0,
+                  "mouth_openness": 0.38,
+                  "face_scale": 1.04,
+                  "corner_pull_l": 0.18,
+                  "corner_pull_r": 0.16
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier",
+                "label": "micro-lift"
+              },
+              {
+                "id": "kf-rs-f3",
+                "time_ms": 1100,
+                "values": {
+                  "eye_openness": 0.84,
+                  "eye_spacing": 0.01,
+                  "gaze": 0.02,
+                  "mouth_openness": 0.34,
+                  "face_scale": 1.02,
+                  "corner_pull_l": 0.1,
+                  "corner_pull_r": 0.1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "spark"
+              },
+              {
+                "id": "kf-rs-f4",
+                "time_ms": 1500,
+                "values": {
+                  "eye_openness": 0.8,
+                  "eye_spacing": 0,
+                  "gaze": 0,
+                  "mouth_openness": 0.32,
+                  "face_scale": 1.01,
+                  "corner_pull_l": 0.08,
+                  "corner_pull_r": 0.08
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier",
+                "label": "pleased-containment"
+              }
+            ]
+          },
+          {
+            "id": "track-macro-form",
+            "label": "Macro / Form",
+            "domain_id": "macro",
+            "binding_ids": [
+              "overall_width",
+              "overall_height",
+              "crown_height",
+              "lower_body_fullness"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-rs-m0",
+                "time_ms": 0,
+                "values": {
+                  "overall_width": 1.03,
+                  "overall_height": 0.99,
+                  "crown_height": 0.06,
+                  "lower_body_fullness": 1.03
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-m1",
+                "time_ms": 350,
+                "values": {
+                  "overall_width": 1.02,
+                  "overall_height": 1.03,
+                  "crown_height": 0.14,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-m2",
+                "time_ms": 700,
+                "values": {
+                  "overall_width": 1.01,
+                  "overall_height": 1.04,
+                  "crown_height": 0.16,
+                  "lower_body_fullness": 0.98
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-m3",
+                "time_ms": 1500,
+                "values": {
+                  "overall_width": 1,
+                  "overall_height": 1.01,
+                  "crown_height": 0.1,
+                  "lower_body_fullness": 1
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          },
+          {
+            "id": "track-energy-relief",
+            "label": "Energy / Relief / Dynamics",
+            "domain_id": "energy",
+            "binding_ids": [
+              "energy_level",
+              "energy_pulse",
+              "relief_amplitude",
+              "secondary_lag",
+              "settling",
+              "internal_glow"
+            ],
+            "blend_mode": "replace",
+            "muted": false,
+            "solo": false,
+            "locked": false,
+            "keyframes": [
+              {
+                "id": "kf-rs-e0",
+                "time_ms": 0,
+                "values": {
+                  "energy_level": 0.52,
+                  "energy_pulse": 0.2,
+                  "relief_amplitude": 0.36,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.5
+                },
+                "easing": "power1.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e1",
+                "time_ms": 350,
+                "values": {
+                  "energy_level": 0.7,
+                  "energy_pulse": 0.45,
+                  "relief_amplitude": 0.5,
+                  "secondary_lag": 0.22,
+                  "settling": 0.42,
+                  "internal_glow": 0.68
+                },
+                "easing": "power2.out",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e2",
+                "time_ms": 700,
+                "values": {
+                  "energy_level": 0.78,
+                  "energy_pulse": 0.55,
+                  "relief_amplitude": 0.58,
+                  "secondary_lag": 0.2,
+                  "settling": 0.38,
+                  "internal_glow": 0.76
+                },
+                "easing": "power2.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e3",
+                "time_ms": 1100,
+                "values": {
+                  "energy_level": 0.62,
+                  "energy_pulse": 0.35,
+                  "relief_amplitude": 0.45,
+                  "secondary_lag": 0.26,
+                  "settling": 0.46,
+                  "internal_glow": 0.6
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              },
+              {
+                "id": "kf-rs-e4",
+                "time_ms": 1500,
+                "values": {
+                  "energy_level": 0.55,
+                  "energy_pulse": 0.24,
+                  "relief_amplitude": 0.38,
+                  "secondary_lag": 0.28,
+                  "settling": 0.5,
+                  "internal_glow": 0.54
+                },
+                "easing": "power1.inOut",
+                "interpolation": "bezier"
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "mk-rs-recog",
+            "time_ms": 350,
+            "label": "recognition"
+          },
+          {
+            "id": "mk-rs-lift",
+            "time_ms": 700,
+            "label": "micro-lift"
+          },
+          {
+            "id": "mk-rs-spark",
+            "time_ms": 1100,
+            "label": "energy-spark"
+          },
+          {
+            "id": "mk-rs-contain",
+            "time_ms": 1500,
+            "label": "pleased-containment"
+          }
+        ],
+        "revision": 1,
+        "created_at": "2026-07-16T12:00:00.000Z",
+        "modified_at": "2026-07-16T12:00:00.000Z"
+      }
+    ]
+  },
+  "revision": 1,
+  "dirty": false,
+  "content_hash": "7c5e846440c4cacd51e8510340bee96218bcd01712d75f8f0635a2f1487e73d5",
+  "content_meta": {
+    "title": "Listening Receive",
+    "description": "Receptive attention — orient, open, hold, acknowledge. Contrasts Thinking Knit.",
+    "intent": "Demonstrate open reception vs inward cognition.",
+    "authoring_notes": [
+      "Eyes open rather than narrow.",
+      "Macro softens wider rather than crown-up knit."
+    ],
+    "visual_checkpoints": [
+      {
+        "time_ms": 600,
+        "label": "orient",
+        "expect": "Gaze soft orient."
+      },
+      {
+        "time_ms": 1400,
+        "label": "open",
+        "expect": "Eyes more open, receptive width."
+      }
+    ],
+    "interruption": {
+      "interruptible": true,
+      "preferred_hold_state": "current-authored-hold",
+      "return_route": "ease-to-neutral-settled",
+      "max_interrupt_latency_ms": 120,
+      "notes": "Interrupt must leave face readable; living motion may resume on permitted bindings only."
+    },
+    "living_motion": {
+      "compatible": true,
+      "permitted_bindings": [
+        "energy_pulse",
+        "settling",
+        "relief_amplitude",
+        "secondary_lag"
+      ],
+      "suppressed_bindings": [
+        "eye_openness",
+        "mouth_openness",
+        "crown_height",
+        "overall_width"
+      ],
+      "amplitude_cap": 0.08,
+      "notes": "Living motion must not override authored face peaks or embodiment commitment phases."
+    },
+    "fallback": {
+      "when_optional_missing": "Ignore optional singularity/spectral keys; keep face+macro+energy tracks.",
+      "degrade_to_embodiment": "presence",
+      "degrade_to_expression": "neutral-settled",
+      "notes": "Always remain playable offline with required bindings only."
+    },
+    "loop_policy": "none",
+    "pack_id": "gasper-hero-pack-v1",
+    "pack_version": "1.0.0"
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "clips": {
+    "clip-presence-living-idle": {
+      "name": "Presence — Living Idle",
+      "duration_ms": 8000,
+      "loop_mode": "loop",
+      "markers": [
+        "available",
+        "micro-gaze",
+        "breath-peak",
+        "loop-close"
+      ],
+      "content_hash": "da2c92930f28ad58fa7a5079ec112e3c351501bdaf4344a052a03b97273d985b"
+    },
+    "clip-presence-thinking-knit": {
+      "name": "Presence — Thinking Knit",
+      "duration_ms": 3200,
+      "loop_mode": "none",
+      "markers": [
+        "gather",
+        "knit",
+        "resolve",
+        "cognitive-peak",
+        "hold"
+      ],
+      "content_hash": "0aeaa164059ed3075e3edee64bf0a3750533f4eb25862e050b731976d0eb71d7"
+    },
+    "clip-listening-receive": {
+      "name": "Presence — Listening Receive",
+      "duration_ms": 3000,
+      "loop_mode": "none",
+      "markers": [
+        "orient",
+        "open-reception",
+        "listening-hold",
+        "acknowledge"
+      ],
+      "content_hash": "703e4251ade76da4e917fa6f3c3f1646c0e7ef1341a12635e5b727964becaf6b"
+    },
+    "clip-recognition-spark": {
+      "name": "Presence — Recognition Spark",
+      "duration_ms": 1500,
+      "loop_mode": "none",
+      "markers": [
+        "recognition",
+        "micro-lift",
+        "energy-spark",
+        "pleased-containment"
+      ],
+      "content_hash": "9dd1603daa3c606a4c11f5adbcc032f8b89c8ec623a1d5f49e75606fc8eb1b5f"
+    },
+    "clip-presence-to-singularity": {
+      "name": "Presence → Singularity",
+      "duration_ms": 5000,
+      "loop_mode": "none",
+      "markers": [
+        "commitment",
+        "compression",
+        "horizon-birth",
+        "accretion-lock",
+        "singularity-hold"
+      ],
+      "content_hash": "255e76ae203e159749d9bb80fa17de644b5112e57cb861c81122e1236694a141"
+    },
+    "clip-singularity-to-presence": {
+      "name": "Singularity → Presence",
+      "duration_ms": 5000,
+      "loop_mode": "none",
+      "markers": [
+        "release-hold",
+        "expansion",
+        "face-return",
+        "neutral-settled"
+      ],
+      "content_hash": "9d685a8177ab15b5619be4d7c8ac490323520e76b0321f61c4d378f85460c571"
+    },
+    "clip-presence-to-comet-right": {
+      "name": "Presence → Comet (Right)",
+      "duration_ms": 4000,
+      "loop_mode": "none",
+      "markers": [
+        "aim",
+        "short-launch",
+        "held-flight",
+        "return"
+      ],
+      "content_hash": "1e3c89d8af45d432c8127e8a28e00e59ac7d066825ab6c3b74718d06bd9f017f"
+    },
+    "clip-presence-to-comet-left": {
+      "name": "Presence → Comet (Left)",
+      "duration_ms": 4000,
+      "loop_mode": "none",
+      "markers": [
+        "aim",
+        "short-launch",
+        "held-flight",
+        "return"
+      ],
+      "content_hash": "1d258dda711e38d2f331012daa10ccfe442c27a49232536d5fee2f20677cb168"
+    },
+    "clip-dormant-orbit-wake": {
+      "name": "Presence → Dormant Orbit → Wake",
+      "duration_ms": 7200,
+      "loop_mode": "none",
+      "markers": [
+        "energy-withdraw",
+        "collapse",
+        "dormant-hold",
+        "wake-cue",
+        "form-recover",
+        "neutral-settled"
+      ],
+      "content_hash": "37499bf99f9d3e3e8515628cb8f2ddfd9807e635e7d20a79ac7d6b5be478e64e"
+    },
+    "clip-presence-thinking-knit-intense-calm": {
+      "name": "Presence — Thinking Knit (Intense Calm)",
+      "duration_ms": 3200,
+      "loop_mode": "none",
+      "markers": [
+        "gather",
+        "knit",
+        "resolve",
+        "cognitive-peak",
+        "hold"
+      ],
+      "content_hash": "080420a0b7406a7c5919ff8ec69224e89c2bb3972223e8259f52efe121e47809"
+    },
+    "clip-presence-thinking-knit-excessive": {
+      "name": "Presence — Thinking Knit (Excessive)",
+      "duration_ms": 3200,
+      "loop_mode": "none",
+      "markers": [
+        "gather",
+        "knit",
+        "resolve",
+        "cognitive-peak",
+        "hold"
+      ],
+      "content_hash": "a3436ad3e12e89acdd234d34d82e58819cbaf4e81e5a38ac49b71badb8c495a0"
+    },
+    "clip-presence-thinking-knit-corrected": {
+      "name": "Presence — Thinking Knit (Corrected)",
+      "duration_ms": 3200,
+      "loop_mode": "none",
+      "markers": [
+        "gather",
+        "knit",
+        "resolve",
+        "cognitive-peak",
+        "hold"
+      ],
+      "content_hash": "a3ce9251679fc349c02cfbae77858619cb983aafefad0e8f94800c26dd70dd14"
+    },
+    "clip-complete-reveal-sequence": {
+      "name": "Complete Reveal Sequence",
+      "duration_ms": 38100,
+      "loop_mode": "none",
+      "markers": [
+        "Presence — Living Idle",
+        "available",
+        "micro-gaze",
+        "breath-peak",
+        "loop-close",
+        "Presence — Listening Receive",
+        "orient",
+        "open-reception",
+        "listening-hold",
+        "acknowledge",
+        "Presence — Thinking Knit",
+        "gather",
+        "knit",
+        "resolve",
+        "cognitive-peak",
+        "hold",
+        "Presence — Recognition Spark",
+        "recognition",
+        "micro-lift",
+        "energy-spark",
+        "pleased-containment",
+        "Presence → Singularity",
+        "commitment",
+        "compression",
+        "horizon-birth",
+        "accretion-lock",
+        "singularity-hold",
+        "Singularity → Presence",
+        "release-hold",
+        "expansion",
+        "face-return",
+        "neutral-settled",
+        "Presence → Comet (Right)",
+        "aim",
+        "short-launch",
+        "held-flight",
+        "return",
+        "Presence → Dormant Orbit → Wake",
+        "energy-withdraw",
+        "collapse",
+        "dormant-hold",
+        "wake-cue",
+        "form-recover",
+        "neutral-settled"
+      ],
+      "content_hash": "85e43f1b6a290dbe484aec64cf6b2c80e57cdf48a8c1976b5a458a8ba853d089"
+    }
+  },
+  "documents": {
+    "doc-showcase-project": {
+      "title": "Gasper Showcase",
+      "description": "Recommended first-run sample project with all hero clips, organized tracks, presentation-safe defaults.",
+      "intent": "First-open selection for product demo and onboarding.",
+      "active_clip_id": "clip-presence-living-idle",
+      "content_hash": "5aa2ec04e019502e844db453eb4c9af2021c14614998d0e565a38124b4eb4c15"
+    },
+    "doc-presence-living-idle": {
+      "title": "Living Presence Idle",
+      "description": "Gasper is alive before interaction — slow breath, rare micro-gaze, calm availability.",
+      "intent": "Prove life without distraction.",
+      "active_clip_id": "clip-presence-living-idle",
+      "content_hash": "d445c2d90eee251923b6311fce631d43058108e634a07125152668a0d405fede"
+    },
+    "doc-thinking-knit-focus": {
+      "title": "Thinking Knit",
+      "description": "Hero cognitive animation — attention gathers, eyes narrow, energy collects, controlled hold.",
+      "intent": "Show intelligent concentration without anger or strain.",
+      "active_clip_id": "clip-presence-thinking-knit",
+      "content_hash": "bcf01bdc024dd688af1087140b64ea4ffe2ba66f7272dae34dcde3c7cabf0629"
+    },
+    "doc-listening-recognition": {
+      "title": "Listening Receive",
+      "description": "Receptive attention — orient, open, hold, acknowledge. Contrasts Thinking Knit.",
+      "intent": "Demonstrate open reception vs inward cognition.",
+      "active_clip_id": "clip-listening-receive",
+      "content_hash": "7c5e846440c4cacd51e8510340bee96218bcd01712d75f8f0635a2f1487e73d5"
+    },
+    "doc-recognition-spark": {
+      "title": "Recognition Spark",
+      "description": "Compact expressive payoff after model completes a task.",
+      "intent": "1.0–1.8s pleased containment after recognition.",
+      "active_clip_id": "clip-recognition-spark",
+      "content_hash": "5f3f05bb164d2426a7c5ded7a36b7cc6d53d896f0e8d4e954abf3e2ea4d05a7f"
+    },
+    "doc-presence-to-singularity": {
+      "title": "Presence to Singularity",
+      "description": "Coherent embodiment transform: prepare, compress, horizon, accretion, hold. Reversible return clip included.",
+      "intent": "First spectacular identity-preserving embodiment change.",
+      "active_clip_id": "clip-presence-to-singularity",
+      "content_hash": "f658fd711dc409901212d71d0c6a17f34425aeca2eb625a4767cf856d37951fa"
+    },
+    "doc-presence-to-comet": {
+      "title": "Presence to Comet",
+      "description": "Directional embodiment intent — left and right launch, held flight, clean return without stale wake.",
+      "intent": "Show movement-bearing embodiment without losing face.",
+      "active_clip_id": "clip-presence-to-comet-right",
+      "content_hash": "82405babb146b448b54ff5a370f827a39dab9c26492c62a1c658581c36a98121"
+    },
+    "doc-dormant-orbit-wake": {
+      "title": "Dormant Orbit to Wake",
+      "description": "Energy withdraw, collapse, orbit stabilize, dormant hold, wake, form recover, face return.",
+      "intent": "Restorative continuity without death symbolism.",
+      "active_clip_id": "clip-dormant-orbit-wake",
+      "content_hash": "345469875dbd0a24ac5e148fc18997818c7764cca22ac1ef596b2c06ade70884"
+    },
+    "doc-complete-reveal-sequence": {
+      "title": "Complete Reveal Sequence",
+      "description": "Showreel combining living presence, listening, thinking, spark, singularity, comet, dormant, return.",
+      "intent": "Fallback recording asset and offline showpiece (20–35s+).",
+      "active_clip_id": "clip-complete-reveal-sequence",
+      "content_hash": "918e26d3b538ab8ecdd725f7d058e457261cf255fadd73a8db4fb65292c832c7"
+    },
+    "doc-agent-directed-revision": {
+      "title": "Agent-Directed Revision",
+      "description": "Baseline Thinking Knit + intense-calm + excessive + corrected variants for model command, compare, undo, refine.",
+      "intent": "Support semantic model edits with reversible history.",
+      "active_clip_id": "clip-presence-thinking-knit",
+      "content_hash": "b623a13afed8e342b650ad2557c3adfe9a9b383cbc8cfc04832768111600f71d"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "gasper.performance.affect-projection.v1",
+  "version": "1.0.0-synthetic-provisional",
+  "status": "provisional_frozen",
+  "algorithm": "idw_k4_inverse_distance_squared",
+  "quantization_decimals": 6,
+  "k": 4,
+  "epsilon": 0.000001,
+  "p": 2,
+  "dimension_weights": {
+    "valence": 1,
+    "arousal": 1,
+    "expression_gain": 0.85,
+    "attention": 1,
+    "certainty": 0.9,
+    "social_openness": 0.7,
+    "urgency": 0.7
+  },
+  "outside_manifold_threshold": 0.85,
+  "exact_anchor_epsilon": 0.000001,
+  "expression_gain_policy": "scale_baseline_relative_deltas",
+  "limitation": "Provisional under D003S synthetic anchors; human_review_required."
+}

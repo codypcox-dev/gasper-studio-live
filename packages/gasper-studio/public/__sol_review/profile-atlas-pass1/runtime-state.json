@@ -1,0 +1,360 @@
+{
+  "adapter": "contract",
+  "ready": true,
+  "version": "6.5.5",
+  "profile": null,
+  "capabilities": [
+    "version",
+    "ready",
+    "getState",
+    "getMetadata",
+    "listEmbodiments",
+    "listEmotionalFamilies",
+    "listFixtures",
+    "getCurrentEmbodiment",
+    "getCurrentFixture",
+    "getBehaviorState",
+    "listMicrostates",
+    "triggerMicrostate",
+    "setMicrostateProgress",
+    "clearMicrostate",
+    "setFixtureBlend",
+    "getFixtureBlend",
+    "getTransitionGrammar",
+    "getStateGraph",
+    "getEmbodimentEmotionMatrix",
+    "enterDormant",
+    "wake",
+    "runConversationSequence",
+    "cancelBehavior",
+    "setEmbodiment",
+    "setEmotionalFixture",
+    "morphTo",
+    "transitionToState",
+    "setMorphProgress",
+    "setTransitionProgress",
+    "waitForReady",
+    "waitForSettled",
+    "pause",
+    "resume",
+    "stepFrame",
+    "setDeterministicTime",
+    "setDeterministicSeed",
+    "resetDeterminism",
+    "captureMetadata",
+    "setLightRigGain",
+    "getLightRigSnapshot",
+    "stepLightRigProofFrame",
+    "runLightRigDeterminismProbe",
+    "getPerformanceSnapshot",
+    "getGeometryMetrics",
+    "subscribe",
+    "unsubscribe",
+    "setLifeScale",
+    "getLifeScale"
+  ],
+  "unsupported": [],
+  "snapshot": {
+    "character": {
+      "character": "Gasper",
+      "species": "unclassifiable living intelligence",
+      "maturity": "ageless and emotionally mature",
+      "genderCoding": "mostly ungendered",
+      "personality": [
+        "curious and energetic",
+        "knowing, amused, quietly mischievous",
+        "strange and otherworldly",
+        "calmly competent"
+      ],
+      "immediateRead": "friendly, intelligent, and slightly up to something",
+      "identityTest": "No matter what form Gasper takes, his mass, light, face, timing, and quiet intelligence reorganize as one living thing.",
+      "material": "viscoelastic living mass contained by a firm polished dark-pearl optical boundary",
+      "canonicalTruth": "semantic parameter data that deterministically generates the runtime result",
+      "humanVisualAuthority": true
+    },
+    "version": "6.5.5",
+    "candidate": "v6.5.5-gasper-behavioral-continuity",
+    "baseline": "v6.5.4-gasper-identity-lock",
+    "identityLock": "v1",
+    "behaviorConstitution": "v1",
+    "runtimeAdapter": "native_contract",
+    "capabilities": {
+      "nativeContract": true,
+      "semanticEmbodiments": true,
+      "emotionalFixtures": true,
+      "deterministicTime": true,
+      "deterministicSeed": true,
+      "exactMorphProgress": true,
+      "currentStateRetargeting": true,
+      "frameMetrics": true,
+      "lightRigProof": true,
+      "geometryMetrics": true,
+      "subscriptions": true,
+      "behavioralContinuity": true,
+      "microstates": true,
+      "fixtureBlending": true,
+      "dormantContextMemory": true,
+      "routeGovernedMorphology": true,
+      "conversationSequence": true,
+      "emotionalCurrentStateRetargeting": true,
+      "arbitraryMidMorphRetargeting": false,
+      "rotationReady": false,
+      "productionReady": false
+    },
+    "protected": {
+      "presence": true,
+      "contourSamples": 512,
+      "structuralNodes": 360,
+      "structuralTriangles": 672,
+      "topologyStable": true,
+      "worldSpaceLighting": true,
+      "facePlane": true,
+      "materialLanguage": "dark-pearl-urethane"
+    },
+    "readiness": {
+      "document": "complete",
+      "bodyPath": true,
+      "firstFrame": true
+    },
+    "snapshot": {
+      "candidate": "v6.5.5-gasper-behavioral-continuity",
+      "profile": "dormant-orbit",
+      "morph": {
+        "from": "dormant-orbit",
+        "to": "low-orbit",
+        "mix": 0.11818279734205869,
+        "rawProgress": 0.20397558654733333,
+        "transitionArc": {
+          "rawProgress": 0.20397558654733333,
+          "mix": 0.11818279734205869,
+          "phase": "impact",
+          "impact": 0.22683631689274245,
+          "spread": 0.42157767784289746,
+          "refractory": 0,
+          "residual": 0
+        }
+      },
+      "demoMode": false,
+      "geometryModel": "dormant-family",
+      "containmentMode": "all",
+      "paused": false,
+      "motion": 0.83,
+      "contourSamples": 512,
+      "structuralNodes": 360,
+      "structuralTriangles": 672,
+      "reliefSamples": 1000,
+      "activeReliefSamples": 0,
+      "detailTier": "adaptive",
+      "reliefPreset": "none",
+      "featureless": true,
+      "discStrength": 0,
+      "lensedStrength": 0,
+      "tailPolicy": "not-applicable",
+      "viewYawDegrees": 9.573379,
+      "topologyStable": true,
+      "materialReprojected": true,
+      "projection": "finite-thickness-turntable-s1",
+      "projectedDepthRange": [
+        -13.59143936044384,
+        37.539010073462975
+      ],
+      "viewDepthRole": "left-near-right-far",
+      "tailOpacity": 0,
+      "discPerspective": 0.8567820252952275,
+      "rotationReady": false,
+      "productionReady": false,
+      "viewRig": {
+        "interpolation": "authored-anchor-harmonic-interpolation",
+        "projection": "authored-anchor-harmonic-interpolation",
+        "anchorAuthority": "hand-authored-45",
+        "degrees": 360,
+        "anchors": [
+          0,
+          45,
+          90,
+          135,
+          180,
+          225,
+          270,
+          315
+        ],
+        "authoredYawRange": [
+          0,
+          45
+        ],
+        "authoredCheckpoints": [
+          0,
+          22.5,
+          45
+        ],
+        "rotationReady": false,
+        "currentAuthority": "bounded-authored-key-view-comparison",
+        "tailVisibility": "none"
+      },
+      "emotionFamily": "neutral",
+      "emotionFixture": "neutral-settled",
+      "emotionTransition": {
+        "from": "neutral-settled",
+        "to": "neutral-settled",
+        "progress": 1,
+        "serial": 0
+      },
+      "interruptionCount": 0,
+      "emotionDemoMode": false,
+      "runtimeDormant": false,
+      "fixtureCount": 20,
+      "emotionFamilyCount": 6,
+      "dormantFamilyNative": true,
+      "detachedSingularityLayer": false,
+      "transitionArc": {
+        "rawProgress": 0.20397558654733333,
+        "mix": 0.11818279734205869,
+        "phase": "impact",
+        "impact": 0.22683631689274245,
+        "spread": 0.42157767784289746,
+        "refractory": 0,
+        "residual": 0
+      },
+      "eyeRefractory": null,
+      "expressionPreviewMode": "none",
+      "morphPhysicsTuning": {
+        "impact": 0.1,
+        "spread": 0.07,
+        "settle": 0.06
+      },
+      "dormantContinuum": {
+        "singularityWeight": 0,
+        "orbitWeight": 0.8818172026579413
+      },
+      "behavior": {
+        "version": "6.5.5",
+        "microstate": null,
+        "fixtureBlend": null,
+        "preDormant": {
+          "profile": "presence",
+          "family": "neutral",
+          "fixture": "neutral-settled"
+        },
+        "morphStatus": "dormant-orbit → low-orbit",
+        "morphSerial": 23,
+        "conversationSerial": 13,
+        "progress": 0.37082818294190356,
+        "laggedEnergy": 0.4054525553364649,
+        "runtimeDormant": false
+      },
+      "fixtureBlendActive": false,
+      "microstateActive": null,
+      "embodimentRoutePolicy": "continuity-preserving-recovery",
+      "emotionalCurrentStateRetargeting": true,
+      "dormantContextRestoration": true,
+      "canonicalField": {
+        "packet": "GASPER-UNIFIED-FIELD-001",
+        "active": true,
+        "revision": 510,
+        "sourceHash": "fnv1a32-9bbf3a6c",
+        "domains": {
+          "geometry": [
+            "crown_height",
+            "lower_body_fullness",
+            "posture_x",
+            "posture_y",
+            "body_lean",
+            "asym",
+            "wide",
+            "low"
+          ],
+          "face": [
+            "eye_openness",
+            "gaze"
+          ],
+          "energy": [
+            "energy_level",
+            "energy_pulse",
+            "energy_lag",
+            "internal_glow"
+          ],
+          "dynamics": [
+            "motion",
+            "yaw",
+            "inertia",
+            "secondary_lag",
+            "rebound",
+            "settling",
+            "unified_time_seconds",
+            "unified_breath",
+            "unified_breath_phase",
+            "unified_wander",
+            "unified_spring_x",
+            "unified_spring_y",
+            "unified_spring_theta",
+            "unified_energy_pulse",
+            "unified_relief_drift",
+            "unified_micro_tremor",
+            "unified_anticipation"
+          ],
+          "relief": [
+            "relief_amplitude"
+          ],
+          "material": []
+        }
+      },
+      "lightRig": {
+        "schema": "gasper.tss0.snapshot/v1",
+        "config": {
+          "enabled": true,
+          "tau": 0.12,
+          "hop": 1.15,
+          "gmax": 3,
+          "p1": 6,
+          "p2": 18,
+          "wrap": 0.35,
+          "aSheen": 0.6
+        },
+        "enabled": true,
+        "gain": 0,
+        "active": false,
+        "yaw": 0,
+        "profile": "dormant-orbit",
+        "glint": {
+          "x": 92.71,
+          "y": 66.28,
+          "opacity": 0,
+          "radius": 9.65,
+          "score": 0,
+          "index": -1
+        },
+        "sheen": {
+          "x": 120.45,
+          "y": 99.08,
+          "opacity": 0,
+          "radius": 35.18
+        },
+        "rimAverage": 0,
+        "frameCost": {
+          "samples": 499,
+          "mean": 0.001202404812605443,
+          "median": 0,
+          "p95": 0,
+          "max": 0.6000000014901161
+        },
+        "geometry": {
+          "contourSamples": 512,
+          "structuralNodes": 360,
+          "structuralTriangles": 672,
+          "bodyPathLength": 21203
+        },
+        "writePolicy": "intensity-and-focal-only"
+      }
+    }
+  },
+  "readiness": {
+    "documentComplete": true,
+    "bodyPathExists": true,
+    "bodyPathNonTrivial": true,
+    "svgPresent": true,
+    "profileButtons": 1,
+    "nativeContract": true,
+    "agentbridgeBridge": false,
+    "contractReady": true
+  }
+}

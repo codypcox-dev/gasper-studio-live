@@ -1,0 +1,27 @@
+{
+  "id": "prompt-09-compare-explain",
+  "prompt": "Compare this revision to the original and explain the semantic changes.",
+  "intended_semantic_interpretation": "Diff baseline vs active revision; report binding deltas in product language.",
+  "expected_command_categories": [
+    "compare_clips",
+    "inspect_binding_contribution"
+  ],
+  "expected_bindings": [
+    "eye_openness",
+    "crown_height",
+    "energy_level",
+    "internal_glow"
+  ],
+  "protected_bindings": [],
+  "maximum_ranges": {},
+  "expected_visible_result": "Side-by-side or listed semantic delta.",
+  "validation_assertions": [
+    "baseline-and-revision-hashes-differ"
+  ],
+  "failure_conditions": [
+    "identical-hashes"
+  ],
+  "acceptable_fallback": "Show precomputed delta table from pack descriptions",
+  "expected_undo_behavior": "N/A (read-only)",
+  "target_document_id": "doc-agent-directed-revision"
+}

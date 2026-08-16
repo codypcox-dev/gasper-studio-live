@@ -1,0 +1,23 @@
+{
+  "id": "prompt-10-undo-revision",
+  "prompt": "Undo the model-authored revision.",
+  "intended_semantic_interpretation": "Transaction undo to pre-model document revision.",
+  "expected_command_categories": [
+    "undo",
+    "cancel_animation_transaction"
+  ],
+  "expected_bindings": [],
+  "protected_bindings": [],
+  "maximum_ranges": {},
+  "expected_visible_result": "Baseline Thinking Knit restored.",
+  "validation_assertions": [
+    "active_clip=baseline",
+    "content_hash=baseline"
+  ],
+  "failure_conditions": [
+    "undo-stack-empty"
+  ],
+  "acceptable_fallback": "Reload document 09 and select baseline clip",
+  "expected_undo_behavior": "N/A (this is the undo)",
+  "target_document_id": "doc-agent-directed-revision"
+}

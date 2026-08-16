@@ -1,0 +1,38 @@
+{
+  "id": "prompt-04-heavier-singularity",
+  "prompt": "Make the Singularity feel heavier and more controlled.",
+  "intended_semantic_interpretation": "Increase gravity_well_depth and damping; reduce wobble/pulse chaos.",
+  "expected_command_categories": [
+    "edit_keyframe_values"
+  ],
+  "expected_bindings": [
+    "gravity_well_depth",
+    "singularity_damping",
+    "horizon_pulse",
+    "spectral_energy_envelope"
+  ],
+  "protected_bindings": [
+    "face_scale"
+  ],
+  "maximum_ranges": {
+    "gravity_well_depth": {
+      "min": 0.6,
+      "max": 0.85
+    },
+    "singularity_wobble": {
+      "min": 0,
+      "max": 0.25
+    }
+  },
+  "expected_visible_result": "Weightier singularity without instability.",
+  "validation_assertions": [
+    "optional-bindings-or-fallback"
+  ],
+  "failure_conditions": [
+    "flash-cut",
+    "face-fully-lost-before-commitment"
+  ],
+  "acceptable_fallback": "Use pre-authored singularity hold values",
+  "expected_undo_behavior": "Restore prior singularity keyframes",
+  "target_clip_id": "clip-presence-to-singularity"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "gasper.scenario.contract-pin.v1",
+  "version": "1.0.0",
+  "compiler_id": "gasper-scenario-compiler",
+  "compiler_version": "1.0.0",
+  "contracts": [
+    "GasperScenarioIntentV1",
+    "GasperScenarioStateV1",
+    "GasperStateIRV1",
+    "GasperChannelTargetV1",
+    "GasperTransitionPlanV1",
+    "GasperLoopManifestV1",
+    "GasperEvaluatedFrameV1",
+    "GasperDistinctnessBudgetV1",
+    "GasperPerceptualReviewManifestV1"
+  ],
+  "schema_ids": {
+    "GasperScenarioIntentV1": "gasper.scenario.intent.v1",
+    "GasperScenarioStateV1": "gasper.scenario.state.v1",
+    "GasperStateIRV1": "gasper.scenario.ir.v1",
+    "GasperChannelTargetV1": "gasper.channel-target.v1",
+    "GasperTransitionPlanV1": "gasper.transition-plan.v1",
+    "GasperLoopManifestV1": "gasper.loop-manifest.v1",
+    "GasperEvaluatedFrameV1": "gasper.evaluated-frame.v1",
+    "GasperDistinctnessBudgetV1": "gasper.distinctness-budget.v1",
+    "GasperPerceptualReviewManifestV1": "gasper.perceptual-review-manifest.v1"
+  },
+  "channel_domains": [
+    "contour_silhouette",
+    "structural_lattice",
+    "macro_deformation",
+    "face_plane",
+    "eyes",
+    "mouth",
+    "gaze_attention",
+    "adaptive_relief",
+    "internal_energy",
+    "skin_texture",
+    "material",
+    "world_lighting_optics",
+    "center_of_mass",
+    "secondary_dynamics",
+    "blink_scheduler_policy",
+    "microvariation",
+    "reduced_motion_behavior"
+  ],
+  "eight_scenario_ids": [
+    "presence-neutral-settled",
+    "presence-listening-receive",
+    "presence-thinking-knit",
+    "presence-recognition-spark",
+    "comet-executing-drive",
+    "presence-blocked-strain",
+    "presence-pleased-resolve",
+    "dormant-orbit-maintain"
+  ],
+  "wake_route": {
+    "from": "dormant-orbit-maintain",
+    "to": "presence-neutral-settled",
+    "kind": "wake"
+  },
+  "owners": {
+    "R2": "contracts + compiler + distinctness + eight-state data",
+    "R3": "visual endpoint application of channel targets",
+    "R4": "loop runtime + transitions + schedulers"
+  },
+  "notes": [
+    "Fail closed pure compiler; current-value start separate from intent.",
+    "Distinctness budget is provisional engineering gate only."
+  ]
+}

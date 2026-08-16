@@ -1,0 +1,230 @@
+{
+  "id": "s2-bounce",
+  "version": 2,
+  "intent": "bounce",
+  "title": "S6+φ — play: he discovers he can bounce, and carries the joy to the glass (golden-section timing, D-0105)",
+  "durationSeconds": 8.414,
+  "valueTurn": { "from": "stillness", "to": "delighted showing-off" },
+  "holds": [
+    {
+      "id": "discover-hold",
+      "t0": 0,
+      "t1": 1.236,
+      "intent": "the discovery — stillness while the body asks the floor a question"
+    },
+    {
+      "id": "taste-hold",
+      "t0": 2.618,
+      "t1": 3.236,
+      "intent": "the taste — the first answer lands; he holds it and decides to play (φ⁻¹ seconds)"
+    },
+    {
+      "id": "gift-hold",
+      "t0": 6.428,
+      "t1": 8.414,
+      "intent": "the gift — stillness at the glass; the smile is for the viewer (bounds Layer 3 affordance; φ × the final flight)"
+    }
+  ],
+  "beats": [
+    {
+      "id": "still",
+      "t0": 0,
+      "t1": 1.236,
+      "shotScale": "medium",
+      "primaryIdea": "The question — a still body asking whether the floor will answer",
+      "valueTurn": "Stillness -> curiosity: the first bounce is imagined, not yet made.",
+      "objective": "find out whether the floor will answer"
+    },
+    {
+      "id": "try",
+      "t0": 1.236,
+      "t1": 3.236,
+      "shotScale": "medium",
+      "primaryIdea": "The first bounce — a modest hop sideways, then the taste of the answer",
+      "valueTurn": "Curiosity -> daring: the floor answers, and the answer is held.",
+      "objective": "risk the first bounce and taste the answer"
+    },
+    {
+      "id": "delight",
+      "t0": 3.236,
+      "t1": 5.2,
+      "shotScale": "medium",
+      "primaryIdea": "The full bounce — high flight with a lateral flourish, joy reading on the face",
+      "valueTurn": "Daring -> joy: the impulse spends itself and becomes play.",
+      "objective": "spend the joy of flight"
+    },
+    {
+      "id": "show-off",
+      "t0": 5.2,
+      "t1": 8.414,
+      "shotScale": "extreme-close",
+      "primaryIdea": "The approach — the last bounce travels DEPTH: home to the glass, smile for the viewer",
+      "valueTurn": "Joy -> gift: the play turns outward and ends at the monitor glass.",
+      "objective": "carry the joy to the glass and give it to the viewer"
+    }
+  ],
+  "segments": [
+    { "t0": 0, "t1": 1.236, "mode": "authored", "mechanical": false },
+    { "t0": 1.236, "t1": 3.236, "mode": "authored", "mechanical": false },
+    { "t0": 3.236, "t1": 5.2, "mode": "authored", "mechanical": false },
+    { "t0": 5.2, "t1": 8.414, "mode": "authored", "mechanical": false }
+  ],
+  "channels": {
+    "world_x": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 1.236, "v": 0, "out": "linear" },
+      { "t": 1.7, "v": 160, "out": "linear" },
+      { "t": 2.0, "v": 0, "out": "stepped" },
+      { "t": 3.236, "v": 0, "out": "linear" },
+      { "t": 4.1, "v": -360, "out": "linear" },
+      { "t": 4.35, "v": 0, "out": "stepped" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ],
+    "world_y": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 1.236, "v": 0, "out": "linear" },
+      { "t": 1.802, "v": 420, "out": "stepped" },
+      { "t": 2.052, "v": 420, "out": "linear" },
+      { "t": 2.618, "v": 0, "out": "stepped" },
+      { "t": 3.236, "v": 0, "out": "linear" },
+      { "t": 4.093, "v": 950, "out": "stepped" },
+      { "t": 4.343, "v": 950, "out": "linear" },
+      { "t": 5.2, "v": 0, "out": "linear" },
+      { "t": 5.739, "v": 520, "out": "stepped" },
+      { "t": 5.889, "v": 520, "out": "linear" },
+      { "t": 6.428, "v": 0, "out": "stepped" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ],
+    "world_z": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 5.2, "v": 0, "out": "linear" },
+      { "t": 5.9, "v": -300, "out": "linear" },
+      { "t": 6.428, "v": -320, "out": "stepped" },
+      { "t": 8.414, "v": -320, "out": "flat-clamped" }
+    ],
+    "tilt": [
+      { "t": 0, "v": 0, "out": "spline-auto" },
+      { "t": 1.236, "v": 0, "out": "spline-auto" },
+      { "t": 1.55, "v": -7, "out": "spline-auto" },
+      { "t": 2.2, "v": 5, "out": "spline-auto" },
+      { "t": 2.9, "v": 0, "out": "spline-auto" },
+      { "t": 3.236, "v": 0, "out": "spline-auto" },
+      { "t": 3.85, "v": -10, "out": "spline-auto" },
+      { "t": 4.8, "v": 8, "out": "spline-auto" },
+      { "t": 5.5, "v": 0, "out": "spline-auto" },
+      { "t": 6.0, "v": -6, "out": "spline-auto" },
+      { "t": 6.9, "v": 4, "out": "spline-auto" },
+      { "t": 7.6, "v": 0, "out": "spline-auto" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ],
+    "stretch": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 1.05, "v": 0, "out": "linear" },
+      { "t": 1.2, "v": -0.08, "out": "linear" },
+      { "t": 1.45, "v": 0.12, "out": "linear" },
+      { "t": 2.3, "v": 0.12, "out": "linear" },
+      { "t": 2.65, "v": 0, "out": "stepped" },
+      { "t": 3.0, "v": 0, "out": "linear" },
+      { "t": 3.15, "v": -0.12, "out": "linear" },
+      { "t": 3.45, "v": 0.17, "out": "linear" },
+      { "t": 4.9, "v": 0.17, "out": "linear" },
+      { "t": 5.25, "v": 0, "out": "stepped" },
+      { "t": 5.4, "v": -0.1, "out": "linear" },
+      { "t": 5.7, "v": 0.15, "out": "linear" },
+      { "t": 6.25, "v": 0.15, "out": "linear" },
+      { "t": 6.55, "v": 0, "out": "stepped" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ],
+    "squash": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 1.05, "v": 0, "out": "linear" },
+      { "t": 1.2, "v": 0.1, "out": "linear" },
+      { "t": 1.4, "v": 0, "out": "stepped" },
+      { "t": 2.65, "v": 0.3, "out": "linear" },
+      { "t": 3.0, "v": 0, "out": "stepped" },
+      { "t": 3.15, "v": 0.16, "out": "linear" },
+      { "t": 3.35, "v": 0, "out": "stepped" },
+      { "t": 5.24, "v": 0.45, "out": "linear" },
+      { "t": 5.5, "v": 0.08, "out": "linear" },
+      { "t": 5.6, "v": 0.13, "out": "linear" },
+      { "t": 5.75, "v": 0, "out": "stepped" },
+      { "t": 6.47, "v": 0.36, "out": "linear" },
+      { "t": 6.8, "v": 0, "out": "stepped" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ],
+    "wake": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 1.35, "v": 0, "out": "linear" },
+      { "t": 1.65, "v": 1.4, "out": "stepped" },
+      { "t": 2.3, "v": 1.4, "out": "linear" },
+      { "t": 2.6, "v": 0, "out": "stepped" },
+      { "t": 3.4, "v": 0, "out": "linear" },
+      { "t": 3.7, "v": 1.8, "out": "stepped" },
+      { "t": 4.9, "v": 1.8, "out": "linear" },
+      { "t": 5.2, "v": 0, "out": "stepped" },
+      { "t": 5.55, "v": 0, "out": "linear" },
+      { "t": 5.8, "v": 1.6, "out": "stepped" },
+      { "t": 6.35, "v": 1.6, "out": "linear" },
+      { "t": 6.6, "v": 0, "out": "stepped" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ],
+    "light": [
+      { "t": 0, "v": 0, "out": "stepped" },
+      { "t": 1.5, "v": 0, "out": "linear" },
+      { "t": 1.75, "v": 3, "out": "linear" },
+      { "t": 2.5, "v": 3, "out": "stepped" },
+      { "t": 2.75, "v": 0, "out": "stepped" },
+      { "t": 3.5, "v": 0, "out": "linear" },
+      { "t": 3.8, "v": 5, "out": "stepped" },
+      { "t": 4.95, "v": 5, "out": "linear" },
+      { "t": 5.25, "v": 0, "out": "stepped" },
+      { "t": 5.6, "v": 0, "out": "linear" },
+      { "t": 5.9, "v": 6, "out": "stepped" },
+      { "t": 7.2, "v": 6, "out": "linear" },
+      { "t": 7.6, "v": 0, "out": "stepped" },
+      { "t": 8.414, "v": 0, "out": "flat-clamped" }
+    ]
+  },
+  "faceBeats": [
+    {
+      "id": "discover-spark",
+      "t0": 0.75,
+      "t1": 1.15,
+      "aus": ["AU26", "AU6"],
+      "intensity": 0.6,
+      "onsetSeconds": 0.15,
+      "decaySeconds": 0.3,
+      "beatId": "still"
+    },
+    {
+      "id": "try-focus",
+      "t0": 1.35,
+      "t1": 1.75,
+      "aus": ["AU4"],
+      "intensity": 0.5,
+      "onsetSeconds": 0.12,
+      "decaySeconds": 0.35,
+      "beatId": "try"
+    },
+    {
+      "id": "delight-smile",
+      "t0": 3.5,
+      "t1": 4.6,
+      "aus": ["AU6", "AU12"],
+      "intensity": 0.8,
+      "onsetSeconds": 0.35,
+      "decaySeconds": 0.5,
+      "beatId": "delight"
+    },
+    {
+      "id": "gift-smile",
+      "t0": 6.3,
+      "t1": 7.4,
+      "aus": ["AU6", "AU12"],
+      "intensity": 1,
+      "onsetSeconds": 0.5,
+      "decaySeconds": 0.55,
+      "beatId": "show-off"
+    }
+  ]
+}

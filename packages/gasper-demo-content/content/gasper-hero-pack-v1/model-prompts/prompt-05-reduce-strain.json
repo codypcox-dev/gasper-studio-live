@@ -1,0 +1,32 @@
+{
+  "id": "prompt-05-reduce-strain",
+  "prompt": "Reduce the strain in this expression while retaining concentration.",
+  "intended_semantic_interpretation": "Open eyes slightly, soften mouth, lower crown peak while keeping knit energy.",
+  "expected_command_categories": [
+    "edit_keyframe_values"
+  ],
+  "expected_bindings": [
+    "eye_openness",
+    "mouth_openness",
+    "crown_height"
+  ],
+  "protected_bindings": [
+    "energy_level"
+  ],
+  "maximum_ranges": {
+    "eye_openness": {
+      "min": 0.28,
+      "max": 0.45
+    }
+  },
+  "expected_visible_result": "Still thinking, less strained.",
+  "validation_assertions": [
+    "differs-from-excessive"
+  ],
+  "failure_conditions": [
+    "returns-to-neutral-too-early"
+  ],
+  "acceptable_fallback": "Switch to clip-presence-thinking-knit-corrected",
+  "expected_undo_behavior": "Restore previous revision",
+  "target_clip_id": "clip-presence-thinking-knit-excessive"
+}

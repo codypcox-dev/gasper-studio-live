@@ -1,0 +1,60 @@
+{
+  "kernelVersion": "1.0.0",
+  "phase": "claim-ok",
+  "namedResidual": "the drawing does not walk",
+  "residualQueue": [
+    "the drawing does not walk",
+    "scene suites visually unreadable on 5174"
+  ],
+  "lastClaimCheck": {
+    "ok": true,
+    "claim": "N328 paints gait10 swing lift on the seq18 pearl. 6s 120fps shows plant vs air gap. Not a walk pass.",
+    "reason": "allowed"
+  },
+  "lastDistill": "lead=ThinkOps · residual=120fps first-10s sliding pearl · killed=— · open=—",
+  "dualsKilled": [
+    "chat-PASS=acceptance"
+  ],
+  "wordLaw": {
+    "Handoff": {
+      "means": "Package for Work + human Approve gate",
+      "forbidden": [
+        "Execute workers",
+        "auto-start workers"
+      ]
+    },
+    "Approve": {
+      "means": "User mandate → host-dispatch",
+      "forbidden": [
+        "cosplay submit",
+        "I approved in chat only"
+      ]
+    },
+    "Overseer": {
+      "means": "Engine turn claim only",
+      "forbidden": [
+        "UI costume without mayClaimEngineRoleTruth"
+      ]
+    },
+    "Worker": {
+      "means": "Engine turn claim only",
+      "forbidden": [
+        "UI costume without mayClaimEngineRoleTruth"
+      ]
+    },
+    "Artifact": {
+      "means": "Disk/tool/proof projection",
+      "forbidden": [
+        "Optimistic bubble as SoT"
+      ]
+    },
+    "Prove": {
+      "means": "Budgeted measured gate",
+      "forbidden": [
+        "Screenshot theater as proof"
+      ]
+    }
+  },
+  "eventCount": 10,
+  "updatedAt": "2026-08-15T22:57:52.442Z"
+}

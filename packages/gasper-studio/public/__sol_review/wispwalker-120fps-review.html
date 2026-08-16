@@ -1,0 +1,20 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Wispwalker 120 FPS comparison</title>
+<style>
+html,body{margin:0;background:#07070b;color:#ececf2;font-family:Inter,Segoe UI,sans-serif;height:100%}
+main{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:10px;padding:14px;box-sizing:border-box}
+header{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+header div{text-align:center;padding:8px;background:#11111a;border:1px solid #29293a}
+video{width:100%;height:100%;object-fit:contain;background:#000;min-height:0}
+footer{font-size:13px;color:#a9a9b8;text-align:center}
+</style>
+<main>
+<header><div>Approved pre-fix motion</div><div>Static canonical identity</div><div>10× pixel delta</div></header>
+<video id="v" src="./before-vs-pass1-120fps.mp4" autoplay loop muted controls playsinline></video>
+<footer>Exact 721-frame / 120 FPS deterministic comparison. Space toggles pause; ←/→ steps one frame.</footer>
+</main>
+<script>
+const v=document.querySelector('#v');
+document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();v.paused?v.play():v.pause();}if(e.key==='ArrowRight'){v.pause();v.currentTime=Math.min(v.duration||6,v.currentTime+1/120);}if(e.key==='ArrowLeft'){v.pause();v.currentTime=Math.max(0,v.currentTime-1/120);}});
+</script>

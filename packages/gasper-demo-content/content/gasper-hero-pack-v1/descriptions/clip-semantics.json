@@ -1,0 +1,538 @@
+{
+  "clip-presence-living-idle": {
+    "kind": "product_semantics",
+    "arousal": 0.25,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Do not over-animate.",
+      "Face remains UI-available."
+    ],
+    "semantic_intent": "living availability without demand",
+    "emotional_family": "neutral",
+    "action_tendency": "idle-available",
+    "valence": 0.15,
+    "embodiment": "presence",
+    "entry_state": "neutral-settled",
+    "exit_state": "neutral-settled",
+    "interruption_states": [
+      "hold-current",
+      "fade-to-neutral"
+    ],
+    "held_state": "available-idle",
+    "fallback_state": "static-presence",
+    "authored_bindings": [
+      "eye_openness",
+      "gaze",
+      "overall_height",
+      "crown_height",
+      "energy_level",
+      "internal_glow"
+    ]
+  },
+  "clip-presence-thinking-knit": {
+    "kind": "product_semantics",
+    "arousal": 0.55,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {
+      "eye_openness": {
+        "min": 0.22,
+        "max": 0.5
+      },
+      "crown_height": {
+        "min": 0.2,
+        "max": 0.5
+      },
+      "energy_level": {
+        "min": 0.6,
+        "max": 0.92
+      },
+      "internal_glow": {
+        "min": 0.5,
+        "max": 0.8
+      }
+    },
+    "presentation_notes": [
+      "Hero cognitive beat.",
+      "Readable at Dais scale."
+    ],
+    "semantic_intent": "concentrated cognition without strain",
+    "emotional_family": "cognitive",
+    "action_tendency": "gather-inward",
+    "valence": 0.05,
+    "embodiment": "presence",
+    "entry_state": "neutral-settled",
+    "exit_state": "cognitive-hold",
+    "interruption_states": [
+      "hold-knit",
+      "release-to-neutral"
+    ],
+    "held_state": "thinking-knit-hold",
+    "fallback_state": "neutral-settled",
+    "authored_bindings": [
+      "eye_openness",
+      "gaze",
+      "mouth_openness",
+      "crown_height",
+      "energy_level",
+      "internal_glow"
+    ]
+  },
+  "clip-listening-receive": {
+    "kind": "product_semantics",
+    "arousal": 0.4,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Contrast with Thinking Knit."
+    ],
+    "semantic_intent": "receptive attention",
+    "emotional_family": "receptive",
+    "action_tendency": "open-receive",
+    "valence": 0.2,
+    "embodiment": "presence",
+    "entry_state": "neutral",
+    "exit_state": "listening-hold",
+    "interruption_states": [
+      "hold-listen",
+      "to-spark"
+    ],
+    "held_state": "listening-hold",
+    "fallback_state": "neutral-settled",
+    "authored_bindings": [
+      "eye_openness",
+      "gaze",
+      "overall_width",
+      "energy_level"
+    ]
+  },
+  "clip-recognition-spark": {
+    "kind": "product_semantics",
+    "arousal": 0.65,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Post-model completion beat."
+    ],
+    "semantic_intent": "recognition payoff",
+    "emotional_family": "recognition",
+    "action_tendency": "acknowledge",
+    "valence": 0.55,
+    "embodiment": "presence",
+    "entry_state": "listening",
+    "exit_state": "pleased-containment",
+    "interruption_states": [
+      "hold-containment"
+    ],
+    "held_state": "pleased-containment",
+    "fallback_state": "neutral-settled",
+    "authored_bindings": [
+      "eye_openness",
+      "corner_pull_l",
+      "corner_pull_r",
+      "energy_level",
+      "internal_glow"
+    ]
+  },
+  "clip-presence-to-singularity": {
+    "kind": "product_semantics",
+    "arousal": 0.75,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "No flash cuts.",
+      "Requires live visual review."
+    ],
+    "semantic_intent": "identity-preserving singularity transform",
+    "emotional_family": "spectacular",
+    "action_tendency": "transform-compress",
+    "valence": 0.1,
+    "embodiment": "singularity",
+    "entry_state": "presence",
+    "exit_state": "singularity-hold",
+    "interruption_states": [
+      "hold-mid-compress",
+      "reverse-to-presence"
+    ],
+    "held_state": "singularity-hold",
+    "fallback_state": "presence",
+    "authored_bindings": [
+      "center_void",
+      "horizon_radius",
+      "spectral_energy_envelope",
+      "overall_width",
+      "face_scale"
+    ]
+  },
+  "clip-presence-to-comet-right": {
+    "kind": "product_semantics",
+    "arousal": 0.7,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Face retained through flight."
+    ],
+    "semantic_intent": "rightward directional launch",
+    "emotional_family": "spectacular",
+    "action_tendency": "launch-directional",
+    "valence": 0.2,
+    "embodiment": "comet",
+    "entry_state": "presence",
+    "exit_state": "presence",
+    "interruption_states": [
+      "hold-flight",
+      "abort-return"
+    ],
+    "held_state": "held-flight",
+    "fallback_state": "presence",
+    "authored_bindings": [
+      "gaze",
+      "overall_width",
+      "key_direction",
+      "spectral_energy_envelope"
+    ]
+  },
+  "clip-presence-to-comet-left": {
+    "kind": "product_semantics",
+    "arousal": 0.7,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Mirror of rightward; values must differ."
+    ],
+    "semantic_intent": "leftward directional launch",
+    "emotional_family": "spectacular",
+    "action_tendency": "launch-directional",
+    "valence": 0.2,
+    "embodiment": "comet",
+    "entry_state": "presence",
+    "exit_state": "presence",
+    "interruption_states": [
+      "hold-flight",
+      "abort-return"
+    ],
+    "held_state": "held-flight",
+    "fallback_state": "presence",
+    "authored_bindings": [
+      "gaze",
+      "overall_width",
+      "key_direction",
+      "spectral_energy_envelope"
+    ]
+  },
+  "clip-dormant-orbit-wake": {
+    "kind": "product_semantics",
+    "arousal": 0.2,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Avoid death symbolism and spinner look."
+    ],
+    "semantic_intent": "restorative dormant and wake",
+    "emotional_family": "restorative",
+    "action_tendency": "withdraw-restore",
+    "valence": 0,
+    "embodiment": "dormant-orbit",
+    "entry_state": "presence",
+    "exit_state": "neutral-settled",
+    "interruption_states": [
+      "hold-dormant",
+      "force-wake"
+    ],
+    "held_state": "dormant-hold",
+    "fallback_state": "presence",
+    "authored_bindings": [
+      "energy_level",
+      "orbital_plane_scale",
+      "orbital_circulation",
+      "eye_openness"
+    ]
+  },
+  "clip-complete-reveal-sequence": {
+    "kind": "product_semantics",
+    "arousal": 0.55,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Fallback when live routes fail."
+    ],
+    "semantic_intent": "offline showreel",
+    "emotional_family": "spectacular",
+    "action_tendency": "idle-available",
+    "embodiment": "presence",
+    "entry_state": "living-idle",
+    "exit_state": "neutral-settled",
+    "interruption_states": [
+      "jump-to-marker"
+    ],
+    "held_state": "n/a",
+    "fallback_state": "living-idle",
+    "authored_bindings": [
+      "eye_openness",
+      "energy_level",
+      "overall_width",
+      "crown_height"
+    ]
+  },
+  "clip-presence-thinking-knit-intense-calm": {
+    "kind": "product_semantics",
+    "arousal": 0.62,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Model revision target."
+    ],
+    "semantic_intent": "more intense but still calm cognition",
+    "emotional_family": "cognitive",
+    "action_tendency": "gather-inward",
+    "embodiment": "presence",
+    "entry_state": "neutral-settled",
+    "exit_state": "cognitive-hold",
+    "interruption_states": [
+      "undo-to-baseline"
+    ],
+    "held_state": "thinking-knit-hold",
+    "fallback_state": "baseline-thinking-knit",
+    "authored_bindings": [
+      "eye_openness",
+      "crown_height",
+      "energy_level",
+      "internal_glow"
+    ]
+  },
+  "clip-presence-thinking-knit-excessive": {
+    "kind": "product_semantics",
+    "arousal": 0.9,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Demonstrates bad model overshoot."
+    ],
+    "semantic_intent": "intentionally excessive cognition for correction demo",
+    "emotional_family": "cognitive",
+    "action_tendency": "gather-inward",
+    "valence": -0.2,
+    "embodiment": "presence",
+    "entry_state": "neutral-settled",
+    "exit_state": "overdriven-hold",
+    "interruption_states": [
+      "correct-to-final"
+    ],
+    "held_state": "excessive",
+    "fallback_state": "corrected",
+    "authored_bindings": [
+      "eye_openness",
+      "crown_height",
+      "energy_level",
+      "internal_glow"
+    ]
+  },
+  "clip-presence-thinking-knit-corrected": {
+    "kind": "product_semantics",
+    "arousal": 0.6,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Final refined revision."
+    ],
+    "semantic_intent": "human-refined calm intensity",
+    "emotional_family": "cognitive",
+    "action_tendency": "gather-inward",
+    "embodiment": "presence",
+    "entry_state": "neutral-settled",
+    "exit_state": "cognitive-hold",
+    "interruption_states": [
+      "hold"
+    ],
+    "held_state": "thinking-knit-hold",
+    "fallback_state": "baseline-thinking-knit",
+    "authored_bindings": [
+      "eye_openness",
+      "crown_height",
+      "energy_level",
+      "internal_glow"
+    ]
+  },
+  "clip-singularity-to-presence": {
+    "kind": "product_semantics",
+    "arousal": 0.45,
+    "control_gain_intent": "restrained",
+    "living_permitted_bindings": [
+      "energy_pulse",
+      "settling",
+      "relief_amplitude",
+      "secondary_lag"
+    ],
+    "living_suppressed_bindings": [
+      "eye_openness",
+      "mouth_openness",
+      "crown_height",
+      "overall_width"
+    ],
+    "model_safe_edit_ranges": {},
+    "presentation_notes": [
+      "Pair with presence-to-singularity."
+    ],
+    "semantic_intent": "reversible return from singularity",
+    "emotional_family": "restorative",
+    "action_tendency": "withdraw-restore",
+    "embodiment": "presence",
+    "entry_state": "singularity-hold",
+    "exit_state": "neutral-settled",
+    "interruption_states": [
+      "hold-mid-return"
+    ],
+    "held_state": "n/a",
+    "fallback_state": "presence",
+    "authored_bindings": [
+      "center_void",
+      "horizon_radius",
+      "face_scale",
+      "energy_level"
+    ]
+  }
+}

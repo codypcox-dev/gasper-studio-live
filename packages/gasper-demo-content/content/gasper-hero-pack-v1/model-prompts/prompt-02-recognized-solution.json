@@ -1,0 +1,35 @@
+{
+  "id": "prompt-02-recognized-solution",
+  "prompt": "Make Gasper look like it just recognized the solution.",
+  "intended_semantic_interpretation": "Play Recognition Spark arc from listening toward pleased containment.",
+  "expected_command_categories": [
+    "play_clip",
+    "set_expression_fixture"
+  ],
+  "expected_bindings": [
+    "eye_openness",
+    "corner_pull_l",
+    "corner_pull_r",
+    "energy_level"
+  ],
+  "protected_bindings": [
+    "overall_width"
+  ],
+  "maximum_ranges": {
+    "energy_level": {
+      "min": 0.5,
+      "max": 0.85
+    }
+  },
+  "expected_visible_result": "Brief bright recognition then contained pleasure.",
+  "validation_assertions": [
+    "clip=clip-recognition-spark"
+  ],
+  "failure_conditions": [
+    "duration>2000",
+    "constant-max-energy"
+  ],
+  "acceptable_fallback": "Play pre-authored recognition spark document",
+  "expected_undo_behavior": "Return to prior listening hold",
+  "target_clip_id": "clip-recognition-spark"
+}

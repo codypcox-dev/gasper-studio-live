@@ -1,0 +1,111 @@
+{
+  "schema": "gasper.performance.interrupt-grammar.v1",
+  "version": "0.1.0-draft",
+  "status": "provisional_frozen_post_d003s",
+  "classes": {
+    "soft": {
+      "sample_actual_rendered_state": true,
+      "allow_micro_ease_ms": 120,
+      "start_new_plan_within_ms": 200,
+      "teleport": false,
+      "cancel_active_timelines": false
+    },
+    "hard": {
+      "sample_actual_rendered_state": true,
+      "cancel_active_timelines": true,
+      "retain_sampled_values": true,
+      "retarget_immediately": true,
+      "topology_safety": true
+    },
+    "barrier": {
+      "complete_designated_semantic_barrier_or_hold": true,
+      "then_retarget": true,
+      "used_when": "interruption would destroy meaning"
+    },
+    "morph_safe": {
+      "never_illegal_topology_or_embodiment_mixture": true,
+      "route_to_nearest_safe_state_before_continuing": true
+    }
+  },
+  "sample_fields": [
+    "timestamp_relative_to_active_plan",
+    "active_plan_id_hash",
+    "phase_id",
+    "embodiment",
+    "route_id",
+    "route_progress",
+    "domain_scalar_values",
+    "active_channel_writers",
+    "playhead",
+    "fixture_anchor_state",
+    "document_revision",
+    "document_content_hash",
+    "runtime_identity"
+  ],
+  "retarget_algorithm": [
+    "sample actual rendered state",
+    "validate sample",
+    "classify interrupt",
+    "cancel/barrier current plan",
+    "determine safe route origin",
+    "compile target continuation",
+    "lower from sampled values",
+    "execute through GSAP",
+    "record transaction and receipt"
+  ],
+  "test_cases": [
+    {
+      "case_id": "IRT-01",
+      "name": "listening-orient → thinking-knit",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-02",
+      "name": "thinking-knit → realization before completion",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-03",
+      "name": "thinking-knit → neutral-settled",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-04",
+      "name": "presence → singularity then abort to presence",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-05",
+      "name": "singularity → comet via legal mediated route",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-06",
+      "name": "comet launch → settle early",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-07",
+      "name": "dormant wake interrupted by presence request",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-08",
+      "name": "MCP retarget concurrent with UI edit",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-09",
+      "name": "stale revision conflict",
+      "test_status": "pending"
+    },
+    {
+      "case_id": "IRT-10",
+      "name": "barrier hold during realize",
+      "test_status": "pending"
+    }
+  ],
+  "frozen": false,
+  "human_review_required": true,
+  "authority_class": "synthetic_surrogate_v1"
+}

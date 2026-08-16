@@ -1,0 +1,114 @@
+/**
+ * Gasper World-Class shell design tokens.
+ * Scoped under [data-gasper-worldclass-shell] — no global :root pollution.
+ * Creative-software vocabulary (not dashboard chrome).
+ */
+
+[data-gasper-worldclass-shell] {
+  /* —— Spacing (4/8 system) —— */
+  --gwc-sp-0: 0;
+  --gwc-sp-1: 4px;
+  --gwc-sp-2: 8px;
+  --gwc-sp-3: 12px;
+  --gwc-sp-4: 16px;
+  --gwc-sp-5: 24px;
+  --gwc-sp-6: 32px;
+  --gwc-sp-8: 48px;
+
+  /* —— Chrome metrics —— */
+  --gwc-app-bar: 40px;
+  --gwc-ctx-bar: 36px;
+  --gwc-status: 28px;
+  --gwc-nav: 212px;
+  --gwc-inspector: 288px;
+  --gwc-timeline: 220px;
+  --gwc-track-h: 28px;
+  --gwc-ruler-h: 24px;
+  --gwc-ctrl: 28px;
+  --gwc-ctrl-sm: 24px;
+
+  /* —— Type —— */
+  --gwc-font: "Segoe UI", system-ui, -apple-system, "Inter", sans-serif;
+  --gwc-font-mono: "Cascadia Mono", "Consolas", "SF Mono", ui-monospace, monospace;
+  --gwc-fs-xs: 11px;
+  --gwc-fs-sm: 12px;
+  --gwc-fs-md: 13px;
+  --gwc-fs-lg: 14px;
+  --gwc-fs-xl: 16px;
+  --gwc-lh: 1.35;
+  --gwc-fw-reg: 400;
+  --gwc-fw-med: 500;
+  --gwc-fw-semi: 600;
+
+  /* —— Surfaces (stage-first dark creative tool) —— */
+  --gwc-surf-0: #060608;
+  --gwc-surf-1: #0c0c10;
+  --gwc-surf-2: #13131a;
+  --gwc-surf-3: #1a1a24;
+  --gwc-surf-stage: #030306;
+  --gwc-surf-stage-veil: radial-gradient(
+    ellipse 68% 58% at 50% 46%,
+    #101018 0%,
+    #030306 74%
+  );
+  --gwc-surf-hover: rgba(255, 255, 255, 0.04);
+  --gwc-surf-active: rgba(168, 130, 255, 0.12);
+
+  /* —— Borders —— */
+  --gwc-border-0: rgba(255, 255, 255, 0.05);
+  --gwc-border-1: rgba(255, 255, 255, 0.09);
+  --gwc-border-2: rgba(255, 255, 255, 0.14);
+  --gwc-border-focus: rgba(168, 130, 255, 0.65);
+
+  /* —— Text —— */
+  --gwc-text-0: #ececf2;
+  --gwc-text-1: #9b9ba8;
+  --gwc-text-2: #6c6c7a;
+  --gwc-text-inv: #0a0a0e;
+
+  /* —— Accents (Gasper-distinctive, not generic SaaS blue) —— */
+  --gwc-accent-authored: #a882ff; /* purple — selection / keys */
+  --gwc-accent-live: #3dcfef; /* cyan — playhead / live */
+  --gwc-accent-ok: #3dd68c;
+  --gwc-accent-warn: #f0b429;
+  --gwc-accent-danger: #f07178;
+  --gwc-accent-energy: #e8a0ff;
+  --gwc-keyframe: #c4a6ff;
+  --gwc-keyframe-sel: #ffffff;
+  --gwc-playhead: #3dcfef;
+
+  /* —— Radii / shadow —— */
+  --gwc-r-sm: 3px;
+  --gwc-r-md: 5px;
+  --gwc-r-lg: 8px;
+  --gwc-shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --gwc-shadow-2: 0 10px 28px rgba(0, 0, 0, 0.5);
+
+  /* —— Motion —— */
+  --gwc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gwc-dur: 140ms;
+  --gwc-dur-slow: 220ms;
+
+  color: var(--gwc-text-0);
+  font-family: var(--gwc-font);
+  font-size: var(--gwc-fs-md);
+  line-height: var(--gwc-lh);
+  background: var(--gwc-surf-0);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-gasper-worldclass-shell] {
+    --gwc-dur: 0ms;
+    --gwc-dur-slow: 0ms;
+  }
+
+  [data-gasper-worldclass-shell] *,
+  [data-gasper-worldclass-shell] *::before,
+  [data-gasper-worldclass-shell] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
