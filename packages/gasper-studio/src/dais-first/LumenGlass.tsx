@@ -2,7 +2,7 @@
  * Stage dock. ThinkOps: grid is visibility. Morph is shape. They do not share a switch.
  */
 import { useCallback, useState, type ReactElement } from "react";
-import { setReliefPresetFromRail } from "./daisFirstControls";
+import { setReliefPresetFromRail, playNorthstarTwentyFromRail, setWalkBooLoopFromRail } from "./daisFirstControls";
 import {
   dispatchField,
   listLooks,
@@ -88,6 +88,36 @@ export function LumenGlass({
     [onTake],
   );
 
+  const playOrbit = useCallback(() => {
+    dispatchField("showGrid", { on: true });
+    setGridOn(true);
+    const host = globalThis as {
+      __GASPER_ORBIT_YAW__?: number;
+      __GASPER_ORBIT_PITCH__?: number;
+      SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void };
+    };
+    const t0 = performance.now();
+    const run = (now: number) => {
+      const u = Math.min(1, (now - t0) / 6400);
+      const yaw = u * 360 - 180;
+      host.__GASPER_ORBIT_YAW__ = yaw;
+      host.SidekickFormMasterRig?.setOrbit?.(yaw, host.__GASPER_ORBIT_PITCH__ ?? 0);
+      if (u < 1) requestAnimationFrame(run);
+      else {
+        host.__GASPER_ORBIT_YAW__ = 0;
+        host.SidekickFormMasterRig?.setOrbit?.(0, host.__GASPER_ORBIT_PITCH__ ?? 0);
+      }
+    };
+    requestAnimationFrame(run);
+  }, []);
+
+  const playTwenty = useCallback(() => {
+    dispatchField("showGrid", { on: false });
+    setGridOn(false);
+    setWalkBooLoopFromRail(true);
+    playNorthstarTwentyFromRail();
+  }, []);
+
   const refreshLooks = useCallback(() => {
     setLooks(listLooks());
   }, []);
@@ -108,6 +138,22 @@ export function LumenGlass({
         <span className="lumen-switch__track" aria-hidden="true">
           <span className="lumen-switch__thumb" />
         </span>
+      </button>
+      <button
+        type="button"
+        className="lumen-switch"
+        data-testid="lumen-play-twenty"
+        onClick={playTwenty}
+      >
+        <span className="lumen-switch__label">Play 20s</span>
+      </button>
+      <button
+        type="button"
+        className="lumen-switch"
+        data-testid="lumen-orbit-360"
+        onClick={playOrbit}
+      >
+        <span className="lumen-switch__label">Orbit 360</span>
       </button>
       <div className="lumen-glass__takes" role="group" aria-label="Morph">
         {MORPHS.map((t) => (

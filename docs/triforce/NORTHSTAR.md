@@ -17,7 +17,15 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-17 · stop repeating · caged hull
+
+Cody: write one northstar that aligns the agent with everything already agreed — grid, lighting, physics, tau — and chase that document until it is reached. Tired of restating.
+
+**Chase file (wins):** `docs/triforce/NORTHSTAR-CAGED-HULL.md` (`GASPER-CAGED-HULL-001`).
+Cage is the skin. Hull = grid = light. No fourth writer. No fake triforce 3.3. 120fps gates G1–G10.
+
 ## Owner voice — 2026-08-16 · fabric
+
 
 Cody: we do not want bubbles of any kind. The 1000-point cage is the skin — a vector fabric with real grid-morphing physics. Grid points carry an intelligent regional system that can take complex shapes (puff, remote, isolate a region). The silhouette is the fabric. Discs were the wrong organ.
 

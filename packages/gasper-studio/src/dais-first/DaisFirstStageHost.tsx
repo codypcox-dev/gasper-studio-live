@@ -35,6 +35,7 @@ import { InstrumentTable } from "./InstrumentTable";
 import { applySkinTake, LumenGlass, type SkinTake } from "./LumenGlass";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { publishScaffoldAuthority } from "../../../desktop/src/gasper/scaffold/ScaffoldFieldAuthority";
+import { playNorthstarTwentyFromRail, setWalkBooLoopFromRail } from "./daisFirstControls";
 import {
   computeReviewCropLabelGeometry,
   EIGHT_HOLD_STATE_LABELS,
@@ -88,7 +89,9 @@ export function DaisFirstStageHost({
       dispatchField("showGrid", { on: false });
       dispatchField("clear", {});
       publishScaffoldAuthority({ pressure: 0, coupling: 0, relief: 0 });
-    }, 500);
+      setWalkBooLoopFromRail(true);
+      playNorthstarTwentyFromRail();
+    }, 1400);
     return () => window.clearTimeout(id);
   }, []);
   const [activeEightState, setActiveEightState] = useState<string>(

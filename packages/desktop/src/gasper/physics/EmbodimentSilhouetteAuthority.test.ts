@@ -284,9 +284,10 @@ describe("Cycle 12 production wiring (source proof)", () => {
     expect(script).not.toContain("?plantDxPx:0");
     expect(script).not.toContain("ny-0.70*_ry");
     expect(script).toContain("avatar.dataset.gaitShadowDx=plantDxPx.toFixed(3);");
-    expect(script).toContain("ground.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0)`);");
-    expect(script).toContain("groundOuter.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0)`);");
-    expect(script).toContain("contactShadowOuter.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0)`);");
+    expect(script).toContain("ground.removeAttribute('transform')");
+    expect(script).toContain("groundOuter.removeAttribute('transform')");
+    expect(script).toContain("contactShadowOuter.removeAttribute('transform')");
+    expect(script).not.toContain("shadowStepDxPx");
   });
   it("keeps the S0 planted-support hold when screen projection is zero", () => {
     // A pure lateral world walk has no screen-x support carrier, but it still
@@ -340,9 +341,11 @@ describe("Cycle 12 production wiring (source proof)", () => {
     expect(script).toContain("const walkAsym=0;");
     expect(script).toContain("const walkLean=0;");
     expect(script).toContain("const walkPostX=0;");
-    expect(script).toContain("const z=0;buf[last+s]=z;mean+=z;");
-    expect(script).toContain("posed.y-=_liftPx*_swingArtW");
-    expect(script).toContain("posed.x+=_advPx*_swingArtW");
+    expect(script).toContain("const z=walkAsym*0.55*asymShape+footPress*footShape*(1-0.28*_clear);");
+    expect(script).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(script).toContain("const k=Math.min(1,wSum*(S.live||0))");
+    expect(script).not.toContain("posed.y-=_liftPx*_swingArtW");
+    expect(script).not.toContain("posed.x+=_advPx*_swingArtW");
     expect(script).not.toContain("radius-=_lift*gaussAngle(th,1.83,_sig);");
     expect(script).not.toContain("radius-=_lift*gaussAngle(th,1.31,_sig);");
     expect(script).toContain("const _cyanPlant=");

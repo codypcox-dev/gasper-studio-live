@@ -14,7 +14,11 @@ describe("collapsible settings pane", () => {
     expect(table).toContain('"tools"');
     expect(table).toContain('"sliders"');
     expect(table).toContain('"effects"');
-    expect(table).toContain('id: "fabric"');
+    expect(table).toContain('id: "orbit"');
+    expect(table).toContain("orbit_yaw");
+    expect(table).toContain("orbit_pitch");
+    expect(table).toContain("orbit360");
+    expect(table).toContain("setOrbit");
     expect(table).toContain("fabric_torso");
     expect(table).toContain("instrument-section-${group.id}");
     expect(table).not.toContain("instrument-prev");

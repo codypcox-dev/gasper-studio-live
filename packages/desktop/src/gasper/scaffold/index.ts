@@ -94,7 +94,7 @@ export {
   hexKernel,
 } from "./HexCube";
 export type { Cube, OddR } from "./HexCube";
-export { rotateScaffoldField, spinScaffoldField, sampleFieldBilinear, HEX_ROTATE_LAW, POLE_SPIN_LAW } from "./HexFieldRotate";
+export { rotateScaffoldField, spinScaffoldField, HEX_ROTATE_LAW, POLE_SPIN_LAW } from "./HexFieldRotate";
 export {
   CAGE_LIGHT_LAW,
   CAGE_LIGHTS,
@@ -103,3 +103,13 @@ export {
   rotateLightXY,
   fieldHasEnergy,
 } from "./CageLight";
+export {
+  restPearlXYZ,
+  paddleXYZ,
+  rotateYawXYZ,
+  rotatePitchXYZ,
+  rotateViewXYZ,
+  projectXY,
+  embeddingXYZ,
+} from "./Mesh3D";
+

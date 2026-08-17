@@ -1312,7 +1312,7 @@ function walkSupportStep(authoredStep){
   return Math.tanh(5.23606797749979*Math.cos(physGait.phase/2));
 }
 function walkPhysicsDrivenHold(){
-  return physGait.speedRatio<=0.01&&worldPoseTarget.provenance==='physics-authority';
+  return worldPoseTarget.provenance==='physics-authority';
 }
 function walkScaffoldZ(profileId,st,t){
   const buf=new Float32Array(SCAFFOLD_RINGS*SCAFFOLD_SECTORS);
@@ -1405,7 +1405,7 @@ function singularityScaffoldZ(profileId,singularityWeight){
   return __singularityZBuf;
 }
 function sampleBodyForProfile(profileId,st,t){
-  const pts=[],c=Number(coupling.value),drift=Number(motion.value)*(st.motionGain??.72),profile=FORM_PROFILES[profileId],frame=formProjectionFrame(profile),volumeX=st.postureScaleX||1,volumeY=st.postureScaleY||1;
+  const pts=[],c=Number(coupling.value),drift=Number(motion.value)*(st.motionGain??.72),profile=FORM_PROFILES[profileId],frame=formProjectionFrame(profile),volumeX=st.postureScaleX||1,volumeY=((globalThis.__GASPER_STANCE__||{}).live>0.004)?1:(st.postureScaleY||1);
   // V2.3 WISPWALKER WALK-IN-PLACE (D-0016; brief §3/§5 Layer A). An aperiodic, accented,
   // DIRECTIONAL root-to-root weight transfer layered on the seamless living loop (same render
   // clock t => additive by construction; never stops the loop). Gated on wispwalker + live motion
@@ -1468,22 +1468,23 @@ function sampleBodyForProfile(profileId,st,t){
     const _expK=FORM_EXPANSION.enabled?(1+FORM_EXPANSION.amp*(formExpansion+stateExpansion+(RECOGNITION_POP.enabled?RECOGNITION_POP.lift*recognitionPop:0)+(EIGHT_STATE_POP.enabled?EIGHT_STATE_POP.expK*statePop:0))):1; // D-0040 V3 (C) whole-form expansion: uniform radial scale about center (body contour only; face plane untouched); bounded +/-2.5% (<< 8px no-pinch), identity at neutral family. + D-0041 V3 Layer A recognition MASS-pop: recognitionPop briefly swells the whole mass on recognitionCross (the whole being says "aha"), bounded lift, settles on RECOGNITION_POP.tau
     const _tenK=FORM_TENSION.enabled?(1-FORM_TENSION.amp*Math.max(0,formTension+stateTension)):1; // D-0041 V3 Layer A: tension -> slight whole-form contraction (rigid-but-smooth containment, memo §3 blocked); bounded -1.8% radius (~0.9px << 8px no-pinch), identity at neutral family, reversible (enabled=false => 1)
     const _formK=_expK*_tenK; // D-0041 V3 Layer A: composed whole-form scale (expansion o recognition-pop o tension); worst-case |delta| < 3.3% radius << 8px no-pinch
-    const posed={x:frame.cx+nx*volumeX*_formK+postXEff+lean+contrapposto,y:frame.cy+ny*volumeY*_formK+postYEff+physSilhouettePlantY};
+    const posed={x:frame.cx+nx*volumeX*_formK+postXEff+lean+contrapposto,y:frame.cy+ny*volumeY*_formK+postYEff+(((globalThis.__GASPER_STANCE__||{}).live>0.004)?0:physSilhouettePlantY)};
     if(profileId==='wispwalker'){
-      const _side=Number(physGait.supportSide)||0;
-      const _gaitLive=physGait.seated?Math.max(0,Math.min(1,Number(physGait.leftoverSway)||0)):1;
-      if(_gaitLive>0.004&&_side!==0){
-        const _chinKeep=gaussAngle(th,Math.PI/2,0.16);
-        const _lower=Math.min(1,Math.max(0,Math.sin(th)-0.20)/0.80);
-        const _thSwing=_side>0?1.83:1.31,_thPlant=_side>0?1.31:1.83;
-        const _swingArtW=gaussAngle(th,_thSwing,0.16)*(1-_chinKeep)*_lower;
-        const _plantArtW=gaussAngle(th,_thPlant,0.16)*(1-_chinKeep)*_lower;
-        const _liftPx=42*Math.max(0,Math.min(1,(Number(physGait.swingLiftUnits)||0)/(68*8)))*_gaitLive;
-        const _advPx=22*((Number(physGait.swingAdvanceUnits)||0)/(44*8))*_gaitLive;
-        const _dropPx=0.35*(Number(physGait.loadedDropUnits)||0)/WORLD_SPACE.unitsPerContentPx*_gaitLive;
-        posed.y-=_liftPx*_swingArtW;
-        posed.x+=_advPx*_swingArtW;
-        posed.y+=_dropPx*_plantArtW;
+      const S=globalThis.__GASPER_STANCE__||{};
+      const _chinKeep=gaussAngle(th,Math.PI/2,0.18);
+      const _lower=Math.min(1,Math.max(0,Math.sin(th)-0.20)/0.80);
+      const wL=gaussAngle(th,1.83,0.14)*(1-_chinKeep)*_lower;
+      const wR=gaussAngle(th,1.31,0.14)*(1-_chinKeep)*_lower;
+      const wC=gaussAngle(th,Math.PI/2,0.16)*(1-_chinKeep)*_lower;
+      const wSum=wL+wR+wC;
+      const k=Math.min(1,wSum*(S.live||0));
+      if(k>0.004&&S.left&&S.right&&S.crotch){
+        const tx=S.left.x*wL+S.right.x*wR+S.crotch.x*wC;
+        const ty=S.left.y*wL+S.right.y*wR+S.crotch.y*wC;
+        const rx=100*wL+140*wR+120*wC;
+        const ry=188*wL+188*wR+172*wC;
+        posed.x+=(tx-rx)/wSum*S.live;
+        posed.y+=(ty-ry)/wSum*S.live;
       }
     }
     pts.push(viewDeformPoint({index,x:posed.x,y:posed.y,th,geometryModel:mapped.geometryModel},profile));
@@ -1790,10 +1791,40 @@ function applyMeshWarp(contour,mesh){
     if(keyReflectionLayer)keyReflectionLayer.setAttribute('opacity','0');
     if(lobeGlintsLayer)lobeGlintsLayer.setAttribute('opacity','0');
     if(secondaryReflectionLayer)secondaryReflectionLayer.setAttribute('opacity','0');
+    const base=$('bodyBase');
+    if(base){
+      const stops=base.querySelectorAll('stop');
+      if(stops[5])stops[5].setAttribute('stop-color','#8454d0');
+      if(stops[6])stops[6].setAttribute('stop-color','#9468d4');
+    }
+    if(opticalDepth)opticalDepth.style.setProperty('opacity','0.22','important');
+    const cosmic=$('cosmicTextureLayer');
+    if(cosmic)cosmic.setAttribute('opacity','0.10');
+    for(const id of ['cosmicCellA','cosmicCellB','cosmicCellC','cosmicCellD','cosmicCloudPath']){
+      const n=$(id);if(n)n.setAttribute('opacity','0');
+    }
+    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.30');
   }
   function paintSurfaceShade(){
     const g=$('surfaceShade');
     if(g){g.replaceChildren();g.setAttribute('opacity','0');}
+    const bloom=$('crownBloomGrad'),hot=$('crownHotGrad');
+    const gx=Number(avatar&&avatar.dataset.lightRigGlintX);
+    const gy=Number(avatar&&avatar.dataset.lightRigGlintY);
+    if(bloom&&Number.isFinite(gx)&&gx!==0){
+      bloom.setAttribute('cx',gx.toFixed(1));
+      bloom.setAttribute('cy',gy.toFixed(1));
+      bloom.setAttribute('r','52');
+      const b0=bloom.querySelector('stop');
+      if(b0){b0.setAttribute('stop-opacity','0.36');b0.setAttribute('stop-color','#fff6ff');}
+    }
+    if(hot&&Number.isFinite(gx)&&gx!==0){
+      hot.setAttribute('cx',gx.toFixed(1));
+      hot.setAttribute('cy',gy.toFixed(1));
+      hot.setAttribute('r','20');
+      const h0=hot.querySelector('stop');
+      if(h0){h0.setAttribute('stop-opacity','0.42');h0.setAttribute('stop-color','#fffaff');}
+    }
   }
   function paintScaffoldGrid(contour,profile){
     let g=$('scaffoldGridLayer');
@@ -2695,8 +2726,41 @@ function applyMeshWarp(contour,mesh){
   // other point properties (index/radius/theta/projectedDepth/sourceX/sourceY) pass through from the current
   // raw point each frame (the {x,y}-only rebuild had silently emptied renderCosmicFlecks + depth telemetry).
     {
-       const tau=viscoTau,sa=1-Math.exp(-dt/tau);
-      const _lp=(prev,raw)=>{ if(!prev||prev.length!==raw.length||dragOrigin!==null){ return raw.map(p=>({...p})); } for(let i=0;i<prev.length;i++){ const r=raw[i]; prev[i].x+=(r.x-prev[i].x)*sa; prev[i].y+=(r.y-prev[i].y)*sa; for(const k in r){if(k!=='x'&&k!=='y')prev[i][k]=r[k];} } return prev; };
+      const VISCO_TAU_PLANT = 0.02;
+      const VISCO_TAU_SWING = 0.07;
+      const VISCO_TAU_REST = 0.42;
+      const S=globalThis.__GASPER_STANCE__||{};
+      const restHold=(!S.live||S.live<0.004)?1:0;
+      const _side=Number(S.side)||Number(physGait&&physGait.supportSide)||0;
+      const _gaitLive=restHold?0:1;
+      const _gatePlant=_gaitLive>0.004&&_side!==0;
+      const snap=globalThis.__GASPER_VISCO_SNAP__;
+      if(snap) globalThis.__GASPER_VISCO_SNAP__=0;
+      const _lp=(prev,raw)=>{
+        if(!prev||prev.length!==raw.length||dragOrigin!==null||snap){
+          return raw.map(p=>({...p}));
+        }
+        for(let i=0;i<prev.length;i++){
+          const r=raw[i], th=r.th??r.theta??0;
+          const _chinKeep=gaussAngle(th,Math.PI/2,0.18);
+          const _lower=Math.min(1,Math.max(0,Math.sin(th)-0.20)/0.80);
+          const _thPlant=_side>0?1.31:1.83;
+          const w=gaussAngle(th,_thPlant,0.16)*(1-_chinKeep)*_lower;
+          const wL=gaussAngle(th,1.83,0.14)*(1-_chinKeep)*_lower;
+          const wR=gaussAngle(th,1.31,0.14)*(1-_chinKeep)*_lower;
+          const tauL=Number(S.left&&S.left.tau)||VISCO_TAU_PLANT;
+          const tauR=Number(S.right&&S.right.tau)||VISCO_TAU_SWING;
+          const ww=wL+wR;
+          const stanceTau=ww>1e-4?(tauL*wL+tauR*wR)/ww:VISCO_TAU_SWING;
+          const gated=viscoTau+w*(VISCO_TAU_PLANT-viscoTau);
+          const tau=restHold?VISCO_TAU_REST:(1-restHold)*(ww>0.05?stanceTau:gated);
+          const sa=1-Math.exp(-dt/Math.max(0.02,tau||VISCO_TAU_SWING));
+          prev[i].x+=(r.x-prev[i].x)*sa;
+          prev[i].y+=(r.y-prev[i].y)*sa;
+          for(const k in r){if(k!=='x'&&k!=='y')prev[i][k]=r[k];}
+        }
+        return prev;
+      };
       smoothPts=_lp(smoothPts,pts); smoothMesh=_lp(smoothMesh,mesh); pts=smoothPts; mesh=smoothMesh;
     }
     const singularityWeight=profileWeight(morphProfileId,nextMorphProfileId,morphMix,'singularity');
@@ -2768,7 +2832,7 @@ function applyMeshWarp(contour,mesh){
     // VM3: normals/light are evaluated from the geometry that is actually painted.
     const normalStarted=performance.now(),normals=computeNormals(pts);
     frameMetrics.normalMs.push(performance.now()-normalStarted);
-    const _lrG=unifiedLight?0:(LIGHT_RIG.enabled?Math.max(0,Math.min(1,Number((((globalThis.__GASPER_LIVE_COEFFS__||{}).lightRig||{}).lightRigGain??1))||0)):0);
+    const _lrG=LIGHT_RIG.enabled?Math.max(0,Math.min(1,Number((((globalThis.__GASPER_LIVE_COEFFS__||{}).lightRig||{}).lightRigGain??1))||0)):0;
     let _lrFrame=null;
     if(_lrG!==0){
       const _lrStarted=performance.now();
@@ -3022,7 +3086,7 @@ _d[1].setAttribute('opacity',_o.toFixed(3));} avatar.dataset.spatialGain=_sdlG.t
     {if(worldPoseTarget.provenance==='none'){const tau=motionStrength>0.001?WORLD_SPACE.releaseTau:0.4;const home=1-Math.exp(-dt/Math.max(0.02,tau));worldPoseCurrent.x+=(0-worldPoseCurrent.x)*home;worldPoseCurrent.y+=(0-worldPoseCurrent.y)*home;worldPoseCurrent.z+=(0-worldPoseCurrent.z)*home;worldPoseCurrent.tilt+=(0-worldPoseCurrent.tilt)*home;}
     else{worldPoseCurrent.x=worldPoseTarget.x;worldPoseCurrent.y=worldPoseTarget.y;worldPoseCurrent.z=worldPoseTarget.z;worldPoseCurrent.tilt=worldPoseTarget.tilt;}
     if(Math.abs(worldPoseCurrent.x)<0.004)worldPoseCurrent.x=0;if(Math.abs(worldPoseCurrent.y)<0.004)worldPoseCurrent.y=0;if(Math.abs(worldPoseCurrent.z)<0.5)worldPoseCurrent.z=0;if(Math.abs(worldPoseCurrent.tilt)<0.004)worldPoseCurrent.tilt=0; // home byte-stability: the home-return ease never lands exactly on zero, and a residual would keep rewriting the worldRig transform attribute every frame — snap residuals to exact zero so home means no transform attribute at all (bit-identical to pre-space frames). z snaps at 0.5 world units (scale error 0.026% — imperceptible; the fence unit is a world unit now, not a 0..1 lane)
-    const wScale=WORLD_SPACE.homeViewDistance/(WORLD_SPACE.homeViewDistance+worldPoseCurrent.z);wDx=(worldPoseCurrent.x/WORLD_SPACE.unitsPerContentPx)*wScale;wAlt=(worldPoseCurrent.y+physGait.bobLiftUnits*gaitGate+physBooBob*booGate)/WORLD_SPACE.unitsPerContentPx;wDepthScale=wScale;wHorizon=WORLD_SPACE.floorToHorizonPx*(1-wScale);wTilt=worldPoseCurrent.tilt; // S10 (owner N42): the Boo perpetual-bob rides the SAME altitude lift the vault bob rides — the ghost breathes at rest (booGate is reduced-motion-only); 0 outside boo mode => byte-identical // CYCLE 4 R2 (walk-weight-transfer-phd-memo): the vault roll rides the SAME tilt channel as flight tilt, additive + gated — the body axis leans onto the loaded side (one sign flip per step), zero at rest => the flight-tilt raster is untouched. // DEPTH LAW: lateral screen offset carries the projection too ((x/8)·scale — a point off the axis projects by the same factor); wAlt stays UNPROJECTED world altitude in content px — the idleRig applies it inside the depth-scaled frame below, so the rig scale projects it exactly once. CYCLE 1 L5/L7: the vault bob lifts the COM (high at mid-stance) through the SAME altitude channel the shadow attenuates against, and the lateral sway shifts him onto the support leg through the projected lateral channel — the renderer expresses what the kernel derived, never authors a step
+    const wScale=WORLD_SPACE.homeViewDistance/(WORLD_SPACE.homeViewDistance+worldPoseCurrent.z);wDx=(worldPoseCurrent.x/WORLD_SPACE.unitsPerContentPx)*wScale;const _stanceLive=((globalThis.__GASPER_STANCE__||{}).live>0.004)?1:0;wAlt=(worldPoseCurrent.y+physGait.bobLiftUnits*gaitGate*(1-_stanceLive)+physBooBob*booGate)/WORLD_SPACE.unitsPerContentPx;wDepthScale=wScale;wHorizon=WORLD_SPACE.floorToHorizonPx*(1-wScale);wTilt=_stanceLive?0:worldPoseCurrent.tilt; // S10 (owner N42): the Boo perpetual-bob rides the SAME altitude lift the vault bob rides — the ghost breathes at rest (booGate is reduced-motion-only); 0 outside boo mode => byte-identical // CYCLE 4 R2 (walk-weight-transfer-phd-memo): the vault roll rides the SAME tilt channel as flight tilt, additive + gated — the body axis leans onto the loaded side (one sign flip per step), zero at rest => the flight-tilt raster is untouched. // DEPTH LAW: lateral screen offset carries the projection too ((x/8)·scale — a point off the axis projects by the same factor); wAlt stays UNPROJECTED world altitude in content px — the idleRig applies it inside the depth-scaled frame below, so the rig scale projects it exactly once. CYCLE 1 L5/L7: the vault bob lifts the COM (high at mid-stance) through the SAME altitude channel the shadow attenuates against, and the lateral sway shifts him onto the support leg through the projected lateral channel — the renderer expresses what the kernel derived, never authors a step
     if(wDx!==0||wAlt!==0||wDepthScale!==1||wTilt!==0){worldRig.setAttribute('transform',`translate(${wDx.toFixed(3)} ${(-wHorizon).toFixed(3)}) translate(120 190) scale(${wDepthScale.toFixed(5)}) rotate(${(-wTilt).toFixed(2)} 0 -45) translate(-120 -190)`);}else if(worldRig.getAttribute('transform')){worldRig.removeAttribute('transform');}
     // CYCLE 5 S0/S2 (step-cycle-phd-memo) — the planted base. The kernel DERIVES baseX: a
     // sample-and-hold of the vault sway (holds during stance, exchanges at double support —
@@ -3034,13 +3098,13 @@ _d[1].setAttribute('opacity',_o.toFixed(3));} avatar.dataset.spatialGain=_sdlG.t
     // byte-identical raster. stepRig wraps ONLY the contour shell — the face/expression
     // layers sit outside it, so the step never touches the face grammar (D-0118 binding).
     const plantX=Math.abs(Number(physGait.plantedScreenXUnits)||0)>0.004?(Number(physGait.plantedScreenXUnits)||0):(Number(physGait.stepBaseXUnits)||0);const loadX=Number(physGait.stepBaseXUnits)||0;const stepDxPx=(loadX*gaitGate)/WORLD_SPACE.unitsPerContentPx;const plantDxPx=(plantX*gaitGate)/WORLD_SPACE.unitsPerContentPx;
-    const stepSkewDeg=Math.abs(Number(physGait.plantedScreenXUnits)||0)>0.004?0:Math.abs(stepDxPx)<0.004?0:Math.max(-4,Math.min(4,Math.atan(stepDxPx/78)*180/Math.PI)); // plant live: no shear. else S2 fence ±4°; sub-0.004px residuals snap to zero
+    const stepSkewDeg=_stanceLive?0:Math.abs(Number(physGait.plantedScreenXUnits)||0)>0.004?0:Math.abs(stepDxPx)<0.004?0:Math.max(-4,Math.min(4,Math.atan(stepDxPx/78)*180/Math.PI)); // sockets own the step — no shell shear while stance is live. else S2 fence ±4°; sub-0.004px residuals snap to zero
     if(stepSkewDeg!==0){stepRig.setAttribute('transform',`translate(120 112) skewX(${stepSkewDeg.toFixed(3)}) translate(-120 -112)`);}else if(stepRig.getAttribute('transform')){stepRig.removeAttribute('transform');}
     avatar.dataset.worldPoseX=worldPoseCurrent.x.toFixed(2);avatar.dataset.worldPoseY=worldPoseCurrent.y.toFixed(2);avatar.dataset.worldPoseZ=worldPoseCurrent.z.toFixed(4);avatar.dataset.worldPoseTilt=worldPoseCurrent.tilt.toFixed(2);avatar.dataset.worldPoseProvenance=worldPoseTarget.provenance;avatar.dataset.worldDepthScale=wDepthScale.toFixed(5);avatar.dataset.physicsWake='0.000';avatar.dataset.physicsLight=physLight.toFixed(3);avatar.dataset.gaitPhase=physGait.phase.toFixed(3);avatar.dataset.gaitHz=physGait.stepHz.toFixed(2);avatar.dataset.gaitSpeedRatio=physGait.speedRatio.toFixed(3);avatar.dataset.gaitBob=(physGait.bobLiftUnits*gaitGate).toFixed(2);avatar.dataset.gaitSwayX=(physGait.swayXUnits*gaitGate).toFixed(2);avatar.dataset.gaitRoll=(physGait.rollDeg*gaitGate).toFixed(3);avatar.dataset.gaitSquash=(physGait.contactSquash*gaitGate).toFixed(4);avatar.dataset.gaitStepX=(physGait.stepBaseXUnits*gaitGate).toFixed(2);avatar.dataset.gaitPlantX=(plantX*gaitGate).toFixed(2);avatar.dataset.gaitPlantWorld=(worldPoseCurrent.x+plantX).toFixed(2);avatar.dataset.gaitSupportSide=(Number(physGait.supportSide)||0).toFixed(0);avatar.dataset.gaitStepSkew=stepSkewDeg.toFixed(3);avatar.dataset.gaitShadowDx=plantDxPx.toFixed(3);avatar.dataset.gaitBankDeg=(physGait.bankDeg*gaitGate).toFixed(3);avatar.dataset.gaitFlatten=(physGait.stepFlattenUnits*gaitGate).toFixed(2);avatar.dataset.gaitFlattenW=(physGait.stepFlattenWidthUnits*gaitGate).toFixed(2);avatar.dataset.plantedCompress=(physGait.plantedCompress*gaitGate).toFixed(3);avatar.dataset.incomingCompress=(physGait.incomingCompress*gaitGate).toFixed(3);avatar.dataset.hopMix=(physGait.hopMix||0).toFixed(3);avatar.dataset.gaitFlight=(physGait.flight*gaitGate).toFixed(3);avatar.dataset.swingLift=(physGait.swingLiftUnits*gaitGate).toFixed(2);avatar.dataset.swingAdvance=(physGait.swingAdvanceUnits*gaitGate).toFixed(2);avatar.dataset.loadedDrop=(physGait.loadedDropUnits*gaitGate).toFixed(2);avatar.dataset.swingClearance=(physGait.swingClearance*gaitGate).toFixed(3);avatar.dataset.windPressure=(physWind.pressure*gaitGate).toFixed(3);avatar.dataset.windDirX=(physWind.dirX*gaitGate).toFixed(3);avatar.dataset.booBob=(physBooBob*booGate).toFixed(3);} // S10 (owner N42) — the Boo perpetual-bob telemetry (N23 DOM-first): the ghost never stands; gated on reduced motion only; 0 outside boo mode. // S4 F-LAW 2 (flight-physics-phd-memo, owner N31) — wind-resistance telemetry (N23 DOM-preferred): the kernel's lagged dynamic pressure + screen-x travel direction, gated like the roll so reduced motion collapses them; the expression rides the contour base radius (formRadiusAtFor), these channels are observer-only // CYCLE 11 Z1/Z4 (step-shape-phd-memo) — contact-flatten telemetry: signed screen-x depth + patch half-width (world units), gated like the roll so reduced motion collapses it; the expression rides the contour base radius (formRadiusAtFor), these channels are observer-only // CYCLE 10 Y1 (bank-phd-memo) — centripetal bank telemetry (signed toward the turn center in screen x), gated like the roll so reduced motion collapses it; the expression rides worldPoseTilt, this channel is observer-only // CYCLE 9 C1: the contact-shadow translate (the floor's answer to the exchange), observer-only // CYCLE 1 + CYCLE 4 + CYCLE 5 — gait witness telemetry (N23 DOM-preferred): phase/hz/speedRatio/bob/sway/roll/squash/step readable observer-only from the avatar dataset // worldRig = projected travel + depth scale + horizon lift + tilt about the floor anchor (scale about (120,190) keeps feet on the ground; rotate about (120,145) = body heart); altitude lift applies on the idleRig below so the shadow never leaves the floor; worldDepthScale dataset = witness telemetry for the depth-read capture gate
-    const stateMotion=Math.max(motionStrength*(frameState.motionGain??.72),_lifeFloor),idleX=idle.driftX*stateMotion*breathGainE+frameState.postureX*.15,idleY=idle.liftY*stateMotion*breathGainE+frameState.postureY*.10;const gaitSquash=physGait.contactSquash*gaitGate;const idleScaleX=(1+(idle.scaleX-1)*stateMotion*breathGainE),idleScaleY=(1+(idle.scaleY-1)*stateMotion*breathGainE);const _gaitLive=(physGait.seated?Math.max(0,Math.min(1,Number(physGait.leftoverSway)||0)):((Number(physGait.supportSide)||0)!==0?1:0))*gaitGate;const _payXPx=(Number(physGait.supportSide)||0)*8*_gaitLive;const idleLeanDeg=Math.max(-7.2,Math.min(7.2,-(Number(physGait.supportSide)||0)*7.2*_gaitLive*(0.55+0.45*Math.max(0,Math.min(1,Number(physGait.plantedCompress)||0)))));
+    const stateMotion=Math.max(motionStrength*(frameState.motionGain??.72),_lifeFloor),idleX=idle.driftX*stateMotion*breathGainE+frameState.postureX*.15,idleY=idle.liftY*stateMotion*breathGainE+frameState.postureY*.10;const gaitSquash=physGait.contactSquash*gaitGate;const idleScaleX=(1+(idle.scaleX-1)*stateMotion*breathGainE),idleScaleY=(1+(idle.scaleY-1)*stateMotion*breathGainE);const _gaitLive=(physGait.seated?Math.max(0,Math.min(1,Number(physGait.leftoverSway)||0)):((Number(physGait.supportSide)||0)!==0?1:0))*gaitGate;const _payXPx=0;const idleLeanDeg=0;
     idleRig.setAttribute('transform',`translate(${(idleX+gazeLeanX+momOffsetX+_payXPx).toFixed(3)} ${(idleY+gazeLeanX*0.10+momOffsetY-wAlt).toFixed(3)}) translate(120 110) rotate(${(gazeLeanX*0.55+momLean+idleLeanDeg).toFixed(2)}) scale(${idleScaleX.toFixed(5)} ${idleScaleY.toFixed(5)}) translate(-120 -110)`);
     avatar.dataset.gaitPayX=_payXPx.toFixed(3);avatar.dataset.gaitLive=_gaitLive.toFixed(3);
-    const _cyanPlant=0;cyanFieldNode.setAttribute('transform',`translate(${(idle.reservoirX*starMotion+3.4*viewMetrics.amount+_cyanPlant).toFixed(2)} ${(idle.reservoirY*starMotion+.8*viewMetrics.amount).toFixed(2)})`);
+    const _cyanPlant=(Number(physGait.plantedScreenXUnits)||0)/WORLD_SPACE.unitsPerContentPx;cyanFieldNode.setAttribute('transform',`translate(${(idle.reservoirX*starMotion+3.4*viewMetrics.amount+_cyanPlant).toFixed(2)} ${(idle.reservoirY*starMotion+.8*viewMetrics.amount).toFixed(2)})`);
     keyReflectionLayer.setAttribute('transform',`translate(${(idle.reflectionX*starMotion*0.5).toFixed(2)} ${(idle.reflectionY*starMotion*0.5).toFixed(2)})`);secondaryReflectionLayer.setAttribute('transform',`translate(${(-idle.reflectionX*.36*starMotion*0.5).toFixed(2)} ${(idle.reflectionY*.42*starMotion*0.5).toFixed(2)})`);lobeGlintsLayer.setAttribute('transform',`translate(${(idle.lobeLag*starMotion*0.5).toFixed(2)} 0)`); // D-0077: dynamic highlight travel halved (Qwen's moving-light layer no longer sweeps a bright band across the crown during transitions)
     const minX=Math.min(...pts.map(point=>point.x)),maxX=Math.max(...pts.map(point=>point.x)),maxY=Math.max(...pts.map(point=>point.y)),width=maxX-minX;
     lastHoldPaint={physIdle,postureScaleY:current.postureScaleY||1,volumeY:(current.postureScaleY||1),cycleSeconds,bodyHeld,lifeFloor:_lifeFloor,motion:Number(motion.value),elapsed,unifiedTime:avatar.dataset.unifiedRenderTime||null,unifiedAuthority:avatar.dataset.unifiedRenderAuthority||null,hullHeight:maxY-Math.min(...pts.map(point=>point.y)),stars:{violet:null,cyan:cyanFieldNode.getAttribute("transform"),key:keyReflectionLayer.getAttribute("transform"),reflectionX:idle.reflectionX,reflectionY:idle.reflectionY,reservoirX:idle.reservoirX,reservoirY:idle.reservoirY},starMotion};

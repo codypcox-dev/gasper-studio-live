@@ -57,4 +57,20 @@ describe("fabric solver", () => {
     const face = Math.round(0.35 * (st.rings - 1)) * st.sectors;
     expect(Math.hypot(xy[face * 2] ?? 0, xy[face * 2 + 1] ?? 0)).toBeLessThan(55);
   });
+
+  it("plant-gated τ stiffens the loaded leg after region τ", () => {
+    const g = globalThis as {
+      __GASPER_STANCE__?: { live: number; side: number; left: { tau: number }; right: { tau: number } };
+      __GASPER_VISCO_TAU__?: number;
+    };
+    g.__GASPER_VISCO_TAU__ = 0.28;
+    g.__GASPER_STANCE__ = { live: 1, side: 1, left: { tau: 0.18 }, right: { tau: 0.02 } };
+    const st = createFabricState();
+    setRegion(st, "rightLeg", { tau: 0.4 });
+    setRegion(st, "feet", { tau: 0.4 });
+    tickFabric(st, 1 / 60);
+    delete g.__GASPER_STANCE__;
+    delete g.__GASPER_VISCO_TAU__;
+    expect(st.regions.rightLeg.tau).toBe(0.4);
+  });
 });

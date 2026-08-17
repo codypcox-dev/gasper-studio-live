@@ -1988,7 +1988,9 @@ export class GasperRigController {
     this.setWanderEnabled(take.setup.wander === true);
     this.headingPinDeg = take.setup.headingPinDeg ?? 0;
     if (take.policy === "snap" && take.setup.embodiment) {
-      this.snapEmbodiment(take.setup.embodiment);
+      if (this.authoredMainForm !== take.setup.embodiment) {
+        this.snapEmbodiment(take.setup.embodiment);
+      }
     }
     this.enableBoo(take.setup.boo === true);
     try {

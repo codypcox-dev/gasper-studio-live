@@ -1,0 +1,117 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "kelvin-voigt-details",
+    "domain": "anim-physics",
+    "wall": "Lock now has four τ. Old KV packet owned two (0.02/0.25) and a 12.5 E-ratio. Live _lp mixes lock swing 0.07 with slider viscoTau 0.25. Need the model, not another slider."
+  },
+  "question": "What is Kelvin–Voigt, exactly, as it applies to Gasper after the uniform-lp cut? How do the four lock τ map to E/η, phase, and discrete sa? Why not Maxwell or Zener?",
+  "coordinateSpaces": "Content px. Discrete Voigt creep: x ← x+(x*−x)(1−e^{−dt/τ}). Exact solution of ẋ=(x*−x)/τ. τ in seconds. dt≈1/60 live, 1/120 on 120fps proof. No pascals. No mass in _lp (CoM k,c is the other organ). Stance sockets are x*, not paint.",
+  "physicalLaw": [
+    "Kelvin–Voigt (spring ∥ dashpot): σ = E ε + η ε̇. Retardation time τ_R = η/E.",
+    "Creep under const σ: ε(t)=(σ/E)(1−e^{−t/τ}). Bounded. Approaches a shape. That is _lp toward the posed hull x*.",
+    "KV has no instantaneous elasticity (dashpot blocks a jump). KV has no stress relaxation under const ε (σ=Eε). Fine: we never hold strain and watch stress; we hold a target shape and creep to it.",
+    "After load removal a KV solid recovers fully: ε→0. Our analog is restHold: x* returns to the identity W and τ=0.42 creeps home. He does not puddle.",
+    "Maxwell (spring — dashpot): ė=σ̇/E+σ/η. Relaxation σ=σ0 e^{−t/τ} → 0. Creep unbounded. That is melt. Forbidden for a body that must hold a W.",
+    "Zener / SLS adds an extra spring (instant hop + creep + residual stress). Three constants. Forbidden (no E/η/ζ_KV sliders).",
+    "We store τ only. E and η are not recoverable from τ. If η is shared (one gel): E_a/E_b = τ_b/τ_a.",
+    "Lock τ {plant:0.02, swing:0.07, rest:0.42, fabric:0.12} ⇒ shared-η E-ratios vs plant: swing ×3.5, fabric ×6, rest ×21. The old 12.5 was plant vs Weight slider 0.25, not vs lock swing.",
+    "Phase of a sinusoid φ=atan(2π f τ). At 1.43 Hz strut: plant 10.2°, swing 32.2°, fabric 47.2°, Weight-0.25 66°, rest 75.2°.",
+    "Discrete exact: sa=1−exp(−dt/τ). At 60 fps: plant 0.565 / swing 0.212 / fabric 0.130 / rest 0.039. At 120 fps: 0.341 / 0.112 / 0.067 / 0.020. Same τ, smaller first-frame cut. Not a new parameter.",
+    "Frames to 63% settle = τ/dt. Plant ~1.2 frames @60 / 2.4 @120. Swing ~4 / 8. Rest ~25 / 50."
+  ],
+  "artisticLaw": [
+    "He is Voigt: creeps to a shape. He is not Maxwell: he does not relax to zero.",
+    "Plant sits (10°). Swing leaves late (32°). Rest holds (75°). Weight slider may tint non-W live verts only.",
+    "Lock swing is 0.07, not 0.25. 0.25 is the unused-W fallback (gated) and the rail Weight default.",
+    "Do not add E, η, or a third element. Do not raise τ to kill a bubble. Do not drop τ to 0 (snap, buzz)."
+  ],
+  "invariants": [
+    "Do not delete _lp. Do not set τ=0.",
+    "No kelvin_E, kelvin_eta, stiffness field, W-rig.",
+    "Plant 0.02, swing 0.07, rest 0.42, fabric 0.12 — lock wins over the 0.25 cluster default for the W.",
+    "viscoTau stays the Weight slider (0.02–1.0). It does not own plant/swing/rest.",
+    "One-shot snap consumes __GASPER_VISCO_SNAP__ and clears it. Stuck snap is a bug.",
+    "Face is not filtered.",
+    "CoM k/c is not KV."
+  ],
+  "failureModes": [
+    "Maxwell analog (multiply live toward 0): W puddles.",
+    "τ=0: sa=1, pixel-flip buzz returns.",
+    "One global τ=0.25: plant crawls, swing smears — the uniform-lp dual, just killed.",
+    "Using 12.5 as plant/swing E-ratio: that is plant vs Weight, not plant vs lock swing (3.5).",
+    "Weight slider overriding stance.tau: swing becomes 66° taffy again.",
+    "Zener hop: first-frame snap on every socket move. Looks like the banned posed.y chew."
+  ],
+  "uncertainty": [
+    "Live stepHz on the owner 20s vs 1.43 Hz probe. φ scales with f. E-ratios do not.",
+    "Mesh points may lack th/theta so they take swing/gated, not plant. Interior rings may not plant-gate.",
+    "_lp still integrates the 512, not the 25×40. Next residual remains cage-writes-hull.",
+    "Wikipedia shorthand that 'KV relaxes deformation after release' is recovery to 0 strain, not Maxwell stress-relaxation. Do not cite it as melt."
+  ],
+  "tests": [
+    "PlantGatedTau: VISCO_TAU_PLANT=0.02, VISCO_TAU_REST=0.42, viscoTau+w*(PLANT-viscoTau), __GASPER_VISCO_SNAP__, (1-restHold).",
+    "Stance rest tau===0.42. Gait plant 0.02, swing 0.07.",
+    "No kelvin_E / kelvin_eta bindings.",
+    "At dt=1/60: sa(0.02)∈[0.55,0.58], sa(0.07)∈[0.20,0.23], sa(0.42)∈[0.035,0.045].",
+    "E_plant/E_swing documented 3.5, not 12.5."
+  ],
+  "visualConsequences": [
+    "Plant foot tracks the socket in ~2 frames. No skate.",
+    "Swing toe lags ~8 frames @120fps — air gap, not smear.",
+    "Rest W does not breathe through the mass (τ=0.42).",
+    "If both feet leave together, _lp is still global. If he puddles, someone wrote Maxwell."
+  ],
+  "implementation": [
+    "Explore only. No new cut this receipt.",
+    "Live already: lock τ in _lp + stance.tau when ww>0.05.",
+    "Promote: E-ratio table 3.5 / 6 / 21 (not 12.5) into VISCOSITY-CLUSTER when next Investigate admits.",
+    "Do not flip applyFabricSnap. Do not add Zener. Do not retune CoM c.",
+    "Next residual if the run still smears: cage-writes-hull (τ field on the 1000), not a new τ number."
+  ],
+  "citations": [
+    {
+      "id": "kelvin-voigt-constitutive",
+      "tier": "reference",
+      "source": "https://en.wikipedia.org/wiki/Kelvin%E2%80%93Voigt_material",
+      "rule": "σ=Eε+ηε̇. τ_R=η/E. Bounded creep. No instant elasticity. No stress relaxation."
+    },
+    {
+      "id": "maxwell-contrast",
+      "tier": "axiom",
+      "source": "Maxwell series ė=σ̇/E+σ/η",
+      "rule": "Relaxes to 0. Unbounded creep. Melt. Forbidden."
+    },
+    {
+      "id": "investigate-kelvin-voigt-params",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-26-00-000Z-investigate-kelvin-voigt-params",
+      "rule": "We own τ only. Old 12.5 was vs viscoTau=0.25. Lock swing is now 0.07."
+    },
+    {
+      "id": "investigate-uniform-lp",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T04-10-00-000Z-investigate-uniform-lp",
+      "rule": "Global _lp at 0.25 was the skate. Plant-gated lock τ is live."
+    },
+    {
+      "id": "caged-hull-lock-tau",
+      "tier": "canon",
+      "source": "docs/triforce/canon/CAGED-HULL-LOCK.json",
+      "rule": "plant 0.02 / swing 0.07 / rest 0.42 / fabric 0.12"
+    },
+    {
+      "id": "d-0018-contour-inertia",
+      "tier": "canon",
+      "source": "all-script-3.js _lp sa=1−exp(−dt/τ)",
+      "rule": "Exact discrete Voigt creep. Face not filtered. Drag snaps."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T04-20-00-000Z-explore-kelvin-voigt-details",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T04:20:00.000Z"
+}

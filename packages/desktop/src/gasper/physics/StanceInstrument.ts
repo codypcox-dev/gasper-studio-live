@@ -1,8 +1,10 @@
 /**
  * Stance instrument — three sockets the lower half obeys.
- * Left plant, right plant, crotch. One socket is glued; the other swings.
- * The W is the sockets, not a chewed gaussian.
+ * Left plant, right plant, crotch. One socket is glued; the other
+ * leaves, travels, and lands. The W is the sockets, not a chewed gaussian.
  */
+import { gaitSwingTravel01 } from "./GaitLaw";
+
 export const STANCE_SCHEMA = "gasper.stance.v1" as const;
 
 export type StanceSocket = Readonly<{
@@ -10,6 +12,7 @@ export type StanceSocket = Readonly<{
   y: number;
   planted: number;
   tau: number;
+  theta: number;
 }>;
 
 export type StanceFrame = Readonly<{
@@ -25,16 +28,17 @@ export type StanceFrame = Readonly<{
 
 /** Rest W in FormMaster content px (viewBox 240×220). */
 export const STANCE_REST = Object.freeze({
-  left: Object.freeze({ x: 100, y: 188, planted: 1, tau: 0.02 }),
-  right: Object.freeze({ x: 140, y: 188, planted: 1, tau: 0.02 }),
-  crotch: Object.freeze({ x: 120, y: 172, planted: 1, tau: 0.08 }),
+  left: Object.freeze({ x: 100, y: 188, planted: 1, tau: 0.42, theta: 1.83 }),
+  right: Object.freeze({ x: 140, y: 188, planted: 1, tau: 0.42, theta: 1.31 }),
+  crotch: Object.freeze({ x: 120, y: 172, planted: 1, tau: 0.42, theta: Math.PI / 2 }),
 });
 
-const LIFT_PX = 14;
-const ADV_PX = 8;
-const DROP_PX = 1.6;
+const LIFT_PX = 10;
+const ADV_PX = 14;
+const DROP_PX = 2.0;
 const TAU_PLANT = 0.02;
-const TAU_SWING = 0.18;
+const TAU_SWING = 0.07;
+const THETA_TRAVEL = 0.22;
 
 export type StanceTickInput = Readonly<{
   phase?: number;
@@ -65,25 +69,70 @@ export function restStance(): StanceFrame {
   });
 }
 
+/**
+ * Leave/travel/land envelope. 0 at both contacts, 1 at mid-swing.
+ * Phase-driven when the kernel published a phase. Mid-pose (1) when tests
+ * omit phase so existing mid-swing assertions still hold.
+ */
+export function stanceLeave(phase: number | undefined): number {
+  if (!Number.isFinite(Number(phase))) return 1;
+  const travel = gaitSwingTravel01(Number(phase));
+  return Math.sin(travel * Math.PI);
+}
+
 export function tickStance(input: StanceTickInput = {}): StanceFrame {
   const live = clamp01(Number(input.live) || 0);
   const side = Math.max(-1, Math.min(1, Number(input.supportSide) || 0));
   if (live < 0.004 || side === 0) return restStance();
   const plantR = side > 0;
-  const lift = LIFT_PX * clamp01(Number(input.swingLift) || 0.7) * live;
-  const adv = ADV_PX * (Number(input.swingAdvance) || (plantR ? -1 : 1)) * live;
-  const drop = DROP_PX * clamp01(Number(input.plantedCompress) || 0.6) * live;
+  const leave = stanceLeave(input.phase) * live;
+  const hasLift = input.swingLift !== undefined && Number.isFinite(Number(input.swingLift));
+  const liftAmp = hasLift ? clamp01(Number(input.swingLift)) : 0.7;
+  const lift = LIFT_PX * liftAmp * leave;
+  const drop = DROP_PX * clamp01(Number(input.plantedCompress) || 0.6) * live * (1 - leave * 0.35);
+  const advSign = plantR ? -1 : 1;
+  const hasAdv = input.swingAdvance !== undefined && Number.isFinite(Number(input.swingAdvance));
+  const advAmp =
+    hasAdv && Math.abs(Number(input.swingAdvance)) > 1e-6
+      ? Math.min(1, Math.abs(Number(input.swingAdvance)))
+      : 1;
+  const adv = ADV_PX * advSign * advAmp * leave;
   const left: StanceSocket = plantR
-    ? { x: STANCE_REST.left.x + adv, y: STANCE_REST.left.y - lift, planted: 0, tau: TAU_SWING }
-    : { x: STANCE_REST.left.x, y: STANCE_REST.left.y + drop, planted: 1, tau: TAU_PLANT };
+    ? {
+        x: STANCE_REST.left.x + adv,
+        y: STANCE_REST.left.y - lift,
+        planted: leave < 0.12 ? 1 : 0,
+        tau: leave < 0.12 ? TAU_PLANT : TAU_SWING,
+        theta: STANCE_REST.left.theta + THETA_TRAVEL * leave,
+      }
+    : {
+        x: STANCE_REST.left.x,
+        y: STANCE_REST.left.y + drop,
+        planted: 1,
+        tau: TAU_PLANT,
+        theta: STANCE_REST.left.theta,
+      };
   const right: StanceSocket = plantR
-    ? { x: STANCE_REST.right.x, y: STANCE_REST.right.y + drop, planted: 1, tau: TAU_PLANT }
-    : { x: STANCE_REST.right.x + adv, y: STANCE_REST.right.y - lift, planted: 0, tau: TAU_SWING };
+    ? {
+        x: STANCE_REST.right.x,
+        y: STANCE_REST.right.y + drop,
+        planted: 1,
+        tau: TAU_PLANT,
+        theta: STANCE_REST.right.theta,
+      }
+    : {
+        x: STANCE_REST.right.x + adv,
+        y: STANCE_REST.right.y - lift,
+        planted: leave < 0.12 ? 1 : 0,
+        tau: leave < 0.12 ? TAU_PLANT : TAU_SWING,
+        theta: STANCE_REST.right.theta - THETA_TRAVEL * leave,
+      };
   const crotch: StanceSocket = {
-    x: STANCE_REST.crotch.x + (plantR ? 3 : -3) * live,
-    y: STANCE_REST.crotch.y + drop * 0.35,
+    x: STANCE_REST.crotch.x + (plantR ? 3 : -3) * leave,
+    y: STANCE_REST.crotch.y,
     planted: 1,
     tau: 0.08,
+    theta: STANCE_REST.crotch.theta,
   };
   return Object.freeze({
     schema: STANCE_SCHEMA,
@@ -127,14 +176,15 @@ export function stanceFromGait(gait: {
       ? clamp01(Number(gait.leftoverSway) || 0)
       : 0;
   const liftNorm = Math.max(0, Math.min(1, Math.abs(Number(gait.swingLiftUnits) || 0) / 544));
-  const advNorm = Math.max(-1, Math.min(1, (Number(gait.swingAdvanceUnits) || 0) / 352));
+  const advRaw = Number(gait.swingAdvanceUnits);
+  const advNorm = Number.isFinite(advRaw) ? Math.max(-1, Math.min(1, advRaw / 352)) : undefined;
   return tickStance({
     phase: gait.phase,
     hz: gait.stepHz,
     supportSide: gait.supportSide,
     plantedCompress: gait.plantedCompress,
     incomingCompress: gait.incomingCompress,
-    swingLift: liftNorm,
+    swingLift: 1,
     swingAdvance: advNorm,
     live,
   });

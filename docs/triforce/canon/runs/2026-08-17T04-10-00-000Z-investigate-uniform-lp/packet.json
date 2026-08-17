@@ -1,0 +1,20 @@
+{
+  "runId": "2026-08-17T04-10-00-000Z-investigate-uniform-lp",
+  "mode": "investigate",
+  "residual": "uniform-lp",
+  "question": "Why does the northstar run fail viscosity when stance sockets already publish plant 0.02 / swing 0.07?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "cage-not-master",
+  "adversaries": ["explore-dual-audit", "plan-unified-controller"],
+  "finding": "_lp integrates the whole 512 with one viscoTau=0.25. Stance.tau is unpublished to the integrator. Plant crawls, swing smears, W melts. FabricSolver tauField never paints.",
+  "law": "tau_i = REST*restHold + (1-restHold)*(SWING + w_plant*(PLANT-SWING)). Same plant gauss as pose. Plant 0.02 sits, swing 0.07 leaves, rest 0.42 holds.",
+  "invariants": [
+    "Do not delete _lp",
+    "Do not set tau=0",
+    "Do not add kelvin_E / kelvin_eta",
+    "Do not flip applyFabricSnap at rest (pizza-POS)",
+    "Do not revive posed.y chew",
+    "No CageTau.ts"
+  ],
+  "cut": "all-script-3.js _lp 2726-2730; StanceInstrument STANCE_REST.tau=0.42"
+}

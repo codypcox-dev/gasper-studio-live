@@ -1,8 +1,9 @@
 {
-  "runId": "2026-08-17T01-25-00-000Z-explore-disney-principled",
+  "runId": "2026-08-17T04-20-00-000Z-explore-kelvin-voigt-details",
   "mode": "explore",
-  "residual": "disney-principled",
-  "depositPath": "docs/triforce/canon/runs/2026-08-17T01-25-00-000Z-explore-disney-principled",
-  "parentResidual": "pbr-shader",
-  "engineVersion": "3.0.0"
+  "residual": "kelvin-voigt-details",
+  "depositPath": "docs/triforce/canon/runs/2026-08-17T04-20-00-000Z-explore-kelvin-voigt-details",
+  "parentResidual": "uniform-lp",
+  "engineVersion": "3.0.0",
+  "lock": "docs/triforce/canon/CAGED-HULL-LOCK.json"
 }

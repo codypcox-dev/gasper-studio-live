@@ -1,0 +1,52 @@
+{
+  "schema": "gasper.caged-hull.lock/v1",
+  "id": "GASPER-CAGED-HULL-001",
+  "document": "docs/triforce/NORTHSTAR-CAGED-HULL.md",
+  "updatedAt": "2026-08-17T03:20:00Z",
+  "livePaint": "packages/desktop/src/gasper/assets/all-script-3.js",
+  "authority": "legacy-authority-formmaster-v655",
+  "topology": { "rings": 25, "sectors": 40, "verts": 1000, "contour": 512 },
+  "tau": { "plant": 0.02, "swing": 0.07, "rest": 0.42, "fabric": 0.12 },
+  "identity": {
+    "crownAmp": -5,
+    "chinAmp": -5,
+    "lobeAmp": 3.2,
+    "cleftDepth": 3.2,
+    "footAmp": 4,
+    "armAmp": 0,
+    "yaw": 8
+  },
+  "forbidden": [
+    "posed.y-=_liftPx*_swingArtW",
+    "const _cyanPlant=0;",
+    "farTuck=0.0*turn",
+    "mix-blend-mode: screen",
+    "CageHull.ts as a second painter"
+  ],
+  "gates": {
+    "G1": "rest pearl, sealed W, no white gel",
+    "G2": "hull = grid, nubs on meridians",
+    "G3": "far tuck / near push",
+    "G4": "spec/bloom travel >= 16px on 2.6-5.2s",
+    "G5": "no floor pulse",
+    "G6": "walk W, stanceDY >= 6, cleft >= 10",
+    "G7": "ribbon opacity 0",
+    "G8": "intro floor/camera locked",
+    "G9": "clean console",
+    "G10": "identity coeffs + gait out of formRadius"
+  },
+  "residual": "owner-eyes",
+  "status": "live-observed",
+  "proof": "screenshots/ns-final/gates.json",
+  "bloomTravel": 50.9,
+  "stanceDY": 8.0,
+  "cleft": 12.7,
+  "queue": ["owner-eyes"]
+  "queue": [
+    "instrument-orbit",
+    "light-deaf-to-gait",
+    "strut-swing-leave",
+    "intro-clip-and-hold",
+    "morph-grid-discipline"
+  ]
+}

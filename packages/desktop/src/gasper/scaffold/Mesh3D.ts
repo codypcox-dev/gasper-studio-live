@@ -68,6 +68,26 @@ export function rotateYawXYZ(xyz: Float32Array, yawDeg: number): Float32Array {
   return out;
 }
 
+export function rotatePitchXYZ(xyz: Float32Array, pitchDeg: number): Float32Array {
+  const out = new Float32Array(xyz.length);
+  const a = (pitchDeg * Math.PI) / 180;
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  for (let i = 0; i < xyz.length; i += 3) {
+    const x = xyz[i] ?? 0;
+    const y = xyz[i + 1] ?? 0;
+    const z = xyz[i + 2] ?? 0;
+    out[i] = x;
+    out[i + 1] = y * c - z * s;
+    out[i + 2] = y * s + z * c;
+  }
+  return out;
+}
+
+export function rotateViewXYZ(xyz: Float32Array, yawDeg: number, pitchDeg = 0): Float32Array {
+  return rotatePitchXYZ(rotateYawXYZ(xyz, yawDeg), pitchDeg);
+}
+
 export function projectXY(xyz: Float32Array): Float32Array {
   const n = xyz.length / 3;
   const xy = new Float32Array(n * 2);

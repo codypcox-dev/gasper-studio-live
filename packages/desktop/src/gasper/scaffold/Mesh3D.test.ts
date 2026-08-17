@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { paddleXYZ } from "./Mesh3D";
+import { paddleXYZ, restPearlXYZ, rotateViewXYZ } from "./Mesh3D";
 import { projectAndSilhouette } from "./Silhouette2D";
 
 describe("3D cage + silhouette", () => {
@@ -20,5 +20,18 @@ describe("3D cage + silhouette", () => {
     expect(frontY).toBeGreaterThan(60);
     expect(frontW).toBeGreaterThan(40);
     expect(sideW).toBeLessThan(frontW * 0.85);
+  });
+
+  it("pitch nods the pearl without changing vertex count", () => {
+    const xyz = restPearlXYZ(25, 40);
+    const nodded = rotateViewXYZ(xyz, 0, 35);
+    expect(nodded.length).toBe(xyz.length);
+    let maxY = -999;
+    let minY = 999;
+    for (let i = 1; i < nodded.length; i += 3) {
+      maxY = Math.max(maxY, nodded[i] ?? 0);
+      minY = Math.min(minY, nodded[i] ?? 0);
+    }
+    expect(maxY - minY).toBeGreaterThan(40);
   });
 });

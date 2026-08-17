@@ -145,10 +145,9 @@ describe("N331 embodiment settings are not Presence's orb", () => {
     const sampleStart = as3.indexOf("function sampleBodyForProfile");
     const sampleEnd = as3.indexOf("function applyMeshWarp", sampleStart);
     const articulationBlock = as3.slice(sampleStart, sampleEnd);
-    expect(articulationBlock).toContain("physGait.swingLiftUnits");
-    expect(articulationBlock).toContain("physGait.swingAdvanceUnits");
-    expect(articulationBlock).toContain("physGait.loadedDropUnits");
-    expect(articulationBlock).toContain("posed.y-=_liftPx*_swingArtW");
+    expect(articulationBlock).toContain("__GASPER_STANCE__");
+    expect(articulationBlock).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(articulationBlock).not.toContain("posed.y-=_liftPx*_swingArtW");
 
     const w = WISPWALKER_CANONICAL_CONTOUR;
     for (const th of [

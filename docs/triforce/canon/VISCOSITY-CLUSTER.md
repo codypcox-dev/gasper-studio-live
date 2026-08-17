@@ -38,6 +38,9 @@ Same `w` as pose. Rest (`supportSide === 0`) keeps one τ. Drag snaps. Face unsp
 
 Related: `w-unhook`, `skate-no-swing`, `weight-transfer`, N347 intro floor lock.
 
+**2026-08-17 Explore** (`kelvin-voigt-details`): lock now owns four τ. Shared-η E-ratios vs plant are swing **×3.5**, fabric ×6, rest ×21. The old **12.5** is plant vs Weight `0.25`, not plant vs swing. He is Voigt (creeps to a shape), not Maxwell (relaxes to 0). Packet: `runs/2026-08-17T04-20-00-000Z-explore-kelvin-voigt-details`.
+
+
 ## Invariants
 
 - Do not delete `_lp`. Do not set τ = 0.

@@ -49,7 +49,7 @@
 /* Narrow navigator; collapse inspector + shell timeline (rail/transport own controls).
  * Default densification gives stage more pixels for owner-reviewable facial scale. */
 [data-product="gasper-studio"][data-dais-first="1"] .gwc-body {
-  grid-template-columns: 40px minmax(0, 1fr) minmax(0, 0px) !important;
+  grid-template-columns: 0px minmax(0, 1fr) minmax(0, 0px) !important;
   grid-template-rows: minmax(0, 1fr) 0px !important;
   --gwc-timeline: 0px;
 }
@@ -934,6 +934,11 @@
 [data-product="gasper-studio"][data-era="lumen"] .gwc-panel,
 [data-product="gasper-studio"][data-era="lumen"] .gwc-navigator,
 [data-product="gasper-studio"][data-era="lumen"] [data-testid="gwc-navigator"],
+[data-product="gasper-studio"][data-dais-first="1"] .gwc-navigator,
+[data-product="gasper-studio"][data-dais-first="1"] [data-testid="gwc-navigator"] {
+  display: none !important;
+  width: 0 !important;
+}
 [data-product="gasper-studio"][data-era="lumen"] [data-testid="gwc-inspector"],
 [data-product="gasper-studio"][data-era="lumen"] .gwc-stage-chrome,
 [data-product="gasper-studio"][data-era="lumen"] .dais-transport-bar,
@@ -1262,6 +1267,19 @@
   background: transparent;
   cursor: pointer;
 }
+.instrument-table__slider {
+  position: relative;
+}
+.instrument-table__slider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 1px;
+  height: 10px;
+  background: color-mix(in srgb, var(--inst-fg) 45%, transparent);
+  pointer-events: none;
+}
 .instrument-table__slider input[type="range"]::-webkit-slider-runnable-track {
   height: 6px;
   background: var(--inst-track);
@@ -1299,6 +1317,25 @@
 .instrument-table__pager,
 .instrument-table__bar {
   display: none;
+}
+
+.instrument-table[data-open="1"] {
+  top: auto;
+  bottom: 72px;
+  max-height: 46vh;
+  width: min(300px, calc(100vw - 24px)) !important;
+}
+.instrument-table__sheet {
+  max-height: 46vh;
+}
+.dais-control-rail,
+.dais-transport-bar,
+.gwc-app-bar,
+.gwc-ctx-bar,
+[data-testid="gwc-navigator"],
+[data-testid="gwc-inspector"],
+[data-gasper-stubs] {
+  display: none !important;
 }
 
 @media (max-width: 640px) {

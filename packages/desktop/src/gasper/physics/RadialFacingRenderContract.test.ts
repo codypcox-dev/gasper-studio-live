@@ -231,10 +231,12 @@ describe("gait 3/4 paint contract", () => {
     expect(renderer).toContain("p.x=_tcx+_rx*_hK;");
     expect(renderer).not.toContain("_hK*(_rx<0?_lK:_rK)");
     expect(renderer).toContain("radius+=(_wc.lobeAmp??_wcc.lobeAmp)*(gaussAngle(th,_wcc.leftLobeTheta,_wcc.lobeSigma)+gaussAngle(th,_wcc.rightLobeTheta,_wcc.lobeSigma))");
-    expect(renderer).toContain("posed.y-=_liftPx*_swingArtW");
+    expect(renderer).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(renderer).not.toContain("posed.y-=_liftPx*_swingArtW");
   });
   it("does not cartoon-fatten the hull or idleRig", () => {
-    expect(renderer).toContain("volumeX=st.postureScaleX||1,volumeY=st.postureScaleY||1");
+    expect(renderer).toContain("volumeX=st.postureScaleX||1,volumeY=");
+    expect(renderer).toContain("__GASPER_STANCE__");
     expect(renderer).not.toContain("volumeY<0.94");
     expect(renderer).toContain("idleScaleX=(1+(idle.scaleX-1)*stateMotion*breathGainE),idleScaleY=(1+(idle.scaleY-1)*stateMotion*breathGainE)");
   });

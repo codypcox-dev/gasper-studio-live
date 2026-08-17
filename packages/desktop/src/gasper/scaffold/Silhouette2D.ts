@@ -2,7 +2,7 @@
  * Screen silhouette of a projected cage. Radial envelope of the edge soup —
  * any convex or star-convex embedding, any yaw. No per-shape outline writer.
  */
-import { projectXY, rotateYawXYZ } from "./Mesh3D";
+import { projectXY, rotateViewXYZ } from "./Mesh3D";
 
 export function radialEnvelope(
   xy: Float32Array,
@@ -51,7 +51,8 @@ export function projectAndSilhouette(
   yawDeg: number,
   rings: number,
   sectors: number,
+  pitchDeg = 0,
 ): { xy: Float32Array; outline: Float32Array } {
-  const xy = projectXY(rotateYawXYZ(xyz, yawDeg));
+  const xy = projectXY(rotateViewXYZ(xyz, yawDeg, pitchDeg));
   return { xy, outline: radialEnvelope(xy, rings, sectors) };
 }

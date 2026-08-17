@@ -1,9 +1,11 @@
 # ThinkOps CURRENT
 
-phase: work
-residual: paddle-face-seat
-lastClaim: ok
-dualsKilled: painter-deaf-to-fabric | polar-lerp=cage
-events: 32
-updated: 2026-08-17T01-53-00Z
-note: Fabric snap + cage grid + paddle L2 live. No mount-paddle. No shade film. No key ribbons. Intro rest holds.
+phase: hold
+residual: first-step-still-soft
+lastClaim: checkpoint-strut-unshear
+checkpoint: checkpoint/gasper-strut-unshear-20260817
+commit: 4a6cb11
+prior: checkpoint/gasper-unified-runtime (d25b98d)
+events: 54
+updated: 2026-08-17T05:07:00Z
+note: Restore this version if the next pass regresses the planted W / unshear / height lock.

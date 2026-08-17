@@ -1,4 +1,3 @@
-import { CINEMATIC_PAN_Y, CINEMATIC_ZOOM } from "../GasperViewportController";
 import { READABLE_THREE_QUARTER_DEG } from "../physics/RadialFacingLaw";
 import type { GasperTake } from "./GasperTake";
 
@@ -24,16 +23,17 @@ export const NORTHSTAR_TWENTY_TAKE: GasperTake = Object.freeze({
     headingPinDeg: 0,
     yaw: 8,
     shot: Object.freeze({
-      zoom: CINEMATIC_ZOOM,
+      zoom: 1,
       panX: 0,
-      panY: CINEMATIC_PAN_Y,
+      panY: 0,
     }),
     life: false,
     wander: false,
   }),
   headingWindows: Object.freeze([
     Object.freeze({ until: 2.618, deg: 0 }),
-    Object.freeze({ until: 5.2, deg: -READABLE_THREE_QUARTER_DEG }),
+    Object.freeze({ until: 5.2, deg: 0 }),
+    Object.freeze({ until: 20, deg: 0 }),
   ]),
   beats: Object.freeze([
     Object.freeze({
@@ -44,7 +44,7 @@ export const NORTHSTAR_TWENTY_TAKE: GasperTake = Object.freeze({
           type: "runInPlace" as const,
           cadenceHz: 2.6,
           driveGain: 0.85,
-          compression: 0.08,
+          compression: 0,
           sustainUntil: 5.15,
         }),
         Object.freeze({ type: "walkEnable" as const, on: true }),

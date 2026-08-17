@@ -2,7 +2,7 @@
  * Floating instrument table — categorized, paginated tools above the move pills.
  * ThinkOps: picker + pages, not a slider dump. Recede, never hide a dial.
  */
-import { useCallback, useState, type ReactElement } from "react";
+import { useCallback, useEffect, useState, type ReactElement } from "react";
 import type { DesignDomainId } from "../../../desktop/src/studio/worldclass/adapter/types";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { WISPWALKER_AUTHORING_DEFAULTS } from "./wispwalkerAuthoringDefaults";
@@ -36,7 +36,7 @@ type SliderSpec = {
   max: number;
   step: number;
   domain?: DesignDomainId;
-  kind: "design" | "gain" | "phys" | "craft" | "goose";
+  kind: "design" | "gain" | "phys" | "craft" | "goose" | "yaw" | "light" | "orbit";
   fallback: number;
 };
 
@@ -87,20 +87,40 @@ const SLIDER_PAGES: SliderPage[] = [
     id: "limbs",
     label: "Limbs",
     sliders: [
-      { id: "form_foot_amp", label: "Feet", min: 0, max: 4, step: 0.1, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.form.footAmp },
-      { id: "form_arm_amp", label: "Arms", min: 0, max: 4, step: 0.1, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.form.armAmp },
-      { id: "wide", label: "Wide", min: -1, max: 1, step: 0.01, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.pose.wide },
-      { id: "yaw", label: "Yaw", min: 0, max: 45, step: 0.5, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.rig.yawDegrees },
+      { id: "form_foot_amp", label: "Feet", min: -2, max: 6, step: 0.1, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.form.footAmp },
+      { id: "form_arm_amp", label: "Arms", min: -2, max: 6, step: 0.1, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.form.armAmp },
+      { id: "wide", label: "Wide", min: -1.5, max: 1.5, step: 0.01, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.pose.wide },
+      { id: "yaw", label: "Yaw", min: -180, max: 180, step: 1, kind: "yaw", fallback: 8 },
     ],
   },
   {
     id: "walk",
     label: "Walk",
     sliders: [
-      { id: "walk_amp", label: "Walk", min: 0, max: 2, step: 0.05, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.walkAmp },
-      { id: "walk_period", label: "Step s", min: 0.5, max: 3, step: 0.05, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.walkPeriodSeconds },
+      { id: "walk_amp", label: "Walk", min: 0, max: 3, step: 0.05, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.walkAmp },
+      { id: "walk_period", label: "Step s", min: 0.3, max: 3.5, step: 0.05, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.walkPeriodSeconds },
       { id: "walk_accent", label: "Accent", min: 0, max: 1, step: 0.05, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.walkAccent },
       { id: "visco_tau", label: "Weight", min: 0.02, max: 1, step: 0.01, domain: "form", kind: "design", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.viscoTau },
+    ],
+  },
+  {
+    id: "light",
+    label: "Light",
+    sliders: [
+      { id: "light_spec", label: "Glint", min: -1, max: 1, step: 0.02, kind: "light", fallback: 0 },
+      { id: "light_wrap", label: "Limb wrap", min: -1, max: 1, step: 0.02, kind: "light", fallback: 0 },
+      { id: "light_soft", label: "Soft", min: -1, max: 1, step: 0.02, kind: "light", fallback: 0 },
+      { id: "yaw", label: "Yaw", min: -180, max: 180, step: 1, kind: "yaw", fallback: 8 },
+    ],
+  },
+  {
+    id: "orbit",
+    label: "Orbit",
+    sliders: [
+      { id: "orbit_yaw", label: "Orbit Y", min: -180, max: 180, step: 1, kind: "orbit", fallback: 0 },
+      { id: "orbit_pitch", label: "Orbit X", min: -80, max: 80, step: 1, kind: "orbit", fallback: 0 },
+      { id: "yaw", label: "Face yaw", min: 0, max: 45, step: 1, kind: "yaw", fallback: 8 },
+      { id: "light_spec", label: "Glint", min: -1, max: 1, step: 0.02, kind: "light", fallback: 0 },
     ],
   },
   {
@@ -150,6 +170,8 @@ const TOOL_PAGES = [
       { id: "morph-spike", label: "Spike" },
       { id: "morph-wave", label: "Wave" },
       { id: "spin", label: "Turn 60°" },
+      { id: "orbit360", label: "Orbit 360" },
+      { id: "grid", label: "Grid" },
       { id: "save", label: "Save look" },
     ],
   },
@@ -181,6 +203,15 @@ const EFFECT_PAGES = [
   },
 ];
 
+function sliderSpan(spec: SliderSpec): number {
+  return Math.max(Math.abs(spec.max - spec.fallback), Math.abs(spec.min - spec.fallback), spec.step || 0.01);
+}
+function toDial(spec: SliderSpec, value: number): number {
+  return Math.max(-1, Math.min(1, (value - spec.fallback) / sliderSpan(spec)));
+}
+function fromDial(spec: SliderSpec, dial: number): number {
+  return spec.fallback + dial * sliderSpan(spec);
+}
 function fmt(n: number): string {
   if (Math.abs(n) >= 10) return n.toFixed(0);
   return n.toFixed(2);
@@ -195,7 +226,7 @@ export function InstrumentTable({
   take: SkinTake;
   onTake: (id: SkinTake) => void;
 }): ReactElement {
-  const [category, setCategory] = useState<InstrumentCategory>("sliders");
+  const [category, setCategory] = useState<InstrumentCategory>("effects");
   const [values, setValues] = useState<Record<string, number>>(() => {
     const next: Record<string, number> = {};
     for (const group of SLIDER_PAGES) {
@@ -227,6 +258,49 @@ export function InstrumentTable({
     });
   }, []);
 
+  useEffect(() => {
+    const el = document.querySelector("#avatar, [data-gasper-stage]") as HTMLElement | null;
+    if (!el) return;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    const down = (e: PointerEvent) => {
+      dragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      el.setPointerCapture?.(e.pointerId);
+    };
+    const move = (e: PointerEvent) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      const host = globalThis as {
+        __GASPER_ORBIT_YAW__?: number;
+        __GASPER_ORBIT_PITCH__?: number;
+        SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void };
+      };
+      const yaw = ((host.__GASPER_ORBIT_YAW__ ?? 0) + dx * 0.45 + 180) % 360 - 180;
+      const pitch = Math.max(-80, Math.min(80, (host.__GASPER_ORBIT_PITCH__ ?? 0) - dy * 0.35));
+      host.__GASPER_ORBIT_YAW__ = yaw;
+      host.__GASPER_ORBIT_PITCH__ = pitch;
+      host.SidekickFormMasterRig?.setOrbit?.(yaw, pitch);
+      setValues((v) => ({ ...v, orbit_yaw: yaw, orbit_pitch: pitch }));
+    };
+    const up = () => {
+      dragging = false;
+    };
+    el.addEventListener("pointerdown", down);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    return () => {
+      el.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+    };
+  }, []);
+
   const goCategory = useCallback((id: InstrumentCategory) => {
     setCategory(id);
     setOpen(true);
@@ -253,10 +327,43 @@ export function InstrumentTable({
           dispatchField("inflate", { id: "leftLeg", amount: next });
           dispatchField("inflate", { id: "rightLeg", amount: next });
         } else if (spec.id === "fabric_tau") {
-          dispatchField("setTau", { id: "torso", tau: next });
-          dispatchField("setTau", { id: "crown", tau: next });
+          for (const id of ["torso", "crown", "leftLeg", "rightLeg", "feet", "leftLobe", "rightLobe", "crotch", "face"] as const) {
+            dispatchField("setTau", { id, tau: next });
+          }
         }
         if (commit) setStatus(`Fabric ${spec.label} ${fmt(next)}`);
+        return;
+      }
+      if (spec.kind === "orbit") {
+        const host = globalThis as {
+          __GASPER_ORBIT_YAW__?: number;
+          __GASPER_ORBIT_PITCH__?: number;
+          SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void };
+        };
+        if (spec.id === "orbit_yaw") host.__GASPER_ORBIT_YAW__ = next;
+        if (spec.id === "orbit_pitch") host.__GASPER_ORBIT_PITCH__ = next;
+        host.SidekickFormMasterRig?.setOrbit?.(
+          spec.id === "orbit_yaw" ? next : values.orbit_yaw ?? 0,
+          spec.id === "orbit_pitch" ? next : values.orbit_pitch ?? 0,
+        );
+        dispatchField("showGrid", { on: true });
+        setGridOn(true);
+        if (commit) setStatus(`Orbit ${spec.label} ${fmt(next)}°`);
+        return;
+      }
+      if (spec.kind === "yaw") {
+        const rig = (globalThis as { SidekickFormMasterRig?: { setYaw?: (n: number) => void } })
+          .SidekickFormMasterRig;
+        rig?.setYaw?.(next);
+        if (commit) setStatus(`Yaw ${fmt(next)}°`);
+        return;
+      }
+      if (spec.kind === "light") {
+        const host = globalThis as { __GASPER_LIVE_COEFFS__?: Record<string, Record<string, number>> };
+        if (!host.__GASPER_LIVE_COEFFS__) host.__GASPER_LIVE_COEFFS__ = {};
+        if (!host.__GASPER_LIVE_COEFFS__.cageLight) host.__GASPER_LIVE_COEFFS__.cageLight = {};
+        host.__GASPER_LIVE_COEFFS__.cageLight[spec.id] = next;
+        if (commit) setStatus(`Light ${spec.label} ${fmt(next)}`);
         return;
       }
       if (spec.kind === "craft") {
@@ -267,6 +374,9 @@ export function InstrumentTable({
       if (spec.domain) {
         previewDesignParam(adapter, spec.domain, spec.id, next);
         if (commit) commitDesignParam(adapter, spec.domain, spec.id, next);
+        if (spec.id === "visco_tau") {
+          (globalThis as { __GASPER_VISCO_TAU__?: number }).__GASPER_VISCO_TAU__ = next;
+        }
         if (commit) setStatus(`${spec.label} ${fmt(next)}`);
       }
     },
@@ -326,6 +436,33 @@ export function InstrumentTable({
         dispatchField("morph", { id: morph, amplitude: 1 });
         onTake("goose");
         setStatus(`Fabric · ${morph}`);
+        return;
+      }
+      if (id === "orbit360") {
+        dispatchField("showGrid", { on: true });
+        setGridOn(true);
+        const host = globalThis as {
+          __GASPER_ORBIT_YAW__?: number;
+          __GASPER_ORBIT_PITCH__?: number;
+          SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void };
+        };
+        const t0 = performance.now();
+        const run = (now: number) => {
+          const u = Math.min(1, (now - t0) / 6400);
+          const yaw = u * 360 - 180;
+          host.__GASPER_ORBIT_YAW__ = yaw;
+          host.SidekickFormMasterRig?.setOrbit?.(yaw, host.__GASPER_ORBIT_PITCH__ ?? 0);
+          setValues((v) => ({ ...v, orbit_yaw: yaw }));
+          if (u < 1) requestAnimationFrame(run);
+          else {
+            host.__GASPER_ORBIT_YAW__ = 0;
+            host.SidekickFormMasterRig?.setOrbit?.(0, host.__GASPER_ORBIT_PITCH__ ?? 0);
+            setValues((v) => ({ ...v, orbit_yaw: 0 }));
+            setStatus("Orbit 360 · done");
+          }
+        };
+        requestAnimationFrame(run);
+        setStatus("Orbit 360");
         return;
       }
       if (id === "spin") {
@@ -469,17 +606,19 @@ export function InstrumentTable({
                     key={group.id}
                     className="instrument-table__section"
                     data-testid={`instrument-section-${group.id}`}
-                    open
+                    defaultOpen={group.id === "orbit"}
                   >
                     <summary>{group.label}</summary>
                     <div className="instrument-table__sliders" data-testid={group.id === "goose" ? "instrument-sliders" : undefined}>
                       {group.sliders.map((spec) => {
                         const value = values[spec.id] ?? spec.fallback;
+                        const dial = toDial(spec, value);
                         return (
                           <label
                             key={spec.id}
                             className="instrument-table__slider"
                             data-testid={`instrument-slider-${spec.id}`}
+                            data-bipolar="1"
                           >
                             <span>
                               {spec.label}
@@ -487,13 +626,13 @@ export function InstrumentTable({
                             </span>
                             <input
                               type="range"
-                              min={spec.min}
-                              max={spec.max}
-                              step={spec.step}
-                              value={value}
-                              onChange={(e) => writeSlider(spec, Number(e.target.value), false)}
-                              onPointerUp={(e) => writeSlider(spec, Number(e.currentTarget.value), true)}
-                              onBlur={(e) => writeSlider(spec, Number(e.currentTarget.value), true)}
+                              min={-1}
+                              max={1}
+                              step={0.01}
+                              value={dial}
+                              onChange={(e) => writeSlider(spec, fromDial(spec, Number(e.target.value)), false)}
+                              onPointerUp={(e) => writeSlider(spec, fromDial(spec, Number(e.currentTarget.value)), true)}
+                              onBlur={(e) => writeSlider(spec, fromDial(spec, Number(e.currentTarget.value)), true)}
                             />
                           </label>
                         );
