@@ -15,7 +15,8 @@ import svgSource from "./assets/gasper-rig-v655.svg?raw";
 import script0 from "./assets/all-script-0.js?raw";
 import script1 from "./assets/all-script-1.js?raw";
 import script2 from "./assets/all-script-2.js?raw";
-import script3 from "./assets/all-script-3.js?raw"; // life9 hold inspect
+import script3 from "./assets/all-script-3.js?raw"; // grid-toggle-v2 — SHOW_GRID is visibility only
+export const FORMMASTER_PAINT_REV = "cage-is-shader-v1";
 import vectorMaterialRuntime from "./assets/vector-material.js?raw";
 import materialFeatureManifest from "./assets/vector-material-manifest.json";
 import { GASPER_TOPOLOGY } from "./GasperTopologyLock";

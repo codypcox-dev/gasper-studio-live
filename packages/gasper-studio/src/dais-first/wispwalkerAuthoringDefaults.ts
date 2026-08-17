@@ -38,7 +38,7 @@ export const WISPWALKER_AUTHORING_DEFAULTS = Object.freeze({
     walkAccent: 0.6,
     stepDepth: 4,
     walkEnabled: 1,
-    viscoTau: 0.25,
+    viscoTau: 0.28,
   }),
   physics: Object.freeze({
     gravityScale: 1,

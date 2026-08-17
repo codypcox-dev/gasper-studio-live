@@ -308,6 +308,9 @@ describe("Cycle 12 production wiring (source proof)", () => {
     expect(script).toContain("return Math.max(-1,Math.min(1,baseX/swayX));");
     expect(script).toContain("function walkPhysicsDrivenHold(){");
     expect(script).toContain("worldPoseTarget.provenance==='physics-authority'");
+    expect(script).not.toContain(
+      "return physGait.speedRatio<=0.01&&worldPoseTarget.provenance==='physics-authority'",
+    );
     expect(script).toContain("const step=physGait.speedRatio>0.01?supportStep:authoredStep;");
   });
 

@@ -1,0 +1,160 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "procedural-mesh",
+    "domain": "topology-generation",
+    "wall": "Six products hide under “procedural mesh generation.” Gasper already has one: a locked polar constructor. The shatter on Goose was a second product — generating paint faces from the field."
+  },
+  "question": "What kinds of procedural mesh generation exist, which of them are lawful on a cage whose topology is frozen, and what would “more mesh” actually mean for Gasper?",
+  "coordinateSpaces": "Polar cage: u = sector/40, v = ring/25. Contour: θ on 512. Lattice: 15×24. Screen: SVG user units. World: 1920×1080. Counts are computed: verts = rings×sectors; tris = (rings−1)×sectors×2. 25×40 = 1000. 15×24 = 360. Do not transpose u/v.",
+  "physicalLaw": [
+    "C = Γ(L) + Σs_i. Topology is identity. Shape is an embedding.",
+    "createPolarTopology runs once. It does not run per frame.",
+    "A field on 1000 is not a new mesh. Extracting isosurfaces or subdividing is."
+  ],
+  "artisticLaw": [
+    "He puffs, pebbles, or becomes a remote by changing Σs_i, not by growing triangles.",
+    "Paint primitives (ellipses, tiles) are not the cage. Tiles read as crystal. Pebbles read as skin.",
+    "LOD is two locked topologies (360 and 1000), not a runtime remesh."
+  ],
+  "families": [
+    {
+      "id": "polar-constructor",
+      "name": "Fixed polar cage",
+      "what": "rings×sectors, stagger, two tris per quad. Built once.",
+      "have": "all-script-0 createPolarTopology. DETAIL_TOPOLOGY 25×40. Lattice 15×24.",
+      "lawful": true,
+      "live": true
+    },
+    {
+      "id": "displaced-subdivision",
+      "name": "Displacement on a cage",
+      "what": "SOTA (Lee/Ahn/Lee): one control mesh + a displacement map for the whole animation.",
+      "have": "__GASPER_SCAFFOLD_Z__ 1000 scalars. stampGooseField. scaffoldRimFromRelief.",
+      "lawful": true,
+      "live": true
+    },
+    {
+      "id": "catmull-loop",
+      "name": "Catmull-Clark / Loop subdivision",
+      "what": "Each pass multiplies faces. Entertainment default for a base mesh.",
+      "have": "Nothing live. Would break 512/360/1000 lock.",
+      "lawful": false,
+      "live": false
+    },
+    {
+      "id": "implicit-extract",
+      "name": "SDF / marching cubes / metaballs",
+      "what": "Oracle → new triangles every time the field changes. Blowfish temptation.",
+      "have": "Nothing. Puff is pressure on the same 1000.",
+      "lawful": false,
+      "live": false
+    },
+    {
+      "id": "skin-modifier",
+      "name": "Skin / envelope along a rig",
+      "what": "Blender Skin, feature-anim envelopes. Generate a hull from a skeleton.",
+      "have": "Wispwalker nubs are lobes on ring 24, not a generated hull.",
+      "lawful": false,
+      "live": false
+    },
+    {
+      "id": "neural-mesh",
+      "name": "MeshGPT / VertexRegen / MeshAnything",
+      "what": "Autoregressive or diffusion meshes. Offline asset generation.",
+      "have": "Nothing. Not a living cage.",
+      "lawful": false,
+      "live": false
+    },
+    {
+      "id": "golden-spiral-twin",
+      "name": "Golden-spiral 1000",
+      "what": "AdaptiveReliefInstrument. Same count, different UV.",
+      "have": "Tests only. Not 25×40. Not paint.",
+      "lawful": true,
+      "live": false
+    },
+    {
+      "id": "paint-from-cells",
+      "name": "shadeLitMesh / per-vertex stipple",
+      "what": "Treat each 25×40 cell or vertex as a face or speckle. 588 tiles = the shatter.",
+      "have": "Live for non-goose relief. Goose now uses goosebumpsSkinPaths (~84 ellipses).",
+      "lawful": "shade as intensity only; unlawful as a second body",
+      "live": "partial"
+    }
+  ],
+  "invariants": [
+    "512 / 360 / 672 / 1000 do not change because a field changed.",
+    "Firewall stays. No 1920 SVG from a generator.",
+    "Zero field is +0, never a remesh to rest.",
+    "Explore does not recut the painter."
+  ],
+  "failureModes": [
+    "createPolarTopology(50, 80) at runtime to “get more goose.”",
+    "Marching cubes the pearl every frame (the shatter, worse).",
+    "Catmull-Clark the 512 so the W looks smoother (new silhouette law).",
+    "Calling shadeLitMesh a procedural mesh and shipping 588 tiles as skin.",
+    "Golden-spiral 1000 silently replacing 25×40 (UV transpose / lost regions)."
+  ],
+  "uncertainty": [
+    "Whether the owner means ‘generate new cages’ (TV remote as a new L) or ‘generate more grain’ (denser field on the same 1000).",
+    "Book 009 3D AdaptiveShellScaffold remains unhooked. A 1000×3 buffer is still not paint."
+  ],
+  "tests": [
+    "DETAIL_TOPOLOGY.vertices.length === 1000 after any field.",
+    "Goose Z-count stays pebble-scale (≪ 400), not cell-scale (~600).",
+    "Neutral field still publishes rim 0.",
+    "No second createPolarTopology call on the hot path."
+  ],
+  "visualConsequences": [
+    "Lawful generation looks like the same being, pebbled or puffed.",
+    "Unlawful generation looks like a new sculpture or a crystal.",
+    "The owner’s shatter shot is family paint-from-cells, not a new cage."
+  ],
+  "implementation": [
+    "Do not remesh.",
+    "Do not add marching cubes, Catmull-Clark, or a neural mesher to the painter.",
+    "If Work is approved: denser Σs_i (more gaussians, regional τ), not more vertices.",
+    "Shape-snap (remote) is a captured L, still 512+1000.",
+    "Book 009 hook is compose → __GASPER_SCAFFOLD_Z__, still 1000 scalars."
+  ],
+  "citations": [
+    {
+      "id": "mesh-stack",
+      "tier": "canon",
+      "source": "docs/triforce/canon/MESH-STACK.md",
+      "rule": "Locked trio. Polar constructor. Neutral rim 0. Topology never remeshes."
+    },
+    {
+      "id": "adaptive-shell",
+      "tier": "canon",
+      "source": "C = Γ(L) + Σs_i",
+      "rule": "Compose fields. Do not paint a second mesh."
+    },
+    {
+      "id": "constructor",
+      "tier": "canon",
+      "source": "all-script-0.js createPolarTopology",
+      "rule": "verts = rings×sectors. Built once. Staggered polar quads."
+    },
+    {
+      "id": "dss",
+      "tier": "reference",
+      "source": "Lee, Ahn, Lee — Displaced Subdivision Surfaces of Animated Meshes",
+      "rule": "One control topology + one displacement map for the whole take."
+    },
+    {
+      "id": "vertexregen",
+      "tier": "reference",
+      "source": "VertexRegen / MeshGPT (2025)",
+      "rule": "Implicit extract over-tessellates. Direct mesh gen is offline. Neither is a living cage."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T20-08-00-000Z-explore-procedural-mesh",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T20:08:00.000Z"
+}

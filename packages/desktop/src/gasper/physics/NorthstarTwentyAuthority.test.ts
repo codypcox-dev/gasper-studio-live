@@ -136,4 +136,49 @@ describe("playNorthstarTwenty writer transitions", () => {
     expect(hold.boo).toBe(true);
     expect(hold.eightLoop).toBe(false);
   });
+
+  it("runs in place through the strut window — cadence, no travel", () => {
+    const ctl = new GasperRigController();
+    const clock = ctl.getOrganismClock();
+    clock.start({ mode: "fixed-step" });
+    clock.setFixedStepMs(50);
+    ctl.playNorthstarTwenty();
+    stepTo(clock, 3.4);
+    const mid = ctl.getGaitProofSample();
+    expect(Math.abs(mid.bodyX)).toBeLessThan(24);
+    expect(Math.abs(mid.bodyZ)).toBeLessThan(24);
+    expect(Math.abs(mid.supportSide)).toBeGreaterThan(0);
+    expect(mid.swingLift).toBeGreaterThan(80);
+    expect(mid.stepHz).toBeGreaterThan(1.4);
+  });
+
+  it("opening plant is sealed until strut-go", () => {
+    const ctl = new GasperRigController();
+    const clock = ctl.getOrganismClock();
+    clock.start({ mode: "fixed-step" });
+    clock.setFixedStepMs(50);
+    ctl.playNorthstarTwenty();
+    stepTo(clock, 2.5);
+    const plant = ctl.getGaitProofSample();
+    expect(plant.stepHz).toBe(0);
+    expect(Math.abs(plant.supportSide)).toBe(0);
+    expect(plant.swingLift).toBe(0);
+  });
+
+  it("restart stands down leftover run-in-place", () => {
+    const ctl = new GasperRigController();
+    const clock = ctl.getOrganismClock();
+    clock.start({ mode: "fixed-step" });
+    clock.setFixedStepMs(50);
+    ctl.playNorthstarTwenty();
+    stepTo(clock, 3.4);
+    expect(Math.abs(ctl.getGaitProofSample().supportSide)).toBeGreaterThan(0);
+    expect(ctl.getGaitProofSample().stepHz).toBeGreaterThan(1.4);
+    ctl.playNorthstarTwenty();
+    clock.step(50);
+    clock.step(50);
+    const sealed = ctl.getGaitProofSample();
+    expect(Math.abs(sealed.supportSide)).toBe(0);
+    expect(sealed.stepHz).toBe(0);
+  });
 });

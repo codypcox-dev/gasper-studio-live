@@ -98,36 +98,42 @@ describe("S8 radial facing render contract", () => {
 
   it("N193 live 20s is filed on the controller, not the app travel writer", () => {
     const ctl = readFileSync(new URL("../GasperRigController.ts", import.meta.url), "utf8");
-    const playStart = ctl.indexOf("playNorthstarTwenty");
+    const take = readFileSync(new URL("../takes/NorthstarTwentyTake.ts", import.meta.url), "utf8");
+    const playStart = ctl.indexOf("playAuthoredTake");
     const playEnd = ctl.indexOf("N187 — file a grounded strut", playStart);
     const play = ctl.slice(playStart, playEnd);
     expect(ctl).toContain("playNorthstarTwenty");
-    expect(play).toContain('this.snapEmbodiment("wispwalker")');
+    expect(ctl).toContain("this.playAuthoredTake(NORTHSTAR_TWENTY_TAKE)");
+    expect(play).toContain('this.snapEmbodiment(take.setup.embodiment)');
     expect(play).not.toContain('this.setEmbodiment("wispwalker")');
     expect(ctl).toContain("rig?.cancelBehavior?.()");
-    expect(play).toContain("eightStateLoop: false");
+    expect(take).toContain("eightStateLoop: false");
     expect(play).toContain("rig?.cancelBehavior?.()");
-    expect(play).toContain("rig?.setYaw?.(8)");
+    expect(play).toContain("Do not ease yaw on take start");
+    expect(play).not.toContain("rig?.setYaw?.(take.setup.yaw)");
     expect(play).toContain("setEightStateEnabled?.(false)");
-    expect(play).toContain('this.setExpression("listening-orient")');
-    expect(play).toContain('this.setExpression("neutral-settled")');
-    expect(play).toContain('fire("notice-release"');
+    expect(play).toContain('this.setExpression(action.id)');
+    expect(take).toContain('id: "listening-orient"');
+    expect(take).toContain('id: "neutral-settled"');
+    expect(take).toContain('id: "notice-release"');
     expect(play).not.toContain("setMotion?.(0.82)");
     expect(play).not.toContain('triggerMicrostate?.("orient"');
-    expect(play).toContain('setReliefPreset?.("none")');
-    expect(play).toContain('driver.setLocomotion("life", { x: 180, z: 120, cruise: 380 })');
-    expect(play).toContain("this.enableBoo(true)");
-    expect(play).toContain("launchComet({");
+    expect(take).toContain('preset: "none"');
+    expect(take).toContain("cruise: 380");
+    expect(play).toContain("this.enableBoo(action.on)");
+    expect(play).toContain("driver.launchComet({");
     expect(play).toContain('driver.standDownLocomotion("wander")');
-    expect(play).toContain("-READABLE_THREE_QUARTER_DEG");
-    expect(play).toContain("this.headingPinDeg = 0");
-    expect(play).toContain('fire("strut-go", 2.618, t');
+    expect(take).toContain("READABLE_THREE_QUARTER_DEG");
+    expect(take).toContain("headingPinDeg: 0");
+    expect(take).toContain('id: "strut-go"');
+    expect(take).toContain("at: 2.618");
     expect(play).not.toContain("this.headingPinDeg = -22 * u * u * (3 - 2 * u)");
     expect(play).not.toContain('setEmbodiment("presence")');
-    expect(play).toContain('this.setLiveFormCoeff("walkEnable", 1)');
-    // N240: 20s travel is filed as LocomotionIntent only. No second root tween.
-    expect(play).toContain("this.fileStrutLocomotion({ x: 980, z: 0, cruise: 200 })");
-    expect(play).not.toContain("this.fileStrutLocomotion({ x: 980, z: 48, cruise: 200 })");
+    expect(play).toContain("this.setLiveFormCoeff(\"walkEnable\", take.setup.walkEnable)");
+    expect(take).toContain("cadenceHz: 2.6");
+    expect(take).toContain("driveGain: 0.85");
+    expect(take).not.toContain("dx: 980");
+    expect(take).not.toContain("dz: 48");
     expect(play).not.toContain("gsap.");
     expect(play).not.toContain("TweenMax");
     expect(play).not.toMatch(/setWorldPose\s*\(/);
@@ -149,13 +155,15 @@ describe("S8 radial facing render contract", () => {
     expect(ctl).toContain("eightStateForwardId(");
     expect(renderer).toContain("if(!raw){avatar.dataset.eightState=eightStateId;return;}");
     expect(renderer).not.toContain("const next=EIGHT_STATE_BODY.recipe[raw]?raw:'presence-neutral-settled'");
-    const playStart = ctl.indexOf("playNorthstarTwenty");
+    const take = readFileSync(new URL("../takes/NorthstarTwentyTake.ts", import.meta.url), "utf8");
+    const playStart = ctl.indexOf("playAuthoredTake");
     const playEnd = ctl.indexOf("N187 — file a grounded strut", playStart);
     const play = ctl.slice(playStart, playEnd);
-    expect(play.indexOf('fire("notice"')).toBeGreaterThan(-1);
-    expect(play.indexOf('fire("notice-release"')).toBeGreaterThan(play.indexOf('fire("notice"'));
-    expect(play.indexOf('fire("notice-release"')).toBeLessThan(play.indexOf('fire("gather"'));
-    expect(play.indexOf('fire("gather"')).toBeLessThan(play.indexOf('fire("zip1"'));
+    expect(take.indexOf('id: "notice"')).toBeGreaterThan(-1);
+    expect(take.indexOf('id: "notice-release"')).toBeGreaterThan(take.indexOf('id: "notice"'));
+    expect(take.indexOf('id: "notice-release"')).toBeLessThan(take.indexOf('id: "gather"'));
+    expect(take.indexOf('id: "gather"')).toBeLessThan(take.indexOf('id: "zip1"'));
+    expect(play).toContain("this.setExpression(action.id)");
   });
 
   it("N210/N213 seq18 membrane baseline: no second face disc, relief plate stays cleared", () => {
@@ -172,21 +180,19 @@ describe("S8 radial facing render contract", () => {
     expect(renderer).not.toContain("pupilDX");
     expect(renderer).toContain("D-0110: pupil/iris anatomy RETRACTED");
     const ctl = readFileSync(new URL("../GasperRigController.ts", import.meta.url), "utf8");
-    const playStart = ctl.indexOf("playNorthstarTwenty");
+    const take = readFileSync(new URL("../takes/NorthstarTwentyTake.ts", import.meta.url), "utf8");
+    const playStart = ctl.indexOf("playAuthoredTake");
     const playEnd = ctl.indexOf("N187 — file a grounded strut", playStart);
     const play = ctl.slice(playStart, playEnd);
-    expect(play).toContain('setReliefPreset?.("none")');
+    expect(take).toContain('preset: "none"');
     expect(play).not.toContain("setMotion?.(0.82)");
     expect(play).not.toContain('triggerMicrostate?.("orient"');
-    const notice = play.slice(play.indexOf('fire("notice"'), play.indexOf('fire("notice-release"'));
-    expect(notice.indexOf('setExpression("listening-orient")')).toBeGreaterThan(-1);
-    expect(notice.indexOf('setReliefPreset?.("none")')).toBeGreaterThan(
-      notice.indexOf('setExpression("listening-orient")'),
-    );
-    const release = play.slice(play.indexOf('fire("notice-release"'), play.indexOf('fire("gather"'));
-    expect(release).toContain('setExpression("neutral-settled")');
-    expect(play.indexOf('fire("notice-release"')).toBeGreaterThan(play.indexOf('fire("notice"'));
-    expect(play.indexOf('fire("notice-release"')).toBeLessThan(play.indexOf('fire("gather"'));
+    expect(take).toContain('id: "listening-orient"');
+    expect(take).toContain('preset: "none"');
+    expect(take.indexOf('id: "listening-orient"')).toBeLessThan(take.indexOf('preset: "none"'));
+    expect(take).toContain('id: "neutral-settled"');
+    expect(take.indexOf('id: "notice-release"')).toBeGreaterThan(take.indexOf('id: "notice"'));
+    expect(take.indexOf('id: "notice-release"')).toBeLessThan(take.indexOf('id: "gather"'));
   });
 
   it("N204 MOTION_LIGHT brightens hull volume, not face recess/bloom", () => {

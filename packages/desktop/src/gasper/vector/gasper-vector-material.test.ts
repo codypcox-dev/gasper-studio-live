@@ -280,7 +280,7 @@ describe("GASPER-MAT-006 analytic 6.5 depth hierarchy", () => {
     expect(svg).toContain('data-material-depth-target="m4c-analytic-6.5-no-legacy-caustics"');
     expect(svg).toContain('id="bodyBase"');
     expect(svg).toContain('id="bodyBase" gradientUnits="userSpaceOnUse" cx="120" cy="118" r="101"');
-    expect(svg).toContain('stop-color="#02010f"');
+    expect(svg).toContain('stop-color="#2a1068"');
     expect(svg).toContain('id="opticalDepthGrad"');
     expect(svg).toContain('stop-color="#01000a" stop-opacity=".88"');
     expect(svg).toContain('id="pearlCoreGrad"');
@@ -304,7 +304,7 @@ describe("GASPER-MAT-006 analytic 6.5 depth hierarchy", () => {
   });
 
   it("keeps the VEC-302 optical-depth cap while deepening the analytic field", () => {
-    expect(bundle).toContain('opticalDepthOpacityCap: 0.52');
+    expect(bundle).toContain('opticalDepthOpacityCap: 0.14');
     expect(bundle).toContain("opticalDepth?.style.setProperty('opacity', String(MATERIAL_CALIBRATION.response.opticalDepthOpacityCap), 'important')");
   });
 });

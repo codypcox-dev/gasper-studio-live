@@ -242,7 +242,7 @@ export function createDefaultDomainState(): GasperMultiDomainState {
       residual: 0,
     },
     material: {
-      roughness: 0.35,
+      roughness: 0.14,
       clearcoat: 0.4,
       pearl_intensity: 0.55,
     },

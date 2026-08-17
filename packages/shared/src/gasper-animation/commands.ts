@@ -1134,6 +1134,25 @@ export class GasperAnimationCommandSession {
     });
   }
 
+  /** Upsert an authored clip (take shelf). Replaces same id. */
+  seedClipSync(clip: AnimationClip): { clip_id: string } {
+    return this.withTxnSync(() => {
+      this.doc.animation.clips = this.doc.animation.clips.filter((c) => c.id !== clip.id);
+      this.doc.animation.clips.push(clip);
+      this.doc.animation.active_clip_id = clip.id;
+      return { clip_id: clip.id };
+    });
+  }
+
+  patchContentMetaSync(patch: Record<string, unknown>): void {
+    this.withTxnSync(() => {
+      this.doc.content_meta = {
+        ...(this.doc.content_meta ?? {}),
+        ...patch,
+      };
+    });
+  }
+
   createTrackSync(input: {
     label: string;
     domain_id?: string;

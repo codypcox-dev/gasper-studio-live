@@ -1576,7 +1576,17 @@ export class WorldPhysicsDriver implements LocomotionPort {
     const walking = this.mode === "locomotion" && this.body.contact;
     const aT = walking && dt > 0 ? (speed - this.prevSpeed) / dt : 0;
     const headingNow = facingBearingDeg(this.body.vx, this.body.vz);
-    const hopMixNow = walking ? walkGaitMix(gaitSpeed, headingNow ?? undefined) : 0;
+    const hopMixNow = walking
+      ? inPlaceGait
+        ? Math.max(
+            0,
+            Math.min(
+              0.35,
+              ((performanceGait?.cadenceHz ?? 0) - 1.6) / 1.4,
+            ),
+          )
+        : walkGaitMix(gaitSpeed, headingNow ?? undefined)
+      : 0;
     const walkHz = walking ? walkCadenceHz(gaitSpeed, headingNow ?? undefined) : 0;
     // Curve owns the stroll band (strut 200 ↔ hop 520). Above that, the
     // stride-length law stays — the 3200 Froude cruise is not this walk.

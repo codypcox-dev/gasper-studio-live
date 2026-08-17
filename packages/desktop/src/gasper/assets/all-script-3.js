@@ -1312,10 +1312,6 @@ function walkSupportStep(authoredStep){
   return Math.tanh(5.23606797749979*Math.cos(physGait.phase/2));
 }
 function walkPhysicsDrivenHold(){
-  // A physics-owned Wispwalker that has reached its target must settle its
-  // authored walk expression instead of continuing a clock-shaped in-place
-  // performance. Non-physics authoring retains the explicit walk-in-place
-  // fallback; travel remains fully physics-phase driven.
   return physGait.speedRatio<=0.01&&worldPoseTarget.provenance==='physics-authority';
 }
 function walkScaffoldZ(profileId,st,t){
@@ -1376,7 +1372,8 @@ function walkScaffoldZ(profileId,st,t){
     const footCenter=(_pR-0.45*_pL)*gaussAngle(Math.PI/2,_thR,_sigR)+(_pL-0.45*_pR)*gaussAngle(Math.PI/2,_thL,_sigL);
     const footShape=footShapeRaw-footCenter*gaussAngle(th,Math.PI/2,0.20);
     const _clear=Math.max(0,Math.min(1,Number(physGait.swingClearance)||0));
-    const z=0;buf[last+s]=z;mean+=z;
+    const z=walkAsym*0.55*asymShape+footPress*footShape*(1-0.28*_clear);
+    buf[last+s]=z;mean+=z;
   }
   mean/=SCAFFOLD_SECTORS;for(let s=0;s<SCAFFOLD_SECTORS;s++)buf[last+s]-=mean; // zero-mean => purely asymmetric, no vertical bob (§7.1)
   return buf;
@@ -1787,6 +1784,75 @@ function applyMeshWarp(contour,mesh){
     }
     return{highlight:highlight.join(' '),shadow:shadow.join(' ')};
   }
+  function muteHardHighlights(){
+    const hard=[keyCore,keyFacetA,keyFacetB,keyFacetC,keyFacetD,leftLobeGlint,rightLobeGlint,leftLobeGlintHalo,rightLobeGlintHalo,secondaryCore,fillHalo,fillBand];
+    for(const n of hard){if(n)n.setAttribute('opacity','0');}
+    if(keyReflectionLayer)keyReflectionLayer.setAttribute('opacity','0');
+    if(lobeGlintsLayer)lobeGlintsLayer.setAttribute('opacity','0');
+    if(secondaryReflectionLayer)secondaryReflectionLayer.setAttribute('opacity','0');
+  }
+  function paintSurfaceShade(){
+    const g=$('surfaceShade');
+    if(g){g.replaceChildren();g.setAttribute('opacity','0');}
+  }
+  function paintScaffoldGrid(contour,profile){
+    let g=$('scaffoldGridLayer');
+    const on=globalThis.__GASPER_SHOW_GRID__===true;
+    if(!g){
+      g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('id','scaffoldGridLayer');
+      g.setAttribute('clip-path','url(#bodyClip)');
+      g.setAttribute('pointer-events','none');
+      const face=faceRecessLayer||$('faceRecessLayer');
+      if(face&&face.parentNode)face.parentNode.insertBefore(g,face);
+      else if(avatar)avatar.appendChild(g);
+    }
+    if(!on||!contour||!contour.length){
+      g.setAttribute('opacity','0');
+      g.replaceChildren();
+      return;
+    }
+    const cx=120+(profile.cx||0),cy=110+(profile.cy||0);
+    const liveMorph=!!(globalThis.__GASPER_FABRIC__&&globalThis.__GASPER_FABRIC__.morph&&globalThis.__GASPER_FABRIC__.morph!=='rest');
+    const pos=liveMorph?globalThis.__GASPER_FABRIC_POS__:null;
+    const xyz=liveMorph?globalThis.__GASPER_FABRIC_XYZ__:null;
+    const T=(liveMorph&&globalThis.__GASPER_FABRIC_TOPO__)||{rings:25,sectors:40};
+    const R=T.rings||25,S=T.sectors||40;
+    const yaw=globalThis.__GASPER_VIEW_YAW__||0;
+    const a=yaw*Math.PI/180,cosY=Math.cos(a),sinY=Math.sin(a);
+    const n=contour.length;
+    const at=(r,s0)=>{
+      const i=r*S+((s0%S)+S)%S;
+      if(pos&&pos.length>=(i+1)*2){
+        return (cx+(pos[i*2]||0)).toFixed(1)+' '+(cy+(pos[i*2+1]||0)).toFixed(1);
+      }
+      if(xyz&&xyz.length>=(i+1)*3){
+        const x=xyz[i*3]||0,y=xyz[i*3+1]||0,z=xyz[i*3+2]||0;
+        return (cx+x*cosY+z*sinY).toFixed(1)+' '+(cy+y).toFixed(1);
+      }
+      const t=((s0%S)+S)%S/S*n;
+      const i0=Math.floor(t)%n,i1=(i0+1)%n,f=t-Math.floor(t);
+      const hx=(contour[i0].x||0)*(1-f)+(contour[i1].x||0)*f;
+      const hy=(contour[i0].y||0)*(1-f)+(contour[i1].y||0)*f;
+      const v=r/Math.max(1,R-1);
+      return (cx+(hx-cx)*v).toFixed(1)+' '+(cy+(hy-cy)*v).toFixed(1);
+    };
+    const html=[];
+    const rStep=R>36?2:1;
+    const sStep=S>56?2:1;
+    for(let r=rStep;r<R;r+=rStep){
+      let d='';
+      for(let s0=0;s0<=S;s0++) d+=(s0?'L':'M')+at(r,s0);
+      html.push('<path d="'+d+'Z" fill="none" stroke="#9be7ff" stroke-width="0.4" stroke-opacity="0.5"/>');
+    }
+    for(let s0=0;s0<S;s0+=sStep){
+      let d='';
+      for(let r=0;r<R;r++) d+=(r?'L':'M')+at(r,s0);
+      html.push('<path d="'+d+'" fill="none" stroke="#7fd0ff" stroke-width="0.35" stroke-opacity="0.4"/>');
+    }
+    g.innerHTML=html.join('');
+    g.setAttribute('opacity','0.9');
+  }
   function renderAdaptiveRelief(contour,profile){
     const started=performance.now(),highDetail=usesHighDetail();
     if(!highDetail||reliefPreset==='none'){
@@ -1960,8 +2026,32 @@ function applyMeshWarp(contour,mesh){
     document.querySelectorAll('[data-containment-mode]').forEach(button=>button.classList.toggle('active',button.dataset.containmentMode===value));
   }
   function renderContainmentControls(){document.querySelectorAll('[data-containment-mode]').forEach(button=>{button.onclick=()=>setContainmentMode(button.dataset.containmentMode);});setContainmentMode(containmentMode);}
+  function applyFabricSnap(pts,profile){
+    if(globalThis.GasperField&&typeof globalThis.GasperField.tick==='function'){
+      try{globalThis.GasperField.tick(1/60);}catch(_e){}
+    }
+    const outline=globalThis.__GASPER_FABRIC_OUTLINE__;
+    const fab=globalThis.__GASPER_FABRIC__;
+    if(!outline||!fab||fab.morph==='rest'||outline.length<8)return pts;
+    const cx=120+(profile.cx||0),cy=110+(profile.cy||0);
+    const n=outline.length/2;
+    return pts.map((p)=>{
+      const th=typeof p.th==='number'?p.th:Math.atan2(p.y-cy,p.x-cx);
+      let u=(th+Math.PI/2)/(Math.PI*2);
+      u=((u%1)+1)%1;
+      const f=u*n;
+      const i0=Math.floor(f)%n,i1=(i0+1)%n,t=f-Math.floor(f);
+      return Object.assign({},p,{
+        x:cx+(outline[i0*2]||0)*(1-t)+(outline[i1*2]||0)*t,
+        y:cy+(outline[i0*2+1]||0)*(1-t)+(outline[i1*2+1]||0)*t
+      });
+    });
+  }
   function viewFaceTransform(profile,physics=null){
-    const metrics=getViewMetrics(profile),cx=120+(profile.faceX||0),cy=112,base=`translate(${cx.toFixed(2)} ${cy.toFixed(2)}) translate(0 ${profile.faceY}) scale(${(profile.faceScaleX).toFixed(4)} ${profile.faceScaleY}) translate(-120 -112)`;
+    const fm=globalThis.__GASPER_FACE_ON_MESH__;
+    const cx=fm&&fm.center?120+fm.center.x:120+(profile.faceX||0);
+    const cy=fm&&fm.center?110+fm.center.y:112;
+    const base=`translate(${cx.toFixed(2)} ${cy.toFixed(2)}) translate(0 ${profile.faceY||0}) scale(${(profile.faceScaleX).toFixed(4)} ${profile.faceScaleY}) translate(-120 -112)`;
     if(!physics)return base;
     return `translate(${physics.tx.toFixed(3)} ${physics.ty.toFixed(3)}) translate(${physics.cx.toFixed(3)} ${physics.cy.toFixed(3)}) rotate(${physics.rotation.toFixed(3)}) scale(${physics.sx.toFixed(5)} ${physics.sy.toFixed(5)}) translate(${-physics.cx.toFixed(3)} ${-physics.cy.toFixed(3)}) ${base}`;
   }
@@ -2591,6 +2681,8 @@ function applyMeshWarp(contour,mesh){
     // only the separate residual settles, so no endpoint reversal or topology swap.
     const morphPhysics=morphArc?refractoryMorphTransform(morphProfileId,nextMorphProfileId,morphArc):null;
     if(morphPhysics){semanticContour=applyRefractoryPointSet(semanticContour,morphPhysics);mesh=applyRefractoryPointSet(mesh,morphPhysics);pts=applyRefractoryPointSet(pts,morphPhysics);activeFaceAnchors=applyRefractoryAnchors(activeFaceAnchors,morphPhysics);}
+    pts=applyFabricSnap(pts,formProfile);
+    semanticContour=applyFabricSnap(semanticContour,formProfile);
     let _dgNorm=0;if(DEPTH_GLOW.enabled&&mesh&&mesh.length){let _dgMin=1e9,_dgMax=-1e9;for(const _p of mesh){const _d=_p.projectedDepth||0;if(_d<_dgMin)_dgMin=_d;if(_d>_dgMax)_dgMax=_d;}const _rng=(_dgMax-_dgMin)||0;_dgNorm=Math.min(1,Math.max(0,_rng/DEPTH_GLOW.ref));avatar.dataset.v3DepthRange=_rng.toFixed(4);}else{avatar.dataset.v3DepthRange='0.0000';}depthGlow=lerp(depthGlow,_dgNorm,1-Math.exp(-Math.max(.001,dt)/DEPTH_GLOW.tau)); // D-0040 V3 (A) depth-shaped interior light: ease toward the body's own projectedDepth RANGE — computed HERE (pre-smoothing) because the V2.4 viscoelastic smoothing below low-passes x/y only (D-0071 restored full metadata passthrough after the {x,y}-only strip emptied the galaxy flecks + depth range). yaw 0 => projectedDepth:0 (:906) => range 0 => depthGlow 0 => identity (S1 yaw-0 non-regression). enabled=false => _dgNorm 0. v3DepthRange = raw mesh depth range (debug observable).
     // V2.4 VISCOELASTIC CONTOUR INERTIA (D-0018): temporal low-pass on the body contour + mesh so the
     // per-frame micro-jitter that flipped the razor chin cusp's raster row at panel rate (Cody's ~80 Hz
@@ -2731,6 +2823,9 @@ function applyMeshWarp(contour,mesh){
 
     renderMaterialRig(pts,normals,renderMesh,activeFaceAnchors,organismFrame,faceTurnVisibility,materialFacingYawDeg);
     renderAdaptiveRelief(pts,formProfile);
+    paintSurfaceShade(formProfile);
+    paintScaffoldGrid(pts,formProfile);
+    muteHardHighlights();
     renderRestingFascia(pts,normals,formProfile,organismFrame); // D-0040 V3 (B) resting fascia coherence (neutral only; zero rim; C4-05 safe; reversible via FASCIA.enabled)
     // GASPER-009 C5 SINGULARITY SCAFFOLD COMPOSITION (V6 dormant embodiment): the singularity's silhouette
     // is authored as a scaffold z-displacement (the same geometry authority as the living body), composed
@@ -2945,33 +3040,33 @@ _d[1].setAttribute('opacity',_o.toFixed(3));} avatar.dataset.spatialGain=_sdlG.t
     const stateMotion=Math.max(motionStrength*(frameState.motionGain??.72),_lifeFloor),idleX=idle.driftX*stateMotion*breathGainE+frameState.postureX*.15,idleY=idle.liftY*stateMotion*breathGainE+frameState.postureY*.10;const gaitSquash=physGait.contactSquash*gaitGate;const idleScaleX=(1+(idle.scaleX-1)*stateMotion*breathGainE),idleScaleY=(1+(idle.scaleY-1)*stateMotion*breathGainE);const _gaitLive=(physGait.seated?Math.max(0,Math.min(1,Number(physGait.leftoverSway)||0)):((Number(physGait.supportSide)||0)!==0?1:0))*gaitGate;const _payXPx=(Number(physGait.supportSide)||0)*8*_gaitLive;const idleLeanDeg=Math.max(-7.2,Math.min(7.2,-(Number(physGait.supportSide)||0)*7.2*_gaitLive*(0.55+0.45*Math.max(0,Math.min(1,Number(physGait.plantedCompress)||0)))));
     idleRig.setAttribute('transform',`translate(${(idleX+gazeLeanX+momOffsetX+_payXPx).toFixed(3)} ${(idleY+gazeLeanX*0.10+momOffsetY-wAlt).toFixed(3)}) translate(120 110) rotate(${(gazeLeanX*0.55+momLean+idleLeanDeg).toFixed(2)}) scale(${idleScaleX.toFixed(5)} ${idleScaleY.toFixed(5)}) translate(-120 -110)`);
     avatar.dataset.gaitPayX=_payXPx.toFixed(3);avatar.dataset.gaitLive=_gaitLive.toFixed(3);
-    const _cyanPlant=Math.abs(Number(physGait.plantedScreenXUnits)||0)>0.004?(((Number(physGait.plantedScreenXUnits)||0)/WORLD_SPACE.unitsPerContentPx)-_payXPx)*gaitGate:0;cyanFieldNode.setAttribute('transform',`translate(${(idle.reservoirX*starMotion+3.4*viewMetrics.amount+_cyanPlant).toFixed(2)} ${(idle.reservoirY*starMotion+.8*viewMetrics.amount).toFixed(2)})`);
+    const _cyanPlant=0;cyanFieldNode.setAttribute('transform',`translate(${(idle.reservoirX*starMotion+3.4*viewMetrics.amount+_cyanPlant).toFixed(2)} ${(idle.reservoirY*starMotion+.8*viewMetrics.amount).toFixed(2)})`);
     keyReflectionLayer.setAttribute('transform',`translate(${(idle.reflectionX*starMotion*0.5).toFixed(2)} ${(idle.reflectionY*starMotion*0.5).toFixed(2)})`);secondaryReflectionLayer.setAttribute('transform',`translate(${(-idle.reflectionX*.36*starMotion*0.5).toFixed(2)} ${(idle.reflectionY*.42*starMotion*0.5).toFixed(2)})`);lobeGlintsLayer.setAttribute('transform',`translate(${(idle.lobeLag*starMotion*0.5).toFixed(2)} 0)`); // D-0077: dynamic highlight travel halved (Qwen's moving-light layer no longer sweeps a bright band across the crown during transitions)
     const minX=Math.min(...pts.map(point=>point.x)),maxX=Math.max(...pts.map(point=>point.x)),maxY=Math.max(...pts.map(point=>point.y)),width=maxX-minX;
     lastHoldPaint={physIdle,postureScaleY:current.postureScaleY||1,volumeY:(current.postureScaleY||1),cycleSeconds,bodyHeld,lifeFloor:_lifeFloor,motion:Number(motion.value),elapsed,unifiedTime:avatar.dataset.unifiedRenderTime||null,unifiedAuthority:avatar.dataset.unifiedRenderAuthority||null,hullHeight:maxY-Math.min(...pts.map(point=>point.y)),stars:{violet:null,cyan:cyanFieldNode.getAttribute("transform"),key:keyReflectionLayer.getAttribute("transform"),reflectionX:idle.reflectionX,reflectionY:idle.reflectionY,reservoirX:idle.reservoirX,reservoirY:idle.reservoirY},starMotion};
     const wGap=wAlt*wDepthScale,wShrink=1/(1+wGap*0.02),wDepthFade=wDepthScale<0.9995?Math.max(0,wDepthScale):1,wFade=1/(1+Math.max(0,wGap)*SHADOW_WGAP_GAIN)*wDepthFade;const _contactLoad=Math.max(0,Math.min(1,(physGait.contactSquash||0)/0.05));const _flattenLoad=Math.max(0,Math.min(1,Math.abs(physGait.stepFlattenUnits||0)/61.2));const _supportLoad=Math.max(_contactLoad,_flattenLoad)*gaitGate;avatar.dataset.contactSupport=_supportLoad.toFixed(3); // GASPER-SPACE-001 PHASE A + GASPER-CRAFT-002 S2: altitude coupling — the shadow never leaves the floor (its cy derives from the pre-transform body bbox, so idleRig lift doesn't move it); instead it shrinks + fades as the body rises, the classic lift read. The law reads the SCREEN gap (wAlt·depthScale — the eye sees the projected separation; the shadow itself rides the depth-scaled worldRig). At wGap=0 both factors are exactly 1 => the authored values below are bit-identical to prior. + GASPER-CRAFT-002 S4: DEPTH FADE — a far Gasper casts a fainter shadow (atmosphere): ×min(1,scale), folded into wFade so every shadow opacity carries it; quantized to exactly 1 at the home plane (scale ≥ .9995) so home stays byte-identical. + CYCLE 13 L1/L2 (contact-shadow-load-phd-memo): the fade reads ONLY true lift — max(0,wGap): a sunk COM is ground contact (gap 0, the base is planted), the shadow already at its authored contact darkness; darkening past contact diverged the rational form past 1.0 into renderer clipping (cycle-13 wall: 81/4770 take-20 samples >1.0, max 1.552, the whole floor stack strobing full-black at each exchange). The load side answers through wShrink (the patch widens under mass — Hertz form carried from Z1) and C1 convergence, not opacity. Gain re-derived at the Cycle-8 bob so the lift-fade swing lands exactly on M3's 10 % fence; exact 1 at wGap=0 (home byte-stable, D-0088 idiom).
-    const regularGroundRx=width*.54+idle.breath*motionStrength*.46+wispwalkerWeight*width*.05,regularGroundRy=17-idle.breath*motionStrength*.34,regularGroundCy=maxY+5-idleY*.18-wispwalkerWeight*2.0;
-    const puddleGroundRx=width*.485,puddleGroundRy=6.1,puddleGroundCy=maxY+.85;
-    ground.setAttribute('rx',(lerp(regularGroundRx,puddleGroundRx,lowOrbitWeight)*wShrink).toFixed(2));ground.setAttribute('ry',(lerp(regularGroundRy,puddleGroundRy,lowOrbitWeight)*wShrink).toFixed(2));ground.setAttribute('cy',lerp(regularGroundCy,puddleGroundCy,lowOrbitWeight).toFixed(2));ground.setAttribute('opacity',(lerp(1-idle.breath*motionStrength*.06,.72,lowOrbitWeight)*wFade).toFixed(3));
-    const regularShadowRx=width*.31-idle.breath*motionStrength*.42+wispwalkerWeight*width*.07,regularShadowRy=7-idle.breath*motionStrength*.18,regularShadowCy=maxY+1.4-idleY*.12-wispwalkerWeight*2.0;
-    const puddleShadowRx=width*.455,puddleShadowRy=1.75,puddleShadowCy=maxY+.05;
-    contactShadow.setAttribute('rx',(lerp(regularShadowRx,puddleShadowRx,lowOrbitWeight)*wShrink*(1+0.08*_supportLoad)).toFixed(2));contactShadow.setAttribute('ry',(lerp(regularShadowRy,puddleShadowRy,lowOrbitWeight)*wShrink*(1+0.12*_supportLoad)).toFixed(2));contactShadow.setAttribute('cy',lerp(regularShadowCy,puddleShadowCy,lowOrbitWeight).toFixed(2));contactShadow.setAttribute('opacity',Math.min(0.92,lerp(.78,.64,lowOrbitWeight)*wFade*(1+0.16*_supportLoad)).toFixed(3));
-    // PRESSURE-COOKER CYCLE 9 (contact-shadow-phd-memo C1) — the floor answers the
-    // EXCHANGE: a contact shadow converges at the point of contact (canon-data-live),
-    // so the contact-shadow pair translates laterally by the SAME δ = baseX − swayX
-    // the contour base expresses (mirrors the stepDxPx at the stepRig above — phase-
-    // locked by construction), while the floor stack (ground/outer/contact) holds at the world plant, not
-    // COM through wDx (C2: penumbra under mass, contact under CoP — Inman's two lateral
-    // signals). Inside worldRig, so the depth scale projects the shift (a far Gasper's
-    // shadow shifts less on screen). δ max ≈ 0.6187·39.61 u ≈ 3.06 px at home ⇒ p2p
-    // ≈ 10 % of the contact rx — clears the 2 % displacement JND (C3). Additive +
-    // gated (gaitGate) and snapped: δ = 0 at rest/flight/pure-lateral/reduced-motion
-    // ⇒ attribute removed ⇒ byte-identical home raster (C4, D-0088 idiom).
-     const shadowStepDxPx=(()=>{const plantX=Math.abs(Number(physGait.plantedScreenXUnits)||0)>0.004?(Number(physGait.plantedScreenXUnits)||0):(Number(physGait.stepBaseXUnits)||0);const d=(plantX*gaitGate)/WORLD_SPACE.unitsPerContentPx;return Math.abs(d)<0.004?0:d;})(); // plant = plantedScreenXUnits (world-locked); load fallback = stepBaseXUnits — one law, two expressions
-     if(shadowStepDxPx!==0||_supportLoad>0.004){const _shear=Math.max(-6,Math.min(6,(physGait.stepFlattenUnits||0)*0.04*gaitGate));contactShadow.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0) skewX(${_shear.toFixed(3)})`);contactShadowCore.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0) skewX(${_shear.toFixed(3)})`);contactShadowOuter.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0)`);ground.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0)`);groundOuter.setAttribute('transform',`translate(${shadowStepDxPx.toFixed(3)} 0)`);}
-     else if(contactShadow.getAttribute('transform')||ground.getAttribute('transform')){contactShadow.removeAttribute('transform');contactShadowCore.removeAttribute('transform');contactShadowOuter.removeAttribute('transform');ground.removeAttribute('transform');groundOuter.removeAttribute('transform');}
-    if(wGap>0.01||wDepthFade<1){groundOuter.setAttribute('rx',(112*wShrink).toFixed(2));groundOuter.setAttribute('ry',(24*wShrink).toFixed(2));groundOuter.setAttribute('opacity',(.55*wFade).toFixed(3));contactShadowOuter.setAttribute('rx',(70*wShrink).toFixed(2));contactShadowOuter.setAttribute('ry',(11*wShrink).toFixed(2));contactShadowOuter.setAttribute('opacity',(.32*wFade).toFixed(3));contactShadowCore.setAttribute('rx',(38*wShrink).toFixed(2));contactShadowCore.setAttribute('ry',(4.5*wShrink).toFixed(2));contactShadowCore.setAttribute('opacity',(.55*wFade).toFixed(3));worldShadowAttenuated=true;}
-    else if(worldShadowAttenuated){groundOuter.setAttribute('rx','112');groundOuter.setAttribute('ry','24');groundOuter.setAttribute('opacity','.55');contactShadowOuter.setAttribute('rx','70');contactShadowOuter.setAttribute('ry','11');contactShadowOuter.setAttribute('opacity','.32');contactShadowCore.setAttribute('rx','38');contactShadowCore.setAttribute('ry','4.5');contactShadowCore.setAttribute('opacity','.55');worldShadowAttenuated=false;} // landing / home-return restores the authored SVG values exactly once (S4: the attenuated branch now also owns the depth fade)
+    const regularGroundRx=58,regularGroundRy=16,regularGroundCy=192;
+    ground.setAttribute('rx',regularGroundRx.toFixed(2));
+    ground.setAttribute('ry',regularGroundRy.toFixed(2));
+    ground.setAttribute('cy',regularGroundCy.toFixed(2));
+    ground.setAttribute('opacity','0.55');
+    contactShadow.setAttribute('rx','34');
+    contactShadow.setAttribute('ry','7');
+    contactShadow.setAttribute('cy','188');
+    contactShadow.setAttribute('opacity','0.72');
+    if(contactShadow.getAttribute('transform')||ground.getAttribute('transform')){
+      contactShadow.removeAttribute('transform');
+      contactShadowCore.removeAttribute('transform');
+      contactShadowOuter.removeAttribute('transform');
+      ground.removeAttribute('transform');
+      groundOuter.removeAttribute('transform');
+    }
+    if(worldShadowAttenuated){
+      groundOuter.setAttribute('rx','112');groundOuter.setAttribute('ry','24');groundOuter.setAttribute('opacity','.55');
+      contactShadowOuter.setAttribute('rx','70');contactShadowOuter.setAttribute('ry','11');contactShadowOuter.setAttribute('opacity','.32');
+      contactShadowCore.setAttribute('rx','38');contactShadowCore.setAttribute('ry','4.5');contactShadowCore.setAttribute('opacity','.55');
+      worldShadowAttenuated=false;
+    }
     // N40 (2026-08-06): the groundImpact call site is REMOVED with its state —
     // S7b retired the ring but left this call referencing the deleted vars,
     // faulting the render subscriber every frame (the S11 take-1/2 wall: the

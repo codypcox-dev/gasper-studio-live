@@ -1,0 +1,114 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "thousand-mesh",
+    "domain": "form-topology",
+    "wall": "The 1000-point system exists as three locked fields. Locomotion and viscosity ignore two of them. Shape-snap and regional physics were designed here and never mastered."
+  },
+  "question": "What still exists of the 512/360/672/1000 lock, what does each field actually write, and what must be mastered before any more gait cuts?",
+  "coordinateSpaces": "Polar body UV. Contour: 512 samples, θ from −π/2, content px. Lattice: 15 rings × 24 sectors = 360 nodes, 672 triangles; vertex.radial ∈ [0,1] samples the contour. Relief/scaffold: 25 rings × 40 sectors = 1000, Float32 z, ring 24 is the rim. AdaptiveReliefInstrument uses a different golden-spiral 1000 — not the painter grid.",
+  "physicalLaw": [
+    "Topology lock: 512 contour / 360 lattice / 672 tris / 1000 relief. Counts never change. Shape change is an embedding, not a remesh.",
+    "Interior → Pressure → Surface (GASPER-008/009). The 1000-field is pressure. The 512 is the surface it may push. Coupling is scaffoldContourZ on ring 24. Neutral rim is exact 0.",
+    "One pearl. The 360 lattice is mass inside the 512, not a second hull. meshOffsets are sculpt on the lattice, then appliedMeshWarp back onto the contour.",
+    "Regional isolation is a material field on the locked UV (τ, E, pressure per sample). It is not a new writer and not a W-rig.",
+    "Arbitrary shape (blowfish, remote) = a target 512-embedding. The lattice follows the contour. Relief stays in UV. No fourth topology."
+  ],
+  "artisticLaw": [
+    "Goosebumps are DETAIL_TOPOLOGY vector material, not tiled quads (D-0086) and not a face painter.",
+    "Blowfish is whole-mass pressure, then rim. Not _formK ±2.5%.",
+    "A TV remote is still Gasper: 512 samples satisfy a new silhouette; face/membrane stay seq18 unless the embodiment drops the face (singularity).",
+    "Do not merge 512, 360, and 1000. Coupled, not collapsed."
+  ],
+  "invariants": [
+    "Do not add a 4000-point tier (VEC-201 retired it).",
+    "Do not remesh for a target shape.",
+    "Do not drive gait or KV from AdaptiveReliefInstrument's golden spiral — painter is polar 25×40.",
+    "Do not delete the 512 contour walk. Master the lock; do not replace it with shoes.",
+    "Investigate only this receipt. No gait recut."
+  ],
+  "failureModes": [
+    "Calling the 360 lattice 'the 1000 mesh' — 360 is mass, 1000 is pressure.",
+    "Plant-gated τ on contour only: interior 1000 stays one material. Run looks clay inside a stiff W.",
+    "_formK as blowfish: 2.5% scale, not pressure.",
+    "Named FORM_PROFILES only (presence, wispwalker, comet, singularity, dormant-orbit, low-orbit, halo). No target-curve fit. Remote cannot be assumed.",
+    "Two 1000 evaluators: AdaptiveReliefInstrument (TS, face regions, tests) vs SidekickReliefFields.evaluateRelief (live paint). Twin.",
+    "GasperContourSolver.ts hull twin. Probes can lie.",
+    "scaffoldCoupling default 0.5 but rim 0 at calm — inside-out looks dead until a preset."
+  ],
+  "uncertainty": [
+    "Whether __GASPER_SCAFFOLD_Z__ is published every frame from the live relief pipe or only when a relief preset is on. Code comments both.",
+    "meshOffsets persistence across takes — sculpt memory vs snap.",
+    "Morphology domain GSAP tracks: catalogued, mostly not the live writer."
+  ],
+  "tests": [
+    "Lock: CONTOUR_SAMPLES===512, STRUCTURAL_NODES===360, ARTICULATION_MESH.triangles.length===672, DETAIL 25×40===1000.",
+    "Neutral relief: rim ring all 0. scaffoldContourZ === 0.",
+    "Goose preset: vector paths, no 25×40 tiled quads.",
+    "No live path imports AdaptiveReliefInstrument into all-script-3.js.",
+    "FORM_PROFILES has no remote/blowfish. Shape-snap API does not exist yet."
+  ],
+  "visualConsequences": [
+    "Today: a pearl with a painted skin and a 512 outline. Regions are gauss recipes, not a mastered field.",
+    "Mastered: goose reads as skin, puff reads as pressure, a remote is the same being in a new embedding."
+  ],
+  "implementation": [
+    "Pivot: master the lock before L1/L2 legs.",
+    "Name three organs on the atlas: Contour 512 · Lattice 360 · Relief 1000.",
+    "Unify the 1000: painter polar 25×40 is the live field. Port AdaptiveReliefInstrument regions onto that grid or retire the golden-spiral twin.",
+    "Regional physics: Float32Array[1000] τ (or E) sampled by contour the way scaffoldContourZ already samples z. Plant gate becomes a region, not a special case.",
+    "Shape-snap (later): target polyline → 512 embedding, lattice follows, relief UV held. Blowfish is a radial pressure preset on the 1000. Remote is a target embedding.",
+    "Do not recut gait, run-in-place, or N349 this receipt."
+  ],
+  "citations": [
+    {
+      "id": "relief-topology-spec",
+      "tier": "canon",
+      "source": "AdaptiveReliefInstrument.ts RELIEF_TOPOLOGY_SPEC + all-script-3.js CONTOUR_SAMPLES/STRUCTURAL_NODES/DETAIL_TOPOLOGY",
+      "rule": "512 / 360 / 672 / 1000. Locked. 25×40 is the live 1000."
+    },
+    {
+      "id": "gasper-009-scaffold",
+      "tier": "canon",
+      "source": "all-script-3.js GASPER-009 scaffoldContourZ + __GASPER_SCAFFOLD_Z__",
+      "rule": "Interior pressure may push the 512 via rim ring 24. Neutral rim is 0."
+    },
+    {
+      "id": "book-009-no-face-paint",
+      "tier": "canon",
+      "source": "docs/triforce/plans/2026-08-14-cinematic-affect-overnight.md Book 009",
+      "rule": "1000-point temporary shell geometry must not paint its own face. Coupled to 360/672, not merged."
+    },
+    {
+      "id": "vec-201-retire-4000",
+      "tier": "canon",
+      "source": "all-script-3.js DETAIL_TOPOLOGY comment VEC-201",
+      "rule": "4000-point HIGH is retired. Features sample the same 1000."
+    },
+    {
+      "id": "morphology-domains",
+      "tier": "canon",
+      "source": "GasperMorphologyDomains.ts",
+      "rule": "Contour, lattice, relief, face, skin are separate domains. A contour-only morph is invalid as complete morph."
+    },
+    {
+      "id": "d-0086-goose-vector",
+      "tier": "canon",
+      "source": "all-script-3.js D-0086 goosebumpsVectorPaths",
+      "rule": "Goose is a living vector cue, not tiled 25×40 quads."
+    },
+    {
+      "id": "pixar-cage-embedding",
+      "tier": "reference",
+      "source": "Presto / USD — canonical topology, shapes as embeddings",
+      "rule": "Do not retopologize per costume. Same points, new pose."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T16-52-00-000Z-investigate-thousand-mesh",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T16:52:00.000Z"
+}

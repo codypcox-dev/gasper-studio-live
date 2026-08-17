@@ -31,6 +31,10 @@ import {
 } from "./daisFirstControls";
 import { DaisControlRail } from "./DaisControlRail";
 import { DaisTransportBar } from "./DaisTransportBar";
+import { InstrumentTable } from "./InstrumentTable";
+import { applySkinTake, LumenGlass, type SkinTake } from "./LumenGlass";
+import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
+import { publishScaffoldAuthority } from "../../../desktop/src/gasper/scaffold/ScaffoldFieldAuthority";
 import {
   computeReviewCropLabelGeometry,
   EIGHT_HOLD_STATE_LABELS,
@@ -76,6 +80,17 @@ export function DaisFirstStageHost({
   onReviewModeChange,
 }: DaisFirstStageHostProps): React.ReactElement {
   const [localReviewMode, setLocalReviewMode] = useState(false);
+  const [take, setTake] = useState<SkinTake>("neutral");
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      applySkinTake("neutral");
+      dispatchField("showGrid", { on: false });
+      dispatchField("clear", {});
+      publishScaffoldAuthority({ pressure: 0, coupling: 0, relief: 0 });
+    }, 500);
+    return () => window.clearTimeout(id);
+  }, []);
   const [activeEightState, setActiveEightState] = useState<string>(
     "presence-neutral-settled",
   );
@@ -173,6 +188,7 @@ export function DaisFirstStageHost({
         .join(" ")}
       data-testid={HOST_TEST_ID}
       data-dais-first="1"
+      data-era="lumen"
       data-hierarchy-primary="stage-canvas"
       data-keyboard-dispatch="single"
       data-review-mode={reviewMode ? "1" : "0"}
@@ -231,6 +247,8 @@ export function DaisFirstStageHost({
             </div>
           </div>
         ) : null}
+        <InstrumentTable adapter={adapter} take={take} onTake={setTake} />
+        <LumenGlass take={take} onTake={setTake} />
       </div>
       <DaisControlRail
         adapter={adapter}

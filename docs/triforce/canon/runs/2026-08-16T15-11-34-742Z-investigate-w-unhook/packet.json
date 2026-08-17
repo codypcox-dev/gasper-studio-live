@@ -1,0 +1,138 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "w-unhook",
+    "domain": "anim-physics",
+    "wall": "Owner 6.8s tape: one V of the cyan W rises and snaps back. Countable unhook. Not leave/travel/land. Lift is a Y-chew of a foot-nub gaussian on one closed contour."
+  },
+  "question": "What PHD must be earned so the wall can be fixed inside canon only: Owner 6.8s tape: one V of the cyan W rises and snaps back. Countable unhook. Not leave/travel/land. Lift is a Y-chew of a foot-nub gaussian on one closed contour.",
+  "coordinateSpaces": "One closed contour. Foot nubs at th=1.31 (viewer's right) and th=1.83 (left). SVG +y down. Lift is posed.y -= liftPx·w. Owner tape 6.8s zoom-2: body stays centered; one V of the cyan W rises and snaps back.",
+  "physicalLaw": [
+    "The W is not two feet. It is two radius gaussians on one pearl (footAmp at 1.31/1.83). Topology never splits.",
+    "skate-no-swing lift translates those vertices UP the screen. The valley of the W shortens. That is a chew, not a step. The swing never occupies a new floor X.",
+    "Laterality is lawful: supportSide +1 plants 1.31 (right), swings 1.83 (left). The unhook is the correct side. The motion is the wrong verb (Y-chew vs leave/travel/land).",
+    "Advance is still remapped: 352 u → 22 px (same class as the old 42 px lift cap). 22 px on a 300 px body is a nudge. The tape shows no forward travel of the free lobe.",
+    "Plant drop is 0.35·loadedDrop/8. The hinge barely pays. Exchange = lift weight moves to the other gauss, previous side snaps to rest radius. That is the W reconstituting on the tape.",
+    "D-0016 walk-in-place is lateral-first and forbids per-step vertical sink. Physics Y-lift was bolted onto the same contour. Two laws, one polyline. The chew is their interference pattern."
+  ],
+  "artisticLaw": [
+    "A step is leave / travel / land / take weight (N251). A W-unhook is a bite in the base. Countable, not a walk.",
+    "Do not split the pearl into shoes. Do not raise strut cruise so the chew gets bigger.",
+    "Camera hold that nails COM to center makes travel unreadable. The W becomes the only motion."
+  ],
+  "invariants": [
+    "One writer. One contour. No _plantHoldX. No second silhouette.",
+    "Do not restore 118 px arch or gait8 smear.",
+    "Do not call a Y-chew a swing."
+  ],
+  "failureModes": [
+    "Y-lift of a foot-nub gaussian = W-unhook (this tape).",
+    "22 px advance remap hides leave/travel/land.",
+    "0.35 plant-drop remap hides COM pay.",
+    "Centered hold + frontal heading ⇒ only the W is visible."
+  ],
+  "uncertainty": [
+    "Whether walkEnable form press (stepDepth on radius) still fights the physics Y-lift on this tape was not isolated. walkPhysicsDrivenHold zeros the old walkGate when physics is live — radius nubs still exist."
+  ],
+  "tests": [
+    "Swing nub's lowest painted y is above the plant nub by a countable air gap AND its x has advanced along heading before contact.",
+    "At exchange, old swing x becomes the new plant x. Not: old swing y snaps back to the rest W.",
+    "Painter advance = swingAdvanceUnits/8, not 22·(u/352)."
+  ],
+  "visualConsequences": [
+    "Stranger sees a foot leave the W, move, and become the new W-side. Not a bite that heals."
+  ],
+  "implementation": [
+    "Analyze / packet only this receipt.",
+    "When cut: stop Y-chewing the rest nub. Pose the EXISTING swing gauss in screen (x,y) from gaitLobePose (lift + full advance, no 22 px remap). Plant gauss stays world-locked. Exchange is a handoff of which gauss is locked, not a snap-back of y.",
+    "Drop the 0.35 plant-drop attenuator. Paint loadedDropUnits/8.",
+    "6s tape only. Do not recut 20s or Froude."
+  ],
+  "citations": [
+    {
+      "id": "codeops-engine/proc-phys-048",
+      "tier": "canon",
+      "source": "TriForce corpus · inverted pendulum + Froude number",
+      "rule": "Normalize locomotion by Fr = v²/(g·l); walk cannot be judged if the plant is off-frame."
+    },
+    {
+      "id": "vfxops-engine/3danim-state-locomotion",
+      "tier": "canon",
+      "source": "TriForce corpus · Williams walk contact/passing",
+      "rule": "A gait is its footfall rhythm. One foot planted, one free. Shot must show both lobes."
+    },
+    {
+      "id": "gait-expression-phd-memo",
+      "tier": "canon",
+      "source": "research/canon/anim-physics/gait-expression-phd-memo.md L8/L9",
+      "rule": "Phase is travel, never clock. Expression is illegal if it cannot be reviewed."
+    },
+    {
+      "id": "d-0099-doctrine-1",
+      "tier": "canon",
+      "source": "GASPER-CRAFT-002 · S3 / CraftRail D-0107",
+      "rule": "The monitor never moves during a performance. shotBias is retired as a live camera dial. A framing return is a DEPTH offset or a one-time authored hold."
+    },
+    {
+      "id": "n334-opening-rest",
+      "tier": "canon",
+      "source": "NORTHSTAR N334 · GasperStudioApp boot",
+      "rule": "Bare 5179 is sealed Wispwalker rest. Wander and life stay down until an owned walk-review shot opens the wander gate."
+    },
+    {
+      "id": "gait-law-x1-walk-band",
+      "tier": "canon",
+      "source": "GaitLaw.ts · X1 stride × φ Hz",
+      "rule": "Grounded stroll is 918·φ ≈ 1485 u/s. The 2610/3200 Froude band is flight terminal-v, not a walk."
+    },
+    {
+      "id": "world-physics-field-g",
+      "tier": "canon",
+      "source": "PhysicsField.ts · worldPhysicsParamsFromField + WorldPhysics.ts",
+      "rule": "Live g/μ/maxSpeed come from the field. The World rail only multiplies gravity, restitution, launch, intensity."
+    },
+    {
+      "id": "n35-monitor-glass",
+      "tier": "canon",
+      "source": "WorldSpace.ts zNear · owner N35",
+      "rule": "He may approach only to +20% size (z=-320). The monitor does not pull back."
+    },
+    {
+      "id": "support-exchange-plant",
+      "tier": "canon",
+      "source": "SupportExchange.ts · planted-base sample-and-hold",
+      "rule": "The planted foot is world-space sample-and-hold. Mass shifts onto that support. Travel is the support carrier, not a root slide."
+    },
+    {
+      "id": "gait-lobe-n305",
+      "tier": "canon",
+      "source": "GaitLaw.ts GAIT_LOBE · N305–N310",
+      "rule": "One existing lobe lifts (~68 px) with cleft held. Loaded drops. COM settles. No shoes. No second travel writer."
+    },
+    {
+      "id": "williams-contact-passing",
+      "tier": "reference",
+      "source": "Williams · The Animator's Survival Kit · walk contact/passing",
+      "rule": "A walk is contact and passing. One foot planted, one free. Both down for the whole stride is a skate."
+    },
+    {
+      "id": "inverted-pendulum-vault",
+      "tier": "reference",
+      "source": "Cavagna / Kuo / Adamczyk · COM vault + step-to-step transition",
+      "rule": "Single support is an inverted pendulum: COM rides an arc over the plant. Double support is a collision, not a vault. IP models do not simulate the exchange."
+    },
+    {
+      "id": "alexander-froude-walk",
+      "tier": "reference",
+      "source": "Alexander · Fr = v²/(g L) dynamic similarity",
+      "rule": "Same Fr ⇒ same gait class. Comfortable walk ≈ 0.15–0.35. Walk–run ≈ 0.5. Fr does not set screen stride."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T15-11-34-742Z-investigate-w-unhook",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T15:11:34.743Z"
+}

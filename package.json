@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Standalone Gasper Studio canonical working baseline with local vector organism runtime and optional authenticated bridge transport.",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0 --port 8080 --strictPort",
     "build": "tsc -p tsconfig.json --noEmit && vite build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run packages tests",

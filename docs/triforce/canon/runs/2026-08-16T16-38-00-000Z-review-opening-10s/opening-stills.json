@@ -1,0 +1,143 @@
+{
+  "boot": {
+    "hasPlay": true,
+    "profile": "wispwalker"
+  },
+  "notes": [
+    {
+      "mark": 0,
+      "form": "wispwalker",
+      "supportSide": 0,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": 0,
+      "bodyX": 0,
+      "bbox": {
+        "x": 46.62343215942383,
+        "y": 28.736665725708008,
+        "w": 149.16070556640625,
+        "h": 167.68490600585938
+      }
+    },
+    {
+      "mark": 1,
+      "form": "wispwalker",
+      "supportSide": 0,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": 0,
+      "bodyX": 0,
+      "bbox": {
+        "x": 45.790000915527344,
+        "y": 29.459999084472656,
+        "w": 149.63002014160156,
+        "h": 168.31546020507812
+      }
+    },
+    {
+      "mark": 2.6,
+      "form": "wispwalker",
+      "supportSide": 0,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": 0,
+      "bodyX": 0,
+      "bbox": {
+        "x": 45.77000045776367,
+        "y": 29.475555419921875,
+        "w": 149.63999938964844,
+        "h": 168.32102966308594
+      }
+    },
+    {
+      "mark": 3.2,
+      "form": "wispwalker",
+      "supportSide": -1,
+      "swingLift": 542.28,
+      "swingAdvance": -190.71,
+      "plantX": 51.47,
+      "bodyX": 101.3254465409287,
+      "bbox": {
+        "x": 45.619998931884766,
+        "y": 30.807199478149414,
+        "w": 149.26657104492188,
+        "h": 165.90365600585938
+      }
+    },
+    {
+      "mark": 4,
+      "form": "wispwalker",
+      "supportSide": 1,
+      "swingLift": 543.89,
+      "swingAdvance": -88.44,
+      "plantX": 31.47,
+      "bodyX": 261.3254465409299,
+      "bbox": {
+        "x": 45.43000030517578,
+        "y": 30.790000915527344,
+        "w": 148.69155883789062,
+        "h": 167.25453186035156
+      }
+    },
+    {
+      "mark": 5.15,
+      "form": "wispwalker",
+      "supportSide": -1,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": -58.53,
+      "bodyX": 491.32544654092464,
+      "bbox": {
+        "x": 45.2400016784668,
+        "y": 30.567338943481445,
+        "w": 148.32749938964844,
+        "h": 166.21810913085938
+      }
+    },
+    {
+      "mark": 6.6,
+      "form": "wispwalker",
+      "supportSide": 0,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": 0,
+      "bodyX": 505.99106892388477,
+      "bbox": {
+        "x": 44.40999984741211,
+        "y": 29.69903564453125,
+        "w": 149.5415496826172,
+        "h": 166.82254028320312
+      }
+    },
+    {
+      "mark": 8,
+      "form": "wispwalker",
+      "supportSide": 0,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": 0,
+      "bodyX": 505.81790680032805,
+      "bbox": {
+        "x": 44.13999938964844,
+        "y": 29.550350189208984,
+        "w": 151.59414672851562,
+        "h": 167.65509033203125
+      }
+    },
+    {
+      "mark": 10,
+      "form": "wispwalker",
+      "supportSide": 0,
+      "swingLift": 0,
+      "swingAdvance": 0,
+      "plantX": 0,
+      "bodyX": 505.43721498981637,
+      "bbox": {
+        "x": 42.263431549072266,
+        "y": 57.942569732666016,
+        "w": 154.7765655517578,
+        "h": 138.39901733398438
+      }
+    }
+  ]
+}

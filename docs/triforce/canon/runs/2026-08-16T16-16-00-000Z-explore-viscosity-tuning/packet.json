@@ -1,0 +1,113 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "viscosity-tuning",
+    "domain": "anim-physics",
+    "wall": "viscoTau is one number on the whole pearl. Planted nubs stay clay. Tuning Weight makes him heavier everywhere, including the floor lock the intro just demanded."
+  },
+  "question": "What viscosity organs already exist, what do they own, and what must be split so a planted W can be stiff?",
+  "coordinateSpaces": "Contour low-pass lives in content px after pose, before paint. tau seconds. sa = 1 − exp(−dt/τ). Default τ = 0.25 s (D-0022). Factory Wispwalker viscoTau 0.25. Capability range 0.02–1.0 s. Separate organ: MOMENTUM_RIG CoM damper (cLow 1.8, cHigh 0.6, N37 +20%). Kernel plant is world u; painter then smears x/y.",
+  "physicalLaw": [
+    "Kelvin–Voigt retardation: ε(t) → ε∞ (1 − e^(−t/τ)), τ = η/E. Gasper’s sa = 1 − exp(−dt/τ) is that first-order creep on contour x/y.",
+    "One τ implies homogeneous rubber. A planted contact is high E (τ → 0). A free limb is finite η (τ ~ 0.25 s).",
+    "D-0018: the low-pass exists to kill ~80 Hz cusp buzz, not to author gait. Slow walk/breath must pass. Face is not smoothed.",
+    "N37 settle viscosity is the CoM spring-damper (cLow/cHigh), not viscoTau. Tuning Weight does not tune ringdown, and tuning bounce does not stiffen the W.",
+    "A world-locked plant that then enters the same τ as the swing is unlocked by construction. The floor cannot be clay and fact at once."
+  ],
+  "artisticLaw": [
+    "Weight is how heavy the free mass feels, not how much the floor slides.",
+    "One pearl. No shoes. Planted nub stays on the floor place; swing is the only soft part.",
+    "N37: keep natural bounciness during motion. Settle the post-arrest bubble. Do not kill life to harden the plant."
+  ],
+  "invariants": [
+    "Do not delete D-0018. The buzz kill stays on the unspecialized hull.",
+    "Do not raise global viscoTau to fake a solid plant. That smears the swing and the face-adjacent hull.",
+    "Do not retune MOMENTUM_RIG to fix the W. Different organ.",
+    "Do not add a W-skeleton this receipt. Explore only."
+  ],
+  "failureModes": [
+    "Global τ: plant gauss posed then smeared — W-unhook / glow follow / skate.",
+    "τ too small (<0.05): 80 Hz chin/cleft buzz returns (D-0018 wall).",
+    "τ too large (>0.5): walk and lift lag a half-step; he looks underwater.",
+    "One Weight slider: owner thinks they are stiffening legs and instead slow the whole pearl.",
+    "Two unnamed viscosities: rail Weight vs N37 bounce. Hidden dual."
+  ],
+  "uncertainty": [
+    "Wispwalker rehearsal notes viscoTau 0.34; factory default is 0.25. Which is live on 5179 after home profile is not isolated this receipt.",
+    "Whether per-vertex τ or a plant-gate on existing _lp is the smaller earned cut is for Investigate."
+  ],
+  "tests": [
+    "Rest: cusp does not flip a pixel row at panel rate (D-0018 still holds).",
+    "Planted nub: after lock, contour x/y at the plant sample stay within 0.5 px while supportSide holds.",
+    "Swing: lift still reaches kernel 68 px; τ does not clip clearance.",
+    "Rail Weight changes swing/settle feel, not floor cy and not plantedScreenXUnits.",
+    "N37 ringdown still drops ~20% vs pre-N37. Bounciness during motion unchanged."
+  ],
+  "visualConsequences": [
+    "Planted W sits. Swing chews. The glow stays on the floor place.",
+    "Turning Weight up makes the free mass late, not the floor greasy.",
+    "Face stays snappy. Chin does not buzz."
+  ],
+  "implementation": [
+    "Explore only. Do not recut viscoTau, MOMENTUM_RIG, or gait this receipt.",
+    "Next Investigate names the split: plant-gated τ (τ_plant → 0, τ_swing = viscoTau) vs per-vertex stiffness from supportSide.",
+    "Fix spec when earned: harden the loaded nub only. Keep D-0018 on the unspecialized hull. Keep N37 on CoM. Name both organs on the atlas."
+  ],
+  "citations": [
+    {
+      "id": "d-0018-contour-inertia",
+      "tier": "canon",
+      "source": "all-script-3.js V2.4 viscoelastic contour inertia",
+      "rule": "Low-pass contour x/y so a mass cannot buzz at 80 Hz. Face not smoothed. Drag snaps."
+    },
+    {
+      "id": "d-0022-visco-tau",
+      "tier": "canon",
+      "source": "all-script-3.js V2.6 visco_tau + wispwalkerAuthoringDefaults.behavior.viscoTau",
+      "rule": "One live τ, 0.02–1.0 s, default 0.25. Bigger = heavier/slower whole mass."
+    },
+    {
+      "id": "n37-settle-viscosity",
+      "tier": "canon",
+      "source": "NORTHSTAR N37 · MOMENTUM_RIG cLow 1.8 cHigh 0.6",
+      "rule": "Post-arrest bubbling drops ~20%. Bounciness during motion is kept. CoM damper, not contour τ."
+    },
+    {
+      "id": "d-0071-xy-only",
+      "tier": "canon",
+      "source": "all-script-3.js D-0071",
+      "rule": "Low-pass owns only x/y. Depth, theta, radius pass through."
+    },
+    {
+      "id": "n347-intro-floor-lock",
+      "tier": "canon",
+      "source": "NORTHSTAR N347",
+      "rule": "Glow/shadow cy samples at rest. Plant is a locked floor. Swing is the soft part."
+    },
+    {
+      "id": "w-unhook-investigate",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T15-11-34-742Z-investigate-w-unhook",
+      "rule": "Y-chew of rest nubs on one spline. Pose swing gauss. Plant gauss world-locked."
+    },
+    {
+      "id": "kelvin-voigt-tau",
+      "tier": "reference",
+      "source": "Kelvin–Voigt material · retardation time τ = η/E",
+      "rule": "One τ is homogeneous rubber. Contact is high E. Free limb is finite η."
+    },
+    {
+      "id": "capability-contour-viscosity",
+      "tier": "canon",
+      "source": "WispwalkerCapabilityProfile · contour_viscosity_tau",
+      "rule": "Named form control, seconds, 0.02–1. Not a gait writer."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T16-16-00-000Z-explore-viscosity-tuning",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T16:16:00.000Z"
+}

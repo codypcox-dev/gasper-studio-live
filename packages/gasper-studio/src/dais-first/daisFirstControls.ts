@@ -19,6 +19,14 @@ import {
   EIGHT_HOLD_STATE_IDS,
   type EightHoldStateId,
 } from "./daisReviewMode";
+import {
+  OPERATE_SHOT,
+  WALK_REVIEW_FRAME,
+  WALK_REVIEW_SHOT,
+  operateRestModePolicy,
+  walkReviewModePolicy,
+  type StudioShotId,
+} from "./walkReviewShot";
 
 export { EIGHT_HOLD_STATE_IDS };
 export type { EightHoldStateId };
@@ -744,6 +752,192 @@ export function stopDaisCraftPack(
   try {
     s.stopCraftPack();
     return { ok: true };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+/* —— N336 walk-review shot: authored body hold + wander gate —— */
+
+export type WalkReviewViewport = {
+  releaseUserWorldFrame?: () => void;
+  holdUserWorldFrame?: (frame?: {
+    zoom?: number;
+    panX?: number;
+    panY?: number;
+  }) => void;
+  getState?: () => {
+    zoom?: number;
+    panX?: number;
+    panY?: number;
+    autoFit?: boolean;
+    userWorldFrameHeld?: boolean;
+  };
+};
+
+export type DaisWalkReviewSurface = {
+  getViewport?: () => WalkReviewViewport | undefined;
+  setWanderEnabled?: (v: boolean) => void;
+  ensurePhysicsDriver?: () => void;
+  living?: {
+    applyModePolicy?: (policy: {
+      autoSequence: boolean;
+      restrainedIdle: boolean;
+      freezeSequence: boolean;
+    }) => void;
+  };
+};
+
+export function resolveWalkReviewSurface(): DaisWalkReviewSurface | null {
+  try {
+    const g = globalThis as unknown as { __GASPER_DAIS__?: DaisWalkReviewSurface };
+    return g.__GASPER_DAIS__ ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export type WalkReviewActionResult = {
+  ok: boolean;
+  error?: string;
+  shot?: StudioShotId;
+  wander?: boolean;
+};
+
+function markProductShot(shot: StudioShotId): void {
+  try {
+    const root = document.querySelector("[data-product='gasper-studio']");
+    if (root instanceof HTMLElement) root.setAttribute("data-shot", shot);
+  } catch {
+    /* jsdom / no document */
+  }
+}
+
+/** Hold the walk-review body crop and open the wander gate. Never writes travel. */
+export function applyWalkReviewShot(
+  surface?: DaisWalkReviewSurface | null,
+): WalkReviewActionResult {
+  const s = surface ?? resolveWalkReviewSurface();
+  const vp = s?.getViewport?.();
+  if (!vp?.holdUserWorldFrame || !s?.setWanderEnabled) {
+    return { ok: false, error: "no_surface" };
+  }
+  try {
+    s.ensurePhysicsDriver?.();
+    s.living?.applyModePolicy?.(walkReviewModePolicy());
+    vp.releaseUserWorldFrame?.();
+    vp.holdUserWorldFrame({ ...WALK_REVIEW_FRAME });
+    s.setWanderEnabled(true);
+    markProductShot(WALK_REVIEW_SHOT);
+    return { ok: true, shot: WALK_REVIEW_SHOT, wander: true };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+/** Stand wander down. Keep the body hold so the plant stays reviewable. */
+export function releaseWalkReviewShot(
+  surface?: DaisWalkReviewSurface | null,
+): WalkReviewActionResult {
+  const s = surface ?? resolveWalkReviewSurface();
+  if (!s?.setWanderEnabled) return { ok: false, error: "no_surface" };
+  try {
+    s.setWanderEnabled(false);
+    s.living?.applyModePolicy?.(operateRestModePolicy());
+    markProductShot(OPERATE_SHOT);
+    return { ok: true, shot: OPERATE_SHOT, wander: false };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+export type DaisWalkBooSurface = {
+  playWalkBooTwenty?: () => void;
+  playNorthstarTwenty?: () => void;
+  setWalkBooLoop?: (v: boolean) => void;
+  isWalkBooLoop?: () => boolean;
+  stopWalkBooTwenty?: () => void;
+};
+
+function resolveWalkBooSurface(): (DaisWalkReviewSurface & DaisWalkBooSurface) | null {
+  return resolveWalkReviewSurface() as (DaisWalkReviewSurface & DaisWalkBooSurface) | null;
+}
+
+export function setReliefPresetFromRail(preset: string): { ok: boolean; error?: string } {
+  try {
+    const g = globalThis as {
+      SidekickFormMasterRig?: { setReliefPreset?: (v: string) => void };
+      __GASPER_DAIS__?: { setReliefPreset?: (v: string) => void };
+    };
+    if (g.SidekickFormMasterRig?.setReliefPreset) {
+      g.SidekickFormMasterRig.setReliefPreset(preset);
+      return { ok: true };
+    }
+    const rig = (document.querySelector("[data-gasper-stage]") as HTMLElement | null)?.ownerDocument
+      ? g.SidekickFormMasterRig
+      : null;
+    if (rig?.setReliefPreset) {
+      rig.setReliefPreset(preset);
+      return { ok: true };
+    }
+    return { ok: false, error: "no_surface" };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+export function playNorthstarTwentyFromRail(
+  surface?: DaisWalkBooSurface | null,
+): WalkReviewActionResult {
+  const s = surface ?? resolveWalkBooSurface();
+  if (!s?.playNorthstarTwenty) return { ok: false, error: "no_surface" };
+  try {
+    s.playNorthstarTwenty();
+    markProductShot(WALK_REVIEW_SHOT);
+    return { ok: true, shot: WALK_REVIEW_SHOT, wander: false };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+export function playWalkBooTwentyFromRail(
+  surface?: DaisWalkBooSurface | null,
+): WalkReviewActionResult {
+  const s = surface ?? resolveWalkBooSurface();
+  if (!s?.playWalkBooTwenty) return { ok: false, error: "no_surface" };
+  try {
+    s.playWalkBooTwenty();
+    markProductShot(WALK_REVIEW_SHOT);
+    return { ok: true, shot: WALK_REVIEW_SHOT, wander: false };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+export function setWalkBooLoopFromRail(
+  loop: boolean,
+  surface?: DaisWalkBooSurface | null,
+): WalkReviewActionResult {
+  const s = surface ?? resolveWalkBooSurface();
+  if (!s?.setWalkBooLoop || !s.playNorthstarTwenty) return { ok: false, error: "no_surface" };
+  try {
+    s.setWalkBooLoop(loop);
+    if (loop) s.playNorthstarTwenty();
+    markProductShot(WALK_REVIEW_SHOT);
+    return { ok: true, shot: WALK_REVIEW_SHOT, wander: false };
+  } catch (e) {
+    return { ok: false, error: String(e) };
+  }
+}
+
+export function stopWalkBooTwentyFromRail(
+  surface?: DaisWalkBooSurface | null,
+): WalkReviewActionResult {
+  const s = surface ?? resolveWalkBooSurface();
+  if (!s?.stopWalkBooTwenty) return { ok: false, error: "no_surface" };
+  try {
+    s.stopWalkBooTwenty();
+    return { ok: true, shot: OPERATE_SHOT, wander: false };
   } catch (e) {
     return { ok: false, error: String(e) };
   }

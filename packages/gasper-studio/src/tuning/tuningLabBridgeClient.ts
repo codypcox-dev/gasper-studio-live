@@ -4,6 +4,7 @@ import {
   type TuningLabBridgeRequest,
   type TuningLabBridgeResponse,
 } from "../../../studio-protocol/src/tuningLabBridge";
+import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { TuningLabSession, type TuningParameterId } from "./tuningRegistry";
 
 function dispatchLiveRequest(
@@ -41,6 +42,10 @@ function dispatchLiveRequest(
       case "apply_motion_intent": {
         const action = tuningLab.applyIntent(String(input.intent ?? ""));
         return { requestId: request.requestId, ok: action.ok, result: action, error: action.error };
+      }
+      case "field_dispatch": {
+        const result = dispatchField(String(input.method ?? "describe"), input);
+        return { requestId: request.requestId, ok: true, result };
       }
     }
   } catch (error) {

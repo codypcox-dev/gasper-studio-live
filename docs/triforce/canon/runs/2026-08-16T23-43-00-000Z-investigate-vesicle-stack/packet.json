@@ -1,0 +1,47 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "vesicle-stack",
+    "domain": "material-light",
+    "wall": "Foam-on-black is not vesicles-in-gel. 390 lattice discs appended last over a crushed body bury cyan and the shell gloss."
+  },
+  "question": "What in the paint stack and sample math blocks the owner's still — mid-purple gel, distinct interior discs, cyan well, glass coat, face last?",
+  "physicalLaw": [
+    "Painter's algorithm is the composite. Later layers occlude. Vesicles belong under the shell BRDF, over the volume.",
+    "C = αS + (1−α)D. High-α discs over black erase the gel. Low-α discs over a lit gel keep it.",
+    "opticalDepth · bodyBase at the live numbers is a black hole, not a pearl.",
+    "Polar 25×40 is not a Poisson disc. Equator spacing ~11px vs r_max 12px is total overlap.",
+    "n·L is irradiance. Unused color is not lighting."
+  ],
+  "artisticLaw": [
+    "The still is the identity: luminous purple, teal well, pale discs inside, white gloss on the shell, face last.",
+    "Gaps must show gel. Foam is a fail.",
+    "1000 stays 1000. No remesh."
+  ],
+  "invariants": [
+    "Insert relief before keyReflectionLayer. Never append last.",
+    "Face stays outside the clip.",
+    "DETAIL_TOPOLOGY.vertices.length === 1000.",
+    "Cyan and key gradients stay in the tree."
+  ],
+  "failureModes": [
+    "appendChild(relief) last (live).",
+    "opticalDepth crush (live).",
+    "black interior bodyBase (live).",
+    "lattice keep 0.56 · r up to 12px (live).",
+    "one fill hex for every disc (live)."
+  ],
+  "implementation": [
+    "insertBefore(keyReflectionLayer).",
+    "Lift bodyBase interior. opticalDepth use opacity 0.14.",
+    "Poisson subset ~150. Two depths. α 0.32–0.48. Skip face plate.",
+    "n·L picks near vs far, not a third hue."
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T23-43-00-000Z-investigate-vesicle-stack",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T23:43:00.000Z"
+}

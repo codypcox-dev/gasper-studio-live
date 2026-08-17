@@ -70,3 +70,12 @@ Report:
 1. Lead force + residual  
 2. Paths written on disk  
 3. Who acts next (role or human)  
+
+## Explore / Summarize / Investigate (N335)
+
+Those three buttons are CanonOps, not chat flavor.
+
+1. Confirm Tri-Force latest (`docs/triforce/CANONOPS.md`).
+2. Earn a PHD in the named residual only.
+3. Deposit the packet under `docs/triforce/canon/runs/` and point `LATEST.json` at it.
+4. Do not implement the fix in the same click unless the packet already names a bounded next cut.

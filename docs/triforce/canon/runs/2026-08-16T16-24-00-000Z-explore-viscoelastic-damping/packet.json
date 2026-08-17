@@ -1,0 +1,108 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "viscoelastic-damping",
+    "domain": "anim-physics",
+    "wall": "Damping is five unnamed organs. People hear Weight and turn c, or hear settle and turn τ. Plant-gated τ is E at contact, not a damper. The picture cannot be tuned until the stack is named."
+  },
+  "question": "What damping effects already exist, which picture each one owns, and which must not be used to stiffen the W?",
+  "coordinateSpaces": "Three integrators: (1) contour _lp, content px, τ seconds, sa=1−exp(−dt/τ); (2) MOMENTUM_RIG CoM, px offset, ẍ = −k x − (cLow + cHigh|v|) v, kX=10.8 kY=5.8, cLow=1.8 cHigh=0.6, ζ≈0.28 after N37; (3) one-shot envelope taus (tension 0.4, recognition, singularity). Eight-state damp multiplies cLow/cHigh. World u never enter these integrators.",
+  "physicalLaw": [
+    "Kelvin–Voigt τ = η/E is RETARDATION (creep toward a posed shape). It is not energy dissipation of a bounce.",
+    "Viscous damping on a mass-spring is c in mẍ + cẋ + kx = 0. ζ = c/(2√(km)). N37 raised ζ ~0.23→0.28 so post-arrest bubbling drops ~20%. Bounciness during drive is k and launch, not c.",
+    "Maxwell (spring–dashpot series) relaxes stress to zero — a fluid. Gasper is a solid pearl. Do not Maxwell-damp the hull.",
+    "Quadratic drag (cHigh|v|) caps peak speed and leaves small-signal bounce (cLow) for the organic settle. Linear-only c kills the launch overshoot N37 kept.",
+    "Plant-gated τ raises E at the loaded gauss. That is stiffness of contact, not damping. Raising c on the plant does not lock a foot."
+  ],
+  "artisticLaw": [
+    "Keep motion bouncy. Settle the bubble. That is N37, CoM c, not Weight.",
+    "Weight = free-mass creep. Damping = how fast the bounce dies. Plant = floor fact.",
+    "Eight-state damp is personality (thinking heavy, recognition light). Not a walk tuner."
+  ],
+  "invariants": [
+    "Do not raise global c to harden the W.",
+    "Do not raise viscoTau to kill the settle bubble.",
+    "Do not Maxwell-relax the contour to zero.",
+    "Do not recut plant-gated τ, N37, or eight-state tables this receipt.",
+    "Explore only."
+  ],
+  "failureModes": [
+    "One Weight slider treated as damping: floor greasy AND bounce dead, or neither.",
+    "cHigh too high: launch has no overshoot; he stops like a UI ease.",
+    "cLow too low: N37 bubble returns (ζ back toward 0.23).",
+    "stateMomDamp on thinking (1.25) / blocked (1.70) / dormant (2.00) leaking into a walk if eight-state stays on during a take.",
+    "skin_damping / singularity_damping / unifiedDampingRatio still bound in catalogs — a third unnamed family if a compositor writes them."
+  ],
+  "uncertainty": [
+    "Whether startLiving({eightStateLoop:false}) zeros stateMomDamp to 1 for the 20s is not isolated. If not, thinking/blocked damp rides the strut.",
+    "legacyFormMaster skin_damping and unifiedDampingRatio: live path vs dead binding. Not traced this receipt."
+  ],
+  "tests": [
+    "Name three readouts: Weight τ, CoM ζ (or cLow), plant w. Changing one does not move the other two.",
+    "N37: after a zip arrest, ringdown cycles drop ~20% vs pre-N37; mid-strut bounce unchanged.",
+    "Plant-gated τ (when written): planted Δ < 0.5 px/frame; cLow unchanged.",
+    "eightStateLoop false during 20s: stateMomDamp = 1.",
+    "No Maxwell path: posed rest shape is the attractor, not zero deformation."
+  ],
+  "visualConsequences": [
+    "Damping is the settle after a dart — the bubble dies, the pearl still lives.",
+    "Creep is the swing arriving late. Damping is the bounce dying. Plant is the floor not moving."
+  ],
+  "implementation": [
+    "Explore only. Do not retune cLow/cHigh, viscoTau, or eight-state damp.",
+    "Atlas must name three organs: Weight (τ_swing), Settle (CoM c / ζ), Plant (E, τ=0.02).",
+    "Next Investigate: does eight-state damp leak into the 20s strut, and are skin_damping / unifiedDampingRatio live?",
+    "Do not use any damping organ to finish the W lock. That cut is plant-gated τ."
+  ],
+  "citations": [
+    {
+      "id": "n37-settle-viscosity",
+      "tier": "canon",
+      "source": "NORTHSTAR N37 · MOMENTUM_RIG cLow 1.8 cHigh 0.6",
+      "rule": "Post-arrest bubbling −20%. Bounciness during motion kept. CoM damper."
+    },
+    {
+      "id": "d-0046-momentum-rig",
+      "tier": "canon",
+      "source": "all-script-3.js MOMENTUM_RIG",
+      "rule": "Underdamped 2D spring-damper. cLow linear + cHigh quadratic. kX/kY incommensurate."
+    },
+    {
+      "id": "d-0062-state-momentum",
+      "tier": "canon",
+      "source": "EIGHT_STATE_MOMENTUM.amp.*.damp",
+      "rule": "Per-state multiplier on c. Personality, not gait."
+    },
+    {
+      "id": "explore-viscosity-tuning",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-16-00-000Z-explore-viscosity-tuning",
+      "rule": "τ is contour creep. N37 is a different organ."
+    },
+    {
+      "id": "investigate-plant-gated-tau",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-20-00-000Z-investigate-plant-gated-tau",
+      "rule": "Plant is E at contact. Not a damper. Gate _lp. Do not raise c."
+    },
+    {
+      "id": "kelvin-voigt-vs-maxwell",
+      "tier": "reference",
+      "source": "Kelvin–Voigt retardation vs Maxwell relaxation",
+      "rule": "Voigt creeps to an elastic shape (solid). Maxwell relaxes to zero (fluid). Gasper is Voigt."
+    },
+    {
+      "id": "underdamped-zeta",
+      "tier": "reference",
+      "source": "mẍ + cẋ + kx = 0 · ζ = c/(2√(km))",
+      "rule": "ζ<1 keeps bounce. N37 is a ζ trim, not a τ trim."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T16-24-00-000Z-explore-viscoelastic-damping",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T16:24:00.000Z"
+}

@@ -1,0 +1,95 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "contour-firewall",
+    "domain": "form-topology",
+    "wall": "The mixer solves a 512 contour and must not paint it. Probes can still treat that solve as the live hull."
+  },
+  "question": "What does the GasperContourSolver firewall actually fence, what still runs, and what must not be mistaken for Gasper?",
+  "coordinateSpaces": "Content-px SVG. Mixer lastContour is an in-memory 512 path. Live #body is FormMaster sampleBodyForProfile. Same lock (512) — not the same embedding.",
+  "physicalLaw": [
+    "One framebuffer writer. Two solvers on one #body is a fight, not a blend.",
+    "A compute that does not write is a probe, not a character.",
+    "The lock (512) is shared. The field (scaffold, gait, KV, relief) is not. solveContour is the lock without the field."
+  ],
+  "artisticLaw": [
+    "Production identity is FormMaster v6.5.5. Native candidate is lab-only until parity is proven.",
+    "Do not drop the firewall to 'master the mesh.' Master the live 1000 inside FormMaster. The solver is the extraction, not the stage."
+  ],
+  "invariants": [
+    "legacyFormMaster ⇒ firewall on at attach and at every visual endpoint.",
+    "Firewall flush: renderContour(writeDom=false) then return. No body.d, no clipBody.d, no energy translate, no face writers.",
+    "solveContour throws if samples !== 512.",
+    "Investigate does not recut gait or drop this fence."
+  ],
+  "failureModes": [
+    "contourWritten = bodyD || lastContour — under firewall the probe reads 'written' while #body is FormMaster.",
+    "Solver missing: scaffoldContourZ, nub/walk/singularity z, _formK, visco, plant gate, facing, relief. A remote/blowfish on the solver would not be him.",
+    "Native path (firewall off) writes the incomplete 512 and looks like a different being.",
+    "AdaptiveShellScaffold and AdaptiveReliefInstrument sit behind this fence. Wiring them to the mixer does not paint production."
+  ],
+  "uncertainty": [
+    "How often lastContour is compared to live #body in QA. If ever treated as parity, it is a false green.",
+    "Whether any export/path uses mixer.getLastContour() as the authored silhouette."
+  ],
+  "tests": [
+    "Production mount: isLegacyAuthorityDomWriteFirewallEnabled() === true.",
+    "After flush under firewall: nodes.body.getAttribute('d') unchanged by mixer; lastContour non-null.",
+    "N204 pin: firewall block returns before energy translate(120px, 118px).",
+    "solveContour({samples: 511}) throws."
+  ],
+  "visualConsequences": [
+    "Firewall holding: you see FormMaster. Solver is a ghost in memory.",
+    "Firewall dropped without parity: a cheaper pearl overwrites the W, the goose, the plant."
+  ],
+  "implementation": [
+    "Explore only. No fence drop.",
+    "Mesh mastery stays in all-script-3 (live 1000 + 512). Solver remains the extract twin.",
+    "Later Investigate: rename lastContour in telemetry so 'written' cannot mean 'painted'."
+  ],
+  "citations": [
+    {
+      "id": "mixer-firewall",
+      "tier": "canon",
+      "source": "GasperRenderMixer.ts:276–280, :691–697, :828–842",
+      "rule": "FormMaster owns the SVG. Mixer may solve. Mixer must not write."
+    },
+    {
+      "id": "attach-sets-firewall",
+      "tier": "canon",
+      "source": "GasperRigController.ts:813, :3111–3122",
+      "rule": "legacyFormMaster turns the fence on at attach and at every visual endpoint."
+    },
+    {
+      "id": "production-authority",
+      "tier": "canon",
+      "source": "productionAuthority.ts PRODUCTION_AUTHORITY_ID legacy-authority-formmaster-v655",
+      "rule": "Native candidate is lab-only."
+    },
+    {
+      "id": "solver-scope",
+      "tier": "canon",
+      "source": "GasperContourSolver.ts header + solveContour:456–475",
+      "rule": "512 + macro gauss. Not scaffold, walk, relief, KV."
+    },
+    {
+      "id": "dependency-report",
+      "tier": "canon",
+      "source": "GasperFormMasterDependencyReport.ts native contour solver row",
+      "rule": "Partial native body contour ≠ complete character identity."
+    },
+    {
+      "id": "one-writer",
+      "tier": "reference",
+      "source": "Unreal render-thread scene proxy / browser compositor — one paint authority",
+      "rule": "A second writer is a fight. Compute-only is the lawful twin."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T16-56-00-000Z-explore-contour-firewall",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T16:56:00.000Z"
+}

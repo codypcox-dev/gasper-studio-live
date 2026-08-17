@@ -1,0 +1,110 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "plant-gated-tau",
+    "domain": "anim-physics",
+    "wall": "One τ smears the plant after it is posed. supportSide already names which gauss is locked. The integrator ignores that name."
+  },
+  "question": "Is the earned split plant-gated τ inside _lp, or a new per-vertex stiffness field from supportSide?",
+  "coordinateSpaces": "Pose then integrate. Plant thetas 1.31 (right) / 1.83 (left). σ=0.16, chinKeep σ=0.16 at π/2, lower = clamp((sin(th)−0.20)/0.80). Content px. τ seconds. sa=1−exp(−dt/τ). Default viscoTau 0.25. D-0018 floor 0.02. pts keep .th through authorKeyViewPoint spread. Mesh keeps .theta.",
+  "physicalLaw": [
+    "Kelvin–Voigt: τ=η/E. Planted contact is high E. τ_plant → D-0018 floor (0.02 s), not 0. τ=0 is an infinite-E snap and returns the 80 Hz buzz D-0018 exists to kill.",
+    "Pose already names the plant: _plantArtW = gauss(th, thPlant, 0.16)·(1−chinKeep)·lower. supportSide>+0 plants 1.31, swings 1.83.",
+    "_lp runs AFTER that pose, one sa for every point. The lock is integrated away. That is the wall.",
+    "Plant-gated τ reuses _plantArtW. τ_i = viscoTau + w·(0.02 − viscoTau). Same organ, two uses: pose and integrate. Not a second writer.",
+    "A new per-vertex stiffness field from supportSide is a second organ. Rejected. supportSide already writes the weights."
+  ],
+  "artisticLaw": [
+    "Weight slider = free mass. Plant does not get heavier when Weight goes up.",
+    "Rest (supportSide 0) keeps one τ. D-0018 buzz-kill stays on the unspecialized hull.",
+    "One pearl. No W-skeleton. Chin/cleft stay unspecialized (chinKeep)."
+  ],
+  "invariants": [
+    "Do not delete _lp. Do not set τ=0 anywhere.",
+    "Do not invent a stiffness array or W-rig.",
+    "Do not retune MOMENTUM_RIG / N37.",
+    "Do not plant-gate the face or crown (lower·(1−chinKeep) already excludes them).",
+    "Rest / dragOrigin / reduced-motion: byte-identical to today."
+  ],
+  "failureModes": [
+    "Global τ: posed plant smears — W-unhook, glow follow (pre-N347), skate.",
+    "τ_plant=0: cusp buzz on the loaded nub.",
+    "Gate on supportSide without gauss: a hard seam at the W valley.",
+    "Gate the mesh with a different weight than the contour: shell and fill disagree.",
+    "Leave Weight labeled as whole-body mass: hidden dual survives."
+  ],
+  "uncertainty": [
+    "Exchange overlap (exchangeHold 0.35, both weights mid): both nubs get partial τ. That is lawful double-support, not a leak. Confirm on 6s tape after the cut.",
+    "Factory 0.25 vs rehearsal 0.34 is still which-is-live. Split does not depend on the number."
+  ],
+  "tests": [
+    "supportSide ±1: plant-sample contour Δx,Δy < 0.5 px/frame while swing still reaches kernel lift 68 px.",
+    "supportSide 0: _lp uses one viscoTau. Chin row does not flip at panel rate.",
+    "dragOrigin !== null: still snaps (sculpt responsive).",
+    "Weight 0.5 vs 0.25: swing lag changes; plantedScreenXUnits and floor cy do not.",
+    "N37 ringdown unchanged."
+  ],
+  "visualConsequences": [
+    "Loaded V of the W sits. Free V can leave. Exchange hands the lock. No snap-heal.",
+    "Weight makes the swing late, not the floor greasy."
+  ],
+  "implementation": [
+    "Earned cut: plant-gated τ inside existing _lp. Not a stiffness field.",
+    "When supportSide≠0 and gaitLive: for each point, th = p.th ?? p.theta; w = same _plantArtW as paint; tau_i = clamp(viscoTau + w*(0.02 − viscoTau), 0.02, 1); sa_i = 1 − exp(−dt/tau_i).",
+    "Apply identical w to smoothMesh via vertex.theta.",
+    "Else (rest, drag, no th): keep today’s single sa.",
+    "Atlas: Weight = free-mass τ. Plant τ is 0.02 s, not a slider.",
+    "Do not recut this Investigate. Next Approve writes the _lp branch only."
+  ],
+  "citations": [
+    {
+      "id": "explore-viscosity-tuning",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-16-00-000Z-explore-viscosity-tuning",
+      "rule": "One τ is homogeneous rubber. Split plant vs swing. Explore named the wall."
+    },
+    {
+      "id": "d-0018-contour-inertia",
+      "tier": "canon",
+      "source": "all-script-3.js V2.4 _lp",
+      "rule": "Low-pass x/y. Face not smoothed. Floor τ 0.02. Do not delete."
+    },
+    {
+      "id": "d-0022-visco-tau",
+      "tier": "canon",
+      "source": "all-script-3.js viscoTau + visco_tau pose key",
+      "rule": "One live τ 0.02–1.0, default 0.25. Becomes swing τ under the gate."
+    },
+    {
+      "id": "wispwalker-lobe-thetas",
+      "tier": "canon",
+      "source": "WISPWALKER_CANONICAL_CONTOUR left 1.31 / right 1.83",
+      "rule": "Same gauss the pose uses. Reuse. Do not invent new anchors."
+    },
+    {
+      "id": "w-unhook-investigate",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T15-11-34-742Z-investigate-w-unhook",
+      "rule": "Plant gauss world-locked. Swing posed. Exchange is a handoff."
+    },
+    {
+      "id": "n347-intro-floor-lock",
+      "tier": "canon",
+      "source": "NORTHSTAR N347",
+      "rule": "Plant is a locked floor. Swing is the soft part."
+    },
+    {
+      "id": "kelvin-voigt-tau",
+      "tier": "reference",
+      "source": "Kelvin–Voigt retardation τ=η/E",
+      "rule": "High E at contact. Finite η on the free limb. τ=0 is not a material."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T16-20-00-000Z-investigate-plant-gated-tau",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T16:20:00.000Z"
+}

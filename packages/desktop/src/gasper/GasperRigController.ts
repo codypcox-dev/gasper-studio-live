@@ -46,12 +46,18 @@ import {
 import { WISPWALKER_CAPABILITY_PROFILE } from "./performance/WispwalkerCapabilityProfile";
 import type { PhysicsIntentPlan } from "../../../shared/src/gasper-performance/reference/types";
 import { admitPhysicsSilhouetteDeltas, PHYSICS_SILHOUETTE_IDENTITY_BASE } from "./physics/PhysicsSilhouetteAuthority";
+import { publishStance, restStance, stanceFromGait } from "./physics/StanceInstrument";
 import {
   facingPaintYawDeg,
   facingPaintOrbitYawDeg,
   facingReadableLocomotionYawDeg,
   READABLE_THREE_QUARTER_DEG,
 } from "./physics/RadialFacingLaw"; // S8 (N39/N168): clock bearing -> readable 3/4 -> orbit sign so the far eye recedes.
+import type { GasperTake } from "./takes/GasperTake";
+import { worldFromTake } from "./takes/GasperTake";
+import { bindTake } from "./takes/bindTake";
+import { NORTHSTAR_TWENTY_TAKE } from "./takes/NorthstarTwentyTake";
+import { buildNorthstarTwentyClip } from "./takes/northstarTwentyClip";
 import {
   createPhysicsField,
   fieldAfterResize,
@@ -394,6 +400,7 @@ export class GasperRigController {
   private goldenWanderDriver: GoldenWanderDriver | null = null;
   /** Master switch for the wander authority (owner / rail). Default on. */
   private wanderEnabled = true;
+  private wanderHoldUntilMs = 0;
   /**
    * GASPER-ALIVE-001 · D-0108: the long-horizon life authority. Created at
    * attach (like the wander — life is the default, not an event): it asks its
@@ -834,6 +841,7 @@ export class GasperRigController {
     // GASPER-PHYSICS-001 · D-0112: wander files LOCOMOTION INTENTS with the
     // body kernel (the sole writer of free movement) — no pose drag.
     this.goldenWanderDriver?.destroy();
+    this.wanderHoldUntilMs = (typeof performance !== "undefined" ? performance.now() : Date.now()) + 2200;
     this.goldenWanderDriver = new GoldenWanderDriver(
       this.organismClock,
       this.ensurePhysicsDriver(),
@@ -1525,6 +1533,19 @@ export class GasperRigController {
       // expresses them, never authors them.
       // Tuning Lab gains are post-kernel, bounded expression controls. The
       // kernel still owns phase, contact, support, and all safety fences.
+      publishStance(
+        stanceFromGait({
+          phase: out.gait.phase,
+          stepHz: out.gait.stepHz,
+          supportSide: out.gaitScreen.supportSide,
+          plantedCompress: out.gaitScreen.plantedCompress,
+          incomingCompress: out.gaitScreen.incomingCompress,
+          swingLiftUnits: out.gaitScreen.swingLiftUnits,
+          swingAdvanceUnits: out.gaitScreen.swingAdvanceUnits,
+          leftoverSway: out.gaitScreen.leftoverSway,
+          seated: out.gaitScreen.seated,
+        }),
+      );
       g?.setPhysicsGait?.(out.gait, {
         ...out.gaitScreen,
         bobLiftUnits: out.gaitScreen.bobLiftUnits * this.tuningLabParams.gaitBobGain,
@@ -1894,6 +1915,8 @@ export class GasperRigController {
    * recalls home (never a teleport).
    */
   private wanderGateOpen(): boolean {
+    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+    if (now < this.wanderHoldUntilMs) return false;
     const s = this.living.getStatus();
     if (!s.autoSequence || s.restrainedIdle || s.reducedMotion) return false;
     if (this.performancePrimitiveDriver?.inspect().active) return false;
@@ -1909,31 +1932,95 @@ export class GasperRigController {
 
   private northstarTwentyUnsub: (() => void) | null = null;
   private headingPinDeg: number | null = null;
+  private walkBooLoop = false;
+
+  setWalkBooLoop(v: boolean): void {
+    this.walkBooLoop = v === true;
+  }
+
+  isWalkBooLoop(): boolean {
+    return this.walkBooLoop;
+  }
+
+  stopWalkBooTwenty(): void {
+    this.walkBooLoop = false;
+    this.northstarTwentyUnsub?.();
+    this.enableBoo(false);
+    this.headingPinDeg = 0;
+    try {
+      this.setLiveFormCoeff("walkEnable", 0);
+    } catch {
+      /* stop is gaitless */
+    }
+    this.physicsDriver?.disarm();
+  }
 
   /**
-   * N191/N193 — play the 20s on the LIVE organism clock (RAF).
-   * Wander/life directors stay down; this files wander strut then life zip.
-   * First-15s pearl law (N196/N198): stay wispwalker for the whole 20s.
-   * Presence is a sphere; the scored window must not morph into one.
+   * Play a portable take: bind to live COM / heading / class, then file
+   * intents. No GSAP. No setWorldPose. Physics is the only travel writer.
    */
-  playNorthstarTwenty(): void {
+  playAuthoredTake(take: GasperTake): void {
     this.northstarTwentyUnsub?.();
-    // N324: PREVIEW eight-state starts a 1.6s morph to Presence. Kill it
-    // before the 20s files, or first paint is Wispwalker and 0.5s is a ball.
+    // Opening plant: leftover run-in-place cannot leak into 0–strut-go.
+    this.sealTakePlant();
+    const body0 = this.ensurePhysicsDriver().getState().body;
+    const bind = bindTake(take, {
+      x: body0.x,
+      z: body0.z,
+      headingDeg: this.headingPinDeg ?? 0,
+      embodimentId: this.getTuningLabTelemetry().authoredMainForm,
+    });
+    if (!bind.admitted) return;
+    try {
+      getAnimationCommandSession().seedClipSync(buildNorthstarTwentyClip());
+    } catch {
+      /* document shelf is optional */
+    }
     this.startLiving({
       seed: 20260814,
       autoSequence: false,
       restrainedIdle: false,
-      eightStateLoop: false,
+      eightStateLoop: take.setup.eightStateLoop === true,
       proofMode: false,
       timingScale: 1,
     });
-    this.setLifeEnabled(false);
-    // Opening rest is frontal (yaw 8). 3/4 starts with the strut, not at t0.
-    this.headingPinDeg = 0;
-    // First-15s pearl law (N196/N198) forbids Presence during the scored window.
-    this.snapEmbodiment("wispwalker");
-    this.enableBoo(false);
+    this.setLifeEnabled(take.setup.life === true);
+    this.setWanderEnabled(take.setup.wander === true);
+    this.headingPinDeg = take.setup.headingPinDeg ?? 0;
+    if (take.policy === "snap" && take.setup.embodiment) {
+      this.snapEmbodiment(take.setup.embodiment);
+    }
+    this.enableBoo(take.setup.boo === true);
+    try {
+      (globalThis as { __GASPER_VISCO_SNAP__?: number }).__GASPER_VISCO_SNAP__ = 1;
+      publishStance(restStance());
+    } catch {
+      /* painter snap is optional */
+    }
+    const vp = (
+      this as GasperRigController & {
+        getViewport?: () => {
+          isUserWorldFrameHeld?: () => boolean;
+          holdUserWorldFrame?: (frame?: {
+            zoom?: number;
+            panX?: number;
+            panY?: number;
+          }) => void;
+          zoom?: number;
+          panX?: number;
+          panY?: number;
+        };
+      }
+    ).getViewport?.();
+    // Doctrine 1: freeze the monitor that is already up. Never release
+    // and reframe — that was the intro camera pop and floor-baseline shift.
+    if (vp && !vp.isUserWorldFrameHeld?.()) {
+      vp.holdUserWorldFrame?.({
+        zoom: Number(vp.zoom) > 0 ? Number(vp.zoom) : 1,
+        panX: Number(vp.panX) || 0,
+        panY: Number(vp.panY) || 0,
+      });
+    }
     try {
       const rig = this.mount?.rig as
         | {
@@ -1944,120 +2031,176 @@ export class GasperRigController {
         | undefined;
       rig?.setEightStateEnabled?.(false);
       rig?.cancelBehavior?.();
-      rig?.setYaw?.(8);
+      // Do not ease yaw on take start — that was the opening head-shake.
     } catch {
-      /* 20s is Wispwalker, not the Presence eight-state recipe */
+      /* take owns Wispwalker, not the Presence eight-state recipe */
     }
-    try {
-      this.setLiveFormCoeff("walkEnable", 1);
-    } catch {
-      /* walk plant on for the strut */
+    if (typeof take.setup.walkEnable === "number") {
+      try {
+        this.setLiveFormCoeff("walkEnable", take.setup.walkEnable);
+      } catch {
+        /* walk plant optional */
+      }
     }
     const t0 = this.organismClock.nowMs();
+    try {
+      (globalThis as { __GASPER_TAKE_T0__?: number }).__GASPER_TAKE_T0__ = t0;
+    } catch {
+      /* review clock is optional */
+    }
     const fired = new Set<string>();
     const fire = (id: string, at: number, t: number, fn: () => void) => {
       if (fired.has(id) || t < at) return;
       fired.add(id);
       fn();
     };
+    const applyAction = (action: GasperTake["beats"][number]["actions"][number]) => {
+      const driver = this.ensurePhysicsDriver();
+      const live = driver.getState().body;
+      if (action.type === "heading") {
+        this.headingPinDeg = action.deg;
+        return;
+      }
+      if (action.type === "strut") {
+        const w = worldFromTake(bind, action.space ?? "origin", action.dx, action.dz, live.x, live.z);
+        this.fileStrutLocomotion({ x: w.x, z: w.z, cruise: action.cruise });
+        return;
+      }
+      if (action.type === "runInPlace") {
+        this.fileRunInPlace({
+          cadenceHz: action.cadenceHz,
+          driveGain: action.driveGain,
+          compression: action.compression ?? 0.08,
+        });
+        return;
+      }
+      if (action.type === "stay") {
+        this.physicsDriver?.standDownLocomotion("performance");
+        this.fileStrutLocomotion({ x: live.x, z: live.z, cruise: action.cruise });
+        return;
+      }
+      if (action.type === "expression") {
+        this.setExpression(action.id);
+        return;
+      }
+      if (action.type === "relief") {
+        try {
+          (this.mount?.rig as { setReliefPreset?: (v: string) => void } | undefined)?.setReliefPreset?.(
+            action.preset,
+          );
+        } catch {
+          /* relief optional */
+        }
+        return;
+      }
+      if (action.type === "motion") {
+        try {
+          (this.mount?.rig as { setMotion?: (n: number) => void } | undefined)?.setMotion?.(action.value);
+        } catch {
+          /* motion optional */
+        }
+        return;
+      }
+      if (action.type === "boo") {
+        this.enableBoo(action.on);
+        return;
+      }
+      if (action.type === "walkEnable") {
+        try {
+          this.setLiveFormCoeff("walkEnable", action.on ? 1 : 0);
+        } catch {
+          /* walk gate optional */
+        }
+        return;
+      }
+      if (action.type === "physics") {
+        this.setWorldPhysicsParams({
+          launchPower: action.launchPower,
+          intensity: action.intensity,
+        });
+        return;
+      }
+      if (action.type === "launchComet") {
+        const planted = driver.getState().body;
+        driver.launchComet({
+          gatherSeconds: action.gatherSeconds,
+          vx: action.vx,
+          vy: action.vy,
+          x0: planted.x,
+          z0: planted.z,
+        });
+        return;
+      }
+      if (action.type === "standDownWander") {
+        driver.standDownLocomotion("wander");
+        return;
+      }
+      if (action.type === "lifeGoto") {
+        const w = worldFromTake(bind, action.space, action.dx, action.dz, live.x, live.z);
+        driver.setLocomotion("life", { x: w.x, z: w.z, cruise: action.cruise });
+        return;
+      }
+      if (action.type === "land") {
+        driver.requestBooLanding();
+        return;
+      }
+      if (action.type === "loop") {
+        if (!this.walkBooLoop) return;
+        this.enableBoo(false);
+        this.physicsDriver?.disarm();
+        this.headingPinDeg = 0;
+        this.playAuthoredTake(take);
+      }
+    };
     const unsub = this.organismClock.subscribe({
-      id: "northstar-20s",
+      id: `take:${take.id}`,
       priority: 48,
       onFrame: () => {
         const t = (this.organismClock.nowMs() - t0) / 1000;
-        // φ² rest: the opening must read as the sealed portrait before any
-        // heading or travel. 0.8s was invisible on live RAF.
-        if (t < 2.618) this.headingPinDeg = 0;
-        else if (t < 5.2) this.headingPinDeg = -READABLE_THREE_QUARTER_DEG;
-        fire("strut-go", 2.618, t, () => {
-          this.fileStrutLocomotion({ x: 980, z: 0, cruise: 200 });
-        });
-        if (t <= 5.15 && t >= 2.618) {
-          const tick = Math.floor(t * 2);
-          fire(`strut-${tick}`, Math.max(2.618, tick * 0.5), t, () => {
-            this.fileStrutLocomotion({ x: 980, z: 0, cruise: 200 });
-          });
+        if (take.headingWindows) {
+          let pin: number | null = null;
+          for (const w of take.headingWindows) {
+            if (t < w.until) {
+              pin = w.deg;
+              break;
+            }
+          }
+          if (pin != null) this.headingPinDeg = pin;
         }
-        fire("seat", 5.2, t, () => {
-          const b = this.ensurePhysicsDriver().getState().body;
-          this.headingPinDeg = -READABLE_THREE_QUARTER_DEG;
-          this.fileStrutLocomotion({ x: b.x, z: b.z, cruise: 1 });
-        });
-        fire("notice", 6.6, t, () => {
-          this.setExpression("listening-orient");
-          try {
-            (
-              this.mount?.rig as { setReliefPreset?: (v: string) => void } | undefined
-            )?.setReliefPreset?.("none");
-          } catch {
-            /* N220: fixture already fired; clear brow_raise plate after */
-          }
-        });
-        fire("notice-release", 8.8, t, () => {
-          this.setExpression("neutral-settled");
-          try {
-            (this.mount?.rig as { setMotion?: (n: number) => void } | undefined)?.setMotion?.(0.55);
-          } catch {
-            /* restore rest motion after the notice beat */
-          }
-        });
-        fire("gather", 9.2, t, () => {
-          this.enableBoo(true);
-          try {
-            this.setLiveFormCoeff("walkEnable", 0);
-          } catch {
-            /* zip must not limp a walk plant */
-          }
-          this.setWorldPhysicsParams({ launchPower: 1, intensity: 0.7 });
-          const planted = this.ensurePhysicsDriver().getState().body;
-          this.ensurePhysicsDriver().launchComet({
-            gatherSeconds: 0.75,
-            vx: -560,
-            vy: 1180,
-            z0: planted.z,
+        for (const beat of take.beats) {
+          fire(beat.id, beat.at, t, () => {
+            for (const action of beat.actions) applyAction(action);
           });
-        });
-        fire("zip1", 10.0, t, () => {
-          const driver = this.ensurePhysicsDriver();
-          this.enableBoo(true);
-          this.headingPinDeg = -28;
-          driver.standDownLocomotion("wander");
-          driver.setLocomotion("life", { x: 180, z: 120, cruise: 380 });
-        });
-        fire("zip2", 13.2, t, () => {
-          this.enableBoo(true);
-          this.ensurePhysicsDriver().setLocomotion("life", { x: 400, z: -40, cruise: 220 });
-        });
-        fire("land", 15.6, t, () => {
-          this.enableBoo(true);
-          try {
-            this.setLiveFormCoeff("walkEnable", 0);
-          } catch {
-            /* landing must not re-open walk lobes */
+          for (const action of beat.actions) {
+            if (
+              (action.type !== "strut" && action.type !== "runInPlace") ||
+              !(Number(action.sustainUntil) > beat.at)
+            ) {
+              continue;
+            }
+            if (t < beat.at || t > Number(action.sustainUntil)) continue;
+            const tick = Math.floor(t * 2);
+            fire(`${beat.id}-${tick}`, Math.max(beat.at, tick * 0.5), t, () => {
+              applyAction(action);
+            });
           }
-          const driver = this.ensurePhysicsDriver();
-          driver.requestBooLanding();
-          const b = driver.getState().body;
-          driver.setLocomotion("life", { x: b.x, z: b.z, cruise: 60 });
-        });
-        fire("hold", 16.5, t, () => {
-          const b = this.ensurePhysicsDriver().getState().body;
-          this.enableBoo(true);
-          try {
-            this.setLiveFormCoeff("walkEnable", 0);
-          } catch {
-            /* hold stays gaitless */
-          }
-          const driver = this.ensurePhysicsDriver();
-          driver.requestBooLanding();
-          driver.setLocomotion("life", { x: b.x, z: b.z, cruise: 1 });
-        });
+        }
       },
     });
     this.northstarTwentyUnsub = () => {
       unsub();
       this.northstarTwentyUnsub = null;
     };
+  }
+
+  /**
+   * Northstar 20s — the scored take, bound to live COM.
+   * Wander/life directors stay down; this files wander strut then life zip.
+   * First-15s pearl law (N196/N198): stay wispwalker for the whole 20s.
+   * Presence is a sphere; the scored window must not morph into one.
+   */
+  playNorthstarTwenty(): void {
+    this.playAuthoredTake(NORTHSTAR_TWENTY_TAKE);
   }
 
   /**
@@ -2079,6 +2222,32 @@ export class GasperRigController {
     driver.clearLocomotion("life");
     driver.clearLocomotion("performance");
     driver.setLocomotion("wander", { x, z, cruise });
+  }
+
+  /**
+   * Treadmill run. Performance owner holds the live COM (cruise 0) and
+   * files a cadence. Kernel derives gait. Body does not travel.
+   */
+  fileRunInPlace(intent: {
+    cadenceHz: number;
+    driveGain: number;
+    compression?: number;
+  }): void {
+    const driver = this.ensurePhysicsDriver();
+    driver.standDownLocomotion("wander");
+    driver.standDownLocomotion("life");
+    const floor = driver.floorPose();
+    driver.setLocomotion("performance", {
+      x: floor.x,
+      z: floor.z,
+      cruise: 0,
+    });
+    driver.setPerformanceGait({
+      cadenceHz: Number(intent.cadenceHz),
+      driveGain: Number(intent.driveGain),
+      lateralAxis: 1,
+      compressionRatio: Number(intent.compression ?? 0.08),
+    });
   }
 
   /** Master switch for the golden-angle idle wander (owner / rail). */
@@ -2744,11 +2913,31 @@ export class GasperRigController {
     this.ensurePhysicsDriver().setBooMode(v);
   }
 
-  /** Fresh-load opening: frontal heading, no travel. */
+  /** Fresh-load opening: frontal heading, no travel, no leftover gait. */
   pinOpeningRest(): void {
     this.headingPinDeg = 0;
     this.setWanderEnabled(false);
     this.setLifeEnabled(false);
+    this.sealTakePlant();
+    publishStance(restStance());
+  }
+
+  /** Stand down leftover locomotion so the bind window is a planted W. */
+  private sealTakePlant(): void {
+    try {
+      const driver = this.ensurePhysicsDriver();
+      driver.standDownLocomotion("performance");
+      driver.standDownLocomotion("wander");
+      driver.standDownLocomotion("life");
+      driver.setPerformanceGait(null);
+    } catch {
+      /* detached tests have no live driver */
+    }
+    try {
+      (globalThis as { __GASPER_VISCO_SNAP__?: number }).__GASPER_VISCO_SNAP__ = 1;
+    } catch {
+      /* painter snap is optional */
+    }
   }
 
   /** Instant form. Never the 1.6s Presence morph. */

@@ -17,6 +17,14 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-16 · fabric
+
+Cody: we do not want bubbles of any kind. The 1000-point cage is the skin — a vector fabric with real grid-morphing physics. Grid points carry an intelligent regional system that can take complex shapes (puff, remote, isolate a region). The silhouette is the fabric. Discs were the wrong organ.
+
+## Owner voice — 2026-08-16 · subsurface
+
+Cody asked what a real light system is, then asked for goosebumps that catch light, then **Explore subsurface scattering**. Intention: the 1000-point cage is living skin, not a decal. Light that hits him should travel inside the pearl (cyan well, not glued specks) the way an organism would. Explore only this receipt.
+
 ## Current rolling phase (2026-08-15) — not owner acceptance
 
 Cody alone issues human acceptance (S3). This card is the live
@@ -3265,4 +3273,193 @@ analyze it deeply and repair it out."
   `research/proofs/grok-successor-002/take-6s-20260816-n334-120fps/`.
   Walk residual still taxi. No
   self-PASS. No commit.
+
+- **N335 · Explore / Summarize /
+  Investigate are CanonOps.** Cody:
+  when those three recommended buttons
+  are clicked, run CanonOps, earn a
+  PHD in the named residual, update
+  Tri-Force to the latest engine
+  first, then return the PHD to the
+  engine. Not a chat recap. Disk
+  deposit is the return. Current
+  residual: walk-plant-off-frame.
+
+- **N336 · Walk Review is a dedicated
+  authored hold.** Investigate PHD
+  `2026-08-16T06-44-57-743Z-investigate-walk-plant-off-frame`:
+  cinematic zoom 2 / panY -40 already
+  includes both lobes + ground on a
+  1120×758 dais; Fit/production 231%
+  is the face plate; wanderGateOpen
+  needs autoSequence. Rail **Walk**
+  re-holds that frame, opens the
+  wander gate, never writes travel,
+  never touches GaitLaw or shotBias.
+  **Stand** closes wander. Operate Fit
+  stays face-first. Owner eyes still
+  own plant vs swing. No self-PASS.
+
+- **N337 · Explore physics-bounds.**
+  Four live stacks: walk-band 1485
+  u/s (X1, what Walk Review files),
+  Froude comfort [2612,3990] at
+  field g (flight / cruiseBase 3200),
+  room zNear -320 / zFar 3566 /
+  painted z≤160, World rail only
+  g-scale·restitution·launch·intensity.
+  Dual-fence comments still call
+  3200 a stroll. No recut this
+  receipt. No self-PASS.
+
+- **N338 · 20s Walk → Boo.** Owner
+  button `20s · Boo`: 0–6s in-place
+  walk (walkEnable, no travel),
+  6s spin+comet gather, then Boo
+  flight on the existing organ.
+  Ghost never stands. Not auto-play.
+  No second walk writer. No
+  self-PASS.
+
+- **N339 · Explore weight-transfer.**
+  SupportExchange and GAIT_LOBE
+  already name the walk: plant
+  holds, swing lifts ~68 px, COM
+  settles. Live 20s strut still
+  paints both lobes down (bob −100,
+  squash 0). Kernel live, picture
+  skate. No recut this receipt.
+  No self-PASS.
+
+- **N340 · Explore inverted-pendulum.**
+  L5 vault: bob = l_eff·(1−cos α).
+  At strut 200 that is ~4 u (0.5 px).
+  Walk-band 1485 is the 10% fence.
+  Live −100 bob is load-drop, not
+  the vault. Do not bounce Y. Do
+  not raise strut cruise. No
+  self-PASS.
+
+- **N341 · Investigate froude-scaling.**
+  Fr = v²/(g L) classifies under
+  field g=74210. Comfort [2612,
+  3990]. X1 cadence is 918·f, walk-
+  band 1485. Strut 200 is acting
+  (Fr 0.00088). Do not clamp strut
+  into the Froude band. Do not
+  restore Froude cadence. Packet
+  only. No self-PASS.
+
+- **N342 · CanonOps cluster (weight,
+  pendulum, skate, Froude).** Four
+  packets deposited. Engine 3.0.0.
+  First cut when earned:
+  skate-no-swing (stop 42 px
+  remap). Do not raise strut. Do
+  not recut Froude. No self-PASS.
+
+- **N343 · skate-no-swing cut.**
+  Painter lift is now
+  swingLiftUnits/8 (68 px), not
+  the 42 px remap. Kernel lift
+  measured 544 u on strut
+  single-support. Picture still
+  not a pass — both-down may
+  remain if the gauss misses the
+  nubs. No self-PASS.
+
+- **N344 · w-unhook cuts.** Physics
+  provenance is the sole walk
+  writer (authored radius press
+  off). Advance and plant drop
+  paint kernel/8 — no 22 px or
+  0.35 remap. One contour. No
+  shoes. No self-PASS.
+
+- **N345 · Northstar is a take.**
+  playNorthstarTwenty plays
+  NORTHSTAR_TWENTY_TAKE through
+  playAuthoredTake. Relative to
+  live COM. needs: walker. Snap
+  policy. Document clip
+  take-northstar-20s (markers,
+  no GSAP tracks). No
+  setWorldPose. No self-PASS.
+
+- **N346 · Authoring atlas.**
+  Canonical form is a named
+  baseline (factory + user
+  save). Morph is embodiment.
+  Rail teaches organs: Home /
+  Shape / Walk / Fly / Act /
+  Shot / Proof. No hidden
+  dials. Chat-PASS is not
+  acceptance. No self-PASS.
+
+- **N347 · intro floor lock.** Take
+  does not release/reframe the
+  monitor. Opening rest is
+  walkEnable 0. Glow/shadow cy
+  samples at rest and does not
+  follow a chewing W. No
+  W-skeleton this cut. Plant is
+  a locked floor, swing is the
+  soft part. No self-PASS.
+
+- **N348 · plant-gated τ.** `_lp`
+  uses τ_i = viscoTau + w·(0.02
+  − viscoTau). w is pose
+  `_plantArtW`. KV: we own τ
+  only. Plant E-ratio 12.5.
+  Weight / Plant / Settle named
+  on the atlas. No E/η sliders.
+  No W-rig. No self-PASS.
+
+- **N349 · run in place + rest
+  viscosity.** Opening rest is
+  sealed: no yaw ease, no
+  contrapposto, τ_rest 0.42,
+  visco snap on take start.
+  Strut window is a treadmill
+  (performance cadence 2.6 Hz,
+  COM held). Legs next pass.
+  No self-PASS.
+
+- **N350 · 1000-field
+  mastery cut.** Σs_i
+  publishes through
+  `__GASPER_SCAFFOLD_AUTHORITY__`.
+  Pressure puffs the rim.
+  Skin chapter on the atlas.
+  Firewall stays. No 1920 SVG.
+  No self-PASS.
+
+- **N351 · Goose one
+  field.** Shade and rim
+  consume the same 1000.
+  Pebbles are viewable.
+  Rim is not zeroed.
+  No self-PASS.
+
+- **N352 · 120fps review
+  (owner: "it's getting
+  better — review and
+  improve").** Watched
+  opening + goose + strut.
+  Goose was 16 invisible
+  freckles → 84 gaussian
+  pebbles on the 1000.
+  W was a Pac-Man collapse
+  to a socket → displace
+  from rest (14px lift).
+  Intro hold 2.2s on lean
+  and gaze. HUD chrome off
+  the cyclorama. Live-
+  observed, not accepted.
+  No self-PASS.
+
+
+
+
+
 

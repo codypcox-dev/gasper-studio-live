@@ -1,0 +1,105 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "kelvin-voigt-params",
+    "domain": "anim-physics",
+    "wall": "Textbook KV has E and η. Gasper only integrates τ=η/E. Inventing E and η sliders would fake two numbers from one ratio. Plant stiffness is an E-ratio, not a new dashpot."
+  },
+  "question": "Which Kelvin–Voigt parameters do we actually have, what do τ_plant=0.02 and viscoTau=0.25 mean as E and η, and what must never become a slider?",
+  "coordinateSpaces": "Discrete Voigt creep in content px: x ← x+(x*−x)(1−e^{−dt/τ}). Exact for ẋ=(x*−x)/τ. τ seconds. Factory viscoTau=0.25. Floor 0.02. dt≈1/60 at 60 fps, 1/120 on 120 fps takes. No pascals. No mass in this integrator (CoM k,c is the other organ).",
+  "physicalLaw": [
+    "Kelvin–Voigt: σ = E ε + η ε̇. Creep under constant stress: ε(t)=ε∞(1−e^{−t/τ}), τ=η/E. Our _lp is that ODE toward the posed shape x*.",
+    "We store one number: τ. We do not store E. We do not store η. E and η are not recoverable from τ alone.",
+    "If η is shared (one material, two contacts): τ_plant/τ_swing = E_swing/E_plant. 0.02/0.25 = 1/12.5. Plant is 12.5× stiffer than swing. That is the earned E-ratio.",
+    "If instead η dropped at the plant and E held: the plant would be less viscous, not more solid. Wrong picture for a floor. Gate E (via τ), not η.",
+    "Phase lag of a sinusoid at f: φ=atan(2π f τ). Strut ~1.43 Hz: swing τ=0.25 → φ≈66° (late). Plant τ=0.02 → φ≈10° (tracks). Weight 0.50 → φ≈77° (underwater).",
+    "D-0018 floor: at 60 fps, sa(0.02)≈0.565 still kills half a pixel-flip per frame. sa(0)=1 is a snap. sa(0.25)≈0.065 matches the authored ~15× first-frame cut.",
+    "CoM kX/kY/cLow/cHigh are not KV parameters. Do not fold them into E or η."
+  ],
+  "artisticLaw": [
+    "Weight is τ_swing only. It is not E. It is not η. It is not settle.",
+    "Plant E-ratio is 12.5 and not a slider. The floor is a fact.",
+    "Do not offer an E slider and an η slider that multiply back into the same τ."
+  ],
+  "invariants": [
+    "One live scalar: viscoTau. Range 0.02–1.0. Default 0.25.",
+    "Plant τ fixed at 0.02 when gated. Not 0. Not owner-tunable.",
+    "Do not add E, η, or ζ knobs to the rail.",
+    "Do not retune N37 c to chase a KV number.",
+    "Investigate only this receipt. _lp branch still waits on Approve."
+  ],
+  "failureModes": [
+    "E and η sliders: two cosmetics, one ratio, hidden dual.",
+    "η-gate at plant: foot becomes watery, not solid.",
+    "τ_plant=0: E=∞, buzz returns.",
+    "τ_swing ≥ 0.5 at 1.43 Hz: φ>77°, walk reads as taffy.",
+    "Calling kX ‘E’: mixes CoM bounce with hull creep."
+  ],
+  "uncertainty": [
+    "Live stepHz on the owner 20s vs 1.43 Hz from the earlier probe. φ scales with f. The 12.5 E-ratio does not.",
+    "120 fps takes: sa(0.02)≈0.33, sa(0.25)≈0.033. Same τ, stronger first-frame cut. Not a new parameter."
+  ],
+  "tests": [
+    "No binding named kelvin_E, kelvin_eta, or stiffness except plant-gated τ inside _lp.",
+    "viscoTau 0.25 / 0.02 ⇒ documented E-ratio 12.5 under shared-η.",
+    "At dt=1/60: sa(0.25)∈[0.06,0.07], sa(0.02)∈[0.55,0.58].",
+    "Rail Weight moves τ_swing only. Plant τ stays 0.02. cLow stays 1.8.",
+    "Phase: swing lag visible; plant tracks. No new slider required to see that."
+  ],
+  "visualConsequences": [
+    "Swing is allowed to be a little late (that is weight). Plant is not allowed to be late (that is the floor).",
+    "No third knob appears. E and η stay inside τ."
+  ],
+  "implementation": [
+    "Parameters we own: τ_swing=viscoTau, τ_plant=0.02, shared-η implied, E_plant/E_swing=12.5.",
+    "Parameters we do not own and must not add: E, η, ζ_KV.",
+    "When Approve writes _lp: tau_i = viscoTau + w*(0.02 − viscoTau). Comment the 12.5× E-ratio. No new keys.",
+    "Atlas readout: Weight τ, Plant ×12.5, Settle ζ. Not E/η.",
+    "Do not recut this Investigate."
+  ],
+  "citations": [
+    {
+      "id": "kelvin-voigt-constitutive",
+      "tier": "reference",
+      "source": "Kelvin–Voigt · σ=Eε+ηε̇ · τ_R=η/E",
+      "rule": "Two material constants, one retardation time. We integrate the time."
+    },
+    {
+      "id": "d-0018-contour-inertia",
+      "tier": "canon",
+      "source": "all-script-3.js _lp sa=1−exp(−dt/τ)",
+      "rule": "Discrete Voigt creep toward the posed hull. Floor τ 0.02. Face not filtered."
+    },
+    {
+      "id": "d-0022-visco-tau",
+      "tier": "canon",
+      "source": "viscoTau default 0.25 · range 0.02–1.0",
+      "rule": "The only KV parameter on the rail. Becomes τ_swing under the gate."
+    },
+    {
+      "id": "investigate-plant-gated-tau",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-20-00-000Z-investigate-plant-gated-tau",
+      "rule": "Gate τ, do not add a stiffness field. τ_plant=0.02 is high E, not zero."
+    },
+    {
+      "id": "explore-viscoelastic-damping",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-24-00-000Z-explore-viscoelastic-damping",
+      "rule": "c/ζ is settle, not KV. Do not fold N37 into E or η."
+    },
+    {
+      "id": "first-order-phase-lag",
+      "tier": "axiom",
+      "source": "φ=atan(ωτ) · ω=2πf",
+      "rule": "1.43 Hz × 0.25 s ≈ 66° lag. That is Weight. Plant at 0.02 is ~10°."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T16-26-00-000Z-investigate-kelvin-voigt-params",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T16:26:00.000Z"
+}

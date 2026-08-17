@@ -17,6 +17,7 @@ export const TUNING_LAB_BRIDGE_OPS = [
   "capture_tuning_proof",
   "read_tuning_telemetry",
   "apply_motion_intent",
+  "field_dispatch",
 ] as const;
 
 export type TuningLabBridgeOp = (typeof TUNING_LAB_BRIDGE_OPS)[number];

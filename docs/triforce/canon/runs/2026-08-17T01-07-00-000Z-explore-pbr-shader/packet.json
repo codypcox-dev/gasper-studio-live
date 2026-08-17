@@ -1,0 +1,220 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "pbr-shader",
+    "domain": "material-light",
+    "wall": "Live shade is Lambert + Blinn^16 + a constant ambient, painted as SVG facets. roughness and clearcoat exist as bindings and only scale opacity. Dual: phong-blob = energy-conserving BRDF."
+  },
+  "question": "What is a lawful PBR workflow on a locked 25×40 vector cage with three view-fixed lights, and how does it replace the current Lambert/Blinn mix without a GPU shader or a new hue?",
+  "coordinateSpaces": "Cage φ: rings×sectors, 3D xyz. n̂ = ∂P/∂u × ∂P/∂v after yaw. View V = (0,0,1). Lights L_k in view space (CageLight: key/fill/rim). Screen is shade only. Intensity-only (D-0033). FACE_CANON is SoT and off this organ.",
+  "physicalLaw": [
+    "A BRDF f_r(ωi, ωo) is the local surface response. Energy: for all ωo, ∫ f_r (n·ωi) dωi ≤ 1.",
+    "Cook–Torrance / Torrance–Sparrow: f_s = D G F / (4 (n·L) (n·V)). D = distribution of microfacet normals. G = Smith masking-shadowing. F = Fresnel.",
+    "GGX / Trowbridge–Reitz (Walter 2007): D(h) = α² / (π ((n·h)²(α²−1)+1)²). α = roughness² (Disney / UE4).",
+    "Schlick Fresnel: F(θ) = F0 + (1−F0)(1−cos θ)⁵. Dielectric F0 ≈ 0.04. Metal F0 = albedo. Gasper is dielectric gel: metalness = 0.",
+    "Diffuse must yield to Fresnel: f_d = (1−F)(1−m) albedo/π. Otherwise energy is created at grazing.",
+    "Disney 2012 principled: one roughness, one metallic, optional sheen and clearcoat. Clearcoat is a second GGX lobe at F0=0.04, α_coat ≈ 0.1.",
+    "IBL / split-sum (Karis UE4) needs an environment. We have three analytic lights. No env map → no IBL this receipt.",
+    "BSSRDF (prior Explore subsurface-scattering) replaces f_d for a participating pearl. PBR is the surface lobe. They stack: M_sss + f_s + f_coat."
+  ],
+  "artisticLaw": [
+    "Dark pearl. Intensity-only. No new hue. No metal.",
+    "roughness default 0.35 and clearcoat 0.42 already live in CANONICAL_MATERIAL_DEFAULTS — they must enter D and the coat lobe, not a 1−0.18r opacity multiply.",
+    "The 1000 (or current LOD) vertices ARE the shade domain. Topology does not grow.",
+    "FACE_CANON spacing is untouched. Face is not a material.",
+    "Gain 0 / roughness unused must be byte-identical to prior if we gate.",
+    "Facets are a display residual (shade-is-facets), not a BRDF residual."
+  ],
+  "algorithms": [
+    {
+      "id": "lambert-blinn",
+      "name": "Live Lambert + Blinn^16",
+      "what": "I = 0.16 + 0.72 Σ n·L + 0.35 Σ (n·H)^16. No F, no G, no α.",
+      "have": "SurfaceShader.shadeNormal / CageLight.lightCageVertex",
+      "lawful": false
+    },
+    {
+      "id": "opacity-roughness",
+      "name": "roughness as opacity scale",
+      "what": "roughnessResponse = 1 − 0.18 r. Multiplies key/interior.",
+      "have": "applyCanonicalProjection / unified light",
+      "lawful": false
+    },
+    {
+      "id": "cook-torrance-ggx",
+      "name": "Cook–Torrance GGX + Smith + Schlick",
+      "what": "Per-vertex, per-light. α = r². F0 = 0.04. metalness = 0.",
+      "have": "Nothing on the cage.",
+      "lawful": true
+    },
+    {
+      "id": "disney-principled",
+      "name": "Disney 2012 principled BRDF",
+      "what": "Diffuse + specular + sheen + clearcoat. Artist roughness/metallic.",
+      "have": "Bindings exist. Evaluation does not.",
+      "lawful": "the workflow. Full Disney diffuse (retro-reflect) optional."
+    },
+    {
+      "id": "gltf-mr",
+      "name": "glTF 2.0 metallic-roughness",
+      "what": "baseColor, metallic, roughness. Industry interchange.",
+      "have": "roughness slider only. No metallic (correct — stay 0).",
+      "lawful": "the parameter dialect"
+    },
+    {
+      "id": "spec-gloss",
+      "name": "Specular–glossiness",
+      "what": "Older: specular color + gloss. Conflicts with F0 discipline.",
+      "have": "Nothing.",
+      "lawful": false
+    },
+    {
+      "id": "karis-ibl",
+      "name": "UE4 split-sum IBL",
+      "what": "Prefiltered env + BRDF LUT.",
+      "have": "No environment. Three analytic lights.",
+      "lawful": false
+    },
+    {
+      "id": "gpu-pbr-glsl",
+      "name": "Fullscreen PBR shader / WebGL",
+      "what": "Real fragment shader on a raster mesh.",
+      "have": "SVG FormMaster. No WebGL surface.",
+      "lawful": false
+    },
+    {
+      "id": "sss-diffuse",
+      "name": "BSSRDF replaces Lambert (prior Explore)",
+      "what": "E = n·L → Rd on 25×40 → M. Specular stays local.",
+      "have": "Packet only. Not live.",
+      "lawful": "the diffuse slot"
+    }
+  ],
+  "measured": {
+    "surfaceAmbient": 0.16,
+    "lambertGain": 0.72,
+    "blinnExp": 16,
+    "blinnGain": 0.35,
+    "roughnessDefault": 0.35,
+    "clearcoatDefault": 0.42,
+    "roughnessEntersD": false,
+    "clearcoatIsSecondLobe": false,
+    "fresnel": false,
+    "smithG": false,
+    "energyConserved": false,
+    "metalness": 0,
+    "analyticLights": 3,
+    "envMap": false,
+    "svgQuads": 240,
+    "intensityOnly": true
+  },
+  "invariants": [
+    "Cage length. No remesh. No WebGL surface this receipt.",
+    "Intensity-only. Existing pearl/violet/cyan channels only.",
+    "metalness stays 0. Gel is dielectric. F0 ≈ 0.04.",
+    "roughness and clearcoat already bound — they must drive α, not opacity.",
+    "Three view-fixed lights. Room does not spin with him (CageLight tilt law).",
+    "FACE_CANON untouched.",
+    "Explore does not recut the painter.",
+    "SSS (if later) occupies diffuse. PBR occupies specular + coat."
+  ],
+  "failureModes": [
+    "Calling Blinn^16 PBR (live).",
+    "roughness as a dimmer (live).",
+    "Adding metallic and turning the pearl into chrome.",
+    "Skipping Fresnel so grazing stays matte.",
+    "Skipping (1−F) on diffuse so grazing is too bright.",
+    "IBL without an environment (invented sky).",
+    "WebGL overlay that fights FormMaster / bodyClip.",
+    "New hue for 'warm key'.",
+    "Confusing facets (display) with the BRDF (this wall)."
+  ],
+  "uncertainty": [
+    "Whether Disney retro-reflect diffuse is worth it vs Lambert*(1−F) on a dark pearl.",
+    "Coat roughness: fixed 0.1 vs a second slider. clearcoat today is an amount, not an α.",
+    "How much pearl binding should lift F0 (0.04 → ~0.06) vs staying a diffuse tint.",
+    "Whether per-vertex PBR on 240 quads still reads as facets until shade-is-facets is solved."
+  ],
+  "tests": [
+    "Energy: at n=L=V, raising roughness lowers peak spec and widens it. Integral of spec over the cage does not grow.",
+    "Fresnel: at grazing (n·V → 0) spec rises toward 1 even on a rough dielectric.",
+    "Metalness lock: metallic input ignored or clamped 0. Chrome is a fail.",
+    "Binding: roughness 0.1 vs 0.8 changes D, not a uniform opacity multiply.",
+    "Clearcoat: amount 0 is identical to one lobe. amount 1 adds a sharp second highlight.",
+    "Neutral / gain 0 → identity with current Lambert/Blinn if gated.",
+    "FACE_CANON eye span stays 72."
+  ],
+  "visualConsequences": [
+    "Tight roughness → a small moving glint. High roughness → a broad sheen. Today both are the same Blinn blob.",
+    "Grazing rim becomes Fresnel, not a third painted light only.",
+    "Clearcoat reads as gel skin over the pearl, not a brighter fill.",
+    "Turning him crawls the highlight on φ. The room stays put.",
+    "Facets remain until a later residual. The energy on each facet becomes lawful."
+  ],
+  "implementation": [
+    "Explore only. Do not recut the painter this receipt.",
+    "If Work: replace shadeNormal Blinn with GGX D + Smith G + Schlick F. α = roughness². F0 = 0.04. metalness = 0.",
+    "Diffuse: Lambert * (1−F). Or leave a slot for the SSS M from the subsurface-scattering packet.",
+    "Clearcoat: second GGX, α_coat = 0.1, F0_coat = 0.04, scaled by the existing clearcoat binding.",
+    "Delete roughnessResponse = 1−0.18r on the PBR path.",
+    "Keep three CageLight dirs. No IBL. No WebGL. No metallic slider.",
+    "Facet softening is shade-is-facets, not this packet."
+  ],
+  "citations": [
+    {
+      "id": "cook-torrance-1982",
+      "tier": "reference",
+      "source": "Cook & Torrance · A Reflectance Model for Computer Graphics (1982)",
+      "rule": "Microfacet specular. D G F / 4 nL nV."
+    },
+    {
+      "id": "walter-ggx-2007",
+      "tier": "reference",
+      "source": "Walter et al. · Microfacet Models for Refraction through Rough Surfaces (EGSR 2007)",
+      "rule": "GGX / Trowbridge–Reitz D. α controls tail."
+    },
+    {
+      "id": "burley-2012",
+      "tier": "reference",
+      "source": "Burley · Physically Based Shading at Disney (SIGGRAPH 2012)",
+      "rule": "Principled: roughness, metallic, sheen, clearcoat. α = roughness². Production on Wreck-It Ralph."
+    },
+    {
+      "id": "karis-2013",
+      "tier": "reference",
+      "source": "Karis · Real Shading in Unreal Engine 4 (SIGGRAPH 2013)",
+      "rule": "GGX + Smith + Schlick. Split-sum IBL. α = r². Dielectric F0 = 0.04."
+    },
+    {
+      "id": "gltf-2",
+      "tier": "reference",
+      "source": "Khronos glTF 2.0 metallic-roughness",
+      "rule": "Interchange dialect. baseColor + metallic + roughness. We keep metallic = 0."
+    },
+    {
+      "id": "sss-explore",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T23-31-00-000Z-explore-subsurface-scattering",
+      "rule": "BRDF is local. BSSRDF is the organism. PBR occupies specular; SSS occupies diffuse."
+    },
+    {
+      "id": "cage-light",
+      "tier": "canon",
+      "source": "CageLight.ts / SurfaceShader.ts",
+      "rule": "n̂ from the cage. Three view-fixed lights. Live evaluation is Lambert+Blinn."
+    },
+    {
+      "id": "d-0033",
+      "tier": "canon",
+      "source": "FormMaster intensity-only",
+      "rule": "No new hue. PBR writes intensity on existing channels."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T01-07-00-000Z-explore-pbr-shader",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T01:07:00.000Z"
+}

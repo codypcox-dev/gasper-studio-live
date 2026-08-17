@@ -1,0 +1,180 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "hex-lattice",
+    "domain": "scaffold-field",
+    "wall": "Live hexPapule is odd-r offset plus a Euclidean Gaussian in polar UV. Polar UV is not a hex plane. fu=8 misses odd-row vertices. Fine 18×11 does not tile the 25×40 cage."
+  },
+  "question": "What hex-lattice algorithms exist, which of them fit a locked 25×40 polar cylinder, and what is the lawful follicle kernel — not a new mesh?",
+  "coordinateSpaces": "Cage: ring×40+sector, 1000 verts. Polar UV: u=sector/40 wraps, v=ring/24 clamps. Offset odd-r: x=u·fu+(row&1)·½, y=v·fv. Axial (q,r). Cube (q,r,s) with q+r+s=0. Screen is shade-only. Zero field is +0.",
+  "physicalLaw": [
+    "Offset is layout. Axial is storage. Cube is arithmetic (Patel).",
+    "Hex distance d = max(|Δq|,|Δr|,|Δs|) = (|Δq|+|Δr|+|Δs|)/2.",
+    "A cylinder tiles with hex iff the period divides. A sphere cannot — Euler needs 12 pentagons.",
+    "Odd-r sites land on 40-sector vertices iff fu divides 20 (half-step is an integer sector).",
+    "P' = P + s n̂ on the same 1000. Topology does not grow."
+  ],
+  "artisticLaw": [
+    "Goose is coarse follicles, ~32 rounded mounds on the dermis. Fine is dual-lattice grain, not a second stipple.",
+    "Poles stay rest (dermisMask). Remeshing to a geodesic dome is a different body.",
+    "Isotropic in the hex metric, then polar-mapped. Do not fake isotropy in offset-UV Euclidean."
+  ],
+  "algorithms": [
+    {
+      "id": "odd-r-offset",
+      "name": "Odd-r pointy offset",
+      "what": "Rows = rings. Odd rows shoved +½.",
+      "have": "hexPapule + collectGoosePapules. Live.",
+      "lawful": true
+    },
+    {
+      "id": "cube-axial",
+      "name": "Cube / axial arithmetic",
+      "what": "Neighbors, rotate, cube_round, wrap q.",
+      "have": "Nothing.",
+      "lawful": true
+    },
+    {
+      "id": "hex-metric-gauss",
+      "name": "Gaussian in hex distance",
+      "what": "exp(−½ d_hex² / σ²) or Li √(q²+r²+qr).",
+      "have": "Euclidean dx²+dy² in offset. Anisotropic (1 : 1.118).",
+      "lawful": true
+    },
+    {
+      "id": "commensurate-tile",
+      "name": "Cage-commensurate frequency",
+      "what": "fu | 20 and fv | 24 so every site is a vertex.",
+      "have": "fu=8 (odd step 2.5). 16/32 sites off-vertex.",
+      "lawful": true
+    },
+    {
+      "id": "dual-grain",
+      "name": "Dual triangular fine octave",
+      "what": "Fine sites = vertices of the coarse hex.",
+      "have": "18×11 incommensurate (40%18=4). Field-only, still beats.",
+      "lawful": true
+    },
+    {
+      "id": "hex-voronoi",
+      "name": "Nearest-site basins",
+      "what": "Assign each of 1000 to nearest cube site.",
+      "have": "Nothing. Soft RBF is the paint.",
+      "lawful": "height only — not faces"
+    },
+    {
+      "id": "cube-wrap-q",
+      "name": "Cylinder wrap on q",
+      "what": "Period fu, wrap one axial axis.",
+      "have": "xAlt. Measured 0 real hits. Dead when fu is integer.",
+      "lawful": true
+    },
+    {
+      "id": "geodesic-goldberg",
+      "name": "Geodesic / Goldberg / HEALPix",
+      "what": "Hex a sphere + 12 pentagons.",
+      "have": "Nothing. Would remesh.",
+      "lawful": false
+    }
+  ],
+  "measured": {
+    "wrapRealHits": 0,
+    "wrapFloatDeltaMax": 5.27e-16,
+    "neighborAnisotropy": 1.118033988749895,
+    "fu8OnVertex": "16/32",
+    "fu10OnVertex": "40/40",
+    "fu5OnVertex": "20/20",
+    "fine18Miss": "128/128 off-vertex"
+  },
+  "invariants": [
+    "1000 length. No geodesic remesh.",
+    "Zero field is +0.",
+    "Explore does not recut the painter.",
+    "Fine is dual grain, not more circles.",
+    "Firewall. No 1920 SVG."
+  ],
+  "failureModes": [
+    "Treating offset-UV Euclidean as hex (live).",
+    "A frequency that does not divide 20 (live fu=8 odd rows).",
+    "A second incommensurate lattice as 'fine' (live 18×11).",
+    "Wrapping with x±fu when fu is integer (dead code, false safety).",
+    "Remeshing to Goldberg to 'fix' the poles.",
+    "Hex Voronoi meshed as faces (shatter, already killed)."
+  ],
+  "uncertainty": [
+    "Whether the owner wants retile (fu=10,fv=4) or only a hex-metric kernel on the current 8×5.",
+    "Whether Li continuous hex-Euclidean or discrete cube distance reads better as skin.",
+    "How much polar area shrink at v=0.3 still needs dermisMask after a true hex metric."
+  ],
+  "tests": [
+    "fu divides 20 ⇒ every collectGoosePapules site has u*40 integer.",
+    "hexPapule wrap: |dx−dxAlt| == 0 on all 1000 for integer fu.",
+    "Neighbor ratio in a hex-metric kernel is 1.0, not 1.118.",
+    "Fine site count is the dual of coarse (not 18×11).",
+    "DETAIL_TOPOLOGY.vertices.length === 1000 after any retile."
+  ],
+  "visualConsequences": [
+    "Commensurate hex: follicles sit on the cage. Odd rows stop drifting a half-sector.",
+    "Hex-metric kernel: mounds read round on the dermis, not stretched in v.",
+    "Dual grain: pores between mounds, no moiré from 18 vs 40.",
+    "Geodesic remesh: a different creature. Forbidden."
+  ],
+  "implementation": [
+    "Explore only. Do not recut hexPapule this receipt.",
+    "If Work: retile GOOSE_COARSE to fu∈{5,10}, fv∈{4,6}. Drop 18×11. Fine = dual vertices of that hex.",
+    "Replace Euclidean d² with cube distance or Li √(q²+r²+qr). Delete xAlt.",
+    "Keep dermisMask. Keep shade as rounded mounds at coarse sites. Keep rim on the same field.",
+    "Do not add HEALPix, Goldberg, or a second mesh."
+  ],
+  "citations": [
+    {
+      "id": "patel-hex",
+      "tier": "reference",
+      "source": "Red Blob Games · Hexagonal Grids (Amit Patel)",
+      "rule": "Offset is layout, axial is storage, cube is arithmetic. d = max(|Δq|,|Δr|,|Δs|)."
+    },
+    {
+      "id": "li-hex-euclid",
+      "tier": "reference",
+      "source": "Xiangguo Li · hex Euclidean via √(q²+r²+qr)",
+      "rule": "Continuous distance on axial hex is not offset-plane Euclidean."
+    },
+    {
+      "id": "euler-pentagons",
+      "tier": "axiom",
+      "source": "Euler characteristic on S² · Goldberg / geodesic",
+      "rule": "A closed sphere cannot be tiled with hexes alone. 12 pentagons. Do not remesh Gasper."
+    },
+    {
+      "id": "goose-follicle",
+      "tier": "canon",
+      "source": "2026-08-16T22-40-00-000Z-investigate-goose-follicle",
+      "rule": "The 1000 vertices ARE the skin. Hex lattice on the cage. No remesh."
+    },
+    {
+      "id": "goose-shade",
+      "tier": "canon",
+      "source": "2026-08-16T22-50-00-000Z-investigate-goose-follicle-shade",
+      "rule": "Shade is rounded mounds at coarse sites. Fine is field grain, not a second stipple."
+    },
+    {
+      "id": "mesh-stack",
+      "tier": "canon",
+      "source": "docs/triforce/canon/MESH-STACK.md",
+      "rule": "25×40 locked. C = Γ(L) + Σs_i. Topology never remeshes."
+    },
+    {
+      "id": "disp-fields",
+      "tier": "canon",
+      "source": "2026-08-16T21-08-00-000Z-explore-displacement-fields",
+      "rule": "One 1000-float buffer. Sparse RBF is lawful. Cellular faces are not."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T22-55-00-000Z-explore-hex-lattice",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T22:55:00.000Z"
+}

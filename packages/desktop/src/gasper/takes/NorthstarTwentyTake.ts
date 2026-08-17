@@ -1,0 +1,149 @@
+import { CINEMATIC_PAN_Y, CINEMATIC_ZOOM } from "../GasperViewportController";
+import { READABLE_THREE_QUARTER_DEG } from "../physics/RadialFacingLaw";
+import type { GasperTake } from "./GasperTake";
+
+/**
+ * Compiled Northstar 20s — relative intents, needs feet.
+ * Same beats as the scored law. Targets are offsets from bind origin.
+ */
+export const NORTHSTAR_TWENTY_TAKE_ID = "take-northstar-20s";
+
+export const NORTHSTAR_TWENTY_TAKE: GasperTake = Object.freeze({
+  schema: "gasper.take.v1",
+  id: NORTHSTAR_TWENTY_TAKE_ID,
+  name: "Northstar 20s",
+  durationSec: 20,
+  needs: "walker",
+  policy: "snap",
+  heading: "world",
+  setup: Object.freeze({
+    embodiment: "wispwalker",
+    eightStateLoop: false,
+    boo: false,
+    walkEnable: 0,
+    headingPinDeg: 0,
+    yaw: 8,
+    shot: Object.freeze({
+      zoom: CINEMATIC_ZOOM,
+      panX: 0,
+      panY: CINEMATIC_PAN_Y,
+    }),
+    life: false,
+    wander: false,
+  }),
+  headingWindows: Object.freeze([
+    Object.freeze({ until: 2.618, deg: 0 }),
+    Object.freeze({ until: 5.2, deg: -READABLE_THREE_QUARTER_DEG }),
+  ]),
+  beats: Object.freeze([
+    Object.freeze({
+      id: "strut-go",
+      at: 2.618,
+      actions: Object.freeze([
+        Object.freeze({
+          type: "runInPlace" as const,
+          cadenceHz: 2.6,
+          driveGain: 0.85,
+          compression: 0.08,
+          sustainUntil: 5.15,
+        }),
+        Object.freeze({ type: "walkEnable" as const, on: true }),
+      ]),
+    }),
+    Object.freeze({
+      id: "seat",
+      at: 5.2,
+      actions: Object.freeze([
+        Object.freeze({ type: "heading" as const, deg: -READABLE_THREE_QUARTER_DEG }),
+        Object.freeze({ type: "walkEnable" as const, on: false }),
+        Object.freeze({ type: "stay" as const, cruise: 1 }),
+      ]),
+    }),
+    Object.freeze({
+      id: "notice",
+      at: 6.6,
+      actions: Object.freeze([
+        Object.freeze({ type: "expression" as const, id: "listening-orient" }),
+        Object.freeze({ type: "relief" as const, preset: "none" }),
+      ]),
+    }),
+    Object.freeze({
+      id: "notice-release",
+      at: 8.8,
+      actions: Object.freeze([
+        Object.freeze({ type: "expression" as const, id: "neutral-settled" }),
+        Object.freeze({ type: "motion" as const, value: 0.55 }),
+      ]),
+    }),
+    Object.freeze({
+      id: "gather",
+      at: 9.2,
+      actions: Object.freeze([
+        Object.freeze({ type: "boo" as const, on: true }),
+        Object.freeze({ type: "walkEnable" as const, on: false }),
+        Object.freeze({ type: "physics" as const, launchPower: 1, intensity: 0.7 }),
+        Object.freeze({
+          type: "launchComet" as const,
+          gatherSeconds: 0.75,
+          vx: -560,
+          vy: 1180,
+        }),
+      ]),
+    }),
+    Object.freeze({
+      id: "zip1",
+      at: 10.0,
+      actions: Object.freeze([
+        Object.freeze({ type: "boo" as const, on: true }),
+        Object.freeze({ type: "heading" as const, deg: -28 }),
+        Object.freeze({ type: "standDownWander" as const }),
+        Object.freeze({
+          type: "lifeGoto" as const,
+          dx: 180,
+          dz: 120,
+          cruise: 380,
+          space: "origin" as const,
+        }),
+      ]),
+    }),
+    Object.freeze({
+      id: "zip2",
+      at: 13.2,
+      actions: Object.freeze([
+        Object.freeze({ type: "boo" as const, on: true }),
+        Object.freeze({
+          type: "lifeGoto" as const,
+          dx: 400,
+          dz: -40,
+          cruise: 220,
+          space: "origin" as const,
+        }),
+      ]),
+    }),
+    Object.freeze({
+      id: "land",
+      at: 15.6,
+      actions: Object.freeze([
+        Object.freeze({ type: "boo" as const, on: true }),
+        Object.freeze({ type: "walkEnable" as const, on: false }),
+        Object.freeze({ type: "land" as const }),
+        Object.freeze({ type: "stay" as const, cruise: 60 }),
+      ]),
+    }),
+    Object.freeze({
+      id: "hold",
+      at: 16.5,
+      actions: Object.freeze([
+        Object.freeze({ type: "boo" as const, on: true }),
+        Object.freeze({ type: "walkEnable" as const, on: false }),
+        Object.freeze({ type: "land" as const }),
+        Object.freeze({ type: "stay" as const, cruise: 1 }),
+      ]),
+    }),
+    Object.freeze({
+      id: "loop",
+      at: 20,
+      actions: Object.freeze([Object.freeze({ type: "loop" as const })]),
+    }),
+  ]),
+});

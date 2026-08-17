@@ -1,0 +1,180 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "anisotropic-reflections",
+    "domain": "material-light",
+    "wall": "Live GGX is isotropic. One α. Highlights are round. Stretch, gait, and the W do not streak the spec. Dual: isotropic-blob = stretched-fiber-highlight."
+  },
+  "question": "What is a lawful anisotropic reflection on a dielectric gel cage, where do T and B come from, and when must Gasper stay isotropic?",
+  "coordinateSpaces": "Cage φ: rings×sectors xyz. Tangent T = ∂P/∂u (sector, wraps). Bitangent B = ∂P/∂v (ring, clamps). n̂ = T×B. View V=(0,0,1). Lights L_k view-fixed. H = normalize(L+V). h_x=H·T, h_y=H·B, h_z=H·n. Intensity-only. FACE_CANON off this organ.",
+  "physicalLaw": [
+    "Isotropic D(h) depends only on n·h. Anisotropic D depends on the azimuth of h in the tangent frame: different α along T vs B.",
+    "Disney / Burley 2012 anisotropic GGX (GTR2): aspect = √(1−0.9 a), αx = r²/aspect, αy = r²·aspect. D = (1/(π αx αy)) · 1 / ((hx/αx)² + (hy/αy)² + hz²)².",
+    "Smith G must use the same αx, αy (Heitz 2014). Mixing isotropic G with anisotropic D leaks energy.",
+    "Ashikhmin–Shirley 2000: anisotropic Phong + Fresnel-weighted diffuse. Ancestor. Disney replaced D with GGX for the long tail.",
+    "Ward: older Gaussian ellipse. Not the production close.",
+    "Kajiya–Kay / Chiang hair: longitudinal/azimuthal lobes for fibers. Wrong material. Gasper is gel, not hair.",
+    "Heitz stretch: a stretched surface inherits anisotropy from the 2D Jacobian of φ. Rest isotropic + stretch → live anisotropic. That is the organism, not a slider.",
+    "Pole of a polar cage: T vanishes at v=0. Aniso must clamp to 0 near the pole or T is noise."
+  ],
+  "artisticLaw": [
+    "Rest pearl is isotropic. Round glint. Aniso at rest is a fail.",
+    "Stretch (W legs, run, pinch, paddle handle) may streak along the stretch, not along a painted KEY_ANCHOR.",
+    "Intensity-only. No new hue. metalness stays 0. F0 = 0.04.",
+    "Clearcoat stays isotropic (gel skin). Base lobe may aniso. Two lobes, two laws.",
+    "FACE_CANON untouched. Face is not a brushed plate.",
+    "Explore does not recut the painter."
+  ],
+  "algorithms": [
+    {
+      "id": "iso-ggx",
+      "name": "Live isotropic GGX",
+      "what": "One α = r². Round D.",
+      "have": "SurfaceShader.shadeNormal",
+      "lawful": "the rest case"
+    },
+    {
+      "id": "disney-aniso-ggx",
+      "name": "Disney anisotropic GGX + Smith",
+      "what": "αx, αy from roughness + anisotropic. T,B from cage.",
+      "have": "T,B already computed for n̂. Not fed to D.",
+      "lawful": true
+    },
+    {
+      "id": "heitz-stretch",
+      "name": "Anisotropy from φ Jacobian",
+      "what": "a from live/rest edge-length ratio along T vs B.",
+      "have": "restXY / liveXY / liveXYZ. Not wired to shade.",
+      "lawful": "the Gasper source of a"
+    },
+    {
+      "id": "ashikhmin-shirley",
+      "name": "Anisotropic Phong 2000",
+      "what": "Two exponents. Energy-aware diffuse.",
+      "have": "Nothing.",
+      "lawful": "ancestor, not the close"
+    },
+    {
+      "id": "kajiya-kay",
+      "name": "Hair / fiber lobe",
+      "what": "Highlight rings around a strand.",
+      "have": "Nothing.",
+      "lawful": false
+    },
+    {
+      "id": "painted-key-ribbon",
+      "name": "KEY_ANCHORS white slash",
+      "what": "Fixed-θ ribbon. Looked anisotropic. Was glue.",
+      "have": "Muted this turn.",
+      "lawful": false
+    }
+  ],
+  "measured": {
+    "isoGgxLive": true,
+    "anisoGgxLive": false,
+    "tangentsComputed": true,
+    "tangentsFedToD": false,
+    "stretchDrivesAniso": false,
+    "clearcoatIsotropic": true,
+    "poleGuard": false,
+    "hairModel": false,
+    "hardKeyRibbon": "muted",
+    "anisotropicBinding": false
+  },
+  "invariants": [
+    "T,B from φ, not from screen or a painted angle.",
+    "Rest: αx = αy. Aniso 0.",
+    "Coat lobe stays isotropic.",
+    "Pole v→0: aniso→0.",
+    "metalness 0. F0 0.04. Intensity-only.",
+    "FACE_CANON untouched.",
+    "Explore does not recut the painter.",
+    "No hair BSDF."
+  ],
+  "failureModes": [
+    "Calling a round GGX highlight anisotropic (live).",
+    "Painting a slash at KEY_ANCHORS and naming it stretch (prior).",
+    "Screen-space T (idleRig rotate) — highlights glue again.",
+    "Hair model on gel.",
+    "Aniso at rest (brushed bowling ball).",
+    "Aniso on the face plate.",
+    "Isotropic Smith with anisotropic D.",
+    "A slider named anisotropic that ignores φ stretch."
+  ],
+  "uncertainty": [
+    "How much W-leg stretch should streak before it reads as plastic hair.",
+    "Whether aniso lives only on the base lobe, or a tiny coat aniso when the gel is pulled.",
+    "Hex-metric T vs polar T after LOD refine.",
+    "Whether artist anisotropic is ever needed on top of stretch-derived a."
+  ],
+  "tests": [
+    "Rest pearl: αx=αy. Rotating yaw keeps the glint round.",
+    "Stretch T 2×: highlight elongates along T. Peak drops.",
+    "Pole: v<0.08 aniso == 0 even if the body is stretched.",
+    "Coat-only (base spec 0): highlight stays round.",
+    "T,B orthonormal after n rebuild. n·T = n·B = 0.",
+    "FACE_CANON eye span stays 72.",
+    "No KEY_ANCHORS opacity > 0."
+  ],
+  "visualConsequences": [
+    "Rest: a round crawling glint. Same as now, if aniso=0.",
+    "Run / W: spec streaks along the pulled meridians, not a parked brow slash.",
+    "Paddle handle: a thin highlight along the shaft.",
+    "Pinch: a short streak across the waist.",
+    "Turntable: the streak rides φ, not the screen."
+  ],
+  "implementation": [
+    "Explore only. Do not recut the painter this receipt.",
+    "If Work: keep isotropic GGX as the a=0 path (byte-identical).",
+    "Build T=normalize(∂P/∂u), B=normalize(n×T) from the same stencil as n̂.",
+    "a from stretch: a = saturate( |ℓ_T / ℓ_T0 − ℓ_B / ℓ_B0| ). Rest → 0.",
+    "Disney αx, αy. Aniso D + matching Smith. Coat stays iso.",
+    "Clamp a=0 for v < 0.08.",
+    "Do not revive KEY_ANCHORS. Do not add a hair BSDF. Do not add metallic."
+  ],
+  "citations": [
+    {
+      "id": "burley-2012",
+      "tier": "reference",
+      "source": "Burley · Physically Based Shading at Disney (SIGGRAPH 2012)",
+      "rule": "Anisotropic GTR2. aspect, αx, αy. Production principled."
+    },
+    {
+      "id": "heitz-2014",
+      "tier": "reference",
+      "source": "Heitz · Understanding the Masking-Shadowing Function in Microfacet-Based BRDFs (JCGT 2014)",
+      "rule": "Smith G must match D. Stretch of a microsurface induces anisotropy."
+    },
+    {
+      "id": "ashikhmin-shirley-2000",
+      "tier": "reference",
+      "source": "Ashikhmin & Shirley · An Anisotropic Phong BRDF Model (2000)",
+      "rule": "Two-exponent specular + energy-aware diffuse. Ancestor."
+    },
+    {
+      "id": "walter-ggx-2007",
+      "tier": "reference",
+      "source": "Walter et al. · EGSR 2007",
+      "rule": "Isotropic GGX. The a=0 reduction of the aniso D."
+    },
+    {
+      "id": "pbr-explore",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T01-07-00-000Z-explore-pbr-shader",
+      "rule": "Cook–Torrance stack. metalness 0. Coat is a second lobe. This packet extends D."
+    },
+    {
+      "id": "cage-tangents",
+      "tier": "canon",
+      "source": "SurfaceShader.vertexNormal / CageLight",
+      "rule": "∂P/∂u and ∂P/∂v already exist. They build n̂. They do not yet build D."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T01-16-00-000Z-explore-anisotropic-reflections",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T01:16:00.000Z"
+}

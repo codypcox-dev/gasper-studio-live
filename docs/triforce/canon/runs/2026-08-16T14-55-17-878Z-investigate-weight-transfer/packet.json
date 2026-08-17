@@ -1,0 +1,133 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "weight-transfer",
+    "domain": "anim-physics",
+    "wall": "Kernel supportSide flips. Picture both-down. Weight transfer unearned on the pearl."
+  },
+  "question": "What PHD must be earned so the wall can be fixed inside canon only: Kernel supportSide flips. Picture both-down. Weight transfer unearned on the pearl.",
+  "coordinateSpaces": "World u. Planted world (x,z). Screen plant = plantedScreenXUnits. GAIT_LOBE: swing 544 u, drop 192 u, settle 288 u. Live 20s strut: stepHz 1.43, supportSide ±1, plantedX 16–26 u, squash ≈0.",
+  "physicalLaw": [
+    "Weight transfer is plant-hinge + COM pay + free limb land + old support release.",
+    "SupportExchange is the organ. skateUnits of a held plant ≈ 0. plantedCompress mid-stance. incomingCompress on the free side.",
+    "gaitLobePose already derives the paint. Clearance 0 in double support (exchangeHold 0.35).",
+    "At strut 200 the vault cannot carry the read (~4 u). Transfer must be lobe contrast and lean, not bob height."
+  ],
+  "artisticLaw": [
+    "One pearl. Lower-contour only. No shoes. No opacity vanish.",
+    "COM payment stranger-visible at zoom-2 as settle/lean, not as a hop.",
+    "walkEnable form-coeff is a second walk. It must not flatten SupportExchange contrast."
+  ],
+  "invariants": [
+    "No _plantHoldX on body.x. No second travel writer. No cruise raise.",
+    "Do not restore gait8 smear or 118 px arch.",
+    "Do not recut 20s beats until a 6s walk shows plant vs swing."
+  ],
+  "failureModes": [
+    "supportSide live, both lobes grounded (measured 2026-08-16).",
+    "Seat kills gait (stepHz 0, plantedX 0) — freeze, not last exchange.",
+    "Form walkEnable fighting physics lobes."
+  ],
+  "uncertainty": [
+    "Whether gaitLobePose returned 0 or the painter dropped it is owned by skate-no-swing."
+  ],
+  "tests": [
+    "Strut 200: supportSide alternates; stranger counts ≥2 plants.",
+    "skateUnits held plant ≈ 0.",
+    "Seat keeps one exchange; does not zero plantedX on the first arrived frame."
+  ],
+  "visualConsequences": [
+    "One foot carries him. One foot free. Whole pearl settles. Not a two-lobed puck."
+  ],
+  "implementation": [
+    "Packet only. The cut is skate-no-swing (paint path), not new GaitLaw amplitudes.",
+    "After skate-no-swing paints lift: re-watch 6s only (N258). Then 20s."
+  ],
+  "citations": [
+    {
+      "id": "codeops-engine/proc-phys-048",
+      "tier": "canon",
+      "source": "TriForce corpus · inverted pendulum + Froude number",
+      "rule": "Normalize locomotion by Fr = v²/(g·l); walk cannot be judged if the plant is off-frame."
+    },
+    {
+      "id": "vfxops-engine/3danim-state-locomotion",
+      "tier": "canon",
+      "source": "TriForce corpus · Williams walk contact/passing",
+      "rule": "A gait is its footfall rhythm. One foot planted, one free. Shot must show both lobes."
+    },
+    {
+      "id": "gait-expression-phd-memo",
+      "tier": "canon",
+      "source": "research/canon/anim-physics/gait-expression-phd-memo.md L8/L9",
+      "rule": "Phase is travel, never clock. Expression is illegal if it cannot be reviewed."
+    },
+    {
+      "id": "d-0099-doctrine-1",
+      "tier": "canon",
+      "source": "GASPER-CRAFT-002 · S3 / CraftRail D-0107",
+      "rule": "The monitor never moves during a performance. shotBias is retired as a live camera dial. A framing return is a DEPTH offset or a one-time authored hold."
+    },
+    {
+      "id": "n334-opening-rest",
+      "tier": "canon",
+      "source": "NORTHSTAR N334 · GasperStudioApp boot",
+      "rule": "Bare 5179 is sealed Wispwalker rest. Wander and life stay down until an owned walk-review shot opens the wander gate."
+    },
+    {
+      "id": "gait-law-x1-walk-band",
+      "tier": "canon",
+      "source": "GaitLaw.ts · X1 stride × φ Hz",
+      "rule": "Grounded stroll is 918·φ ≈ 1485 u/s. The 2610/3200 Froude band is flight terminal-v, not a walk."
+    },
+    {
+      "id": "world-physics-field-g",
+      "tier": "canon",
+      "source": "PhysicsField.ts · worldPhysicsParamsFromField + WorldPhysics.ts",
+      "rule": "Live g/μ/maxSpeed come from the field. The World rail only multiplies gravity, restitution, launch, intensity."
+    },
+    {
+      "id": "n35-monitor-glass",
+      "tier": "canon",
+      "source": "WorldSpace.ts zNear · owner N35",
+      "rule": "He may approach only to +20% size (z=-320). The monitor does not pull back."
+    },
+    {
+      "id": "support-exchange-plant",
+      "tier": "canon",
+      "source": "SupportExchange.ts · planted-base sample-and-hold",
+      "rule": "The planted foot is world-space sample-and-hold. Mass shifts onto that support. Travel is the support carrier, not a root slide."
+    },
+    {
+      "id": "gait-lobe-n305",
+      "tier": "canon",
+      "source": "GaitLaw.ts GAIT_LOBE · N305–N310",
+      "rule": "One existing lobe lifts (~68 px) with cleft held. Loaded drops. COM settles. No shoes. No second travel writer."
+    },
+    {
+      "id": "williams-contact-passing",
+      "tier": "reference",
+      "source": "Williams · The Animator's Survival Kit · walk contact/passing",
+      "rule": "A walk is contact and passing. One foot planted, one free. Both down for the whole stride is a skate."
+    },
+    {
+      "id": "inverted-pendulum-vault",
+      "tier": "reference",
+      "source": "Cavagna / Kuo / Adamczyk · COM vault + step-to-step transition",
+      "rule": "Single support is an inverted pendulum: COM rides an arc over the plant. Double support is a collision, not a vault. IP models do not simulate the exchange."
+    },
+    {
+      "id": "alexander-froude-walk",
+      "tier": "reference",
+      "source": "Alexander · Fr = v²/(g L) dynamic similarity",
+      "rule": "Same Fr ⇒ same gait class. Comfortable walk ≈ 0.15–0.35. Walk–run ≈ 0.5. Fr does not set screen stride."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T14-55-17-878Z-investigate-weight-transfer",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T14:55:17.880Z"
+}

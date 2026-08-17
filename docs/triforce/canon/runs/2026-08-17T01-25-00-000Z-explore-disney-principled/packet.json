@@ -1,0 +1,207 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "disney-principled",
+    "domain": "material-light",
+    "wall": "Material knobs are a dimmer stack (roughness, clearcoat, pearl, absorption, key) that do not speak one dialect. Dual: dimmer-stack = principled-layer-stack."
+  },
+  "question": "What is the Disney Principled BRDF/BSDF as a complete dialect, which layers are lawful on Gasper’s dielectric gel cage, and how do prior PBR / SSS / aniso packets sit inside it?",
+  "coordinateSpaces": "Cage φ, view-fixed lights, intensity-only (D-0033). FACE_CANON off this organ. Parameters are unitless [0,1] except IOR. Energy: each layer’s integral is bounded; layers add, they do not multiply opacity.",
+  "physicalLaw": [
+    "Principled = one artist dialect over Cook–Torrance + a designed diffuse. Not a new physics. Burley 2012 BRDF, Burley 2015 BSDF.",
+    "Disney 2012 knobs: baseColor, subsurface, metallic, specular, specularTint, roughness, anisotropic, sheen, sheenTint, clearcoat, clearcoatGloss.",
+    "Disney 2015 adds: specTrans, scatterDistance, ior, thin. Subsurface becomes a real BSSRDF slot (normalized diffusion).",
+    "Diffuse (Burley): fd = (base/π) (1+(F90−1)(1−nL)⁵)(1+(F90−1)(1−nV)⁵), F90 = 0.5 + 2 r (h·L)². Retro-reflect at grazing. Not Lambert.",
+    "Specular: GTR2 / anisotropic GGX. α = r². F0 from specular knob: F0 = 0.08·specular²  (0.5 → 0.02; Disney later ~0.04 at 0.5). Dielectric.",
+    "Metallic: lerp to a model with no diffuse and F0 = baseColor. Gasper metallic = 0 always.",
+    "Clearcoat: second GTR lobe, F0=0.04, α_coat from clearcoatGloss (1 → α≈0.1). Amount = clearcoat.",
+    "Sheen: grazing cloth term. Not energy-primary. Gel does not need it at rest.",
+    "Subsurface knob in 2012 is a *shape* mix, not transport. 2015 scatterDistance is the real ld. Our SSS Explore is the 2015 slot.",
+    "Anisotropic: aspect = √(1−0.9a), αx=r²/aspect, αy=r²·aspect. Our aniso Explore is this knob, sourced from φ stretch.",
+    "Energy: layers add. Roughness never multiplies opacity. A dimmer is not a BRDF."
+  ],
+  "artisticLaw": [
+    "Dark pearl. Intensity-only. No new hue. No chrome.",
+    "specularTint and sheenTint are hue. Forbidden (D-0033).",
+    "metallic locked 0. specTrans 0 (opaque gel).",
+    "Rest: anisotropic 0. Coat is the gel skin. Face off this organ.",
+    "Existing bindings keep their names. They must *mean* Disney, not scale opacity.",
+    "Explore does not recut the painter."
+  ],
+  "algorithms": [
+    {
+      "id": "dimmer-stack",
+      "name": "Live opacity multiplies",
+      "what": "roughnessResponse=1−0.18r. pearl/absorption/key scale fills.",
+      "have": "applyCanonicalProjection + CANONICAL_MATERIAL_DEFAULTS",
+      "lawful": false
+    },
+    {
+      "id": "partial-ggx",
+      "name": "Live isotropic GGX + coat",
+      "what": "α=r², F0=0.04, coat α=0.1. Lambert*(1−F).",
+      "have": "SurfaceShader",
+      "lawful": "a fragment of the dialect"
+    },
+    {
+      "id": "disney-2012",
+      "name": "Principled BRDF",
+      "what": "11 knobs. MERL-fit. Wreck-It Ralph.",
+      "have": "roughness, clearcoat bound. Evaluation incomplete.",
+      "lawful": "the dialect"
+    },
+    {
+      "id": "disney-2015",
+      "name": "Principled BSDF + SSS",
+      "what": "Normalized diffusion. scatterDistance. thin.",
+      "have": "SSS Explore packet only.",
+      "lawful": "the volume slot"
+    },
+    {
+      "id": "gltf-mr",
+      "name": "glTF metallic-roughness",
+      "what": "Subset: baseColor, metallic, roughness.",
+      "have": "roughness only.",
+      "lawful": "interchange subset. metallic unused."
+    },
+    {
+      "id": "blender-principled",
+      "name": "Blender Principled BSDF",
+      "what": "Disney + IOR + transmission + emission.",
+      "have": "Nothing.",
+      "lawful": "too wide. No emission, no glass."
+    }
+  ],
+  "measured": {
+    "roughnessBinding": 0.35,
+    "clearcoatBinding": 0.42,
+    "pearlBinding": 0.72,
+    "absorptionBinding": 0.18,
+    "specularBinding": false,
+    "clearcoatGlossBinding": false,
+    "sheenBinding": false,
+    "anisotropicBinding": false,
+    "metallicLocked": 0,
+    "disneyDiffuse": false,
+    "lambertYieldsToFresnel": true,
+    "sssLive": false,
+    "anisoLive": false,
+    "hueTints": false
+  },
+  "dialectMap": [
+    { "disney": "baseColor", "gasper": "pearl (intensity on existing violet/cyan)", "status": "artistic remap", "lawful": true },
+    { "disney": "subsurface / scatterDistance", "gasper": "SSS Explore → cyan/pearl M", "status": "packet only", "lawful": true },
+    { "disney": "metallic", "gasper": "locked 0", "status": "no control", "lawful": true },
+    { "disney": "specular", "gasper": "missing. F0 hard 0.04", "status": "optional later", "lawful": true },
+    { "disney": "specularTint", "gasper": "forbidden", "status": "D-0033", "lawful": false },
+    { "disney": "roughness", "gasper": "bound 0.35. now α=r²", "status": "live fragment", "lawful": true },
+    { "disney": "anisotropic", "gasper": "from φ stretch (aniso Explore)", "status": "packet only", "lawful": true },
+    { "disney": "sheen / sheenTint", "gasper": "not gel. tint forbidden", "status": "omit", "lawful": false },
+    { "disney": "clearcoat", "gasper": "bound 0.42. second lobe", "status": "live fragment", "lawful": true },
+    { "disney": "clearcoatGloss", "gasper": "missing. α_coat fixed 0.1", "status": "optional", "lawful": true },
+    { "disney": "specTrans", "gasper": "0. opaque", "status": "no control", "lawful": true },
+    { "disney": "ior", "gasper": "1.5 → F0 0.04", "status": "implicit", "lawful": true },
+    { "disney": "thin", "gasper": "W legs / multipole", "status": "SSS packet", "lawful": true }
+  ],
+  "invariants": [
+    "One dialect. Knobs enter layers, not opacity.",
+    "metallic = 0. specTrans = 0. No hue tints.",
+    "a=0 rest. Coat isotropic. Face off this organ.",
+    "SSS occupies diffuse when live. Do not run Lambert and SSS.",
+    "Aniso from φ stretch, not a rest slider.",
+    "Intensity-only. 1000 (or LOD) stays the shade domain.",
+    "Explore does not recut the painter."
+  ],
+  "failureModes": [
+    "Calling the dimmer stack Principled (live).",
+    "Adding metallic and chrome-washing the pearl.",
+    "specularTint / sheenTint (new hue).",
+    "Sheen as a parked rim ribbon.",
+    "2012 subsurface mix instead of 2015 BSSRDF.",
+    "Blender kitchen-sink: emission, glass, alpha.",
+    "A second material UI that does not bind to this dialect.",
+    "Multiplying layers as opacities."
+  ],
+  "uncertainty": [
+    "Whether Burley diffuse (retro) reads on a dark pearl vs Lambert*(1−F).",
+    "Whether specular (F0 scale) is worth a knob or stays 0.5 / 0.04.",
+    "Whether clearcoatGloss needs a slider or stays 0.1.",
+    "How much pearl should tint *diffuse* vs stay a volume (SSS) color."
+  ],
+  "tests": [
+    "roughness 0.1 vs 0.8 changes D, not a uniform opacity multiply.",
+    "clearcoat 0 ≡ one lobe. clearcoat 1 adds a sharp second peak.",
+    "metallic input ignored / clamped 0.",
+    "Rest: anisotropic 0. Glint round.",
+    "Disney diffuse optional: if on, grazing retro > Lambert; if off, Lambert*(1−F).",
+    "SSS gain 0 + aniso 0 + coat 0 → identity with current GGX path.",
+    "FACE_CANON eye span 72. No new hue in computed fills."
+  ],
+  "visualConsequences": [
+    "Same Gasper, one material language. Dials do what Disney artists expect.",
+    "Roughness = highlight width. Clearcoat = gel skin. Pearl = volume, not a brighter fill.",
+    "Absorption becomes σa / scatterDistance, not a dimmer.",
+    "Stretch streaks spec (aniso packet). Thin W transmits (SSS packet).",
+    "No chrome. No cloth sheen. No painted slash."
+  ],
+  "implementation": [
+    "Explore only. Do not recut the painter this receipt.",
+    "If Work: adopt Disney as the *name* of the live stack. Do not add every knob.",
+    "Lawful live set: roughness → α, clearcoat → coat amount, pearl → diffuse/volume intensity, absorption → σa when SSS lands.",
+    "Keep metallic 0, specTrans 0, no tints, no sheen, no emission.",
+    "Optional next: Burley diffuse replace Lambert*(1−F); clearcoatGloss; specular as F0 scale.",
+    "Aniso and SSS stay their packets. They plug into this dialect. They are not a second material.",
+    "Delete 1−0.18r and any opacity-as-material remaining on this path."
+  ],
+  "citations": [
+    {
+      "id": "burley-2012",
+      "tier": "reference",
+      "source": "Burley · Physically Based Shading at Disney (SIGGRAPH 2012)",
+      "rule": "11 knobs. GTR2. Clearcoat. Sheen. MERL. Wreck-It Ralph. “Principled.”"
+    },
+    {
+      "id": "burley-2015",
+      "tier": "reference",
+      "source": "Burley · Extending the Disney BRDF to a BSDF with Integrated SSS (SIGGRAPH 2015)",
+      "rule": "Normalized diffusion. scatterDistance. thin. The volume slot."
+    },
+    {
+      "id": "pbr-explore",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T01-07-00-000Z-explore-pbr-shader",
+      "rule": "Cook–Torrance GGX + Smith + Schlick. This packet is the dialect around that law."
+    },
+    {
+      "id": "sss-explore",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T23-31-00-000Z-explore-subsurface-scattering",
+      "rule": "2015 subsurface slot. BSSRDF replaces 2012 fake mix."
+    },
+    {
+      "id": "aniso-explore",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T01-16-00-000Z-explore-anisotropic-reflections",
+      "rule": "Disney anisotropic knob. Sourced from φ stretch."
+    },
+    {
+      "id": "binding-matrix",
+      "tier": "canon",
+      "source": "packages/desktop/src/gasper/BINDING_MATRIX.md",
+      "rule": "roughness 0.35, clearcoat 0.4, pearl, absorption already named. They must mean layers."
+    },
+    {
+      "id": "d-0033",
+      "tier": "canon",
+      "source": "FormMaster intensity-only",
+      "rule": "No specularTint. No sheenTint. No metallic hue."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T01-25-00-000Z-explore-disney-principled",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T01:25:00.000Z"
+}

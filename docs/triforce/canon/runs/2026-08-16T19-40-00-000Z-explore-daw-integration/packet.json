@@ -1,0 +1,168 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "daw-integration",
+    "domain": "instrument-transport",
+    "wall": "Five products hide under “DAW integration.” Gasper already has a session/arrangement law and one organism clock. It has no wire."
+  },
+  "question": "What custom DAW integrations are lawful for a browser studio whose clock is VEC-401 and whose score is portable takes?",
+  "coordinateSpaces": "Musical: bars.beats, MIDI clock 24 PPQN, Link quantum (usually 4 beats), MTC (SMPTE). Gasper: VEC-401 organism ms. Take: local t, relative COM. Skin: 1000-field 0..1. Do not treat 60 fps as 120 bpm.",
+  "physicalLaw": [
+    "One clock writer. VEC-401 owns dispatch. An external tempo may feed it. It may not install a second ticker (GSAP, MIDI, rAF) beside it.",
+    "One physics writer. A CC that writes plant τ or contour samples is a second body.",
+    "Takes are relative. A DAW bar-1 must not snap world x to a desktop number."
+  ],
+  "artisticLaw": [
+    "Session is clip launch. Arrangement is the scored take. That is the Ableton dual already in INSTRUMENT-HANDOFF.",
+    "A picker and a shelf, not a plugin face of 80 automatable knobs.",
+    "He is the instrument. Ableton is a conductor or a library, not his body."
+  ],
+  "options": [
+    {
+      "id": "session-is-the-daw",
+      "name": "Gasper as the DAW",
+      "what": "Session strip launches takes. Arrangement is the existing timeline when a take is open.",
+      "have": "INSTRUMENT-HANDOFF §1. Northstar 20s. playAuthoredTake. Lumen Mixer.",
+      "missing": "The strip itself. Empty clip slots.",
+      "risk": "low",
+      "lawful": true
+    },
+    {
+      "id": "osc-launch",
+      "name": "OSC / WebSocket launch",
+      "what": "/gasper/take/{id} fire, /gasper/skin/{neutral|puff|goose}, /gasper/state/{eight}. Max for Live or Bitwig Grid as the custom device.",
+      "have": "Named takes and Skin takes. No socket.",
+      "missing": "One-page OSC map + local WS.",
+      "risk": "low",
+      "lawful": true
+    },
+    {
+      "id": "webmidi-notes",
+      "name": "Web MIDI clip notes",
+      "what": "Note-on launches a shelf take. Channel 1 notes 60+ map to named clips. Browser-native.",
+      "have": "No Web MIDI.",
+      "missing": "Map table + permission UX.",
+      "risk": "low",
+      "lawful": true
+    },
+    {
+      "id": "named-cc",
+      "name": "Named-organ CC / OSC",
+      "what": "CC 1 pressure, CC 2 coupling, CC 3 relief. Only organs that already exist on Skin.",
+      "have": "__GASPER_SCAFFOLD_AUTHORITY__.",
+      "missing": "Map + learn.",
+      "risk": "medium — becomes slider-dump-by-cable if gait numbers are mapped",
+      "lawful": true
+    },
+    {
+      "id": "clock-follow",
+      "name": "Tempo follow",
+      "what": "MIDI clock or Ableton Link quantum sampled by VEC-401. Transport start/stop = take play/stop.",
+      "have": "VEC-401, audioBindingWindowMs stub, clockPacket label.",
+      "missing": "A follower, not a second clock. Link is UDP/native — sidecar, not in-page.",
+      "risk": "high if a second ticker is installed",
+      "lawful": true
+    },
+    {
+      "id": "audio-listen",
+      "name": "Audio-reactive listen",
+      "what": "FFT / onset → energy or Skin pressure. Not sync. A listener.",
+      "have": "audioBindingWindowMs, unified audio packet labels.",
+      "missing": "An analyser that does not write contour.",
+      "risk": "medium — energy as glow already rejected once",
+      "lawful": true
+    },
+    {
+      "id": "vst-sidecar",
+      "name": "VST3 / AU / ReWire host",
+      "what": "Gasper as a plugin face inside Live/Logic.",
+      "have": "Nothing. Preview is a browser.",
+      "missing": "A native host. Out of this deploy.",
+      "risk": "fatal here",
+      "lawful": false
+    },
+    {
+      "id": "otio-export",
+      "name": "OTIO / AAF interchange",
+      "what": "Export arrangement as clips for an NLE/DAW. Offline.",
+      "have": "Takes + playheadMs.",
+      "missing": "An exporter.",
+      "risk": "low, not live",
+      "lawful": true
+    }
+  ],
+  "invariants": [
+    "VEC-401 remains the only dispatch clock.",
+    "512 / 360 / 672 / 1000 counts do not change because a note fired.",
+    "Firewall stays. No 1920 SVG from a CC.",
+    "Explore does not recut gait or chrome."
+  ],
+  "failureModes": [
+    "MIDI clock + rAF + GSAP all advancing him (skate, the opening shake again).",
+    "CC mapped to plant τ / contour chew (cable slider dump).",
+    "Bar 1 of Live teleports world x.",
+    "Shipping a VST into this preview and calling the blank page a DAW.",
+    "Calling the Mixer a DAW because it has a timeline."
+  ],
+  "uncertainty": [
+    "Whether the owner means ‘make Gasper the DAW’ or ‘talk to my Ableton.’ Those are options 1 and 2–5.",
+    "Link-in-browser quality. Most Link stacks are native UDP."
+  ],
+  "tests": [
+    "No second requestAnimationFrame loop is added for tempo.",
+    "A launch message only calls playAuthoredTake / applySkinTake.",
+    "Neutral MIDI/OSC restores +0 field.",
+    "Unplugging MIDI does not freeze VEC-401."
+  ],
+  "visualConsequences": [
+    "Session strip reads as a clip grid. Not a preference pane.",
+    "When Live launches Goose, the pearl pebbles. When it launches Neutral, rest.",
+    "Clock follow makes Walk sit on the kick. It must not make the camera nod."
+  ],
+  "implementation": [
+    "Do not write a VST.",
+    "Do not install Link inside the painter.",
+    "First lawful wire, if Work is approved: OSC + Web MIDI launch of named takes and Skin takes. One map page.",
+    "Clock follow is second. Follower into VEC-401 only.",
+    "Session strip is the in-app DAW. That is already the handoff. It is not this Explore’s cut unless asked."
+  ],
+  "citations": [
+    {
+      "id": "handoff-session",
+      "tier": "canon",
+      "source": "docs/designops/INSTRUMENT-HANDOFF.md Session vs Arrangement",
+      "rule": "Ableton dual is already the instrument law. Clip grid to play; timeline to score."
+    },
+    {
+      "id": "vec-401",
+      "tier": "canon",
+      "source": "GasperOrganismClock.ts ORGANISM_CLOCK_PACKET VEC-401",
+      "rule": "Consumers never install, start, pause, seed, or retime the clock."
+    },
+    {
+      "id": "ableton-link",
+      "tier": "reference",
+      "source": "Ableton Link — beat, tempo, phase over the network; MIDI Clock 24 PPQN as the fallback",
+      "rule": "Sync is tempo and phase, not a second body."
+    },
+    {
+      "id": "resolume-osc",
+      "tier": "reference",
+      "source": "Resolume + Max for Live OSC clip launch",
+      "rule": "Custom DAW integration that works is launch + clock, not a remesh."
+    },
+    {
+      "id": "webmidi-visuals",
+      "tier": "reference",
+      "source": "Browser Web MIDI note-on → clip/visual launch",
+      "rule": "The browser can be a Session peer without a plugin."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T19-40-00-000Z-explore-daw-integration",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T19:40:00.000Z"
+}

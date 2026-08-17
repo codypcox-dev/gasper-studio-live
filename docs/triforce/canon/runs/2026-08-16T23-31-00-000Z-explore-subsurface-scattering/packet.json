@@ -1,0 +1,183 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "subsurface-scattering",
+    "domain": "material-light",
+    "wall": "Cyan reservoir, inner volume, three subsurface bands, and absorption are authored looks. Light that enters a follicle or the key cheek does not travel and exit elsewhere. Dual: painted-volume = scattering."
+  },
+  "question": "What is the physical law of subsurface scattering, which approximations are lawful on a locked 25×40 vector cage, and how does that replace Gasper's painted pearl volume without a path tracer?",
+  "coordinateSpaces": "Cage: 25×40 rest-radial, 1000 verts. Polar UV u=sector/40 wraps, v=ring/24 clamps. Screen is shade only. Thickness is the 512 silhouette radius at that u, not a 3D mesh. Zero field is +0. Intensity-only (D-0033).",
+  "physicalLaw": [
+    "RTE: ω·∇L = −σt L + σs ∫ p(ω′,ω) L dω′ + Q. σt = σs + σa. Reduced σs′ = σs(1−g). Albedo α′ = σs′/(σs′+σa). σtr = √(3 σa (σa+σs′)). ld = 1/σtr.",
+    "A BRDF is S with xi=xo. A BSSRDF S(xi,ωi,xo,ωo) lets light enter at i and leave at o. That is the organism.",
+    "Jensen 2001 dipole: Rd(r) from a real source at zr=1/σt′ and a virtual source above the extrapolated boundary. Assumes optically thick, σs≫σa, locally flat, semi-infinite.",
+    "Energy: ∫ 2π r Rd(r) dr = α′ (minus Fdr losses). A dimmer named absorption is not Beer. Beer is exp(−σa s).",
+    "Wavelength: longer λ, lower σa in tissue → red travels farther. On a violet pearl the lawful analog is existing cyan (long) vs pearl/violet (short). No new hue.",
+    "Thin parts break the dipole. Multipole (Donner–Jensen 2005) or a thickness-scaled profile. The W legs are thin."
+  ],
+  "artisticLaw": [
+    "Dark pearl. Cyan well. Violet core. Intensity-only. Face stays pupil-less and off this organ.",
+    "The 1000 vertices ARE the skin. SSS samples that cage. Topology does not grow.",
+    "Painted bands may remain as authored jewelry. They are not the transport.",
+    "Goose follicles are entry events: high n·L on a mound must bleed into neighbors, not sit as glued specks."
+  ],
+  "algorithms": [
+    {
+      "id": "jensen-dipole",
+      "name": "Jensen 2001 dipole BSSRDF",
+      "what": "Analytic Rd(r) from real+virtual sources.",
+      "have": "Nothing. Comment-only 'subsurface'.",
+      "lawful": true
+    },
+    {
+      "id": "burley-normalized",
+      "name": "Burley 2015/16 normalized diffusion",
+      "what": "Artist d + albedo. Profile integrates to 1. Disney/Pixar production.",
+      "have": "Nothing.",
+      "lawful": true
+    },
+    {
+      "id": "sum-of-gaussians",
+      "name": "d'Eon / GPU Gems 3 Gaussian fit",
+      "what": "Rd(r) ≈ Σ wi G(vi, r). Separable 2D blur.",
+      "have": "Nothing on the 1000.",
+      "lawful": true
+    },
+    {
+      "id": "jimenez-separable",
+      "name": "Jimenez texture-space / separable SSS",
+      "what": "Irradiance → separable U/V Gaussians → weighted sum. Stretch-correct UV.",
+      "have": "Nothing. The 25×40 IS the texture.",
+      "lawful": "the real-time fit"
+    },
+    {
+      "id": "multipole-thin",
+      "name": "Donner–Jensen multipole",
+      "what": "Layered / thin slabs. W legs, nubs.",
+      "have": "Nothing. Legs are surface shade + flatten.",
+      "lawful": true
+    },
+    {
+      "id": "path-volume",
+      "name": "Path-traced volume / random walk",
+      "what": "Full RTE in a 3D medium.",
+      "have": "No volume mesh. SVG.",
+      "lawful": false
+    },
+    {
+      "id": "painted-bands",
+      "name": "Three subsurface-band ellipses + cyan reservoir",
+      "what": "Opacity from 2D n·L. Authored look.",
+      "have": "Live. absorption = 1−0.32a dimmer.",
+      "lawful": false
+    }
+  ],
+  "measured": {
+    "subsurfaceBandCount": 3,
+    "subsurfaceOpacityCap": 0.18,
+    "absorptionIsDimmer": true,
+    "beerLambert": false,
+    "cyanReservoirTransport": false,
+    "cageLightIsSurfaceOnly": true,
+    "motionLightFactor": 1,
+    "dipoleOnCage": false,
+    "separableBlurOn25x40": false
+  },
+  "invariants": [
+    "1000 length. No volume remesh.",
+    "Zero field is +0.",
+    "Explore does not recut the painter.",
+    "Intensity-only. Existing cyan/violet/pearl channels only.",
+    "Firewall. No 1920 SVG. Face geometry SHA untouched.",
+    "Rd must be normalizable. A slider named absorption is not σa until it is."
+  ],
+  "failureModes": [
+    "Calling inset gradients subsurface (live).",
+    "absorption as a global dimmer (live).",
+    "Surface n·L specks with no bleed (live goose).",
+    "Dipole on the W without thickness (wax or black legs).",
+    "Screen-space SSS that ignores bodyClip / walks off the pearl.",
+    "Path-traced volume or a second 3D mesh.",
+    "New hue to fake 'red travel'."
+  ],
+  "uncertainty": [
+    "Pearl mean free path in content-px. Skin red ~16mm has no analog until we measure a look the owner accepts.",
+    "Whether two Gaussians (short pearl, long cyan) are enough vs three.",
+    "Whether hex-metric r or polar-UV r with stretch correction reads on the dermis.",
+    "How much the authored cyan reservoir should yield to computed exitance."
+  ],
+  "tests": [
+    "Impulse: E=1 at one cage vertex, 0 elsewhere → neighbors rise, far field → 0, integral bounded by albedo.",
+    "Beer: doubling σa halves transmitted exitance on a thin chord, not a uniform dim.",
+    "Thin W: exitance on a foot nub uses a shorter profile than the cheek (thickness from 512).",
+    "Goose: lighting a follicle raises neighbors. Speck isolation is a fail.",
+    "Neutral / relief none / captured 0 → SSS identity (byte-identical to prior if gain 0).",
+    "DETAIL_TOPOLOGY.vertices.length === 1000 after any SSS write."
+  ],
+  "visualConsequences": [
+    "Key-facing cheek glows through to the lee a few vertices over. Not a glued highlight.",
+    "Follicles bloom instead of freckling.",
+    "Cyan well becomes the long Gaussian, not a parked ellipse.",
+    "W legs transmit a little instead of reading as cut paper.",
+    "Gain 0 is the current painted pearl. Reversible."
+  ],
+  "implementation": [
+    "Explore only. Do not recut the painter this receipt.",
+    "If Work: E_i = existing cage n·L on the 1000. Two Gaussians, separable on 25×40 (Jimenez). Short → pearl/violet core. Long → cyan channel.",
+    "M_j = Σ_k wk G_k * E. Write intensity into innerVolume / cyan / a single exitance path. Do not add bands.",
+    "Thickness scale from local 512 radius for the W. Multipole later if thin still waxes.",
+    "absorption becomes σa in the profile (ld shrinks). Delete the 1−0.32a dimmer on that path.",
+    "Do not path-trace. Do not remesh. Do not invent hue."
+  ],
+  "citations": [
+    {
+      "id": "jensen-2001",
+      "tier": "reference",
+      "source": "Jensen, Marschner, Levoy, Hanrahan · A Practical Model for Subsurface Light Transport (SIGGRAPH 2001)",
+      "rule": "Dipole BSSRDF. Rd(r) from real+virtual sources. Highly scattering, semi-infinite."
+    },
+    {
+      "id": "donner-jensen-2005",
+      "tier": "reference",
+      "source": "Donner & Jensen · Light Diffusion in Multi-Layered Translucent Materials (2005)",
+      "rule": "Multipole for thin / layered. Skin and thin parts."
+    },
+    {
+      "id": "gpu-gems3-14",
+      "tier": "reference",
+      "source": "NVIDIA GPU Gems 3 ch.14 · d'Eon / Gosselin skin; Jimenez real-time SSS",
+      "rule": "Rd ≈ Σ wi G(vi,r). Separable texture-space diffusion. Red travels farther."
+    },
+    {
+      "id": "burley-2015",
+      "tier": "reference",
+      "source": "Burley · Extending the Disney BRDF to a BSDF with Integrated SSS (SIGGRAPH 2015) + 2016 production notes",
+      "rule": "Normalized diffusion. Artist d + albedo. Profile integrates to 1. Pixar/Disney."
+    },
+    {
+      "id": "cage-light",
+      "tier": "canon",
+      "source": "live shadeCagePoints / CageLight.ts",
+      "rule": "n·L on the 1000 is surface irradiance. Not transport."
+    },
+    {
+      "id": "mesh-stack",
+      "tier": "canon",
+      "source": "docs/triforce/canon/MESH-STACK.md",
+      "rule": "25×40 locked. C = Γ(L) + Σs_i. Topology never remeshes."
+    },
+    {
+      "id": "d-0033",
+      "tier": "canon",
+      "source": "FormMaster intensity-only / no new hue",
+      "rule": "SSS rides cyan / violet / pearl channels. No red wash."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T23-31-00-000Z-explore-subsurface-scattering",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T23:31:00.000Z"
+}

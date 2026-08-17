@@ -266,7 +266,7 @@ export const GAIT_BASE_PLANT = Object.freeze({
   fadeFracOfHalfHeight: 0.22,
   liveEpsilonUnits: 0.004,
   lobeSigma: 0.16,
-  swingLiftPx: 42,
+  swingLiftPx: 68,
 });
 
 /**

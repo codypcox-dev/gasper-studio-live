@@ -1,0 +1,106 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "arap-constraints",
+    "domain": "mesh-physics",
+    "wall": "Four constraint families share one tick with no declared order or stiffness. KV, face Dirichlet, ARAP Jacobi, then stretch. Stretch undoes rotations. Face lock is a band of hundreds of hard handles. Gait is still not a constraint."
+  },
+  "question": "What constraint types exist in ARAP/PBD, which are live on Gasper’s φ, what is the lawful priority stack, and what must never be a hard lock?",
+  "coordinateSpaces": "Constraints act on φ:V→R². Hard C(φ)=0. Soft C(φ)=0 with compliance α (XPBD). Face band v∈[0.32,0.58]. Pole r=0. Regional τ→α. dt=1/60.",
+  "physicalLaw": [
+    "A constraint is C(φ)=0, not a second silhouette. Hard: replace the row. Soft: Δφ = −s ∇C / (∇C M^{-1} ∇C + α̃).",
+    "ARAP is an energy, not a hard C. Local R then Poisson/Jacobi. It yields to Dirichlet.",
+    "Stretch is a distance C_ij=||φ_i−φ_j||−ℓ̄. Projected after ARAP it fights the rotations (seen: pin absorbed by R until stretch was added).",
+    "KV φ←φ+k(φ*−φ) is a predict, not a constraint. Applied to locked verts it is a full-mesh Dirichlet and ARAP is a no-op.",
+    "Lawful order: predict on FREE verts → project hard (face, pole, pins) → stretch/area with α → one ARAP local-global → re-assert hard.",
+    "Compliance α̃=α/dt². τ owns α. Plant τ=0.02 is a stiffer C than swing 0.25. No extra stiffness slider."
+  ],
+  "artisticLaw": [
+    "Face is hard Dirichlet. Eyes do not participate in stretch or ARAP.",
+    "A paddle rim may be a soft handle, not a welded outline. Welding the rim is a blend shape.",
+    "Gait plants are two soft handles on the rim, not stance sockets after φ.",
+    "Gel is leftover residual after a finite number of projections, not infinite stiffness."
+  ],
+  "invariants": [
+    "Hard set is tiny: face band + pole + explicit pins. Not the whole 1000/3920.",
+    "φ=φ̄ and no pins ⇒ every C is satisfied; tick is identity.",
+    "Stretch never moves a hard vert. Pins pull free neighbors only.",
+    "One φ. Constraints do not write the 512. The rim is a read."
+  ],
+  "failureModes": [
+    "KV on locked verts: ARAP never sees strain.",
+    "Stretch after ARAP with α=0: rotations cancelled, cells smear.",
+    "Face band too wide: the blade is welded and the shaft is the only DOF.",
+    "All-rim Dirichlet: blend shape. No fabric.",
+    "Gait as a post-pose: second writer. Constraint stack is a lie."
+  ],
+  "uncertainty": [
+    "XPBD stretch+ARAP vs Igarashi energy-only for the held paddle.",
+    "Whether the face band can shrink to the actual fixture UV (eyes/mouth) instead of v∈[0.32,0.58].",
+    "How many Gauss-Seidel iters at L2 before 60 fps breaks."
+  ],
+  "tests": [
+    "Identity: no pins, φ=φ̄ ⇒ max|Δφ|=0.",
+    "Hard: face verts |φ−φ*|=0 after tick. Stretch did not move them.",
+    "Soft pin: one rim vert +8, neighbors move, face |Δ|<2.",
+    "KV-free: locked verts unchanged by the predict step.",
+    "Order: re-assert hard after stretch; no hard vert drifts."
+  ],
+  "visualConsequences": [
+    "A poke near the cheek ripples; the face plate is welded.",
+    "A plant is two dimples on the rim that the gel yields around.",
+    "Held paddle stays a paddle because φ̄ is the paddle, not because every vert is locked."
+  ],
+  "implementation": [
+    "Explore only. Do not recut ArapSolver this receipt.",
+    "Next: name a ConstraintStack. Hard / stretch / ARAP / re-assert. KV predict skips hard verts.",
+    "Map regional τ → XPBD α. No new stiffness knob.",
+    "Gait plants become two soft pins on φ, then delete stance post-pose.",
+    "Shrink face Dirichlet to fixture UV when Investigate says so."
+  ],
+  "citations": [
+    {
+      "id": "muller-pbd-2007",
+      "tier": "reference",
+      "source": "Müller et al., Position Based Dynamics, 2007",
+      "rule": "Project C one by one, Gauss-Seidel. Hard vs free is a mass of 0 or 1."
+    },
+    {
+      "id": "macklin-xpbd-2016",
+      "tier": "reference",
+      "source": "Macklin, Müller, Chentanez, XPBD, 2016",
+      "rule": "Compliance α makes stiffness timestep-independent. τ→α is the Gasper map."
+    },
+    {
+      "id": "igarashi-2005",
+      "tier": "reference",
+      "source": "Igarashi et al., ARAP Shape Manipulation, 2005",
+      "rule": "Few hard handles. Interior is energy only. Do not weld the rim."
+    },
+    {
+      "id": "sorkine-alexa-2007",
+      "tier": "reference",
+      "source": "Sorkine & Alexa, ARAP Surface Modeling, 2007",
+      "rule": "Handles are Dirichlet rows in the Poisson. ARAP yields to them."
+    },
+    {
+      "id": "investigate-arap",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T00-26-00-000Z-investigate-arap-solver",
+      "rule": "φ̄ is the morph metric. Face is Dirichlet. Full Dirichlet is a blend shape."
+    },
+    {
+      "id": "kelvin-voigt-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-26-00-000Z-investigate-kelvin-voigt-params",
+      "rule": "We own τ only. τ is compliance of the soft C, not a second energy."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T00-37-00-000Z-explore-arap-constraints",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T00:37:00.000Z"
+}

@@ -33,9 +33,14 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
   });
 
   it("(b) swingAdvanceUnits has a real renderer consumer on the swing lobe", () => {
-    expect(script).toContain("physGait.swingAdvanceUnits");
-    expect(script).toContain("posed.x+=_advPx*_swingArtW");
+    expect(script).toContain("__GASPER_STANCE__");
+    expect(script).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(controller).toContain("stanceFromGait");
+    expect(controller).toContain("swingAdvanceUnits: out.gaitScreen.swingAdvanceUnits");
     expect(driver).toContain("swingAdvanceUnits: gaitExpressionGate * lobe.swingAdvanceUnits");
+    expect(script).not.toContain("posed.x+=_advPx*_swingArtW");
+    expect(script).not.toContain("22*((Number(physGait.swingAdvanceUnits)||0)/(44*8))");
+    expect(script).not.toContain("0.35*(Number(physGait.loadedDropUnits)");
   });
 
   it("(c) rejected overnight posed.y / tuck / plant-hold path stays absent", () => {
@@ -73,7 +78,10 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
     expect(script).not.toContain(
       "const _stepping=physGait.speedRatio>0.01&&_side!==0;",
     );
-    expect(script).toContain("42*Math.max(0,Math.min(1,(Number(physGait.swingLiftUnits)||0)/(68*8)))");
+    expect(script).toContain("const k=Math.min(1,wSum*(S.live||0))");
+    expect(script).not.toContain(
+      "42*Math.max(0,Math.min(1,(Number(physGait.swingLiftUnits)||0)/(68*8)))",
+    );
   });
 
   it("(f) seq18 form/face identity carve is untouched", () => {
@@ -100,11 +108,12 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
   });
 
   it("(g) one WorldPhysicsDriver writer; travel stays on body.x", () => {
-    const playStart = controller.indexOf("playNorthstarTwenty");
+    const playStart = controller.indexOf("playAuthoredTake");
     const playEnd = controller.indexOf("N187 — file a grounded strut", playStart);
     const play = controller.slice(playStart, playEnd);
     expect(script).toContain("wDx=(worldPoseCurrent.x/WORLD_SPACE.unitsPerContentPx)*wScale");
-    expect(play).toContain("this.fileStrutLocomotion({ x: 980, z: 0, cruise: 200 })");
+    expect(play).toContain("this.fileStrutLocomotion({ x: w.x, z: w.z, cruise: action.cruise })");
+    expect(play).not.toContain("releaseUserWorldFrame");
     expect(play).not.toContain("gsap.");
     expect(play).not.toMatch(/setWorldPose\s*\(/);
   });
@@ -117,20 +126,24 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
     expect(gaitSwingArticulateWeight(1.31, 1)).toBeLessThan(0.2);
     expect(script).not.toContain("radius-=_lift*gaussAngle(th,1.83,_sig);");
     expect(script).not.toContain("radius-=_lift*gaussAngle(th,1.31,_sig);");
-    expect(script).toContain("posed.y-=_liftPx*_swingArtW");
-    expect(script).toContain("_chinKeep");
+    expect(script).not.toContain("posed.y-=_liftPx*_swingArtW");
+    expect(script).toContain("gaussAngle(th,Math.PI/2,0.18)");
+    expect(script).toContain("S.crotch.y*wC");
   });
 
   it("walk proof uses readable 3/4, not heading 0", () => {
     expect(READABLE_THREE_QUARTER_DEG).toBe(22);
-    const playStart = controller.indexOf("playNorthstarTwenty");
+    const take = readFileSync(join(here, "..", "takes", "NorthstarTwentyTake.ts"), "utf8");
+    const playStart = controller.indexOf("playAuthoredTake");
     const playEnd = controller.indexOf("N187 — file a grounded strut", playStart);
     const play = controller.slice(playStart, playEnd);
-    expect(play).toContain("READABLE_THREE_QUARTER_DEG");
-    expect(play).toContain("-READABLE_THREE_QUARTER_DEG");
-    expect(play).toContain("this.headingPinDeg = 0");
-    expect(play).toContain('rig?.setYaw?.(8)');
-    expect(play).toContain('fire("strut-go", 2.618, t');
-    expect(play).toContain("if (t < 2.618) this.headingPinDeg = 0");
+    expect(take).toContain("READABLE_THREE_QUARTER_DEG");
+    expect(take).toContain("-READABLE_THREE_QUARTER_DEG");
+    expect(take).toContain("headingPinDeg: 0");
+    expect(take).toContain("yaw: 8");
+    expect(take).toContain('id: "strut-go"');
+    expect(take).toContain("at: 2.618");
+    expect(take).toContain("until: 2.618");
+    expect(play).toContain("take.headingWindows");
   });
 });

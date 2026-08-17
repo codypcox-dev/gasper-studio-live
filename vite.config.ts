@@ -16,6 +16,7 @@ import { GrokStudioPilotProvider } from "./packages/gasper-studio/src/training/s
 import { GrokSuccessorService } from "./packages/gasper-studio/src/training/server/GrokSuccessorService";
 import { dispatchGrokGasperLane } from "./packages/gasper-studio/src/training/server/GrokGasperLane";
 import { buildStudioPilotPrompt } from "./packages/gasper-studio/src/training/StudioPilotProtocol";
+import { GrokCanonOpsService } from "./packages/gasper-studio/src/canonops/GrokCanonOpsService";
 
 const ROOT = fileURLToPath(new URL(".", import.meta.url));
 
@@ -219,6 +220,7 @@ function gasperReferenceTrainingSource(): Plugin {
   const semanticProvider = new GrokSemanticMotionProvider({ cwd: ROOT });
   const studioPilotProvider = new GrokStudioPilotProvider({ cwd: ROOT });
   const successorService = new GrokSuccessorService({ root: ROOT });
+  const canonOpsService = new GrokCanonOpsService({ root: ROOT });
   const middleware = createTrainingSourceMiddleware({
     resolveLinked: (url, signal) => service.resolveLinked(url, signal),
     findMediaPath: (hash) => service.findMediaPath(hash),
@@ -241,6 +243,7 @@ function gasperReferenceTrainingSource(): Plugin {
     dispatchGrokLane: (request) => dispatchGrokGasperLane(request, {
       readContinuity: async () => successorService.readContinuity(),
     }),
+    runCanonOps: (request) => canonOpsService.run(request),
   });
   return {
     name: "gasper-reference-training-source",
@@ -254,6 +257,8 @@ function gasperReferenceTrainingSource(): Plugin {
 }
 
 export default defineConfig({
+  server: { host: "0.0.0.0", port: 8080, strictPort: true },
+  preview: { host: "0.0.0.0", port: 8080, strictPort: true },
   plugins: [
     react(),
     gasperShowcaseServing(),

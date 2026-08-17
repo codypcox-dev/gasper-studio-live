@@ -1,0 +1,106 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "displacement-mapping",
+    "domain": "form-topology",
+    "wall": "Displacement is three writers and two spaces, not one map. Studios author one field on a locked cage. We shade a height, puff a rim, and leave the lattice offsets aside."
+  },
+  "question": "What is a lawful displacement-mapping workflow on the 512/360/1000 lock, and what must not be imported from bitmap VDM pipelines?",
+  "coordinateSpaces": "Map UV = polar 25×40, u=sector/40 wrapped, v=ring/24 clamped. Scalar live space = rest-radial (contract) or contour-radius at ring 24 (paint). Shade space = screen-space height in shadeLitMesh (H × height). Vector contract space = object-ish unit sphere along restNormalAt. Tangent space = AdaptiveShell local frames (computed, unused). meshOffsets = 360 × (Δx, Δy) content-px, not a map. Midpoint = +0, never 0.5 gray.",
+  "physicalLaw": [
+    "Topology is the cage. Displacement is a primvar on that cage. It does not remesh (OpenSubdiv / USD).",
+    "Scalar displace: P' = P + n̂ · s · A. Vector: P' = P + R · v · A, R = object or tangent frame.",
+    "Amplitude 0 is identity. Midpoint is +0, not 128/255. PxrDispTransform remaps; we do not ship 8-bit maps.",
+    "One field, two consumers: shade (normals from the field) and silhouette (rim coupling). Not four independent writers.",
+    "1000 is the tessellation. SVG cannot dicing-tessellate. Do not invent a 4k bitmap to look like RenderMan."
+  ],
+  "artisticLaw": [
+    "Goose is a regional scalar map. Blowfish is a radial scalar map. Remote is a new cage embedding or a captured vector, not a height bitmap of a remote.",
+    "Do not paint a face with displacement (Book 009). Pupils stay seq18.",
+    "Sculpt drag (meshOffsets) is captured vector on the 360, resampled to 1000 if it must join the map. It is not a second workflow."
+  ],
+  "invariants": [
+    "512 / 360 / 672 / 1000 counts never change.",
+    "Neutral field is +0 on every sample.",
+    "SCAFFOLD_SOURCE_KINDS stay pressure | relief | captured.",
+    "Firewall stays. No 1920 SVG hull.",
+    "Investigate does not recut gait."
+  ],
+  "failureModes": [
+    "shadeLitMesh looks displaced while the 512 is still a pearl — shade-only, no silhouette (current goose at rim-zero).",
+    "Pressure puffs the rim while shade stays flat — silhouette-only (current N350 puff).",
+    "meshOffsets sculpt a dent the 1000 never sees.",
+    "Import a 16-bit EXR as if we had Ptex. We have 1000 floats. Resample or refuse.",
+    "0.5-as-rest (8-bit displacement convention) would bias the pearl forever.",
+    "Tangent VDM without using computeLocalFrame — RGB as XYZ in the wrong space shears him."
+  ],
+  "uncertainty": [
+    "Whether captured should be Float32[1000] scalar or [1000×3] vector first. Scalar matches live z-buffer. Vector matches C.",
+    "Whether sculpt meshOffsets promote to captured each frame or stay a lattice-only edit until baked."
+  ],
+  "tests": [
+    "Zero map: shade empty, rim 0, 512 unchanged.",
+    "Same scalar field: shade quads AND rim move; counts stay 512/1000.",
+    "Pressure 1 then 0: identity restore (no 0.5 rest).",
+    "No painter path samples an image texture for hull displace."
+  ],
+  "visualConsequences": [
+    "Today: puff changes outline, goose changes grain, sculpt changes a hidden 360. They do not read as one skin.",
+    "Mastered: one Skin map. Puff and goose are layers on it. Outline and grain agree."
+  ],
+  "implementation": [
+    "Do not add a bitmap pipeline.",
+    "The 1000-float field IS the displacement map. Author it (presets, paint-on-UV later, import resampled to 25×40).",
+    "Bind: one UV law (u=sector, v=ring). Document it on the Skin chapter.",
+    "Apply: captured + pressure + relief → composeScaffoldScalars → commitScaffoldField. ShadeLitMesh reads the SAME scalars (not a second evaluateRelief-only path).",
+    "Space v1: scalar along rest-radial (already). Space v2 later: tangent via computeLocalFrame. Do not ship object-VDM until L is the live 360, not the rest sphere.",
+    "meshOffsets: bake to captured on Save, or resample 360→1000. Do not leave as a silent fifth writer.",
+    "Skin UI: show the 25×40 as the map (readout + layers Pressure / Relief / Captured). Neutral clears all three to +0.",
+    "No gait recut. No firewall drop. No 4k EXR."
+  ],
+  "citations": [
+    {
+      "id": "c-gamma-sum",
+      "tier": "canon",
+      "source": "AdaptiveShellScaffold.ts C=Γ(L)+Σs_i + N350 Skin",
+      "rule": "Scalar Σs along rest normal. Amplitude 0 is identity."
+    },
+    {
+      "id": "shade-vs-rim",
+      "tier": "canon",
+      "source": "all-script-3.js shadeLitMesh vs scaffoldContourZ / applyScaffoldPressure",
+      "rule": "Shade and silhouette are two consumers. Today they do not share one field."
+    },
+    {
+      "id": "recon-partial",
+      "tier": "canon",
+      "source": "RECONCILIATION_MATRIX_v0.2.md Full 1000-sample → mesh vertex displacement PARTIAL",
+      "rule": "Field drives relief layer; not full vertex scatter. Still true after N350."
+    },
+    {
+      "id": "book-009",
+      "tier": "canon",
+      "source": "2026-08-14-cinematic-affect-overnight.md Book 009",
+      "rule": "1000 must not paint a face. Coupled, not merged."
+    },
+    {
+      "id": "pxr-displace",
+      "tier": "reference",
+      "source": "RenderMan PxrDisplace / PxrDispTransform — scalar or vector, remapped range, object or tangent",
+      "rule": "One shader, two input kinds. Zero is rest. We remap in float, not 8-bit."
+    },
+    {
+      "id": "opensubdiv-cage",
+      "tier": "reference",
+      "source": "Pixar OpenSubdiv + USD primvars",
+      "rule": "Cage locked. Displacement is data on the cage. Tessellation is our 1000, not a renderer dice."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T17-08-00-000Z-investigate-displacement-mapping",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T17:08:00.000Z"
+}

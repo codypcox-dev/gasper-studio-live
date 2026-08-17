@@ -1,0 +1,188 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "displacement-fields",
+    "domain": "scaffold-field",
+    "wall": "A displacement field is a representation, an authoring grammar, and a consumer contract. We have one 1000-float rest-radial buffer and six writers. The shatter was a consumer treating cells as faces."
+  },
+  "question": "What displacement-field techniques exist, which of them fit a locked 25×40 cage, and what is the lawful next field — not a new mesh?",
+  "coordinateSpaces": "Field index: ring×40+sector. Polar UV: u=sector/40, v=ring/25. Rest-radial: + along outward normal of L. Contour: rim ring 24 → 512 radius, clamp 3.5px (goose 0.35). Screen height is a shade-only unit. Vector (unhooked): 1000×3 object/rest. Zero is +0, never 8-bit mid-gray.",
+  "physicalLaw": [
+    "P' = P + h n̂  (scalar). P' = P + v  (vector). Topology unchanged.",
+    "C = Γ(L) + Σs_i. Writers add. They do not replace the cage.",
+    "A gradient of h is a normal for shade. It is not a second body."
+  ],
+  "artisticLaw": [
+    "Goose is sparse RBF grain. Cellular hash meshed as tiles is crystal.",
+    "Puff is a low-order radial mode, not 1000 independent pressures.",
+    "A remote is a captured embedding or a new L. Not a photo field."
+  ],
+  "techniques": [
+    {
+      "id": "scalar-rest-normal",
+      "name": "Scalar height along rest-radial",
+      "what": "One float per cage vertex. P' = P + h n̂.",
+      "have": "__GASPER_SCAFFOLD_Z__ 1000. Live.",
+      "lawful": true
+    },
+    {
+      "id": "vector-object",
+      "name": "Vector displacement (Mudbox / ZBrush VDM)",
+      "what": "1000×3. Overhangs, undercuts. Book 009 contract.",
+      "have": "AdaptiveShellScaffold.ts unhooked. Not paint.",
+      "lawful": true
+    },
+    {
+      "id": "tangent-frame",
+      "name": "Tangent-space vector",
+      "what": "v in (T,B,N). Travels with the walk.",
+      "have": "computeLocalFrame exists on the 360. Not bound to 1000.",
+      "lawful": true
+    },
+    {
+      "id": "bump-only",
+      "name": "Bump / derived normal",
+      "what": "∂h/∂u, ∂h/∂v → shade. Vertices stay.",
+      "have": "deriveNormals. shadeLitMesh. Goose no longer uses it as body.",
+      "lawful": "shade only"
+    },
+    {
+      "id": "micro-tess",
+      "name": "Microdisplacement / render tessellation",
+      "what": "Renderer grows faces from a map.",
+      "have": "The 1000 is the tessellation. No further grow.",
+      "lawful": false
+    },
+    {
+      "id": "rbf-kernels",
+      "name": "Sparse Gaussians / RBF",
+      "what": "h = Σ a_k exp(−½ r_k² / σ²).",
+      "have": "stampGooseField. Live goose.",
+      "lawful": true
+    },
+    {
+      "id": "analytic-sdf",
+      "name": "Analytic primitives (rings, disks, ridges)",
+      "what": "evaluateRelief kinds + FEATURE_RELIEF logo/glasses.",
+      "have": "Live for brow/knit/dimple/pinches and feature layer.",
+      "lawful": true
+    },
+    {
+      "id": "cellular-worley",
+      "name": "Cellular / Worley hash",
+      "what": "evaluateRelief kind goosebumps. Irregular cells.",
+      "have": "Still in all-script-2. Goose paint no longer calls it.",
+      "lawful": "as height only — not as faces"
+    },
+    {
+      "id": "layered-compose",
+      "name": "Layered Σs_i",
+      "what": "pressure + relief + nubs + walk + singularity + captured.",
+      "have": "Additive into one buffer. No named layer stack in UI.",
+      "lawful": true
+    },
+    {
+      "id": "regional-mask",
+      "name": "Region isolation",
+      "what": "Per-organ weights / τ on the same UV.",
+      "have": "Gauss on the 512 (crown/lower/sides). Not material on the 1000.",
+      "lawful": true
+    },
+    {
+      "id": "captured-map",
+      "name": "Baked Ptex / EXR / 8-bit height",
+      "what": "Studio bake. 0.5 gray as rest is a bug.",
+      "have": "Rejected. 25×40 float is the map.",
+      "lawful": "only if resampled to 25×40 float, zero = +0"
+    },
+    {
+      "id": "volume-preserve",
+      "name": "Divergence-free / constant-volume",
+      "what": "Puff that keeps mass.",
+      "have": "Nothing. Pressure is a radial mode.",
+      "lawful": true
+    }
+  ],
+  "liveWriters": [
+    "stampGooseField → gaussian RBF",
+    "evaluateRelief → analytic + (unused cellular for goose paint)",
+    "applyScaffoldPressure → one radial puff",
+    "nubScaffoldZ / walkScaffoldZ / singularityScaffoldZ"
+  ],
+  "invariants": [
+    "1000 length. No grow.",
+    "Zero field is +0.",
+    "Firewall. No 1920 SVG.",
+    "Goose pebbles stay pebble-scale Z-count.",
+    "Explore does not recut the painter."
+  ],
+  "failureModes": [
+    "Meshing cellular cells (the shatter).",
+    "8-bit height with 0.5 as rest.",
+    "A second 1000×3 buffer painted beside the scalar (two bodies).",
+    "Noise as a second clock (grain walking off the walk).",
+    "Regional mask that remeshes the 512."
+  ],
+  "uncertainty": [
+    "Whether the next field the owner wants is denser RBF (more grain), vector 3D (overhang), or regional τ (organs).",
+    "Whether walkScaffoldZ should remain a writer or become a captured layer."
+  ],
+  "tests": [
+    "DETAIL_TOPOLOGY.vertices.length === 1000 after every writer.",
+    "Neutral: rim 0, shade 0.",
+    "Goose: stampGooseField, not evaluateRelief cellular, Z ≪ 400.",
+    "Puff: one radial mode, still 1000 floats."
+  ],
+  "visualConsequences": [
+    "Scalar + RBF = pebbles on a pearl.",
+    "Cellular + tiles = crystal.",
+    "Vector 3D = undercuts, horns, a remote lip. Same count.",
+    "Volume-preserving puff = blowfish that still has mass."
+  ],
+  "implementation": [
+    "Do not add a bitmap pipeline.",
+    "Do not remesh.",
+    "If Work: name the layers (Pressure / Relief / Nubs / Walk / Captured) on the same 1000. That is compose, already law.",
+    "Vector 3D is Book 009. Hook only as a replacement of the scalar, not a twin paint.",
+    "Denser goose = more RBF kernels, not cellular tiles."
+  ],
+  "citations": [
+    {
+      "id": "disp-map-phd",
+      "tier": "canon",
+      "source": "2026-08-16T17-08-00-000Z-investigate-displacement-mapping",
+      "rule": "One map on the cage. Two consumers. Scalar v1, tangent v2."
+    },
+    {
+      "id": "proc-mesh",
+      "tier": "canon",
+      "source": "2026-08-16T20-08-00-000Z-explore-procedural-mesh",
+      "rule": "More field, not more vertices."
+    },
+    {
+      "id": "scaffold-z",
+      "tier": "canon",
+      "source": "all-script-3.js __GASPER_SCAFFOLD_Z__",
+      "rule": "1000 scalars. Rim ring 24. Neutral +0."
+    },
+    {
+      "id": "vdm",
+      "tier": "reference",
+      "source": "Mudbox vector displacement maps",
+      "rule": "Direction + distance. Overhangs. 32-bit float. Not 8-bit gray."
+    },
+    {
+      "id": "scalar-vs-vector",
+      "tier": "reference",
+      "source": "Scalar along n̂ vs vector in object/tangent",
+      "rule": "Scalar cannot undercut. Vector can. Both keep topology."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T21-08-00-000Z-explore-displacement-fields",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T21:08:00.000Z"
+}

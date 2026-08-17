@@ -6,6 +6,7 @@ import {
 import { ReferenceTrainingPanel } from "../training/ReferenceTrainingPanel";
 import type { ReferenceTrainingSession } from "../training/ReferenceTrainingSession";
 import { GrokSuccessorPanel } from "../training/GrokSuccessorPanel";
+import { CanonOpsPanel } from "../canonops/CanonOpsPanel";
 import { STUDIO_PILOT_ACTION_KINDS } from "../training/StudioPilotProtocol";
 import type { StudioPilotSession, StudioPilotSessionSnapshot } from "../training/StudioPilotSession";
 
@@ -90,6 +91,7 @@ export function TuningLabPanel({ lab, referenceTraining, studioPilot }: TuningLa
           : "Bounded · physics-authoritative · reversible"}
       </p>
       {studioPilot ? <GrokSuccessorPanel /> : null}
+      <CanonOpsPanel />
       {referenceTraining ? <ReferenceTrainingPanel session={referenceTraining} /> : null}
       <div className="tuning-lab__intent">
         <input

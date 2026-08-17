@@ -17,14 +17,20 @@ import type { DesignDomainId } from "../../../desktop/src/studio/worldclass/adap
 import { getExpressionStudioSession } from "../../../desktop/src/gasper/expression";
 import {
   applyCraftRailParams,
+  applyWalkReviewShot,
   applyWorldPhysicsParams,
   commitDesignParam,
   disarmWorldBodyFromRail,
   enableDirectManipulation,
   launchWorldBounceFromRail,
   launchWorldCometFromRail,
+  playNorthstarTwentyFromRail,
+  setWalkBooLoopFromRail,
+  stopWalkBooTwentyFromRail,
+  setReliefPresetFromRail,
   previewDesignParam,
   RAIL_EMBODIMENTS,
+  releaseWalkReviewShot,
   resetExpressionViaAdapter,
   runDaisCraftPack,
   selectEightHoldState,
@@ -47,6 +53,18 @@ import type { TuningLabSession } from "../tuning/tuningRegistry";
 import type { ReferenceTrainingSession } from "../training/ReferenceTrainingSession";
 import type { StudioPilotSession } from "../training/StudioPilotSession";
 import { WISPWALKER_AUTHORING_DEFAULTS } from "./wispwalkerAuthoringDefaults";
+import { listLooks, loadLook, type SavedLook } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
+import {
+  AuthoringAtlas,
+  type AuthoringChapterId,
+} from "./AuthoringAtlas";
+import {
+  captureCanonicalBaseline,
+  factoryCanonicalBaseline,
+  persistCanonicalBaseline,
+  readPersistedCanonicalBaseline,
+  type CanonicalBaseline,
+} from "./canonicalBaseline";
 
 export type DaisControlRailProps = {
   adapter: DaisFirstAdapter;
@@ -141,6 +159,12 @@ const LIVE_SCULPT_PARAMS: readonly RigParam[] = [
   { domain: "form", paramId: "visco_tau", label: "Weight", controlId: "sculpt-weight", fallback: WISPWALKER_AUTHORING_DEFAULTS.behavior.viscoTau, min: 0.02, max: 1.0, step: 0.01, group: "Motion & weight" },
 ];
 
+const SKIN_PARAMS: readonly RigParam[] = [
+  { domain: "form", paramId: "scaffold_pressure", label: "Pressure", controlId: "skin-pressure", fallback: 0, min: 0, max: 1, step: 0.01, group: "1000-field" },
+  { domain: "form", paramId: "scaffold_coupling", label: "Rim", controlId: "skin-coupling", fallback: 0.5, min: 0, max: 2, step: 0.05, group: "1000-field" },
+  { domain: "form", paramId: "relief_amplitude", label: "Relief", controlId: "skin-relief", fallback: WISPWALKER_AUTHORING_DEFAULTS.rig.reliefAmplitude, min: 0, max: 1, step: 0.01, group: "1000-field" },
+];
+
 /**
  * GASPER-SPACE-001 PHASE B (D-0090): labeled rail sliders for the
  * world-physics authority — every emergent behavior ships its own knob group.
@@ -224,7 +248,9 @@ export function DaisControlRail({
   );
   // V1 TURBO LIVE-SCULPT: local slider state (not in designDomains snapshot).
   const [liveSculpt, setLiveSculpt] = useState<Record<string, number>>(() =>
-    Object.fromEntries(LIVE_SCULPT_PARAMS.map((p) => [p.paramId, p.fallback])),
+    Object.fromEntries(
+      [...LIVE_SCULPT_PARAMS, ...SKIN_PARAMS].map((p) => [p.paramId, p.fallback]),
+    ),
   );
   // GASPER-SPACE-001 PHASE B (D-0090): local physics-authority knob state.
   const [worldPhys, setWorldPhys] = useState<Required<WorldPhysicsRailParams>>(
@@ -234,22 +260,71 @@ export function DaisControlRail({
   const [craft, setCraft] = useState<Required<CraftRailSettings>>(
     () => CRAFT_FALLBACKS,
   );
+  const [walkReviewOn, setWalkReviewOn] = useState(false);
+  const [walkBooLoopOn, setWalkBooLoopOn] = useState(true);
+  const [chapter, setChapter] = useState<AuthoringChapterId>("skin");
+  const [userBaseline, setUserBaseline] = useState<CanonicalBaseline | null>(
+    () => readPersistedCanonicalBaseline(),
+  );
+
+  const applyBaseline = useCallback(
+    (baseline: CanonicalBaseline) => {
+      setGain(baseline.expressionGain);
+      setExpressionGain(baseline.expressionGain);
+      for (const p of [...RIG_PARAMS, ...LIVE_SCULPT_PARAMS]) {
+        adapter.setDesignParameter?.(p.domain, p.paramId, p.fallback);
+      }
+      adapter.setDesignParameter?.("form", "relief_amplitude", baseline.rig.reliefAmplitude);
+      adapter.setDesignParameter?.("face", "eye_openness", baseline.rig.eyeOpenness);
+      adapter.setDesignParameter?.("energy", "energy_level", baseline.rig.energyLevel);
+      adapter.setDesignParameter?.("form", "yaw", baseline.rig.yawDegrees);
+      adapter.setDesignParameter?.("form", "asym", baseline.pose.asym);
+      adapter.setDesignParameter?.("form", "body_lean", baseline.pose.bodyLean);
+      adapter.setDesignParameter?.("form", "posture_x", baseline.pose.postureX);
+      adapter.setDesignParameter?.("form", "posture_y", baseline.pose.postureY);
+      adapter.setDesignParameter?.("form", "wide", baseline.pose.wide);
+      adapter.setDesignParameter?.("form", "form_crown_amp", baseline.form.crownAmp);
+      adapter.setDesignParameter?.("form", "form_chin_amp", baseline.form.chinAmp);
+      adapter.setDesignParameter?.("form", "form_lobe_amp", baseline.form.lobeAmp);
+      adapter.setDesignParameter?.("form", "form_cleft_depth", baseline.form.cleftDepth);
+      adapter.setDesignParameter?.("form", "form_foot_amp", baseline.form.footAmp);
+      adapter.setDesignParameter?.("form", "form_arm_amp", baseline.form.armAmp);
+      adapter.setDesignParameter?.("form", "walk_amp", baseline.behavior.walkAmp);
+      adapter.setDesignParameter?.("form", "walk_period", baseline.behavior.walkPeriodSeconds);
+      adapter.setDesignParameter?.("form", "walk_accent", baseline.behavior.walkAccent);
+      adapter.setDesignParameter?.("form", "step_depth", baseline.behavior.stepDepth);
+      adapter.setDesignParameter?.("form", "walk_enable", baseline.behavior.walkEnabled);
+      adapter.setDesignParameter?.("form", "visco_tau", baseline.behavior.viscoTau);
+      setLiveSculpt({
+        asym: baseline.pose.asym,
+        body_lean: baseline.pose.bodyLean,
+        posture_x: baseline.pose.postureX,
+        posture_y: baseline.pose.postureY,
+        wide: baseline.pose.wide,
+        form_crown_amp: baseline.form.crownAmp,
+        form_chin_amp: baseline.form.chinAmp,
+        form_lobe_amp: baseline.form.lobeAmp,
+        form_cleft_depth: baseline.form.cleftDepth,
+        form_foot_amp: baseline.form.footAmp,
+        form_arm_amp: baseline.form.armAmp,
+        walk_amp: baseline.behavior.walkAmp,
+        walk_period: baseline.behavior.walkPeriodSeconds,
+        walk_accent: baseline.behavior.walkAccent,
+        step_depth: baseline.behavior.stepDepth,
+        walk_enable: baseline.behavior.walkEnabled,
+        visco_tau: baseline.behavior.viscoTau,
+      });
+      setWorldPhys({ ...baseline.physics });
+      applyWorldPhysicsParams(baseline.physics);
+      setCraft({ ...baseline.craft });
+      applyCraftRailParams(baseline.craft);
+    },
+    [adapter],
+  );
 
   const applyWispwalkerHomeProfile = useCallback(() => {
-    const d = WISPWALKER_AUTHORING_DEFAULTS;
-    setGain(d.expressionGain);
-    setExpressionGain(d.expressionGain);
-    for (const p of [...RIG_PARAMS, ...LIVE_SCULPT_PARAMS]) {
-      adapter.setDesignParameter?.(p.domain, p.paramId, p.fallback);
-    }
-    setLiveSculpt(
-      Object.fromEntries(LIVE_SCULPT_PARAMS.map((p) => [p.paramId, p.fallback])),
-    );
-    setWorldPhys(WORLD_PHYSICS_FALLBACKS);
-    applyWorldPhysicsParams(WORLD_PHYSICS_FALLBACKS);
-    setCraft(CRAFT_FALLBACKS);
-    applyCraftRailParams(CRAFT_FALLBACKS);
-  }, [adapter]);
+    applyBaseline(factoryCanonicalBaseline());
+  }, [applyBaseline]);
 
   useEffect(() => {
     return exprSession.subscribe((s) => setGain(s.expressionGain));
@@ -383,6 +458,31 @@ export function DaisControlRail({
     [adapter],
   );
 
+  const onSkinPreset = useCallback(
+    (id: "neutral" | "puff" | "goose") => {
+      if (id === "neutral") {
+        onSculptCommit(SKIN_PARAMS[0]!, 0);
+        setReliefPresetFromRail("none");
+        setStatus("Skin · neutral +0");
+        return;
+      }
+      if (id === "puff") {
+        onSculptCommit(SKIN_PARAMS[0]!, 0.75);
+        setStatus("Skin · pressure puff");
+        return;
+      }
+      if (id === "goose") {
+        onSculptCommit(SKIN_PARAMS[0]!, 0);
+        onSculptCommit(SKIN_PARAMS[1]!, 0.55);
+        onSculptCommit(SKIN_PARAMS[2]!, 1);
+        const r = setReliefPresetFromRail("goosebumps");
+        setStatus(r.ok ? "Skin · goose · one field" : `Goose failed: ${r.error ?? ""}`);
+        return;
+      }
+    },
+    [onSculptCommit],
+  );
+
   // GASPER-SPACE-001 PHASE B (D-0090): World & Physics rail handlers. The
   // knobs live-apply to the physics authority; the buttons fire the authored
   // performances (S2 bounce / S4 comet) or release the authority home.
@@ -407,6 +507,122 @@ export function DaisControlRail({
   const onWorldStop = useCallback(() => {
     const r = disarmWorldBodyFromRail();
     setStatus(r.ok ? "World · physics released home" : `Stop failed: ${r.error ?? ""}`);
+  }, []);
+
+  const onWalkReview = useCallback(() => {
+    const r = applyWalkReviewShot();
+    if (r.ok) {
+      setWalkReviewOn(true);
+      setStatus("Walk review · body hold · wander gait");
+    } else {
+      setStatus(`Walk review failed: ${r.error ?? ""}`);
+    }
+  }, []);
+
+  const onWalkStand = useCallback(() => {
+    stopWalkBooTwentyFromRail();
+    setWalkBooLoopOn(false);
+    const r = releaseWalkReviewShot();
+    if (r.ok) {
+      setWalkReviewOn(false);
+      setStatus("Stood · sequence stopped");
+    } else {
+      setStatus(`Stand failed: ${r.error ?? ""}`);
+    }
+  }, []);
+
+  const onWalkBooTwenty = useCallback(() => {
+    const r = playNorthstarTwentyFromRail();
+    if (r.ok) {
+      setWalkReviewOn(false);
+      setStatus("Northstar 20s · strut → notice → zip");
+    } else {
+      setStatus(`20s failed: ${r.error ?? ""}`);
+    }
+  }, []);
+
+  const onWalkBooLoop = useCallback(() => {
+    const next = !walkBooLoopOn;
+    const r = setWalkBooLoopFromRail(next);
+    if (r.ok) {
+      setWalkBooLoopOn(next);
+      setWalkReviewOn(false);
+      setStatus(next ? "20s · looping" : "20s · loop off");
+    } else {
+      setStatus(`Loop failed: ${r.error ?? ""}`);
+    }
+  }, [walkBooLoopOn]);
+
+  const onWalkBooStop = useCallback(() => {
+    const r = stopWalkBooTwentyFromRail();
+    if (r.ok) {
+      setWalkBooLoopOn(false);
+      setStatus("20s · stopped");
+    } else {
+      setStatus(`Stop 20s failed: ${r.error ?? ""}`);
+    }
+  }, []);
+
+  const onSaveBaseline = useCallback(() => {
+    const snapLive = captureCanonicalBaseline({
+      expressionGain: gain,
+      rig: {
+        reliefAmplitude: paramValue("relief_amplitude", WISPWALKER_AUTHORING_DEFAULTS.rig.reliefAmplitude),
+        eyeOpenness: paramValue("eye_openness", WISPWALKER_AUTHORING_DEFAULTS.rig.eyeOpenness),
+        energyLevel: paramValue("energy_level", WISPWALKER_AUTHORING_DEFAULTS.rig.energyLevel),
+        yawDegrees: paramValue("yaw", WISPWALKER_AUTHORING_DEFAULTS.rig.yawDegrees),
+      },
+      pose: {
+        asym: liveSculpt.asym ?? WISPWALKER_AUTHORING_DEFAULTS.pose.asym,
+        bodyLean: liveSculpt.body_lean ?? WISPWALKER_AUTHORING_DEFAULTS.pose.bodyLean,
+        postureX: liveSculpt.posture_x ?? WISPWALKER_AUTHORING_DEFAULTS.pose.postureX,
+        postureY: liveSculpt.posture_y ?? WISPWALKER_AUTHORING_DEFAULTS.pose.postureY,
+        wide: liveSculpt.wide ?? WISPWALKER_AUTHORING_DEFAULTS.pose.wide,
+      },
+      form: {
+        crownAmp: liveSculpt.form_crown_amp ?? WISPWALKER_AUTHORING_DEFAULTS.form.crownAmp,
+        chinAmp: liveSculpt.form_chin_amp ?? WISPWALKER_AUTHORING_DEFAULTS.form.chinAmp,
+        lobeAmp: liveSculpt.form_lobe_amp ?? WISPWALKER_AUTHORING_DEFAULTS.form.lobeAmp,
+        cleftDepth: liveSculpt.form_cleft_depth ?? WISPWALKER_AUTHORING_DEFAULTS.form.cleftDepth,
+        footAmp: liveSculpt.form_foot_amp ?? WISPWALKER_AUTHORING_DEFAULTS.form.footAmp,
+        armAmp: liveSculpt.form_arm_amp ?? WISPWALKER_AUTHORING_DEFAULTS.form.armAmp,
+      },
+      behavior: {
+        walkAmp: liveSculpt.walk_amp ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.walkAmp,
+        walkPeriodSeconds: liveSculpt.walk_period ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.walkPeriodSeconds,
+        walkAccent: liveSculpt.walk_accent ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.walkAccent,
+        stepDepth: liveSculpt.step_depth ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.stepDepth,
+        walkEnabled: liveSculpt.walk_enable ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.walkEnabled,
+        viscoTau: liveSculpt.visco_tau ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.viscoTau,
+      },
+      physics: worldPhys,
+      craft,
+    });
+    setUserBaseline(snapLive);
+    persistCanonicalBaseline(snapLive);
+    setStatus("Saved · my Wispwalker is the baseline");
+  }, [craft, gain, liveSculpt, paramValue, worldPhys]);
+
+  const onRestoreFactory = useCallback(() => {
+    selectEmbodiment(adapter, "wispwalker");
+    applyWispwalkerHomeProfile();
+    setStatus("Restored · factory Wispwalker home");
+  }, [adapter, applyWispwalkerHomeProfile]);
+
+  const onRestoreUser = useCallback(() => {
+    if (!userBaseline) {
+      setStatus("No saved baseline yet");
+      return;
+    }
+    selectEmbodiment(adapter, "wispwalker");
+    applyBaseline(userBaseline);
+    setStatus("Restored · my Wispwalker");
+  }, [adapter, applyBaseline, userBaseline]);
+
+  const onChapter = useCallback((id: AuthoringChapterId) => {
+    setChapter(id);
+    const el = document.querySelector(`[data-chapter="${id}"]`);
+    if (el instanceof HTMLElement) el.scrollIntoView({ block: "nearest" });
   }, []);
 
   // GASPER-CRAFT-001 · C4: Craft rail handlers — live-apply to the pack
@@ -444,6 +660,7 @@ export function DaisControlRail({
   }, []);
 
   const activeEmbodiment = snap.character.embodiment ?? "presence";
+  const savedLooks = listLooks();
   const activeExpression = snap.character.expression ?? "neutral-settled";
   const activeDomain = snap.activeDesignDomain;
   const stageMode = snap.stageMode;
@@ -455,12 +672,79 @@ export function DaisControlRail({
       data-primary-controls="1"
       data-rail-density="compact"
       data-review-mode={reviewMode ? "1" : "0"}
+      data-focus={chapter}
       aria-label="Dais primary controls"
     >
+      <AuthoringAtlas
+        chapter={chapter}
+        onChapter={onChapter}
+        readout={{
+          embodiment: activeEmbodiment,
+          klass:
+            activeEmbodiment === "wispwalker"
+              ? "walker"
+              : activeEmbodiment === "presence" || activeEmbodiment === "comet"
+                ? "presence"
+                : "rest",
+          take: "northstar-20s",
+          shot: walkReviewOn ? "walk-review · zoom 2" : "operate / Fit",
+          writer: "WorldPhysicsDriver",
+          ruler: "8 u / content px",
+          weight: `${(liveSculpt.visco_tau ?? WISPWALKER_AUTHORING_DEFAULTS.behavior.viscoTau).toFixed(2)} s`,
+          plant: "×14 · 0.02 s",
+          settle: "ζ 0.28 · rest τ 0.42",
+          mesh: "512 · 360 · 1000 · P/R/C field",
+        }}
+      />
+
+      <section
+        className="dais-control-rail__section"
+        data-testid="canonical-baseline"
+        data-chapter="baseline"
+      >
+        <p className="dais-control-rail__label">
+          Canonical form{" "}
+          <span className="dais-control-rail__param-value">
+            {userBaseline ? "mine + factory" : "factory"}
+          </span>
+        </p>
+        <p className="dais-control-rail__note">
+          Recognized Wispwalker home. Save writes your sculpt. Morph is embodiment. Restore brings him home.
+        </p>
+        <div className="dais-control-rail__row">
+          <button
+            type="button"
+            data-testid="baseline-save"
+            onClick={onSaveBaseline}
+            title="Save the live sculpt as my canonical Wispwalker"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            data-testid="baseline-restore-factory"
+            onClick={onRestoreFactory}
+            title="Restore factory Wispwalker home"
+          >
+            Factory
+          </button>
+          <button
+            type="button"
+            data-testid="baseline-restore-mine"
+            onClick={onRestoreUser}
+            disabled={!userBaseline}
+            title="Restore my saved Wispwalker"
+          >
+            Mine
+          </button>
+        </div>
+      </section>
+
       <section
         className="dais-control-rail__section"
         data-control-id="eight-state-select"
         data-testid="dais-rail-eight-states"
+        data-chapter="act"
         data-eight-states="presence-neutral-settled,presence-listening-receive,presence-thinking-knit,presence-recognition-spark,comet-executing-drive,presence-blocked-strain,presence-pleased-resolve,dormant-orbit-maintain"
       >
         <p className="dais-control-rail__label">Eight states</p>
@@ -486,6 +770,7 @@ export function DaisControlRail({
       <section
         className="dais-control-rail__section"
         data-testid="dais-rail-transitions"
+        data-chapter="shoot"
       >
         <p className="dais-control-rail__label">Transitions</p>
         <div className="dais-control-rail__row">
@@ -526,8 +811,10 @@ export function DaisControlRail({
           <section
             className="dais-control-rail__section"
             data-control-id="embodiment-select"
+            data-chapter="shape"
           >
             <p className="dais-control-rail__label">Embodiment</p>
+            <p className="dais-control-rail__note">Morph the body. Walker has feet. Presence floats. Home stays the saved baseline.</p>
             <div className="dais-control-rail__row dais-control-rail__row--emb">
               {RAIL_EMBODIMENTS.map((id) => (
                 <button
@@ -540,6 +827,17 @@ export function DaisControlRail({
                   onClick={() => onEmbodiment(id)}
                 >
                   {id === "dormant-orbit" ? "dormant" : id}
+                </button>
+              ))}
+              {savedLooks.map((look: SavedLook) => (
+                <button
+                  key={look.id}
+                  type="button"
+                  data-testid={`dais-rail-look-${look.id}`}
+                  data-control-id="embodiment-select"
+                  onClick={() => loadLook(look.id)}
+                >
+                  {look.label}
                 </button>
               ))}
             </div>
@@ -640,6 +938,7 @@ export function DaisControlRail({
             className="dais-control-rail__section"
             data-testid="dais-rail-live-sculpt"
             data-control-id="live-sculpt"
+            data-chapter="shape"
           >
             <p className="dais-control-rail__label">Live sculpt</p>
             {LIVE_SCULPT_PARAMS.map((p, i) => {
@@ -687,11 +986,115 @@ export function DaisControlRail({
           </section>
 
           <section
+            className="dais-control-rail__section skin-dock"
+            data-testid="dais-rail-skin"
+            data-control-id="skin-field"
+            data-chapter="skin"
+          >
+            <p className="dais-control-rail__label">Skin</p>
+            <p className="dais-control-rail__note">
+              The 1000-field. Neutral is rest. Puff is pressure. Goose is grain.
+            </p>
+            <div className="dais-control-rail__row">
+              <button type="button" data-testid="skin-preset-neutral" onClick={() => onSkinPreset("neutral")}>
+                Neutral
+              </button>
+              <button type="button" data-testid="skin-preset-puff" onClick={() => onSkinPreset("puff")}>
+                Puff
+              </button>
+              <button type="button" data-testid="skin-preset-goose" onClick={() => onSkinPreset("goose")}>
+                Goose
+              </button>
+            </div>
+            {SKIN_PARAMS.map((p, i) => {
+              const v = liveSculpt[p.paramId] ?? p.fallback;
+              const min = p.min ?? 0;
+              const max = p.max ?? 1;
+              const step = p.step ?? 0.01;
+              const clamped = Math.max(min, Math.min(max, v));
+              const showGroup = !!p.group && p.group !== SKIN_PARAMS[i - 1]?.group;
+              return (
+                <div key={p.paramId}>
+                  {showGroup ? (
+                    <p className="dais-control-rail__sublabel">{p.group}</p>
+                  ) : null}
+                  <div className="dais-control-rail__param" data-control-id={p.controlId}>
+                    <span>{p.label}</span>
+                    <input
+                      type="range"
+                      min={min}
+                      max={max}
+                      step={step}
+                      value={clamped}
+                      data-testid={`dais-rail-skin-${p.paramId}`}
+                      data-control-id={p.controlId}
+                      onChange={(e) => onSculptPreview(p, Number(e.target.value))}
+                      onPointerUp={(e: ReactPointerEvent<HTMLInputElement>) => {
+                        onSculptCommit(p, e.currentTarget.value);
+                      }}
+                      onBlur={(e: FocusEvent<HTMLInputElement>) => {
+                        onSculptCommit(p, e.currentTarget.value);
+                      }}
+                    />
+                    <span className="dais-control-rail__param-value">{clamped.toFixed(2)}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </section>
+
+          <section
             className="dais-control-rail__section"
             data-testid="dais-rail-world-physics"
             data-control-id="world-physics"
+            data-chapter="walk"
           >
             <p className="dais-control-rail__label">World &amp; Physics</p>
+            <div className="dais-control-rail__row">
+              <button
+                type="button"
+                data-testid="dais-rail-walk-review"
+                data-control-id="walk-review"
+                data-active={walkReviewOn ? "1" : "0"}
+                aria-pressed={walkReviewOn}
+                onClick={onWalkReview}
+                title="Walk-review shot: body crop so both foot-root lobes stay on stage, then wander gait. Fit stays face-first."
+              >
+                Walk
+              </button>
+              <button
+                type="button"
+                data-testid="dais-rail-walk-stand"
+                data-control-id="walk-stand"
+                onClick={onWalkStand}
+                title="Stand wander down. Keep the body-visible hold."
+              >
+                Stand
+              </button>
+              <button
+                type="button"
+                data-testid="dais-rail-walk-boo-20s"
+                data-control-id="walk-boo-20s"
+                onClick={onWalkBooTwenty}
+                title="Northstar 20s: rest, strut, notice, gather, zip, land"
+              >
+                20s
+              </button>
+              <button
+                type="button"
+                data-testid="dais-rail-walk-boo-loop"
+                data-control-id="walk-boo-loop"
+                data-active={walkBooLoopOn ? "1" : "0"}
+                aria-pressed={walkBooLoopOn}
+                onClick={onWalkBooLoop}
+                title="Loop the Northstar 20s"
+              >
+                Loop
+              </button>
+            </div>
+            <p className="dais-control-rail__note">
+              Walk review · both lobes on stage
+            </p>
             {WORLD_PHYSICS_PARAMS.map((p) => {
               const v = worldPhys[p.key];
               const clamped = Math.max(p.min, Math.min(p.max, v));
@@ -718,7 +1121,7 @@ export function DaisControlRail({
                 </div>
               );
             })}
-            <div className="dais-control-rail__row">
+            <div className="dais-control-rail__row" data-chapter="fly">
               <button
                 type="button"
                 data-testid="dais-rail-phys-bounce"
@@ -910,7 +1313,9 @@ export function DaisControlRail({
       )}
 
       {tuningLab ? (
-        <TuningLabPanel lab={tuningLab} referenceTraining={referenceTraining} studioPilot={studioPilot} />
+        <div data-chapter="proof">
+          <TuningLabPanel lab={tuningLab} referenceTraining={referenceTraining} studioPilot={studioPilot} />
+        </div>
       ) : null}
 
       <p

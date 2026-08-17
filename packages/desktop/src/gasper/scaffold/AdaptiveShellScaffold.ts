@@ -225,6 +225,19 @@ export function sourceContribution(sources: readonly ScaffoldSource[], index: nu
 }
 
 /**
+ * First mastery cut — the 1000 scalars, not 3D C.
+ * Σs_i at each UV. Amplitude 0 contributes +0.
+ */
+export function composeScaffoldScalars(sources: readonly ScaffoldSource[] = []): Float32Array {
+  const out = new Float32Array(SCAFFOLD_VERTEX_COUNT);
+  for (let i = 0; i < SCAFFOLD_VERTEX_COUNT; i++) {
+    const s = sourceContribution(sources, i);
+    out[i] = s === 0 ? 0 : s;
+  }
+  return out;
+}
+
+/**
  * C = Γ(L) + ∑s_i
  * Source amplitude 0 copies Γ(L) exactly (no -0, no painter).
  */

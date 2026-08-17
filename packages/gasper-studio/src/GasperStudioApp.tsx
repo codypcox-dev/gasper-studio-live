@@ -47,6 +47,7 @@ import {
   resolveRenderedEmbodiment,
 } from "./tuning/renderedEmbodimentIdentity";
 import { startTuningLabBrowserBridge } from "./tuning/tuningLabBridgeClient";
+import { mountGasperField } from "../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { ReferenceTrainingSession } from "./training/ReferenceTrainingSession";
 import { HttpReferenceTrainingApi } from "./training/HttpReferenceTrainingApi";
 import { HttpSemanticMotionProvider } from "./training/HttpSemanticMotionProvider";
@@ -307,6 +308,7 @@ export function GasperStudioApp() {
   useEffect(() => {
     (window as unknown as { __GASPER_TUNING_LAB__?: TuningLabSession }).__GASPER_TUNING_LAB__ =
       tuningLab;
+    mountGasperField();
     const stopTuningLabBridge = startTuningLabBrowserBridge(tuningLab);
     return () => {
       stopTuningLabBridge();
@@ -402,6 +404,8 @@ export function GasperStudioApp() {
               holdUserWorldFrame?: (frame?: { zoom?: number; panX?: number; panY?: number }) => void;
             };
             playNorthstarTwenty?: () => void;
+            playWalkBooTwenty?: () => void;
+            setWalkBooLoop?: (v: boolean) => void;
             pinOpeningRest?: () => void;
           };
         }
@@ -448,9 +452,9 @@ export function GasperStudioApp() {
         panX: 0,
         panY: CINEMATIC_PAN_Y,
       });
-      // N334: bare 5179 is the sealed rest portrait. Auto-playing the 20s
-      // was the opening fault (heading slam + taxi + plane-tilt sway).
-      // Capture scripts (?seq20=) still call playNorthstarTwenty themselves.
+      // Owner: play the real Northstar 20s on the live driver. Loop until Stand.
+      dais.setWalkBooLoop?.(true);
+      dais.playNorthstarTwenty?.();
       const clip = live.ok ? live.activeClipId : "error";
       setShowcaseNote(
         clip
@@ -471,7 +475,7 @@ export function GasperStudioApp() {
       data-integration="final"
       data-shell="worldclass"
       data-dais-first="1"
-      data-cinematic-set="1"
+      data-era="lumen"
       style={{ height: "100vh", width: "100vw", overflow: "hidden" }}
     >
       {/* Single chrome: WorldClassStudioShell â€” open Dais-first stage host */}

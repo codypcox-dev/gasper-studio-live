@@ -1,0 +1,73 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "walk-plant-off-frame",
+    "domain": "anim-physics",
+    "wall": "Walk is live but the operate/proof crop is a face plate, so the loaded Wispwalker lobe and the swing clearance sit below the frame. The plant cannot be reviewed."
+  },
+  "question": "What corpus already governs walk-plant-off-frame, and what is still unearned?",
+  "coordinateSpaces": "World units u; h_G = 1224 u; content px = u/8; operate crop is face-first; Proof/100% still may hide lobes.",
+  "physicalLaw": [
+    "A walk is an inverted-pendulum vault: one support planted, COM pays, swing limb clears.",
+    "Plant/swing contrast is a screen observable. If both lobes are off-frame, gait is unreviewable.",
+    "Phase is travel-locked. A face crop cannot substitute for a body-visible shot."
+  ],
+  "artisticLaw": [
+    "Face-first operate crop is lawful for expression review. It is not the walk-review shot.",
+    "Walk review requires a medium/wide authored bias so both foot-root lobes are stranger-countable."
+  ],
+  "invariants": [
+    "Do not invent a second walk writer.",
+    "Do not enlarge cruise or add shoes to fake a plant.",
+    "Do not change face grammar to simulate gait."
+  ],
+  "failureModes": [
+    "Hover/skate: both lobes stay grounded or both leave together.",
+    "Face plate: walk is on but the plant is cropped out.",
+    "Clock walk: phase advances while travel is zero."
+  ],
+  "uncertainty": [
+    "Authored 100% still face-crops; Fit currently zooms to 400%. Exact wide-shot camera law is not re-derived this receipt."
+  ],
+  "tests": [
+    "Proof + authored-wide (or equivalent) shows both Wispwalker foot-root lobes.",
+    "During walk, loaded lobe stays world-planted while swing lobe shows air gap.",
+    "Reduced motion collapses gait to byte-identical rest."
+  ],
+  "visualConsequences": [
+    "A stranger can count plant vs swing on the lower contour.",
+    "COM settles onto the planted lobe; the pearl does not float over wiggling feet."
+  ],
+  "implementation": [
+    "Hold operate face-first. Walk review uses Motion/Proof with shot bias wide or a dedicated body crop.",
+    "Do not change GaitLaw amplitudes to compensate for a cropped shot.",
+    "Return this packet to TriForce under docs/triforce/canon/runs/ before any walk-crop fix."
+  ],
+  "citations": [
+    {
+      "id": "codeops-engine/proc-phys-048",
+      "tier": "canon",
+      "source": "TriForce corpus · inverted pendulum + Froude number",
+      "rule": "Normalize locomotion by Fr = v²/(g·l); walk cannot be judged if the plant is off-frame."
+    },
+    {
+      "id": "vfxops-engine/3danim-state-locomotion",
+      "tier": "canon",
+      "source": "TriForce corpus · Williams walk contact/passing",
+      "rule": "A gait is its footfall rhythm. One foot planted, one free. Shot must show both lobes."
+    },
+    {
+      "id": "gait-expression-phd-memo",
+      "tier": "canon",
+      "source": "research/canon/anim-physics/gait-expression-phd-memo.md L8/L9",
+      "rule": "Phase is travel, never clock. Expression is illegal if it cannot be reviewed."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T06-37-04-092Z-explore-walk-plant-off-frame",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T06:37:04.092Z"
+}

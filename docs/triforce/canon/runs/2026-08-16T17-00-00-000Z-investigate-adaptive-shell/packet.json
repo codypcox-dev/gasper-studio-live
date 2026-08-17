@@ -1,0 +1,103 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "adaptive-shell",
+    "domain": "form-topology",
+    "wall": "AdaptiveShellScaffold is the earned 1000-field law. It composes. It does not paint. Live FormMaster already has the same 25×40 buffer and a rim that pushes the 512 — without this composer."
+  },
+  "question": "What is C = Γ(L) + Σs_i, what is live instead, and what is the lawful hook so blowfish / goose / remote use this field without a second hull or a dropped firewall?",
+  "coordinateSpaces": "Contract: unit-sphere 3D. Lattice L is 15×24×3. Scaffold UV is 25 rings × 40 sectors, u = sector/40 wrapped, v = ring/24 clamped. Displacement is along rest normal (radial). Live FormMaster: 2D content-px contour; __GASPER_SCAFFOLD_Z__ is Float32[1000] same index law (ring*40+sector). Lock adaptiveRelief.width=25 height=40 names rings first. ReliefScaffoldSource empty field is width=40 height=25 (sectors first). Same 1000, opposite axis names.",
+  "physicalLaw": [
+    "C = Γ(L) + Σs_i. Γ bilinear-samples the 360 lattice onto the 1000 UV. Sources are scalars along the rest normal. Topologies stay distinct (merged: false).",
+    "Amplitude 0 is identity. C equals Γ(L) byte-for-byte. +0, not −0. Neutral rim is the same law.",
+    "Three source kinds only: pressure, relief, captured. Expand/contract → pressure. Gather → relief. Never fixtures, blendshapes, or a fourth face.",
+    "changesSilhouetteTopology: false means do not remesh the 512. Coupling may displace the same 512 (live rim). It must not add samples.",
+    "L is the live 360 embedding, not a rest sphere, if C is to be Gasper. A rest-pearl Γ makes blowfish a ball, not him."
+  ],
+  "artisticLaw": [
+    "Sources do not render. No 1920-face SVG painter. No pupils, lids, brows, cheeks.",
+    "Goose is a relief source (regional samples). Blowfish is a pressure source (radial). Remote is a captured source or a new L, not a remesh.",
+    "Do not drop the contour firewall to hook this. Publish scalars into the live 1000 buffer. FormMaster already reads ring 24."
+  ],
+  "invariants": [
+    "25×40 = 1000. Faces 1920 transient, optional, inspect-only.",
+    "SCAFFOLD_FORBIDDEN stays. assertScaffoldContract fails on merge, face author, topology count drift.",
+    "zeroSource amplitude 0 ⇒ samples all +0.",
+    "No production import of composeAdaptiveShellScaffold today. Investigate does not recut gait."
+  ],
+  "failureModes": [
+    "Hook the 3D vertices to SVG. That is a second hull. Forbidden.",
+    "Keep restLatticeNodes() as L after hook. Blowfish becomes a sphere; the W dies.",
+    "Treat changesSilhouetteTopology as 'never move the 512.' Then the live rim is illegal and blowfish cannot read. Lawful read: counts stay 512.",
+    "sourcesFromCausalGoals fills all 1000 with 1 or −1. That is blowfish/gather, not goose. Using it for every affect flattens the skin.",
+    "width/height swap: lock 25×40 vs source field 40×25. A naive resample against the lock axes will transpose the field.",
+    "Mixer hook behind the firewall: lastContour stays a ghost. Production still FormMaster."
+  ],
+  "uncertainty": [
+    "Whether live nubScaffoldZ / walkScaffoldZ should become 'captured' sources or stay painter-local until L is live.",
+    "How to build live L from the 360 ARTICULATION_MESH (2D) into 3D without inventing a depth law. First hook can stay 2D: publish Σs_i only, skip 3D C."
+  ],
+  "tests": [
+    "Existing AdaptiveShellScaffold.test.ts: lock, identity-zero, C=Γ+Σs, frames orthogonal, R4 sources, resample +0.",
+    "After a lawful hook (not this receipt): amplitude 0 ⇒ live rim ring all 0. Uniform pressure ⇒ 512 radius grows, sample count still 512.",
+    "No all-script-3 import of transientFaces into a path 'd'."
+  ],
+  "visualConsequences": [
+    "Today: contract is green in vitest; the pearl does not use it.",
+    "Lawful hook: goose reads as skin, puff reads as pressure, remote is the same 512 in a new L. No second mesh on stage."
+  ],
+  "implementation": [
+    "Do not paint. Do not drop the firewall. Do not merge 360 into 1000.",
+    "First mastery cut: treat composeScaffoldVertices' Σs_i (the 1000 scalars, not the 3D C) as the sole writer of __GASPER_SCAFFOLD_Z__. Live scaffoldContourZ already consumes ring 24.",
+    "Build sources: pressure = blowfish/expand; relief = ReliefScaffoldSource from evaluateRelief; captured = nubs/walk only if they yield to this writer (one 1000, not four).",
+    "L later: live 360 from the 512. First cut may skip Γ and publish sources only — that matches today's 2D z-buffer.",
+    "Fix the width/height name: document u=sector (40), v=ring (25). Do not silently transpose.",
+    "sourcesFromCausalGoals stays the uniform preset. Regional fields go through ReliefScaffoldSource.",
+    "No gait recut. No 1920 SVG. No AdaptiveReliefInstrument golden-spiral."
+  ],
+  "citations": [
+    {
+      "id": "c-gamma-sum",
+      "tier": "canon",
+      "source": "AdaptiveShellScaffold.ts SCAFFOLD_COUPLING_LAW C=Γ(L)+∑s_i",
+      "rule": "Lattice sampled onto 1000. Sources displace along rest normal. Not merged."
+    },
+    {
+      "id": "identity-zero",
+      "tier": "canon",
+      "source": "AdaptiveShellScaffold.test.ts amplitude 0 is exact identity",
+      "rule": "Neutral is +0. Same as live publishScaffoldRimZero."
+    },
+    {
+      "id": "book-009",
+      "tier": "canon",
+      "source": "2026-08-14-cinematic-affect-overnight.md Book 009 + scaffold header",
+      "rule": "1000 must not paint a face. Coupled to 360/672. Do not hook a new SVG painter."
+    },
+    {
+      "id": "live-rim",
+      "tier": "canon",
+      "source": "all-script-3.js scaffoldContourZ ring 24 + __GASPER_SCAFFOLD_Z__",
+      "rule": "Production already reads a 1000 z-buffer. Hook scalars here."
+    },
+    {
+      "id": "firewall",
+      "tier": "canon",
+      "source": "2026-08-16T16-56-00-000Z-explore-contour-firewall",
+      "rule": "Mixer solve is not paint. Do not drop the fence to hook the scaffold."
+    },
+    {
+      "id": "subdivision-cage",
+      "tier": "reference",
+      "source": "Catmull–Clark / Presto — cage + displacement, topology fixed",
+      "rule": "Γ is the cage sample. s_i is displacement. Costume is a new embedding, not a remesh."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-16T17-00-00-000Z-investigate-adaptive-shell",
+    "returned": true
+  },
+  "earnedAt": "2026-08-16T17:00:00.000Z"
+}

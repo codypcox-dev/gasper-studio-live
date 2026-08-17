@@ -24,6 +24,7 @@ import {
   assertScaffoldContract,
   composeAdaptiveShellScaffold,
   composeScaffoldVertices,
+  composeScaffoldScalars,
   computeLocalFrame,
   latticeCouplingGamma,
   restLatticeNodes,
@@ -122,6 +123,20 @@ describe("R6 Adaptive Shell Scaffold — Book 009 contract, not a face painter",
     for (let i = 0; i < composed.length; i++) {
       expect(composed[i]).toBe(gamma[i]);
     }
+  });
+
+  it("composeScaffoldScalars is Σs_i with +0 identity", () => {
+    const quiet = composeScaffoldScalars([zeroSource("pressure"), zeroSource("relief")]);
+    expect(quiet.length).toBe(1000);
+    for (let i = 0; i < quiet.length; i++) expect(Object.is(quiet[i], 0)).toBe(true);
+    const puff = {
+      kind: "pressure" as const,
+      amplitude: 0.75,
+      samples: Float32Array.from({ length: 1000 }, () => 1),
+    };
+    const field = composeScaffoldScalars([puff]);
+    expect(field[0]).toBe(0.75);
+    expect(field[999]).toBe(0.75);
   });
 
   it("continuous pressure produces continuous displacement, not opacity", () => {

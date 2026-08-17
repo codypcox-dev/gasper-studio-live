@@ -1,0 +1,78 @@
+{
+  "fps": 120,
+  "frames": 1201,
+  "rest": {
+    "liftMax": 0,
+    "sideMax": 0,
+    "dx": 0,
+    "dy": 0,
+    "n": 315
+  },
+  "strut": {
+    "flips": 7,
+    "maxLift": 543.9526003948375,
+    "maxAdv": 0,
+    "maxDrop": 0.9381937374917722,
+    "maxPlantDrift": 0,
+    "dx": 0,
+    "liftSpans": [
+      {
+        "start": 2.658333333333337,
+        "end": 2.8000000000000065,
+        "n": 18
+      },
+      {
+        "start": 2.83333333333334,
+        "end": 3.19166666666668,
+        "n": 44
+      },
+      {
+        "start": 3.2166666666666806,
+        "end": 3.5750000000000206,
+        "n": 44
+      },
+      {
+        "start": 3.600000000000021,
+        "end": 3.9583333333333606,
+        "n": 44
+      },
+      {
+        "start": 3.9833333333333614,
+        "end": 4.341666666666688,
+        "n": 44
+      },
+      {
+        "start": 4.366666666666687,
+        "end": 4.725000000000008,
+        "n": 44
+      },
+      {
+        "start": 4.758333333333339,
+        "end": 5.108333333333326,
+        "n": 43
+      },
+      {
+        "start": 5.141666666666659,
+        "end": 5.1499999999999915,
+        "n": 2
+      }
+    ],
+    "n": 304
+  },
+  "seat": {
+    "liftMax": 541.7039781308762,
+    "dx": 0
+  },
+  "notice": {
+    "liftMax": 0,
+    "expressionHint": "listening-orient is face, not travel"
+  },
+  "faults": [
+    {
+      "id": "advance-starved",
+      "picture": "Free lobe does not travel. Y-chew without leave.",
+      "site": "all-script-3.js posed.x += advPx * swingArtW · gaitLobePose.swingAdvanceUnits.",
+      "evidence": "maxAdv=0.0 u"
+    }
+  ]
+}

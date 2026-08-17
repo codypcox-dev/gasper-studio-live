@@ -1,0 +1,100 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "arap-solver",
+    "domain": "mesh-physics",
+    "wall": "ARAP-from-pearl is not a paddle. Pearl rest metric forbids a shaft. Independent KV is not ARAP. The solver must walk φ toward a target embedding, then restore local rigidity in that embedding’s metric."
+  },
+  "question": "What is the exact ARAP implementation on Gasper’s 25×40, which rest metric is lawful for a paddle, and what is one 60 fps tick?",
+  "coordinateSpaces": "φ, φ*, φ̄ ∈ R² content-px. i=r*40+s. Sector wraps. Ring 0 is the pole (one point). L is 1000×1000 sparse, factored once per rest. Face lock v∈[0.32,0.58]. dt=1/60 s.",
+  "physicalLaw": [
+    "ARAP rest φ̄ is the current target embedding φ*, not the pearl, when the morph changes metric (paddle, remote).",
+    "Pearl as φ̄ is lawful only for small handles on the pearl (puff, slap, gait). It cannot grow a shaft.",
+    "2D Kabsch: θ_i=atan2(S21-S12, S11+S22), R_i=[[c,-s],[s,c]], S=Σ_j w_ij (φ_i-φ_j)(φ̄_i-φ̄_j)^T.",
+    "Global: L φ = b, L_ii=Σ w_ij, L_ij=-w_ij, b_i=Σ_j (w_ij/2)(R_i+R_j)(φ̄_i-φ̄_j). Dirichlet rows = identity.",
+    "Tick: φ ← φ+k(φ*-φ) with k=1-exp(-dt/τ_i), then one local+global. Face verts Dirichlet to φ*.",
+    "w_ij=1/||φ̄_i-φ̄_j|| on 4-neighbors (ring±1, sector±1 wrap). Pole: 40 sectors share one φ."
+  ],
+  "artisticLaw": [
+    "Blade cells stay rigid in the paddle metric. Handle stretch lives in φ*, not in ARAP.",
+    "Face lock is Dirichlet, not a fade. Eyes do not ride the shaft.",
+    "Gel is one ARAP step of leftover strain after KV, not a paint."
+  ],
+  "invariants": [
+    "1000 verts, 960 quads, connectivity frozen. Ring 0 collapsed to 1 DOF.",
+    "φ=φ*=φ̄ ⇒ ARAP is identity. Rest pearl + zero morph ⇒ Γ(L).",
+    "L depends only on φ̄. Refactor when morph changes. Never per frame.",
+    "det F_q > 0.15 after a tick. No remesh.",
+    "Hull and grid read the same φ[2000]."
+  ],
+  "failureModes": [
+    "φ̄=pearl during paddle: ARAP shortens the shaft back into a nub.",
+    "Full Dirichlet on all 1000: ARAP is a no-op; we are back to a blend shape.",
+    "Dense 1000×1000 invert every frame: miss 60 fps.",
+    "3D SVD per vertex: wasted; SO(2) is atan2.",
+    "Two writers: stance sockets after φ. The pearl returns."
+  ],
+  "uncertainty": [
+    "One local-global per frame vs two. Throat quality is the unknown.",
+    "Uniform vs cotangent weights on a polar grid.",
+    "Whether gait should be a soft handle on two rim verts or a separate posed pass."
+  ],
+  "tests": [
+    "Identity: φ=φ̄ ⇒ max|Δφ|=0 after tickArap.",
+    "Pearl rest + zero morph: φ equals restPolarMesh.",
+    "Paddle: φ̄ is paddle mesh; rim max y>blade+20; face |φ|<40.",
+    "Poke: displace 1 free vert 8px, one tick, neighbors move, face lock |Δ|<2px.",
+    "No edge > 2.4× rest length. All 960 det F > 0.15."
+  ],
+  "visualConsequences": [
+    "Paddle hold is rigid gel, not a UV fan stacked on the blade rim.",
+    "A poke near the cheek ripples; the face plate stays.",
+    "Grid and hull are the same φ."
+  ],
+  "implementation": [
+    "New ArapSolver.ts only. Do not recut FormMaster this receipt after deposit.",
+    "buildRestPolar(): φ̄ pearl. buildLaplacian(φ̄): CSR + Cholesky-ready dense 1000 (n=1000 is fine if factored once).",
+    "localRotations(φ,φ̄), applyGlobal(L,R,φ̄,locks) → φ. tickArap(state,dt): KV then 1 ARAP.",
+    "FabricSolver.publishFabric writes __GASPER_FABRIC_POS__=φ, not a second kinematic mesh.",
+    "Locks: face band always. Morph change rebuilds φ̄ and L. meshOutlinePoint already reads POS."
+  ],
+  "citations": [
+    {
+      "id": "igarashi-2005",
+      "tier": "reference",
+      "source": "Igarashi, Moscovich, Hughes, As-Rigid-As-Possible Shape Manipulation, SIGGRAPH 2005",
+      "rule": "2D character ARAP. Interior follows a few handles. This is the 2D paper, not Sorkine 2007."
+    },
+    {
+      "id": "sorkine-alexa-2007",
+      "tier": "reference",
+      "source": "Sorkine & Alexa, As-Rigid-As-Possible Surface Modeling, SGP 2007",
+      "rule": "Local rotation + global Poisson. Use SO(2) Kabsch, not 3D SVD."
+    },
+    {
+      "id": "kabsch-1976",
+      "tier": "reference",
+      "source": "Kabsch, A solution for the best rotation to relate two sets of vectors, 1976",
+      "rule": "2D closed form: θ=atan2(S21-S12, S11+S22)."
+    },
+    {
+      "id": "explore-mesh-deform",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T00-23-00-000Z-explore-mesh-deform-physics",
+      "rule": "Neighbors must resist strain. UV remap is a target, not a solver."
+    },
+    {
+      "id": "kelvin-voigt-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-26-00-000Z-investigate-kelvin-voigt-params",
+      "rule": "We own τ only. Apply it to φ, then ARAP."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T00-26-00-000Z-investigate-arap-solver",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T00:26:00.000Z"
+}

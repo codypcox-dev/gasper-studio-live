@@ -2,7 +2,7 @@
  * First-class Gasper Dais stage — packaged rig, embodiment-aware bounds/handles.
  */
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { mountGasperDocument } from "./GasperDocument";
+import { mountGasperDocument, FORMMASTER_PAINT_REV } from "./GasperDocument";
 import { GasperRigController } from "./GasperRigController";
 import { GasperViewportController } from "./GasperViewportController";
 import { assessComposedOrganismFrame } from "./GasperCompositionContract";
@@ -569,7 +569,7 @@ export function GasperDaisStage({
       onError?.(msg);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [FORMMASTER_PAINT_REV]);
 
   useEffect(() => {
     const unsub = controller.selection.subscribe((s) => {

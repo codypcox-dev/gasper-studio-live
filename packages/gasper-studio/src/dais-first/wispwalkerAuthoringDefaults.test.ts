@@ -35,7 +35,7 @@ describe("Cody-authored Wispwalker home profile", () => {
         walkAccent: 0.6,
         stepDepth: 4,
         walkEnabled: 1,
-        viscoTau: 0.25,
+        viscoTau: 0.28,
       },
       physics: {
         gravityScale: 1,

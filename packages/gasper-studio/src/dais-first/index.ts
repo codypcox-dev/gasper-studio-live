@@ -90,6 +90,10 @@ export {
   transitionInterrupt,
   readActiveEightState,
   resolvePackagedDais,
+  applyWalkReviewShot,
+  releaseWalkReviewShot,
+  playWalkBooTwentyFromRail,
+  playNorthstarTwentyFromRail,
 } from "./daisFirstControls";
 export type {
   DaisFirstAdapter,
@@ -98,10 +102,29 @@ export type {
   DispatchHandlers,
   DaisEightStateSurface,
   SelectEightStateResult,
+  DaisWalkReviewSurface,
+  WalkReviewActionResult,
 } from "./daisFirstControls";
+
+export {
+  WALK_REVIEW_FRAME,
+  WALK_REVIEW_SHOT,
+  isWalkReviewFrame,
+  walkReviewHoldsPlant,
+  walkReviewModePolicy,
+} from "./walkReviewShot";
 
 export { DaisControlRail } from "./DaisControlRail";
 export type { DaisControlRailProps } from "./DaisControlRail";
+
+export { AuthoringAtlas, AUTHORING_CHAPTERS } from "./AuthoringAtlas";
+export {
+  factoryCanonicalBaseline,
+  captureCanonicalBaseline,
+  persistCanonicalBaseline,
+  readPersistedCanonicalBaseline,
+} from "./canonicalBaseline";
+export type { CanonicalBaseline } from "./canonicalBaseline";
 
 export { DaisTransportBar } from "./DaisTransportBar";
 export type { DaisTransportBarProps } from "./DaisTransportBar";

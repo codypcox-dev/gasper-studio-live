@@ -24,6 +24,12 @@ import {
   type StudioPilotTurnRequest,
 } from "../StudioPilotProtocol.js";
 import { VideoSourceError } from "./VideoSourceResolver.js";
+import {
+  CANONOPS_API_PATH,
+  canonOpsRunRequestSchema,
+  type CanonOpsPhdPacket,
+  type CanonOpsRunRequest,
+} from "../../canonops/CanonOpsProtocol.js";
 
 export type TrainingSourceMiddlewareService = Readonly<{
   resolveLinked(url: string, signal?: AbortSignal): Promise<ResolvedReferenceSource>;
@@ -47,6 +53,7 @@ export type TrainingSourceMiddlewareService = Readonly<{
     error?: string;
     code?: string;
   }>;
+  runCanonOps?(request: CanonOpsRunRequest): Promise<CanonOpsPhdPacket>;
 }>;
 
 export type TrainingSourceNext = (error?: unknown) => void;
@@ -345,6 +352,31 @@ export function createTrainingSourceMiddleware(
           });
         })
         .finally(() => req.off("aborted", abort));
+      return;
+    }
+
+    if (req.method === "POST" && pathname === CANONOPS_API_PATH) {
+      if (!service.runCanonOps) {
+        sendJson(res, 503, { ok: false, code: "CANONOPS_UNAVAILABLE", error: "CanonOps runner unavailable" });
+        return;
+      }
+      void readJsonBody(req, 32_768)
+        .then(async (body) => {
+          const parsed = canonOpsRunRequestSchema.safeParse((body as { request?: unknown } | null)?.request);
+          if (!parsed.success) {
+            sendJson(res, 400, { ok: false, code: "INVALID_CANONOPS_REQUEST", error: "invalid CanonOps run request" });
+            return;
+          }
+          const packet = await service.runCanonOps!(parsed.data);
+          sendJson(res, 200, { ok: true, packet });
+        })
+        .catch((error) => {
+          sendJson(res, 502, {
+            ok: false,
+            code: "CANONOPS_FAILED",
+            error: error instanceof Error ? error.message : String(error),
+          });
+        });
       return;
     }
 

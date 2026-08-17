@@ -422,5 +422,120 @@ server.registerTool(
   async ({ path }) => run(async () => session.save_gasper_document({ path })),
 );
 
+async function fieldOp(method: string, input: Record<string, unknown> = {}) {
+  return runLiveTuning("field_dispatch", { method, ...input });
+}
+
+server.registerTool(
+  "field_manifest",
+  {
+    title: "Gasper field cage",
+    description: "25×40 / 1000-point cage API. Use for protrude, bas-relief, sculpt, and saved looks.",
+    inputSchema: {},
+    annotations: ro,
+  },
+  async () => run(() => fieldOp("describe")),
+);
+
+server.registerTool(
+  "field_protrude",
+  {
+    title: "Protrude a glyph on Gasper",
+    description: "Stamp a character or mark as a raised form on the 1000-point cage. Example: glyph '?' ",
+    inputSchema: {
+      glyph: z.string().default("?").describe("Glyph or short mark to raise"),
+      amplitude: z.number().optional().describe("Height, default 0.95"),
+    },
+    annotations: mut,
+  },
+  async ({ glyph, amplitude }) => run(() => fieldOp("protrude", { glyph, amplitude })),
+);
+
+server.registerTool(
+  "field_bas_relief",
+  {
+    title: "Bas-relief a glyph on Gasper",
+    description: "Shallower carved relief of a glyph on the same cage.",
+    inputSchema: {
+      glyph: z.string().default("?").describe("Glyph to carve"),
+      amplitude: z.number().optional(),
+    },
+    annotations: mut,
+  },
+  async ({ glyph, amplitude }) => run(() => fieldOp("bas_relief", { glyph, amplitude })),
+);
+
+server.registerTool(
+  "field_sculpt",
+  {
+    title: "Sculpt the cage",
+    description: "Gaussian pull at polar UV. u=sector 0..1, v=ring 0..1.",
+    inputSchema: {
+      u: z.number(),
+      v: z.number(),
+      radius: z.number().optional(),
+      amplitude: z.number().optional(),
+    },
+    annotations: mut,
+  },
+  async (input) => run(() => fieldOp("sculpt", input)),
+);
+
+server.registerTool(
+  "field_save_look",
+  {
+    title: "Save cage look as embodiment",
+    description: "Save the current 1000-field as a named look that appears in the embodiment list.",
+    inputSchema: { label: z.string(), note: z.string().optional() },
+    annotations: mut,
+  },
+  async (input) => run(() => fieldOp("saveLook", input)),
+);
+
+server.registerTool(
+  "field_list_looks",
+  {
+    title: "List saved cage looks",
+    description: "Named embodiments saved from the 1000-field.",
+    inputSchema: {},
+    annotations: ro,
+  },
+  async () => run(() => fieldOp("listLooks")),
+);
+
+server.registerTool(
+  "field_load_look",
+  {
+    title: "Load a saved cage look",
+    inputSchema: { id: z.string() },
+    annotations: mut,
+  },
+  async ({ id }) => run(() => fieldOp("loadLook", { id })),
+);
+
+server.registerTool(
+  "field_rotate",
+  {
+    title: "Rotate the cage field 60°",
+    description: "Hex C6 rotation of the 1000-field about a cube pivot. turns=1 is 60° CCW. Optional polar UV pivot (default dermis center).",
+    inputSchema: {
+      turns: z.number().default(1).describe("60° steps, 1..5. Six is identity."),
+      axis: z.enum(["pole", "hex"]).optional().describe("pole = around him (default). hex = C6 about a cube pivot."),
+    },
+    annotations: mut,
+  },
+  async (input) => run(() => fieldOp("rotate", input)),
+);
+
+server.registerTool(
+  "field_clear",
+  {
+    title: "Clear the cage field",
+    inputSchema: {},
+    annotations: mut,
+  },
+  async () => run(() => fieldOp("clear")),
+);
+
 const transport = new StdioServerTransport();
 await server.connect(transport);
