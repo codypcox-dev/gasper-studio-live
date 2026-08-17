@@ -1,9 +1,8 @@
 {
-  "runId": "2026-08-17T04-20-00-000Z-explore-kelvin-voigt-details",
+  "runId": "2026-08-17T17-12-00-000Z-explore-gaitgate",
   "mode": "explore",
-  "residual": "kelvin-voigt-details",
-  "depositPath": "docs/triforce/canon/runs/2026-08-17T04-20-00-000Z-explore-kelvin-voigt-details",
-  "parentResidual": "uniform-lp",
-  "engineVersion": "3.0.0",
-  "lock": "docs/triforce/canon/CAGED-HULL-LOCK.json"
+  "residual": "gaitgate",
+  "depositPath": "docs/triforce/canon/runs/2026-08-17T17-12-00-000Z-explore-gaitgate",
+  "parentResidual": "state-machine",
+  "engineVersion": "3.0.0"
 }

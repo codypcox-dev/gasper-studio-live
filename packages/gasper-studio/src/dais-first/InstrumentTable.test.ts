@@ -2,28 +2,26 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const host = readFileSync(new URL("./DaisFirstStageHost.tsx", import.meta.url), "utf8");
+const desk = readFileSync(new URL("./StudioDesk.tsx", import.meta.url), "utf8");
 const table = readFileSync(new URL("./InstrumentTable.tsx", import.meta.url), "utf8");
 const css = readFileSync(new URL("./daisFirst.css", import.meta.url), "utf8");
 
-describe("collapsible settings pane", () => {
-  it("docks on the right, lists every dial, and collapses", () => {
-    expect(host).toContain("InstrumentTable");
-    expect(host).toContain("<LumenGlass");
-    expect(table).toContain('data-testid="instrument-table"');
-    expect(table).toContain('data-testid="settings-toggle"');
-    expect(table).toContain('"tools"');
-    expect(table).toContain('"sliders"');
-    expect(table).toContain('"effects"');
-    expect(table).toContain('id: "orbit"');
-    expect(table).toContain("orbit_yaw");
-    expect(table).toContain("orbit_pitch");
-    expect(table).toContain("orbit360");
-    expect(table).toContain("setOrbit");
-    expect(table).toContain("fabric_torso");
-    expect(table).toContain("instrument-section-${group.id}");
-    expect(table).not.toContain("instrument-prev");
-    expect(css).toContain(".instrument-table");
-    expect(css).toContain("data-open");
-    expect(css).toContain("right: 16px");
+describe("theater desk", () => {
+  it("is the single instrument under the stage", () => {
+    expect(host).toContain("StudioDesk");
+    expect(host).not.toContain("<LumenGlass");
+    expect(host).not.toContain("<GeoNodeEditor");
+    expect(desk).toContain('data-testid="studio-desk"');
+    expect(desk).toContain("desk-chapter-");
+    expect(desk).toContain("nodes");
+    expect(desk).toContain('data-testid="lumen-play-twenty"');
+    expect(desk).toContain('data-testid="lumen-grid-toggle"');
+    expect(desk).toContain("PillarBoard");
+    expect(desk).toContain("MachineStrip");
+    expect(desk).toContain("GeoNodeEditor");
+    expect(desk).toContain("embedded");
+    expect(table).toContain("embedded");
+    expect(css).toContain(".studio-desk");
+    expect(css).toContain("--desk:");
   });
 });

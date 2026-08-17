@@ -31,8 +31,8 @@ import {
 } from "./daisFirstControls";
 import { DaisControlRail } from "./DaisControlRail";
 import { DaisTransportBar } from "./DaisTransportBar";
-import { InstrumentTable } from "./InstrumentTable";
-import { applySkinTake, LumenGlass, type SkinTake } from "./LumenGlass";
+import { StudioDesk } from "./StudioDesk";
+import { applySkinTake, type SkinTake } from "./LumenGlass";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { publishScaffoldAuthority } from "../../../desktop/src/gasper/scaffold/ScaffoldFieldAuthority";
 import { playNorthstarTwentyFromRail, setWalkBooLoopFromRail } from "./daisFirstControls";
@@ -250,9 +250,8 @@ export function DaisFirstStageHost({
             </div>
           </div>
         ) : null}
-        <InstrumentTable adapter={adapter} take={take} onTake={setTake} />
-        <LumenGlass take={take} onTake={setTake} />
       </div>
+      <StudioDesk adapter={adapter} take={take} onTake={setTake} />
       <DaisControlRail
         adapter={adapter}
         tuningLab={tuningLab}

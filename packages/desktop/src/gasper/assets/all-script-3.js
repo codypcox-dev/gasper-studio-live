@@ -609,6 +609,7 @@
   let behaviorMorphStatus = 'idle';
   let activeReliefMode = 'none';
   let paused = false, debugOn = false, selectedVertex = -1, lastPoints = [], lastMeshPoints = [];
+  let stanceWasLive = false;
   const meshOffsets = Array.from({length:STRUCTURAL_NODES},()=>({x:0,y:0}));
   let dragOrigin = null;
   let lastTime = organismNow(), elapsed = 0, lastAuto = organismNow();
@@ -741,7 +742,7 @@
     const sgn=eff<0?-1:1,turn=authoredTurnEase(),nx=lifted.objectX/frame.rx,ny=lifted.objectY/frame.ry,mx=sgn*nx;
     const verticalEnvelope=Math.pow(Math.max(0,1-Math.abs(ny)),.72),interiorEnvelope=Math.max(0,1-Math.hypot(nx,ny));
     const lobeBand=Math.exp(-.5*Math.pow(ny/.32,2)),identityShift=1.2*turn*verticalEnvelope;
-    const nearExpansion=0.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=0.0*turn*Math.pow(Math.max(0,-mx),.78)*lobeBand;
+    const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=4.8*turn*Math.pow(Math.max(0,-mx),.78)*lobeBand;
     const crownBias=1.4*turn*Math.max(0,-ny)*(1-Math.min(1,Math.abs(nx))),depthParallax=lifted.latentDepth*.12*sgn*turn*surfaceInfluence;
     const anchorX=point.x+sgn*(identityShift+nearExpansion+farTuck+crownBias)+depthParallax;
     const anchorY=point.y+1.55*turn*mx*verticalEnvelope+.75*turn*ny*interiorEnvelope;
@@ -791,6 +792,36 @@
   function rotate(x,y,cx,cy,deg){ const r=deg*Math.PI/180,dx=x-cx,dy=y-cy;return{x:cx+dx*Math.cos(r)-dy*Math.sin(r),y:cy+dx*Math.sin(r)+dy*Math.cos(r)}; }
   function splineSegments(pts){ if(pts.length<2)return'';let s='';for(let i=0;i<pts.length-1;i++){const p0=pts[Math.max(0,i-1)],p1=pts[i],p2=pts[i+1],p3=pts[Math.min(pts.length-1,i+2)];const c1x=p1.x+(p2.x-p0.x)/6,c1y=p1.y+(p2.y-p0.y)/6,c2x=p2.x-(p3.x-p1.x)/6,c2y=p2.y-(p3.y-p1.y)/6;s+=` C ${c1x.toFixed(2)} ${c1y.toFixed(2)} ${c2x.toFixed(2)} ${c2y.toFixed(2)} ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;}return s; }
   function closedSpline(pts){ let d=`M ${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}`;const n=pts.length;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];const c1x=p1.x+(p2.x-p0.x)/6,c1y=p1.y+(p2.y-p0.y)/6,c2x=p2.x-(p3.x-p1.x)/6,c2y=p2.y-(p3.y-p1.y)/6;d+=` C ${c1x.toFixed(2)} ${c1y.toFixed(2)} ${c2x.toFixed(2)} ${c2y.toFixed(2)} ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;}return d+' Z'; }
+  const KAPPA_TH_CAP=0.9,KAPPA_LOWER_SIN=0.12,KAPPA_ITERS=8,KAPPA_PULL=0.55;
+  function kappaBoxLower(pts,S){
+    const GN=globalThis.__GASPER_GEONODES_EVAL__||{};
+    if(GN.mute&&GN.mute.kappa)return pts;
+    if(!pts||pts.length<8||!S||!(S.live>0.004))return pts;
+    const cap=Number(GN.params&&GN.params.kappa&&GN.params.kappa.cap)||KAPPA_TH_CAP;
+    const n=pts.length;let iL=0,iR=0,iC=0,mL=-1,mR=-1,mC=-1;
+    for(let i=0;i<n;i++){
+      const th=pts[i].th??pts[i].theta??0;
+      const wL=gaussAngle(th,1.83,0.11),wR=gaussAngle(th,1.31,0.11),wC=gaussAngle(th,Math.PI/2,0.09);
+      if(wL>mL){mL=wL;iL=i;}if(wR>mR){mR=wR;iR=i;}if(wC>mC){mC=wC;iC=i;}
+    }
+    for(let iter=0;iter<KAPPA_ITERS;iter++){
+      const xs=new Float64Array(n),ys=new Float64Array(n);
+      for(let i=0;i<n;i++){xs[i]=pts[i].x;ys[i]=pts[i].y;}
+      for(let i=0;i<n;i++){
+        if(i===iL||i===iR||i===iC)continue;
+        const th=pts[i].th??pts[i].theta??0;
+        if(Math.sin(th)<=KAPPA_LOWER_SIN)continue;
+        const a=(i+n-1)%n,c=(i+1)%n;
+        const turn=Math.atan2((xs[i]-xs[a])*(ys[c]-ys[i])-(ys[i]-ys[a])*(xs[c]-xs[i]),(xs[i]-xs[a])*(xs[c]-xs[i])+(ys[i]-ys[a])*(ys[c]-ys[i]));
+        const over=Math.abs(turn)-cap;
+        if(over<=0)continue;
+        const s=Math.min(0.85,KAPPA_PULL+0.25*(over/KAPPA_TH_CAP));
+        pts[i].x=xs[i]*(1-s)+0.5*s*(xs[a]+xs[c]);
+        pts[i].y=ys[i]*(1-s)+0.5*s*(ys[a]+ys[c]);
+      }
+    }
+    return pts;
+  }
   function openSpline(pts){ return pts.length ? `M ${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}` + splineSegments(pts) : ''; }
 
   function baseRadiusV61(th){
@@ -1470,21 +1501,18 @@ function sampleBodyForProfile(profileId,st,t){
     const _formK=_expK*_tenK; // D-0041 V3 Layer A: composed whole-form scale (expansion o recognition-pop o tension); worst-case |delta| < 3.3% radius << 8px no-pinch
     const posed={x:frame.cx+nx*volumeX*_formK+postXEff+lean+contrapposto,y:frame.cy+ny*volumeY*_formK+postYEff+(((globalThis.__GASPER_STANCE__||{}).live>0.004)?0:physSilhouettePlantY)};
     if(profileId==='wispwalker'){
+      const GN=globalThis.__GASPER_GEONODES_EVAL__||{};
+      if(!(GN.mute&&GN.mute.handles)){
       const S=globalThis.__GASPER_STANCE__||{};
-      const _chinKeep=gaussAngle(th,Math.PI/2,0.18);
-      const _lower=Math.min(1,Math.max(0,Math.sin(th)-0.20)/0.80);
-      const wL=gaussAngle(th,1.83,0.14)*(1-_chinKeep)*_lower;
-      const wR=gaussAngle(th,1.31,0.14)*(1-_chinKeep)*_lower;
-      const wC=gaussAngle(th,Math.PI/2,0.16)*(1-_chinKeep)*_lower;
-      const wSum=wL+wR+wC;
-      const k=Math.min(1,wSum*(S.live||0));
-      if(k>0.004&&S.left&&S.right&&S.crotch){
-        const tx=S.left.x*wL+S.right.x*wR+S.crotch.x*wC;
-        const ty=S.left.y*wL+S.right.y*wR+S.crotch.y*wC;
-        const rx=100*wL+140*wR+120*wC;
-        const ry=188*wL+188*wR+172*wC;
-        posed.x+=(tx-rx)/wSum*S.live;
-        posed.y+=(ty-ry)/wSum*S.live;
+      if((S.live||0)>0.004&&S.left&&S.right&&S.crotch){
+        const _chinKeep=gaussAngle(th,Math.PI/2,0.18);
+        const _lower=Math.min(1,Math.max(0,Math.sin(th)-0.20)/0.80);
+        const wL=gaussAngle(th,1.83,0.11)*(1-_chinKeep)*_lower;
+        const wR=gaussAngle(th,1.31,0.11)*(1-_chinKeep)*_lower;
+        const wC=gaussAngle(th,Math.PI/2,0.09)*(1-_chinKeep)*_lower;
+        posed.x+=(S.left.x-100)*wL+(S.right.x-140)*wR+(S.crotch.x-120)*wC;
+        posed.y+=(S.left.y-188)*wL+(S.right.y-188)*wR+(S.crotch.y-172)*wC;
+      }
       }
     }
     pts.push(viewDeformPoint({index,x:posed.x,y:posed.y,th,geometryModel:mapped.geometryModel},profile));
@@ -2731,6 +2759,8 @@ function applyMeshWarp(contour,mesh){
       const VISCO_TAU_REST = 0.42;
       const S=globalThis.__GASPER_STANCE__||{};
       const restHold=(!S.live||S.live<0.004)?1:0;
+      if(!restHold&&!stanceWasLive) globalThis.__GASPER_VISCO_SNAP__=1;
+      stanceWasLive=!restHold;
       const _side=Number(S.side)||Number(physGait&&physGait.supportSide)||0;
       const _gaitLive=restHold?0:1;
       const _gatePlant=_gaitLive>0.004&&_side!==0;
@@ -2753,15 +2783,27 @@ function applyMeshWarp(contour,mesh){
           const ww=wL+wR;
           const stanceTau=ww>1e-4?(tauL*wL+tauR*wR)/ww:VISCO_TAU_SWING;
           const gated=viscoTau+w*(VISCO_TAU_PLANT-viscoTau);
-          const tau=restHold?VISCO_TAU_REST:(1-restHold)*(ww>0.05?stanceTau:gated);
-          const sa=1-Math.exp(-dt/Math.max(0.02,tau||VISCO_TAU_SWING));
+          const GN=globalThis.__GASPER_GEONODES_EVAL__||{};
+          const tauLower=Number(GN.params&&GN.params.voigt&&GN.params.voigt.tau)||0.05;
+          const tau=GN.mute&&GN.mute.voigt?0.02:(restHold?VISCO_TAU_REST:(_lower>0.12&&S.live?tauLower:(1-restHold)*(ww>0.05?stanceTau:gated)));
+          const TF=globalThis.__GASPER_TAU_FIELD__;
+          let tauUse=tau;
+          if(TF&&!(GN.mute&&GN.mute.voigt)){
+            const v=Math.min(1,Math.max(0,(Math.sin(th)+1)*0.5));
+            const tc=Number(TF.crown),tw=Number(TF.waist),tf=Number(TF.foot);
+            if(Number.isFinite(tc)&&Number.isFinite(tw)&&Number.isFinite(tf)){
+              const field=v<0.5?tc+(tw-tc)*(v/0.5):tw+(tf-tw)*((v-0.5)/0.5);
+              tauUse=(_lower>0.12&&S.live)?Math.min(field,tau):field;
+            }
+          }
+          const sa=1-Math.exp(-dt/Math.max(0.02,tauUse||VISCO_TAU_SWING));
           prev[i].x+=(r.x-prev[i].x)*sa;
           prev[i].y+=(r.y-prev[i].y)*sa;
           for(const k in r){if(k!=='x'&&k!=='y')prev[i][k]=r[k];}
         }
         return prev;
       };
-      smoothPts=_lp(smoothPts,pts); smoothMesh=_lp(smoothMesh,mesh); pts=smoothPts; mesh=smoothMesh;
+      smoothPts=_lp(smoothPts,kappaBoxLower(pts,S)); smoothMesh=_lp(smoothMesh,mesh); pts=kappaBoxLower(smoothPts,S); mesh=smoothMesh;
     }
     const singularityWeight=profileWeight(morphProfileId,nextMorphProfileId,morphMix,'singularity');
     const orbitWeight=profileWeight(morphProfileId,nextMorphProfileId,morphMix,'dormant-orbit');

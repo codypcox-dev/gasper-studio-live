@@ -488,6 +488,7 @@ export class WorldPhysicsDriver implements LocomotionPort {
     ) {
       return;
     }
+    const firstStroke = this.performanceGait === null;
     this.performanceGait = Object.freeze({
       cadenceHz: Math.max(GAIT_LAW.stepHzFloor, Math.min(GAIT_STEP_HZ_MAX, intent.cadenceHz)),
       driveGain: Math.max(0, Math.min(1, intent.driveGain)),
@@ -497,6 +498,12 @@ export class WorldPhysicsDriver implements LocomotionPort {
         Math.min(MAX_AREA_CONSERVING_VERTICAL_COMPRESSION, intent.compressionRatio),
       ),
     });
+    // First stroke only. Sustain re-files must not reset φ — that is a 2π
+    // wrap and a 14px side-swap spike.
+    if (firstStroke) {
+      this.gaitGate = 1;
+      this.gaitPhase = 0;
+    }
   }
 
   getPerformanceGait(): PerformanceGaitIntent | null {
@@ -1598,7 +1605,14 @@ export class WorldPhysicsDriver implements LocomotionPort {
           gravity: g,
           phase: this.gaitPhase,
           dt,
-          tempoMultiplier: this.gaitTempoMultiplier,
+          tempoMultiplier: (() => {
+            const hostTempo = Number(
+              (globalThis as { __GASPER_GAIT_TEMPO__?: number }).__GASPER_GAIT_TEMPO__,
+            );
+            return Number.isFinite(hostTempo)
+              ? Math.max(0.75, Math.min(1.25, hostTempo))
+              : this.gaitTempoMultiplier;
+          })(),
           stepHzOverride: performanceGait?.cadenceHz ?? (inWalkBand && walkHz > 0 ? walkHz : undefined),
         })
       : { ...GAIT_REST, phase: this.gaitPhase };

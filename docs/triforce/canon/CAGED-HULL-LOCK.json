@@ -17,11 +17,13 @@
     "yaw": 8
   },
   "forbidden": [
+    "farTuck=0.0*turn",
     "posed.y-=_liftPx*_swingArtW",
     "const _cyanPlant=0;",
-    "farTuck=0.0*turn",
     "mix-blend-mode: screen",
-    "CageHull.ts as a second painter"
+    "CageHull.ts as a second painter",
+    "vK=1/hK",
+    "min(READABLE_THREE_QUARTER_DEG, abs) locomotion fold"
   ],
   "gates": {
     "G1": "rest pearl, sealed W, no white gel",

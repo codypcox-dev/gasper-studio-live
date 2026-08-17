@@ -28,7 +28,9 @@ describe("cage hull honor — chase GASPER-CAGED-HULL-001", () => {
     expect(chase).toContain("Canonical appearance");
     expect(chase).toContain("No extra ear term");
     expect(formMaster).toContain("function muteHardHighlights()");
-    expect(formMaster).toContain("function paintSurfaceShade()");
+    expect(formMaster).toContain("const loft=globalThis.__GASPER_SHADE_LOFT__");
+    expect(formMaster).toContain("avatar.dataset.cageSpecX");
+    expect(formMaster).not.toContain("stop-color','#fffaff'");
     expect(formMaster).toContain("function paintScaffoldGrid(contour,profile)");
     expect(formMaster).not.toContain("farTuck=0.0*turn");
   });

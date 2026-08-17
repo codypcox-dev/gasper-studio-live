@@ -84,24 +84,24 @@ describe("S8 radial facing — the clock frame (N39)", () => {
     expect(facingPaintYawDeg(Number.NaN)).toBe(0);
   });
 
-  it("+x stroll heading stays a readable profile; 360 law is not folded", () => {
+  it("+x stroll heading stays continuous; 180 is the back, not a 22° sticker", () => {
     expect(facingPaintYawDeg(90)).toBe(90);
     expect(facingPaintYawDeg(180)).toBe(180);
-    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(90))).toBe(READABLE_THREE_QUARTER_DEG);
-    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(-90))).toBe(-READABLE_THREE_QUARTER_DEG);
+    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(90))).toBe(90);
+    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(-90))).toBe(-90);
     expect(
       facingPaintOrbitYawDeg(facingReadableLocomotionYawDeg(facingPaintYawDeg(90))),
-    ).toBe(-READABLE_THREE_QUARTER_DEG);
+    ).toBe(-90);
     expect(
       facingPaintOrbitYawDeg(facingReadableLocomotionYawDeg(facingPaintYawDeg(-90))),
-    ).toBe(READABLE_THREE_QUARTER_DEG);
+    ).toBe(90);
     expect(facingPaintOrbitYawDeg(0)).toBe(0);
     expect(facingPaintOrbitYawDeg(180)).toBe(180);
     expect(READABLE_THREE_QUARTER_DEG).toBe(22);
     expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(0))).toBe(0);
-    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(180))).toBe(READABLE_THREE_QUARTER_DEG);
-    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(37))).toBe(READABLE_THREE_QUARTER_DEG);
-    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(135))).toBe(READABLE_THREE_QUARTER_DEG);
+    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(180))).toBe(180);
+    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(37))).toBe(37);
+    expect(facingReadableLocomotionYawDeg(facingPaintYawDeg(135))).toBe(135);
     expect(facingReadableLocomotionYawDeg(Number.NaN)).toBe(0);
   });
 

@@ -17,7 +17,7 @@ import {
 } from "./FabricSolver";
 import { FABRIC_REGION_IDS, type FabricRegionId } from "./FabricRegions";
 import { rotateScaffoldField, spinScaffoldField } from "./HexFieldRotate";
-import { shadeMesh, loftXYZFromHull } from "./SurfaceShader";
+import { shadeMesh, loftXYZFromHull, specCentroid } from "./SurfaceShader";
 import { cageShadeCanvas } from "./CageShadePass";
 
 export const GASPER_FIELD_SCHEMA = "gasper.field.api.v1" as const;
@@ -351,7 +351,9 @@ export function mountGasperField(): GasperFieldSurface {
     cy: number,
   ) => {
     const xyz = loftXYZFromHull(xy, rings, sectors, cx, cy);
-    return shadeMesh(xyz, rings, sectors, yaw);
+    const lit = shadeMesh(xyz, rings, sectors, yaw);
+    const c = specCentroid(xyz, lit.spec, rings, sectors, yaw);
+    return { ...lit, cx: c.x + cx, cy: c.y + cy, peak: c.peak };
   };
   return api;
 }

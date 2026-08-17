@@ -48,6 +48,7 @@ import {
 } from "./tuning/renderedEmbodimentIdentity";
 import { startTuningLabBrowserBridge } from "./tuning/tuningLabBridgeClient";
 import { mountGasperField } from "../../desktop/src/gasper/scaffold/GasperFieldApi";
+import { mountPathTake } from "../../desktop/src/gasper/takes/PathEmbeddingTake";
 import { ReferenceTrainingSession } from "./training/ReferenceTrainingSession";
 import { HttpReferenceTrainingApi } from "./training/HttpReferenceTrainingApi";
 import { HttpSemanticMotionProvider } from "./training/HttpSemanticMotionProvider";
@@ -309,6 +310,7 @@ export function GasperStudioApp() {
     (window as unknown as { __GASPER_TUNING_LAB__?: TuningLabSession }).__GASPER_TUNING_LAB__ =
       tuningLab;
     mountGasperField();
+    mountPathTake();
     const stopTuningLabBridge = startTuningLabBrowserBridge(tuningLab);
     return () => {
       stopTuningLabBridge();

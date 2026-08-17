@@ -221,10 +221,12 @@ export function InstrumentTable({
   adapter,
   take,
   onTake,
+  embedded = false,
 }: {
   adapter: DaisFirstAdapter;
   take: SkinTake;
   onTake: (id: SkinTake) => void;
+  embedded?: boolean;
 }): ReactElement {
   const [category, setCategory] = useState<InstrumentCategory>("effects");
   const [values, setValues] = useState<Record<string, number>>(() => {
@@ -238,6 +240,7 @@ export function InstrumentTable({
   const [gridOn, setGridOn] = useState(false);
   const [status, setStatus] = useState("All dials · cube hex");
   const [open, setOpen] = useState(() => {
+    if (embedded) return true;
     if (typeof localStorage === "undefined") return false;
     try {
       return localStorage.getItem("gasper.settings.open") === "1";

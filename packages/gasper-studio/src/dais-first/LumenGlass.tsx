@@ -3,11 +3,8 @@
  */
 import { useCallback, useState, type ReactElement } from "react";
 import { setReliefPresetFromRail, playNorthstarTwentyFromRail, setWalkBooLoopFromRail } from "./daisFirstControls";
-import {
-  dispatchField,
-  listLooks,
-  type SavedLook,
-} from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
+import { dispatchField, listLooks, type SavedLook } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
+import { mountPathTake } from "../../../desktop/src/gasper/takes/PathEmbeddingTake";
 import { publishScaffoldAuthority } from "../../../desktop/src/gasper/scaffold/ScaffoldFieldAuthority";
 import type { FabricMorphId } from "../../../desktop/src/gasper/scaffold/FabricSolver";
 
@@ -57,7 +54,28 @@ export function LumenGlass({
 }): ReactElement {
   const [looks, setLooks] = useState<SavedLook[]>(() => listLooks());
   const [activeLook, setActiveLook] = useState<string | null>(null);
+  const [recOn, setRecOn] = useState(false);
   const [gridOn, setGridOn] = useState(false);
+
+  const toggleRec = useCallback(() => {
+    const api = (globalThis as { GasperPathTake?: ReturnType<typeof mountPathTake> }).GasperPathTake
+      ?? mountPathTake();
+    if (api.recording()) {
+      api.stop();
+      setRecOn(false);
+    } else {
+      api.record("live");
+      setRecOn(true);
+    }
+  }, []);
+
+  const playLast = useCallback(() => {
+    const api = (globalThis as { GasperPathTake?: ReturnType<typeof mountPathTake> }).GasperPathTake
+      ?? mountPathTake();
+    if (api.recording()) api.stop();
+    setRecOn(false);
+    api.play();
+  }, []);
   const [morph, setMorph] = useState<FabricMorphId>("rest");
 
   const toggleGrid = useCallback(() => {
@@ -146,6 +164,23 @@ export function LumenGlass({
         onClick={playTwenty}
       >
         <span className="lumen-switch__label">Play 20s</span>
+      </button>
+      <button
+        type="button"
+        className="lumen-switch"
+        data-testid="lumen-rec-take"
+        data-active={recOn ? "1" : "0"}
+        onClick={toggleRec}
+      >
+        <span className="lumen-switch__label">{recOn ? "Stop" : "Rec"}</span>
+      </button>
+      <button
+        type="button"
+        className="lumen-switch"
+        data-testid="lumen-play-take"
+        onClick={playLast}
+      >
+        <span className="lumen-switch__label">Play take</span>
       </button>
       <button
         type="button"

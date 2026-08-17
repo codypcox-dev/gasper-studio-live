@@ -33,9 +33,32 @@ Only reusable findings promote into the Tri-Force canon.
 
 ## Current residual
 
-`disney-principled` — material knobs are a dimmer stack, not one dialect. Dual: dimmer-stack = principled-layer-stack.
-Latest Explore: `docs/triforce/canon/runs/2026-08-17T01-25-00-000Z-explore-disney-principled`.
-Parents: `pbr-shader`, `subsurface-scattering`, `anisotropic-reflections`.
+`gaitgate` — three values named gaitGate. Dual: gate = gate = gate.
+Latest Explore: `docs/triforce/canon/runs/2026-08-17T17-12-00-000Z-explore-gaitgate`.
+Parent: `state-machine`.
+
+Prior: `state-machine` — four clocks, no machine. Dual: loop = character-FSM.
+Latest Explore: `docs/triforce/canon/runs/2026-08-17T16-46-00-000Z-explore-state-machine`.
+Parent: `control-rig`.
+
+Prior: `arap-engine` — ARAP is a rest-shape energy, not a physics engine. Dual: energy = engine.
+Latest Investigate: `docs/triforce/canon/runs/2026-08-17T16-18-00-000Z-investigate-arap-engine`.
+Parent: `control-rig`.
+
+Prior: `control-rig` — the 512 is both Control and Bone. Takes bake the mesh. Dual: samples = handles.
+Latest Explore: `docs/triforce/canon/runs/2026-08-17T16-08-00-000Z-explore-control-rig`.
+Parent: `ue-blueprints`.
+
+Prior: `ue-blueprints` — Blueprints is not one graph. Event Tick on the 512 is a second walk writer. Dual: event-graph = character-graph.
+Latest Discover: `docs/triforce/canon/runs/2026-08-17T15-58-00-000Z-explore-ue-blueprints`.
+Parent: `visual-scripting`.
+
+Prior: `visual-scripting` — the Nodes page is a mixer rack. Wires do not carry values. Dual: rack = visual-script.
+Latest Explore: `docs/triforce/canon/runs/2026-08-17T15-48-00-000Z-explore-visual-scripting`.
+Parent: `geometry-nodes`.
+
+Prior: `geometry-nodes` — stack invisible, mute absent. Dual: hidden-stack = authoring.
+Latest Explore: `docs/triforce/canon/runs/2026-08-17T14-55-00-000Z-explore-geometry-nodes`.
 
 Prior: `anisotropic-reflections` — live GGX is isotropic. Stretch does not streak the spec. Dual: isotropic-blob = stretched-fiber-highlight.
 Latest Explore: `docs/triforce/canon/runs/2026-08-17T01-16-00-000Z-explore-anisotropic-reflections`.

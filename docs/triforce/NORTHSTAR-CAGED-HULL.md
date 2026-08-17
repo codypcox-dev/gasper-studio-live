@@ -102,6 +102,26 @@ C = Γ(L) + Σ s_i
 | Far nub | The out-of-view nub crossing the horizon is hidden / tucked. `farTuck` is live, never authored 0. |
 | Near nub | The closer nub moves forward and reads larger. `nearExpansion` is live. |
 | 3/4 default | Yaw 8°. Heading does not chew the W. |
+| Adobe turntable (UNCHANGEABLE) | Continuous Euler on S¹. `w(θ)=√(cos²θ + t² sin²θ)`, t=0.90. Height is never 1/width. `facingVerticalScale=1`. `farTuck` and `nearExpansion` live (`sin θ` lobes). No ±45 cone fold. No `min(22,|θ|)` on locomotion paint — 22° is a **shot pin** only (`READABLE_THREE_QUARTER_DEG`). 90 is 90. 180 is the back. Shortest-arc pursuit. Face is Map Art on the volume. Shell `skewX=0` while stance is live. Plant is sockets + Voigt, not parallelogram. |
+| κ-box (G¹ lock) | After `_lp`, before `closedSpline`. Lower rim (`y>140`) turning θ ≤ 0.90 rad. Rest cleft 0.54 is a feature. 3 rad is a fail. Foot peaks re-asserted. Never `/Σw`. C² everywhere is a pad. |
+
+### 3.3a Adobe 2.5D lock — UNCHANGEABLE
+
+This block is law. An agent may not weaken it to “fix” a still.
+
+| Forbidden | Why |
+|---|---|
+| `farTuck=0.0*turn` | Lobes freeze. W shears. Adobe near/far is `sin θ`. |
+| `vK = 1/hK` / `facingVerticalScale ≠ 1` | Card squash. Adobe Inflate never does this. |
+| `facingProjectionYawDeg` as paint | 90 and 180 become one sticker. |
+| `min(22, \|θ\|)` on locomotion yaw | Stuck Rotate dial. 22° is a **take pin**, not a fold. |
+| `stepSkewDeg` while `stance.live` | Parallelogram plant. Sockets + Voigt own the W. |
+| `/Σw` on overlapping foot gaussians | Needle. Un-normalized `posed += Σ w Δ` only. |
+| C² spline that replaces the W | Pad. κ-box, not a second `d` writer. |
+| 45° `hemisphere` gate on width | Whole-body X snap. Width is the ellipse, always. |
+| Linear lerp through the camera | Unwind shear. Shortest-arc only. |
+
+Adobe Rotate / Revolve / Inflate / Map Art / Turntable are continuous in viewing angle. Gasper must be too.
 
 ### 3.4 Light / material
 

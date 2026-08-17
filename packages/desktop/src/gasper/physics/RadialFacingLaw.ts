@@ -198,22 +198,15 @@ export function facingPaintYawDeg(bearingDeg: number): number {
 }
 
 /**
- * Readable walk 3/4 (N196). ±65° melted the far arm, fused the feet, and
- * read as a squeezed orb. ±22° is the drawable 3/4: pearl, both nubs, two
- * feet, face on. Clock 90° locomotion clamps here. Paint still flips into
- * orbit sign (N168).
+ * Readable walk 3/4 SHOT (N196). This is a camera pin for authored takes,
+ * not a fold. Paint yaw is continuous on S¹. Adobe Rotate: 90 is 90, 180 is the back.
+ * Clamping locomotion to ±22 made side and away the same sticker.
  */
 export const READABLE_THREE_QUARTER_DEG = 22;
 
+/** Continuous on S¹. No min(22, |θ|). Away stays away. */
 export function facingReadableLocomotionYawDeg(paintYawDeg: number): number {
-  if (!Number.isFinite(paintYawDeg)) return 0;
-  const abs = Math.abs(paintYawDeg);
-  if (abs < 1e-12) return 0;
-  const sign = paintYawDeg < 0 ? -1 : 1;
-  // Seq18 recovery: rear/profile (old 60–120 hole, and |yaw|>120)
-  // melted the pearl into a Pac-Man / squeezed orb. Walk paint stays
-  // inside the drawable 3/4. Identity at 0.
-  return sign * Math.min(READABLE_THREE_QUARTER_DEG, abs);
+  return facingPaintYawDeg(paintYawDeg);
 }
 
 /**
