@@ -1,0 +1,96 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "arap-engine",
+    "domain": "geonodes-dynamics",
+    "wall": "ARAP is not a physics engine. It is a rest-shape energy. Calling tickArap an engine would replace Voigt, fight κ, and dual energy with time-integration."
+  },
+  "parentResidual": "control-rig",
+  "question": "What is ARAP as a mathematical object versus a physics engine, what does the live ArapSolver actually compute, where it sits on the Control Rig cook, and what must never be hooked as 'the engine'?",
+  "coordinateSpaces": "φ live 25×40 (1000). φ̄ rest metric. φ* morph target. Content px. Face band v∈[0.32,0.58] Dirichlet. Pole r=0 one DOF. Contour512 is a sample of the rim, not the ARAP mesh. Time t only enters via Voigt k=1-exp(-dt/τ) on the predict, not in E_ARAP.",
+  "physicalLaw": [
+    "ARAP energy (Igarashi 2005, 2D): E = Σ_{ij} w_ij || (p_i−p_j) − R_i (p̄_i−p̄_j) ||². Local: R_i = 2D Kabsch = atan2(S21−S12, S11+S22). Global: Poisson L p = b with L factored at morph change. No mass. No velocity. No collision.",
+    "A physics engine is (x,v) + forces + integrator + contacts. XPBD is C(φ)=0 with compliance α̃=α/dt². Kelvin–Voigt is σ=Eε+ηė. Those are engines / materials. ARAP is a projector onto local rigidity.",
+    "Lawful one-tick stack (prior arap-constraints + Control Rig): (1) Forwards writes handles onto bones. (2) Voigt predict on FREE verts only. (3) Hard Dirichlet: face, pole, pins. (4) ARAP local+global energy. (5) κ-box G¹. (6) closedSpline. Stretch α=0 after ARAP is illegal — it undoes R_i.",
+    "Rest metric: pearl Γ for rest/gait. φ* itself for paddle/remote. Rebuild L when morph id changes. Never per frame.",
+    "Live ArapSolver.ts: local atan2 + Jacobi global (next_i = Σ w (p_j + R (p̄_i−p̄_j)) / Σ w) + projectStretch. Not Cholesky. UNHOOKED. Does not write #body.",
+    "Mute ARAP = passthrough of incoming contour. Iters are energy steps, not a clock."
+  ],
+  "artisticLaw": [
+    "Do not label the organ 'physics engine'. Label: ARAP energy · Dynamics · UNHOOKED.",
+    "The animator keys Controls. ARAP never becomes a handle.",
+    "A paddle take is Backwards onto handles, then Forwards, then ARAP in the paddle metric. ARAP is not the paddle.",
+    "Face stays Dirichlet. Interior is energy. All-rim weld is a blend shape — never."
+  ],
+  "invariants": [
+    "512/360/1000 never remesh. ARAP is on the 25×40, sampled to the 512 rim.",
+    "closedSpline is the only d. ARAP publishes φ, not a path.",
+    "UNHOOKED until a GeoSocket cook exists. Do not sneak tickArap into all-script-3.",
+    "Voigt remains the material. ARAP does not replace τ.",
+    "Engine 3.0.0. Parent control-rig still holds: Dynamics sit on bones after Forwards."
+  ],
+  "failureModes": [
+    "Hook Jacobi+stretch as the engine → rotations undone, spikes return.",
+    "KV on locked verts → ARAP is a no-op (blend shape).",
+    "Pearl rest metric on a paddle → shaft shortens.",
+    "ARAP writes #body → second d.",
+    "Calling the Dynamics lane a physics engine and putting Event Tick under it."
+  ],
+  "uncertainty": [
+    "Jacobi vs factored L at 60–120 fps on 1000 verts — measure before swapping.",
+    "Whether rim samples (512) or full 25×40 is the first hook domain.",
+    "Whether κ-box after ARAP is redundant on the lower hemisphere."
+  ],
+  "tests": [
+    "Catalog: arap status === UNHOOKED. Node card event === dynamics. element === bone.",
+    "painter does not contain tickArap( or projectStretch(.",
+    "Mute arap does not change rest height 168.3.",
+    "If later hooked: face band maxDelta to φ* < 0.5 px. Pole one DOF. No stretch call after the last local/global.",
+    "No typeId exec/tick/delay."
+  ],
+  "visualConsequences": [
+    "Today: ARAP card is muted. Walk is Voigt+κ. Picture must not change this investigate.",
+    "Later hook: interior stays locally rigid under a handle pull. W cleft is not rounded. Face does not shear."
+  ],
+  "implementation": [
+    "Investigate only. Do not hook ArapSolver into FormMaster.",
+    "Keep the organ on the Dynamics lane, UNHOOKED, tunable iters as a preview param.",
+    "Next hook, if ever: Voigt free-vert predict → tickArap WITHOUT projectStretch → κ-box → closedSpline.",
+    "Replace Jacobi with factored L only after a morph-change bench.",
+    "UI copy: 'ARAP energy' never 'ARAP physics engine'."
+  ],
+  "citations": [
+    {
+      "id": "igarashi-2005",
+      "tier": "reference",
+      "source": "Igarashi, Moscovich, Hughes · As-Rigid-As-Possible Shape Manipulation, SIGGRAPH 2005",
+      "rule": "2D character. Few handles. Local rotation + global Poisson. This is our paper."
+    },
+    {
+      "id": "sorkine-2007",
+      "tier": "reference",
+      "source": "Sorkine & Alexa 2007",
+      "rule": "3D surface ARAP. Do not import 3×3 SVD onto the 25×40."
+    },
+    {
+      "id": "arap-solver-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T00-26-00-000Z-investigate-arap-solver",
+      "rule": "One tick: KV predict then local atan2 then global Lφ=b. Face Dirichlet. Pearl rest except paddle=φ*."
+    },
+    {
+      "id": "arap-constraints-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T00-37-00-000Z-explore-arap-constraints",
+      "rule": "Stretch α=0 after ARAP undoes rotations. KV on locked verts makes ARAP a no-op."
+    },
+    {
+      "id": "control-rig-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T16-08-00-000Z-explore-control-rig",
+      "rule": "Dynamics sit on bones after Forwards. ARAP is not a Control."
+    }
+  ]
+}

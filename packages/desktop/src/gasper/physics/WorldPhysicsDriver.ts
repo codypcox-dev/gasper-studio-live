@@ -1598,13 +1598,21 @@ export class WorldPhysicsDriver implements LocomotionPort {
     // Curve owns the stroll band (strut 200 ↔ hop 520). Above that, the
     // stride-length law stays — the 3200 Froude cruise is not this walk.
     const inWalkBand = gaitSpeed <= 520 * 1.15;
+    const hostScrub = Number(
+      (globalThis as { __GASPER_SCRUB_PHASE__?: number }).__GASPER_SCRUB_PHASE__,
+    );
+    if (Number.isFinite(hostScrub)) {
+      this.gaitPhase = ((hostScrub % 1) + 1) % 1;
+    }
+    const hold = Number((globalThis as { __GASPER_SCRUB_HOLD__?: number }).__GASPER_SCRUB_HOLD__);
+    const stepDt = hold > 0.5 ? 0 : dt;
     const gait = walking
       ? deriveGait({
           speed: gaitSpeed,
           accelTangent: aT,
           gravity: g,
           phase: this.gaitPhase,
-          dt,
+          dt: stepDt,
           tempoMultiplier: (() => {
             const hostTempo = Number(
               (globalThis as { __GASPER_GAIT_TEMPO__?: number }).__GASPER_GAIT_TEMPO__,
@@ -1613,7 +1621,11 @@ export class WorldPhysicsDriver implements LocomotionPort {
               ? Math.max(0.75, Math.min(1.25, hostTempo))
               : this.gaitTempoMultiplier;
           })(),
-          stepHzOverride: performanceGait?.cadenceHz ?? (inWalkBand && walkHz > 0 ? walkHz : undefined),
+          stepHzOverride: (() => {
+            const gnHz = Number((globalThis as { __GASPER_GAIT_HZ__?: number }).__GASPER_GAIT_HZ__);
+            if (Number.isFinite(gnHz) && gnHz > 0) return gnHz;
+            return performanceGait?.cadenceHz ?? (inWalkBand && walkHz > 0 ? walkHz : undefined);
+          })(),
         })
       : { ...GAIT_REST, phase: this.gaitPhase };
     this.gaitPhase = gait.phase;

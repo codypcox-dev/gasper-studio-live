@@ -608,7 +608,8 @@
   let behaviorProgress = 0;
   let behaviorMorphStatus = 'idle';
   let activeReliefMode = 'none';
-  let paused = false, debugOn = false, selectedVertex = -1, lastPoints = [], lastMeshPoints = [];
+  let paused = false, debugOn = false, selectedVertex = -1, selectedGrid = -1, lastPoints = [], lastMeshPoints = [];
+  const gridSculpt=new Float32Array(2000);
   let stanceWasLive = false;
   const meshOffsets = Array.from({length:STRUCTURAL_NODES},()=>({x:0,y:0}));
   let dragOrigin = null;
@@ -1568,16 +1569,63 @@ function applyMeshWarp(contour,mesh){
   // replaced). Gated by motionStrength in the render loop so it freezes under reduced
   // motion / pause. Coexists with the vertex-drag handler (which owns the pointer while
   // a vertex is grabbed). pointerleave releases the look back to center via decay.
-  avatar.addEventListener('pointermove',function(evQ2){if(selectedVertex>=0&&dragOrigin)return;try{const p=eventPoint(evQ2);if(!isFinite(p.x)||!isFinite(p.y))return;const dx=p.x-120,dy=p.y-102;pointerGazeTX=Math.max(-4.2,Math.min(4.2,dx*0.05));pointerGazeTY=Math.max(-3.0,Math.min(3.0,dy*0.05));pointerGazeActive=1;pointerGazeLastMove=performance.now();}catch(_eQ2){}});
+  avatar.addEventListener('pointermove',function(evQ2){if((selectedVertex>=0||selectedGrid>=0)&&dragOrigin)return;try{const p=eventPoint(evQ2);if(!isFinite(p.x)||!isFinite(p.y))return;const dx=p.x-120,dy=p.y-102;pointerGazeTX=Math.max(-4.2,Math.min(4.2,dx*0.05));pointerGazeTY=Math.max(-3.0,Math.min(3.0,dy*0.05));pointerGazeActive=1;pointerGazeLastMove=performance.now();}catch(_eQ2){}});
   avatar.addEventListener('pointerleave',function(){pointerGazeTX=0;pointerGazeTY=0;});
+  function skinPoint(event){
+    const host=stepRig||idleRig||avatar;
+    const p=avatar.createSVGPoint();
+    p.x=event.clientX;p.y=event.clientY;
+    const m=host.getScreenCTM();
+    if(!m)return eventPoint(event);
+    return p.matrixTransform(m.inverse());
+  }
+  function stampGridSculpt(index,dx,dy,snap){
+    const R=25,S=40,r0=Math.floor(index/S),s0=index%S;
+    for(let r=0;r<R;r++){
+      for(let s=0;s<S;s++){
+        let ds=Math.abs(s-s0);if(ds>S/2)ds=S-ds;
+        const w=Math.exp(-0.5*Math.pow(Math.hypot((r-r0)*0.85,ds)/2.6,2));
+        if(w<0.02)continue;
+        const j=r*S+s;
+        gridSculpt[j*2]=(snap[j*2]||0)+dx*w;
+        gridSculpt[j*2+1]=(snap[j*2+1]||0)+dy*w;
+      }
+    }
+  }
   avatar.addEventListener('pointerdown',event=>{
+    const p=skinPoint(event);
+    if(globalThis.__GASPER_SHOW_GRID__!==false&&globalThis.__GASPER_GRID_XYZ__){
+      const xyz=globalThis.__GASPER_GRID_XYZ__,cx=Number(globalThis.__GASPER_GRID_CX__),cy=Number(globalThis.__GASPER_GRID_CY__);
+      let best=-1,bestD=10;
+      for(let i=0;i<1000;i++){
+        const d=Math.hypot(cx+(xyz[i*3]||0)-p.x,cy+(xyz[i*3+1]||0)-p.y);
+        if(d<bestD){bestD=d;best=i;}
+      }
+      if(best>=0){
+        selectedGrid=best;
+        dragOrigin={pointer:p,snap:new Float32Array(gridSculpt)};
+        avatar.setPointerCapture(event.pointerId);
+        event.preventDefault();
+        return;
+      }
+    }
     if(!debugOn||!lastMeshPoints.length)return;
-    const p=eventPoint(event);let best=-1,bestDistance=Infinity;
+    let best=-1,bestDistance=Infinity;
     for(const vertex of lastMeshPoints){const distance=Math.hypot(vertex.x-p.x,vertex.y-p.y);if(distance<bestDistance){bestDistance=distance;best=vertex.index;}}
     if(bestDistance>8)return;selectedVertex=best;dragOrigin={pointer:p,offset:{...meshOffsets[best]}};avatar.setPointerCapture(event.pointerId);event.preventDefault();
   });
-  avatar.addEventListener('pointermove',event=>{if(selectedVertex<0||!dragOrigin)return;const p=eventPoint(event);meshOffsets[selectedVertex].x=dragOrigin.offset.x+p.x-dragOrigin.pointer.x;meshOffsets[selectedVertex].y=dragOrigin.offset.y+p.y-dragOrigin.pointer.y;});
-  function endDrag(event){if(selectedVertex<0)return;selectedVertex=-1;dragOrigin=null;if(avatar.hasPointerCapture(event.pointerId))avatar.releasePointerCapture(event.pointerId);}
+  avatar.addEventListener('pointermove',event=>{
+    if(selectedGrid>=0&&dragOrigin&&dragOrigin.snap){
+      const p=skinPoint(event);
+      stampGridSculpt(selectedGrid,p.x-dragOrigin.pointer.x,p.y-dragOrigin.pointer.y,dragOrigin.snap);
+      return;
+    }
+    if(selectedVertex<0||!dragOrigin)return;const p=eventPoint(event);meshOffsets[selectedVertex].x=dragOrigin.offset.x+p.x-dragOrigin.pointer.x;meshOffsets[selectedVertex].y=dragOrigin.offset.y+p.y-dragOrigin.pointer.y;
+  });
+  function endDrag(event){
+    if(selectedGrid>=0){selectedGrid=-1;dragOrigin=null;if(avatar.hasPointerCapture(event.pointerId))avatar.releasePointerCapture(event.pointerId);return;}
+    if(selectedVertex<0)return;selectedVertex=-1;dragOrigin=null;if(avatar.hasPointerCapture(event.pointerId))avatar.releasePointerCapture(event.pointerId);
+  }
   avatar.addEventListener('pointerup',endDrag);avatar.addEventListener('pointercancel',endDrag);
   function computeNormals(pts){const out=[];for(let i=0;i<pts.length;i++){const p=pts[i],p0=pts[(i-1+pts.length)%pts.length],p2=pts[(i+1)%pts.length];let nx=p2.y-p0.y,ny=-(p2.x-p0.x);const len=Math.hypot(nx,ny)||1;nx/=len;ny/=len;if(nx*(p.x-120)+ny*(p.y-110)<0){nx=-nx;ny=-ny;}out.push({x:nx,y:ny});}return out;}
   function angleToIndex(angle,n=CONTOUR_SAMPLES){const start=1.5*Math.PI,a=((angle%(2*Math.PI))+2*Math.PI)%(2*Math.PI),delta=(a-start+2*Math.PI)%(2*Math.PI);return Math.round(delta/(2*Math.PI)*n)%n;}
@@ -1854,60 +1902,103 @@ function applyMeshWarp(contour,mesh){
       if(h0){h0.setAttribute('stop-opacity','0.42');h0.setAttribute('stop-color','#fffaff');}
     }
   }
+  const liveGridXYZ=new Float32Array(1000*3);
+  function bindHullToLiveGrid(pts){
+    const R=25,S=40,n=pts.length;
+    if(!n)return pts;
+    const arc=new Float32Array(n+1);
+    for(let i=0;i<n;i++){
+      const a=pts[i],b=pts[(i+1)%n];
+      arc[i+1]=arc[i]+Math.hypot((b.x||0)-(a.x||0),(b.y||0)-(a.y||0));
+    }
+    const total=arc[n]||1;
+    const rimX=new Float32Array(S),rimY=new Float32Array(S);
+    let k=0;
+    for(let s=0;s<S;s++){
+      const target=s/S*total;
+      while(k<n-1&&arc[k+1]<target)k++;
+      const span=arc[k+1]-arc[k]||1;
+      const f=Math.max(0,Math.min(1,(target-arc[k])/span));
+      const a=pts[k],b=pts[(k+1)%n];
+      rimX[s]=(a.x||0)*(1-f)+(b.x||0)*f;
+      rimY[s]=(a.y||0)*(1-f)+(b.y||0)*f;
+    }
+    let ax=0,ay=0;
+    for(let s=0;s<S;s++){ax+=rimX[s];ay+=rimY[s];}
+    const cx=ax/S,cy=ay/S;
+    let sculpted=false;
+    for(let s=0;s<S;s++){
+      for(let r=0;r<R;r++){
+        const i=r*S+s,v=r/Math.max(1,R-1);
+        let ox=(rimX[s]-cx)*v,oy=(rimY[s]-cy)*v;
+        const sx=gridSculpt[i*2]||0,sy=gridSculpt[i*2+1]||0;
+        if(sx||sy){ox+=sx;oy+=sy;sculpted=true;}
+        liveGridXYZ[i*3]=ox;
+        liveGridXYZ[i*3+1]=oy;
+        liveGridXYZ[i*3+2]=52*Math.sqrt(Math.max(0,1-v*v));
+      }
+    }
+    if(sculpted){
+      for(let i=0;i<n;i++){
+        const u=arc[i]/total*S;
+        const s0=((Math.floor(u)%S)+S)%S,s1=(s0+1)%S,f=u-Math.floor(u);
+        const a=(R-1)*S+s0,b=(R-1)*S+s1;
+        pts[i].x=cx+liveGridXYZ[a*3]*(1-f)+liveGridXYZ[b*3]*f;
+        pts[i].y=cy+liveGridXYZ[a*3+1]*(1-f)+liveGridXYZ[b*3+1]*f;
+      }
+    }
+    globalThis.__GASPER_GRID_XYZ__=liveGridXYZ;
+    globalThis.__GASPER_GRID_CX__=cx;
+    globalThis.__GASPER_GRID_CY__=cy;
+    globalThis.__GASPER_GRID_SCULPT__=gridSculpt;
+    return pts;
+  }
   function paintScaffoldGrid(contour,profile){
     let g=$('scaffoldGridLayer');
-    const on=globalThis.__GASPER_SHOW_GRID__===true;
+    const on=globalThis.__GASPER_SHOW_GRID__!==false;
     if(!g){
       g=document.createElementNS('http://www.w3.org/2000/svg','g');
       g.setAttribute('id','scaffoldGridLayer');
-      g.setAttribute('clip-path','url(#bodyClip)');
-      g.setAttribute('pointer-events','none');
-      const face=faceRecessLayer||$('faceRecessLayer');
-      if(face&&face.parentNode)face.parentNode.insertBefore(g,face);
-      else if(avatar)avatar.appendChild(g);
     }
+    const host=stepRig||idleRig||avatar;
+    if(g.parentNode!==host)host.appendChild(g);
+    g.setAttribute('clip-path','url(#bodyClip)');
+    g.setAttribute('pointer-events','none');
     if(!on||!contour||!contour.length){
       g.setAttribute('opacity','0');
       g.replaceChildren();
       return;
     }
-    const cx=120+(profile.cx||0),cy=110+(profile.cy||0);
-    const liveMorph=!!(globalThis.__GASPER_FABRIC__&&globalThis.__GASPER_FABRIC__.morph&&globalThis.__GASPER_FABRIC__.morph!=='rest');
-    const pos=liveMorph?globalThis.__GASPER_FABRIC_POS__:null;
-    const xyz=liveMorph?globalThis.__GASPER_FABRIC_XYZ__:null;
-    const T=(liveMorph&&globalThis.__GASPER_FABRIC_TOPO__)||{rings:25,sectors:40};
-    const R=T.rings||25,S=T.sectors||40;
-    const yaw=globalThis.__GASPER_VIEW_YAW__||0;
-    const a=yaw*Math.PI/180,cosY=Math.cos(a),sinY=Math.sin(a);
-    const n=contour.length;
+    const cx=Number(globalThis.__GASPER_GRID_CX__);
+    const cy=Number(globalThis.__GASPER_GRID_CY__);
+    const xyz=globalThis.__GASPER_GRID_XYZ__;
+    const R=25,S=40;
+    if(!xyz||xyz.length!==R*S*3||!Number.isFinite(cx)){
+      g.setAttribute('opacity','0');
+      g.replaceChildren();
+      return;
+    }
     const at=(r,s0)=>{
-      const i=r*S+((s0%S)+S)%S;
-      if(pos&&pos.length>=(i+1)*2){
-        return (cx+(pos[i*2]||0)).toFixed(1)+' '+(cy+(pos[i*2+1]||0)).toFixed(1);
-      }
-      if(xyz&&xyz.length>=(i+1)*3){
-        const x=xyz[i*3]||0,y=xyz[i*3+1]||0,z=xyz[i*3+2]||0;
-        return (cx+x*cosY+z*sinY).toFixed(1)+' '+(cy+y).toFixed(1);
-      }
-      const t=((s0%S)+S)%S/S*n;
-      const i0=Math.floor(t)%n,i1=(i0+1)%n,f=t-Math.floor(t);
-      const hx=(contour[i0].x||0)*(1-f)+(contour[i1].x||0)*f;
-      const hy=(contour[i0].y||0)*(1-f)+(contour[i1].y||0)*f;
-      const v=r/Math.max(1,R-1);
-      return (cx+(hx-cx)*v).toFixed(1)+' '+(cy+(hy-cy)*v).toFixed(1);
+      const s=((s0%S)+S)%S,i=r*S+s;
+      return (cx+(xyz[i*3]||0)).toFixed(1)+' '+(cy+(xyz[i*3+1]||0)).toFixed(1);
     };
     const html=[];
-    const rStep=R>36?2:1;
-    const sStep=S>56?2:1;
-    for(let r=rStep;r<R;r+=rStep){
+    for(let r=3;r<R;r++){
       let d='';
       for(let s0=0;s0<=S;s0++) d+=(s0?'L':'M')+at(r,s0);
-      html.push('<path d="'+d+'Z" fill="none" stroke="#9be7ff" stroke-width="0.4" stroke-opacity="0.5"/>');
+      html.push('<path d="'+d+'Z" fill="none" stroke="#eaf7ff" stroke-width="'+(r===R-1?'1.05':'0.55')+'" stroke-opacity="'+(r===R-1?'0.95':'0.62')+'"/>');
     }
-    for(let s0=0;s0<S;s0+=sStep){
+    for(let s0=0;s0<S;s0++){
       let d='';
-      for(let r=0;r<R;r++) d+=(r?'L':'M')+at(r,s0);
-      html.push('<path d="'+d+'" fill="none" stroke="#7fd0ff" stroke-width="0.35" stroke-opacity="0.4"/>');
+      for(let r=3;r<R;r++) d+=(r>3?'L':'M')+at(r,s0);
+      html.push('<path d="'+d+'" fill="none" stroke="#bfe9ff" stroke-width="0.45" stroke-opacity="0.55"/>');
+    }
+    for(let r=4;r<R;r++){
+      for(let s=0;s<S;s++){
+        const i=r*S+s;
+        const hot=i===selectedGrid;
+        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'2.2':'1.05')+'" fill="'+(hot?'#fff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.85')+'" stroke="#0b1a22" stroke-width="0.25"/>');
+      }
     }
     g.innerHTML=html.join('');
     g.setAttribute('opacity','0.9');
@@ -2610,6 +2701,9 @@ function applyMeshWarp(contour,mesh){
   }
 
   function render(now,forcedDeltaMs){
+    const _ge=globalThis.__GASPER_GEONODES_EVAL__;
+    if(_ge&&_ge.params&&_ge.params.cage&&_ge.params.cage.grid!==undefined)
+      globalThis.__GASPER_SHOW_GRID__=!_ge.mute?.cage&&+_ge.params.cage.grid>0.5;
     const scriptStarted=performance.now(),organismFrame=materialOrganismFrame(),dt=Math.max(0,Math.min(.05,(forcedDeltaMs??(organismClock.getDeltaMs?.()||0))/1000));lastTime=now;elapsed=organismFrame.elapsedMs/1000;
     if(!paused&&emotionDemoMode&&!runtimeDormant){emotionDemoClock+=dt;const hold=2.65;if(emotionDemoClock>=hold){emotionDemoClock=0;emotionDemoIndex=(emotionDemoIndex+1)%EMOTION_DEMO_SEQUENCE.length;setEmotionFixture(EMOTION_DEMO_SEQUENCE[emotionDemoIndex],{source:'demo'});}}
     let morphProfileId=silhouetteProfile,nextMorphProfileId=silhouetteProfile,morphMix=0,morphArc=null;
@@ -2916,6 +3010,7 @@ function applyMeshWarp(contour,mesh){
     }
     avatar.dataset.materialCoordinateFrame='post-facing';
     avatar.dataset.materialCoordinateRevision=String(organismFrame.frameIndex||0);
+    pts=bindHullToLiveGrid(pts);
     const wpts=pts;
     const bodyD=closedSpline(wpts),clipD=closedSpline(pts);lastPoints=pts;lastMeshPoints=renderMesh;body.setAttribute('d',bodyD);clipBody.setAttribute('d',clipD);
     const key=ribbonFromAnchors(pts,normals,KEY_ANCHORS,[-.72,-.69],5.5,12.5,7.2,16),core=ribbonFromAnchors(pts,normals,KEY_ANCHORS,[-.72,-.69],8.8,12.4,2.8,7.2),fill=ribbonFromAnchors(pts,normals,FILL_ANCHORS,[.88,-.46],8,11,3.2,7.2);

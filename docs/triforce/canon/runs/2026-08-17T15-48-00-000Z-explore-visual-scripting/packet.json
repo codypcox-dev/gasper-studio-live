@@ -1,0 +1,109 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "visual-scripting",
+    "domain": "geonodes-language",
+    "wall": "The Nodes page is a mixer rack. Wires do not carry values. evaluateGraph publishes mute+params. The painter still hardcodes Identity→Cage→Handles→Gait→Voigt→κ→Orbit→Pearl→Hull. Rewire is cosmetic."
+  },
+  "parentResidual": "geometry-nodes",
+  "question": "What is a node-based visual scripting language versus a mixer of organs, which family Gasper belongs to, which socket types and evaluation laws make wires real, and what must not be stolen from Blueprints?",
+  "coordinateSpaces": "Graph G=(N,E). Node id. Socket (node, port, kind). Domain locks: Contour512, Lattice360, Relief25x40. Frame t. Phase φ. Content px on the hull. No exec token.",
+  "physicalLaw": [
+    "Three families: (1) dataflow/fields — Blender GN, Houdini, Nuke. Pull or topo-push. Typed sockets. Mute=passthrough. (2) exec+data — UE Blueprints. Exec orders side effects. One next. (3) signal/patch — Max, TD. Cook every frame.",
+    "Gasper cooks every frame as a living field. He is family (1)+(3). He is not Blueprints. No OnTick. No exec wire. The 20s take is a score, not an event graph.",
+    "Blender fields: diamond = function over a domain. Circle = single value. Circle may feed diamond. Diamond may not feed circle. Domain of a field is the geometry that evaluates it.",
+    "Data fan-out is legal. Data fan-in of one typed input is one source (or an explicit Join). Join on Gasper is Σ on the same lock, never concatenate, never remesh.",
+    "Viewer does not write. Group Output / Hull is the only writer of #body via closedSpline.",
+    "Cycles on geometry are illegal (wouldCycle). A 1-frame delay on a Scalar is the only legal feedback. Not this cut.",
+    "Mute is identity on the incoming contour: out = in. Params on a muted node do not cook.",
+    "Evaluation: pull from Hull each frame, or push in topoOrder(links). Live painter ignores links. That is the wall."
+  ],
+  "artisticLaw": [
+    "The graph is the instrument. The monitor is him. Viewer overlays may color the 512. They must not become a second d.",
+    "A card without a typed port is a poster. Posters are illegal on the Nodes page.",
+    "Unhooked organs may sit on the board muted. They must not pretend to paint.",
+    "Do not give the user an event graph that fires x. Takes remain relative scores."
+  ],
+  "invariants": [
+    "512 / 360 / 672 / 1000 never change cardinality.",
+    "closedSpline is the only d writer.",
+    "Schema remains gasper.geometry-nodes.v1 until sockets exist, then v2.",
+    "Mute handles/voigt/kappa already honored in the painter.",
+    "Engine pinned 3.0.0. Do not stamp 3.3."
+  ],
+  "failureModes": [
+    "Rewire that does not change cook = lying instrument.",
+    "Exec wires → second walk writer, GSAP-on-travel, fire() scripts.",
+    "Untyped Join → concatenate → remesh → paddle ghost.",
+    "Viewer that writes #body → dual.",
+    "Evaluating muted params → τ/κ fight the passthrough.",
+    "Interpreting the 9-card rack as a language and stopping."
+  ],
+  "uncertainty": [
+    "Pull vs push cook on 512 at 60–120 fps — measure before choosing.",
+    "Whether compositor layers become groups or stay UNHOOKED this version.",
+    "Whether Relief25x40 is a field over the 512 or a separate geometry that samples onto it."
+  ],
+  "tests": [
+    "Disconnect pearl→hull, connect kappa→hull: painter cook order changes or the link is rejected as type-illegal. Cosmetic no-op is a fail.",
+    "Mute handles ⇒ stance deltas off, W at rest, height 168.3.",
+    "Spawn a second κ-box: it does not write a second d.",
+    "wouldCycle(hull, identity) remains true.",
+    "No exec / event / OnTick typeId in NODE_BLUEPRINTS."
+  ],
+  "visualConsequences": [
+    "Wires that mean something: cutting Voigt lets Handles reach κ raw.",
+    "A Viewer on the 512 strokes curvature, not a second pearl.",
+    "Library chips drop typed cards. Ghost chips stay muted.",
+    "Monitor PIP still shows the organism. Graph stays the page."
+  ],
+  "implementation": [
+    "Explore only. Do not recut FormMaster this deposit.",
+    "Next Work: GeoSocket kinds contour | lattice | relief | scalar | phase | shade. Ports on cards. connectNodes type-checks.",
+    "evaluateGraph walks links, publishes order the painter consults. Each LIVE node reads named buffers, writes one buffer.",
+    "Mute remains passthrough of the incoming buffer.",
+    "Add Viewer node: reads contour, paints overlay, never d.",
+    "Refuse Blueprint exec. Refuse remesh. Refuse a second hull.",
+    "Promote compositor to a group only after sockets exist."
+  ],
+  "citations": [
+    {
+      "id": "blender-fields",
+      "tier": "reference",
+      "source": "Blender Geometry Nodes · Fields and Attributes",
+      "rule": "Diamond = field over a domain. Circle = single value. Circle→diamond legal. Diamond→circle illegal. Viewer does not replace Group Output."
+    },
+    {
+      "id": "blender-viewer",
+      "tier": "reference",
+      "source": "Blender 5.x Viewer Node",
+      "rule": "Viewer inspects geometry/fields in the editor and overlay. Spreadsheet is not the writer."
+    },
+    {
+      "id": "ue-blueprints",
+      "tier": "reference",
+      "source": "Unreal Blueprints · exec vs data",
+      "rule": "Exec has one next. Data fan-out many. Impure nodes require exec. Gasper must not steal this for the hull."
+    },
+    {
+      "id": "designing-node-langs-2025",
+      "tier": "reference",
+      "source": "Designing your own node-based visual programming language, 2025",
+      "rule": "One data source per input. Fan-out legal. Separate exec and data. Unconnected pins show constants. Search is mandatory."
+    },
+    {
+      "id": "geometry-nodes-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T14-55-00-000Z-explore-geometry-nodes",
+      "rule": "Fields compile. Mute is passthrough. 512/360/1000 never remesh. One writer closedSpline. Join is Σ."
+    },
+    {
+      "id": "northstar-caged-hull",
+      "tier": "canon",
+      "source": "docs/triforce/NORTHSTAR-CAGED-HULL.md",
+      "rule": "Caged hull is the controller. Grid is the skin. No second #body writer."
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "control-rig",
+    "domain": "geonodes-language",
+    "wall": "The 512 is both Control and Bone. Takes bake the mesh, not the handles. There is Forwards (handles→hull) and no named Backwards (hull→handles). Dual: samples = handles."
+  },
+  "parentResidual": "ue-blueprints",
+  "question": "What is Unreal Control Rig actually — elements, solve directions, spaces — and which of those laws split Gasper's cage from his handles without adding a second skeleton?",
+  "coordinateSpaces": "UE: Bone / Control / Null / Space. Events: Construction (once), Forwards (controls→bones, every animate frame), Backwards (bones→controls, bake). Gasper: Contour512 (bone/skin), Stance sockets (controls), regions (nulls), orbit/identity (spaces). Content px. Phase φ.",
+  "physicalLaw": [
+    "Controls are what you grab. They drive bone chains. Bones deform the mesh. Nulls group and transform; they are hidden by default (Epic Controls/Bones/Nulls).",
+    "Forwards Solve: controls affect bones. Primary. Runs continuously when animating in Sequencer / AnimBP.",
+    "Backwards Solve: bones affect controls. Inverse. Required to Bake Animation to Control Rig. No Backwards node ⇒ not in the bake menu.",
+    "Construction Event: once, post-init. Initial offsets of controls to bones. Spawn nodes only function here. Preview outlined red.",
+    "Backwards then Forwards (combo mode) is how a baked take sits on controls and still deforms.",
+    "Space: a control's parent transform (Parent / World / custom). Switch is one frame + compensating transform keys so the picture does not pop. Custom spaces should be Controls, not Bones — Bones as space cause cyclical rig errors.",
+    "IK and FK are two forwards recipes on the same bone chain. They are not two skeletons.",
+    "Modular rigs compose limb modules. Control Rig Physics / Dynamics (UE 5.8 beta) is a particle solver on the rig, not a second Event Tick."
+  ],
+  "artisticLaw": [
+    "The animator never keys the 512. The animator keys Controls (handles, face, orbit). The 512 is the bone/skin that Forwards writes.",
+    "A take that stores raw 512 is a baked mesh, not a rig take. Paddle ghosts stick because we baked bones.",
+    "Home is Construction: rest offsets, once. Cook is Forwards: every frame.",
+    "Loading a take is Backwards then Forwards — sockets read the 512, then Forwards deforms from those sockets. Never leave the baked 512 as the live hull.",
+    "Plant is an IK space on the foot control. Swing is FK. Same control. Space switch, no pop.",
+    "Do not parent a handle to the 512 sample it drives."
+  ],
+  "invariants": [
+    "512 / 360 / 1000 stay the only deform domains. No second skeleton.",
+    "closedSpline is the only d. Forwards writes samples, not a new mesh.",
+    "No exec / Tick. Forwards is Anim-Graph cook, not Event Graph.",
+    "Mute Handles = Forwards passthrough (bones stay Construction rest).",
+    "Engine 3.0.0."
+  ],
+  "failureModes": [
+    "samples = handles → sculpt, walk, and takes overwrite each other.",
+    "Take = 512 floats with no Backwards → paddle / ghost silhouette sticks.",
+    "Parenting a control to the bone it drives → bake resets (UE known fail).",
+    "Space switch without compensating transform → face/orbit pop.",
+    "Calling Voigt the rig. Voigt is Dynamics on the bones after Forwards.",
+    "Adding a Maya-style joint hierarchy as a second writer."
+  ],
+  "uncertainty": [
+    "Whether PathEmbeddingTake can grow a handle channel without breaking 512-float files.",
+    "Whether Backwards is a node (sockets from 512) or a bind at take-load.",
+    "Whether face-rig golden-ratio lock is a Space or a Construction offset."
+  ],
+  "tests": [
+    "Handles muted ⇒ 512 equals Construction rest (height 168.3, W θ≈0.54).",
+    "A take play that only writes 512 without refreshing sockets is flagged as bone-bake, not a rig take.",
+    "Orbit space switch does not change identity yaw=8.",
+    "No node typeId named exec/tick/delay.",
+    "wouldCycle still rejects hull→identity."
+  ],
+  "visualConsequences": [
+    "Grid (skin/bones) can hide while handles still run Forwards.",
+    "Loading Rest after a paddle take returns Construction, not a ghost.",
+    "Foot plant holds in world space (IK space) while the swing foot is FK.",
+    "Monitor still shows Forwards output, never the raw take buffer."
+  ],
+  "implementation": [
+    "Explore only. Do not add a joint skeleton. Do not recut FormMaster this deposit.",
+    "Name the split in the graph: Controls (handles, face, orbit) vs Bones (512, lattice, relief).",
+    "Construction = Identity rest offsets. Forwards = current cook. Backwards = take/mocap → sockets, then Forwards.",
+    "Voigt/κ stay post-Forwards Dynamics on bones, not controls.",
+    "Space: plant vs swing on the same foot control; orbit ≠ identity yaw.",
+    "Next Work still GeoSocket types. Control Rig adds one organ to that work: a Backwards node that writes handles, never d."
+  ],
+  "citations": [
+    {
+      "id": "epic-fwd-bwd",
+      "tier": "reference",
+      "source": "Epic · Control Rig Forwards Solve and Backwards Solve (UE 5.8)",
+      "rule": "Forwards: controls affect bones; primary; runs while animating. Backwards: bones affect controls; required to bake. Construction: once, init offsets. Spawn only on Construction."
+    },
+    {
+      "id": "epic-elements",
+      "tier": "reference",
+      "source": "Epic · Controls, Bones, and Nulls",
+      "rule": "Controls are what you interact with. Bones deform. Nulls group and are hidden. Do not confuse them."
+    },
+    {
+      "id": "epic-spaces",
+      "tier": "reference",
+      "source": "Epic · Re-parent Control Rig Controls (Space Switching)",
+      "rule": "Space switch is one frame + compensating keys. Prefer Controls as custom spaces. Bones as space risk cycles."
+    },
+    {
+      "id": "ue-blueprints-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T15-58-00-000Z-explore-ue-blueprints",
+      "rule": "Anim Graph cooks every frame. Event Graph is forbidden on the hull. Home vs Cook are two times."
+    },
+    {
+      "id": "stance-instrument",
+      "tier": "canon",
+      "source": "physics/StanceInstrument.ts",
+      "rule": "Two feet + cleft. Dual-foot hold. These are Controls. The 512 is what they drive."
+    }
+  ]
+}

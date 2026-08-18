@@ -6,7 +6,7 @@ import { GASPER_ORGANS, LIVE_PIPELINE } from "./catalog";
 import { defaultGeoGraph } from "./defaultGraph";
 import { evaluateGraph, topoOrder } from "./evaluate";
 import { NODE_BLUEPRINTS } from "./library";
-import { arrangeGraph, compilerColumns, compilerOf, occupiedPillars, seatOf } from "./layout";
+import { arrangeGraph, compilerColumns, compilerOf, feedOf, isLiveNode, isStageNode, occupiedPillars, seatOf } from "./layout";
 import {
   connectNodes,
   disconnectNodes,
@@ -35,7 +35,7 @@ describe("GeoNodes", () => {
       expect(order.indexOf(spine[i])).toBeGreaterThan(order.indexOf(spine[i - 1]));
     }
     expect(g.output).toBe("hull");
-    expect(arrangeGraph(g).layoutVersion).toBe(10);
+    expect(arrangeGraph(g).layoutVersion).toBe(17);
     expect(occupiedPillars(g).includes("phase")).toBe(false);
     const cols = compilerColumns(g);
     expect(cols).toHaveLength(5);
@@ -43,9 +43,9 @@ describe("GeoNodes", () => {
       const col = cols.find((b) => b.id === compilerOf(n.id, n.organId));
       expect(col).toBeTruthy();
       expect(n.x).toBeGreaterThanOrEqual(col!.x);
-      expect(n.x + 180).toBeLessThanOrEqual(col!.x + col!.w + 1);
+      expect(n.x + 156).toBeLessThanOrEqual(col!.x + col!.w + 1);
       expect(n.y).toBeGreaterThanOrEqual(col!.y);
-      expect(n.y + 140).toBeLessThanOrEqual(col!.y + col!.h + 1);
+      expect(n.y + 88).toBeLessThanOrEqual(col!.y + col!.h + 1);
     }
     const ident = g.nodes.find((n) => n.id === "identity");
     const voigt = g.nodes.find((n) => n.id === "voigt");
@@ -54,6 +54,11 @@ describe("GeoNodes", () => {
     expect(seatOf("hull").pillar).toBe("painter");
     expect(seatOf("gait").border).toBe("phase");
     expect(seatOf("voigt").border).toBe("kernel");
+    expect(feedOf(g, "machine").outToNode).toBe(false);
+    expect(feedOf(g, "identity").outToNode).toBe(true);
+    const loose = { ...g.nodes.find((n) => n.id === "voigt")!, muted: true, loose: true };
+    expect(isStageNode(loose)).toBe(true);
+    expect(isLiveNode(loose)).toBe(false);
     expect((ident?.x ?? 0) !== (g.nodes.find((n) => n.id === "hull")?.x ?? 0)).toBe(true);
     expect(g.nodes.filter((n) => n.muted).length).toBeGreaterThan(10);
     expect(new Set(g.nodes.map((n) => n.event)).size).toBe(4);

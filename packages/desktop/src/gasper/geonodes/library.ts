@@ -62,15 +62,15 @@ type Meta = {
 
 const META: Record<string, Meta> = {
   "contour-512": { element: "bone", event: "construction", inType: "scalar", outType: "contour", params: [
-    { id: "footAmp", label: "Foot nub", min: 0, max: 10, step: 0.1, value: 4 },
-    { id: "cleftDepth", label: "Cleft", min: 0, max: 8, step: 0.1, value: 3.2 },
+    { id: "footAmp", label: "Foot nub", min: 0, max: 8, step: 0.1, value: 4, base: 4 },
+    { id: "cleftDepth", label: "Cleft", min: 0, max: 6.4, step: 0.1, value: 3.2, base: 3.2 },
   ]},
   "lattice-360": { element: "bone", event: "construction", inType: "contour", outType: "lattice", params: [
     { id: "mass", label: "Mass", min: 0, max: 2, step: 0.05, value: 1 },
   ]},
   "relief-1000": { element: "bone", event: "forwards", inType: "scalar", outType: "relief", params: [
-    { id: "coupling", label: "Rim couple", min: 0, max: 2, step: 0.05, value: 0 },
-    { id: "grid", label: "Grid", min: 0, max: 1, step: 1, value: 0 },
+    { id: "coupling", label: "Rim couple", min: -2, max: 2, step: 0.05, value: 0, base: 0 },
+    { id: "grid", label: "Grid", min: 0, max: 1, step: 1, value: 1 },
   ]},
   "topology-lock": { element: "null", event: "construction", inType: "contour", outType: "contour", params: [
     { id: "lock", label: "Lock", min: 0, max: 1, step: 1, value: 1 },
@@ -97,39 +97,39 @@ const META: Record<string, Meta> = {
     { id: "tau", label: "τ field", min: 0.02, max: 0.8, step: 0.01, value: 0.12 },
   ]},
   stance: { element: "control", event: "forwards", inType: "phase", outType: "pose", params: [
-    { id: "lift", label: "Lift", min: 0, max: 1, step: 0.01, value: 1 },
-    { id: "advance", label: "Advance", min: 0, max: 1, step: 0.01, value: 1 },
+    { id: "lift", label: "Lift", min: 0, max: 2, step: 0.01, value: 1, base: 1 },
+    { id: "advance", label: "Advance", min: 0, max: 2, step: 0.01, value: 1, base: 1 },
   ]},
   "gait-law": { element: "control", event: "forwards", inType: "scalar", outType: "phase", params: [
-    { id: "hz", label: "Hz", min: 0.4, max: 4, step: 0.05, value: 2.6 },
+    { id: "hz", label: "Hz", min: 0.6, max: 4.6, step: 0.05, value: 2.6, base: 2.6 },
     { id: "live", label: "Live", min: 0, max: 1, step: 1, value: 1 },
   ]},
   support: { element: "control", event: "forwards", inType: "phase", outType: "phase", params: [
-    { id: "k", label: "Plant k", min: 1, max: 12, step: 0.1, value: 6 },
+    { id: "k", label: "Plant k", min: 1, max: 11, step: 0.1, value: 6, base: 6 },
   ]},
   voigt: { element: "bone", event: "dynamics", inType: "contour", outType: "contour", params: [
-    { id: "tau", label: "τ lower", min: 0.02, max: 0.42, step: 0.01, value: 0.05 },
-    { id: "rest", label: "τ rest", min: 0.1, max: 0.8, step: 0.01, value: 0.42 },
+    { id: "tau", label: "τ lower", min: 0.02, max: 0.08, step: 0.01, value: 0.05, base: 0.05 },
+    { id: "rest", label: "τ rest", min: 0.20, max: 0.64, step: 0.01, value: 0.42, base: 0.42 },
   ]},
   kappa: { element: "bone", event: "dynamics", inType: "contour", outType: "contour", params: [
-    { id: "cap", label: "θ cap", min: 0.4, max: 1.4, step: 0.02, value: 0.9 },
+    { id: "cap", label: "θ cap", min: 0.4, max: 1.4, step: 0.02, value: 0.9, base: 0.9 },
   ]},
   "world-driver": { element: "control", event: "forwards", inType: "phase", outType: "phase", params: [
-    { id: "gate", label: "Gait gate", min: 0, max: 1, step: 0.01, value: 1 },
+    { id: "gate", label: "Gait gate", min: 0, max: 2, step: 0.01, value: 1, base: 1 },
   ]},
   "radial-facing": { element: "view", event: "forwards", inType: "scalar", outType: "pose", params: [
-    { id: "yaw", label: "Facing", min: -45, max: 45, step: 1, value: 8 },
+    { id: "yaw", label: "Facing", min: -180, max: 180, step: 1, value: 8, base: 8 },
   ]},
   orbit: { element: "control", event: "forwards", inType: "scalar", outType: "pose", params: [
-    { id: "yaw", label: "Yaw", min: -180, max: 180, step: 1, value: 0 },
-    { id: "pitch", label: "Pitch", min: -80, max: 80, step: 1, value: 0 },
+    { id: "yaw", label: "Yaw", min: -180, max: 180, step: 1, value: 8, base: 8 },
+    { id: "pitch", label: "Pitch", min: -80, max: 80, step: 1, value: 0, base: 0 },
   ]},
   formmaster: { element: "bone", event: "construction", inType: "contour", outType: "contour", params: [
     { id: "authority", label: "Authority", min: 0, max: 1, step: 1, value: 1 },
   ]},
   "closed-spline": { element: "bone", event: "forwards", inType: "contour", outType: "contour", params: [] },
   pearl: { element: "view", event: "forwards", inType: "contour", outType: "shade", params: [
-    { id: "depth", label: "Depth", min: 0, max: 1, step: 0.01, value: 0.28 },
+    { id: "depth", label: "Depth", min: 0, max: 1.44, step: 0.01, value: 0.72, base: 0.72 },
   ]},
   "surface-shader": { element: "view", event: "forwards", inType: "shade", outType: "shade", params: [
     { id: "rough", label: "Rough", min: 0, max: 1, step: 0.01, value: 0.2 },
@@ -178,6 +178,9 @@ const META: Record<string, Meta> = {
   ]},
   worldclass: { element: "null", event: "construction", inType: "scalar", outType: "scalar", params: [
     { id: "shell", label: "Shell", min: 0, max: 1, step: 1, value: 1 },
+  ]},
+  couple: { element: "bone", event: "dynamics", inType: "scalar", outType: "scalar", params: [
+    { id: "mix", label: "Mix", min: 0, max: 1, step: 0.01, value: 1, base: 1 },
   ]},
   goose: { element: "bone", event: "dynamics", inType: "relief", outType: "relief", params: [
     { id: "amp", label: "Goose", min: 0, max: 2, step: 0.05, value: 0 },

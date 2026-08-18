@@ -27,6 +27,7 @@ export type NodeParam = {
   max: number;
   step: number;
   value: number;
+  base?: number;
   unit?: string;
 };
 
@@ -37,6 +38,7 @@ export type GraphNode = {
   label: string;
   organId: string;
   muted: boolean;
+  loose?: boolean;
   x: number;
   y: number;
   params: NodeParam[];
@@ -59,6 +61,7 @@ export type GeoGraph = {
   output: string;
   selected: string | null;
   layoutVersion?: number;
+  racks?: Record<string, { x: number; y: number; w: number; h: number }>;
 };
 
 export type GeoEval = {
@@ -67,6 +70,7 @@ export type GeoEval = {
   params: Record<string, Record<string, number>>;
   order: string[];
   selected: string | null;
+  couple?: { id: string; label: string; from: { node: string; param: string }; to: { node: string; param: string }; before: number; after: number }[];
 };
 
 const SCALAR_OK: SocketType[] = ["contour", "lattice", "relief", "scalar", "phase", "shade", "pose", "take"];

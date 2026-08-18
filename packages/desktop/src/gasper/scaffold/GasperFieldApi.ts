@@ -339,6 +339,27 @@ export function mountGasperField(): GasperFieldSurface {
       verts: fabric().rings * fabric().sectors,
       morph: fabric().morph,
     }),
+    liveGrid: () => {
+      const g = globalThis as {
+        __GASPER_GRID_XYZ__?: Float32Array;
+        __GASPER_GRID_CX__?: number;
+        __GASPER_GRID_CY__?: number;
+        __GASPER_TOPOLOGY__?: { rings?: number; sectors?: number };
+      };
+      return {
+        xyz: g.__GASPER_GRID_XYZ__ ?? null,
+        cx: g.__GASPER_GRID_CX__ ?? 120,
+        cy: g.__GASPER_GRID_CY__ ?? 110,
+        rings: g.__GASPER_TOPOLOGY__?.rings ?? 25,
+        sectors: g.__GASPER_TOPOLOGY__?.sectors ?? 40,
+      };
+    },
+    setVertex: (index: number, radial: number) => {
+      const f = capturedField();
+      const i = ((index % f.length) + f.length) % f.length;
+      f[i] = Number.isFinite(radial) ? radial : 0;
+      return { index: i, radial: f[i] };
+    },
   };
   host().GasperField = api;
   cageShadeCanvas();

@@ -15,11 +15,11 @@ export type PillarDef = {
 };
 
 export const PILLARS: readonly PillarDef[] = [
-  { id: "machine", label: "Machine", law: "May I?", allow: "Rest, Walk, Presence, 20s.", refuse: "Never move mass. Never draw.", tint: "#c4a574" },
-  { id: "kernel", label: "Kernel", law: "Where is the mass?", allow: "COM, plants, the 180ms ease, tempo.", refuse: "Never decide Rest/Walk. Never write d.", tint: "#c17a5a" },
-  { id: "cook", label: "Cook", law: "How does that become a silhouette?", allow: "Shape, τ, cage, handles.", refuse: "Never Event Tick. Never a second hull.", tint: "#7d9a6f" },
-  { id: "painter", label: "Painter", law: "Draw it once.", allow: "Hull, pearl, orbit, light.", refuse: "Never a second d.", tint: "#6d8aa8" },
-  { id: "score", label: "Score", law: "Replay this over time.", allow: "Takes. Bind handles.", refuse: "Never Delay. Never a travel writer.", tint: "#8b7394" },
+  { id: "machine", label: "Machine", law: "May I?", allow: "Rest, Walk, Presence.", refuse: "Never move mass. Never draw.", tint: "#c4a574" },
+  { id: "kernel", label: "Kernel", law: "Mass", allow: "COM, plants, tempo.", refuse: "Never decide Rest/Walk.", tint: "#c17a5a" },
+  { id: "cook", label: "Cook", law: "Silhouette", allow: "Shape, τ, cage.", refuse: "Never a second hull.", tint: "#7d9a6f" },
+  { id: "painter", label: "Painter", law: "Draw", allow: "Hull, pearl, orbit.", refuse: "Never a second d.", tint: "#6d8aa8" },
+  { id: "score", label: "Score", law: "Replay", allow: "Takes.", refuse: "Never Delay.", tint: "#8b7394" },
   { id: "phase", label: "Phase", law: "Where are we in the step?", allow: "Read φ. Plant predicates.", refuse: "Not a mode you click.", tint: "#8a8680" },
 ];
 
@@ -58,6 +58,7 @@ export const ORGAN_PILLAR: Record<string, PillarSeat> = {
   "fabric-solver": { pillar: "cook", border: "kernel" },
   arap: { pillar: "cook", border: "kernel" },
   kappa: { pillar: "cook" },
+  couple: { pillar: "cook" },
   goose: { pillar: "cook" },
   paddle: { pillar: "cook" },
   "field-api": { pillar: "cook" },

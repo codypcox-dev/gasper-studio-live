@@ -1,0 +1,98 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "c2-continuity",
+    "domain": "curve-geometry",
+    "wall": "A spike is a G0 failure. Un-normalized handles stopped the launch. closedSpline is C1 Catmull-Rom. Nobody named the continuity class the W is allowed to have."
+  },
+  "question": "What do C0/C1/C2/G1/G2 mean on a closed 512, which class is live, which class the W may break, and which constraint makes a needle geometrically illegal?",
+  "coordinateSpaces": "Closed p_i in R^2, i in Z/512Z, content px. Turning θ_i = atan2(det(e_i,e_{i+1}), e_i·e_{i+1}). Painted γ = closedSpline, cubic Bezier τ=1/6. Time t. Phase φ.",
+  "physicalLaw": [
+    "C0: positions shared. G1: |θ_i| < π−ε (no cusp). C1: tangent vectors match. G2: κ continuous. C2: γ̈ continuous.",
+    "closedSpline (c1=p1+(p2-p0)/6) is C1 Catmull-Rom, not C2. It inks a horn when θ→π.",
+    "Periodic cubic spline / closed cubic B-spline are C2. Not live. A second d writer is a dual.",
+    "W cleft rest θ=0.54 is a legal G1 feature. C2 everywhere rounds it into a U.",
+    "κ-box: θ_i(t) ≤ max(1.6·θ_i(rest), 0.90). 3 rad is a fail. Project toward the chord.",
+    "leave_L/R = ½(1±tanh(k cos(φ/2))) is C∞ in phase. First-step snap is a lawful C0 in time."
+  ],
+  "artisticLaw": [
+    "The W must stay a W. C2 that erases the cleft is illegal.",
+    "Needles (new lobes, θ→π) are illegal.",
+    "The painted path may be C1. The samples must stay inside the rest κ-box.",
+    "Face is hard Dirichlet. Continuity does not move it."
+  ],
+  "invariants": [
+    "512 closed. closedSpline is the only d writer this explore.",
+    "Rest max θ(y>140)=0.54. Walk max θ≤0.90.",
+    "posed += Σ w_i Δ_i. Never /Σw.",
+    "Lower rim one τ=0.05 while stance live.",
+    "Phase 4π periodic. No sustain reset."
+  ],
+  "failureModes": [
+    "/Σw on overlapping gaussians → θ→π.",
+    "Peak τ ≠ neighbor τ → one-vertex needle after the cubic.",
+    "CR through 3 sockets as the rim → pad.",
+    "Periodic spline with κ-cap=0 → circle.",
+    "Second C2 d writer → dual.",
+    "C2-filter the first-step snap → taffy plant."
+  ],
+  "uncertainty": [
+    "Periodic C2 interpolating the rest W + soft handles — does the W survive 2.6 Hz?",
+    "κ-box projection vs Jacobi — which keeps the cleft.",
+    "Lock on samples vs on getPointAtLength of the cubic."
+  ],
+  "tests": [
+    "Rest θ(y>140) in [0.45, 0.62]. Height 168.3. Floor 197.8.",
+    "Walk 2s: max θ(y>140)≤0.90. No sample θ>1.2.",
+    "Painter has posed.x+=(S.left.x-100)*wL and no /wSum.",
+    "closedSpline incoming tangent equals outgoing (τ=1/6).",
+    "live=0 ⇒ identity pearl.",
+    "Cleft y < min(feet)−8 while live."
+  ],
+  "visualConsequences": [
+    "Feet lift as lobes, not extra toes.",
+    "Cleft stays a cleft.",
+    "Cubic may soften. It must not grow horns.",
+    "Grid on strokes the same 512."
+  ],
+  "implementation": [
+    "Explore only. Do not recut FormMaster.",
+    "Keep un-normalized handles + uniform lower τ.",
+    "Next: κ-box projection after _lp, before closedSpline. Re-assert foot peaks.",
+    "Do not replace closedSpline until that is filmed.",
+    "If still short: one periodic C2 spline, still one d writer."
+  ],
+  "citations": [
+    {
+      "id": "farin-cagd",
+      "tier": "reference",
+      "source": "Farin, Curves and Surfaces for CAGD",
+      "rule": "C^n vs G^n. Catmull-Rom is C1. Periodic cubic spline is C2."
+    },
+    {
+      "id": "catmull-rom-1974",
+      "tier": "reference",
+      "source": "Catmull & Rom 1974",
+      "rule": "Interpolating C1 cubics. The 1/6 Bezier convert is live in closedSpline."
+    },
+    {
+      "id": "leg-spikes-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T14-28-00-000Z-investigate-leg-spikes",
+      "rule": "/Σw is the needle. κ-box is the named lock."
+    },
+    {
+      "id": "dual-foot-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T13-20-00-000Z-investigate-leg-shear",
+      "rule": "hold=tanh(k cos(φ/2)) is C∞ in phase."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T14-30-00-000Z-explore-c2-continuity",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T14:30:00.000Z"
+}

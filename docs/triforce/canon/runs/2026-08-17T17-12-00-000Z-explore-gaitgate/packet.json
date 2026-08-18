@@ -1,0 +1,89 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "gaitgate",
+    "domain": "locomotion-expression",
+    "wall": "Three values are named gaitGate. The kernel ramps. The painter is a motionStrength binary. The machine publishes a flag nobody reads. Dual: gate = gate = gate."
+  },
+  "parentResidual": "state-machine",
+  "question": "What does gaitGate actually multiply, which of the three clocks is lawful for locomotion, and how must the machine flag enter the kernel without becoming a hard cut?",
+  "coordinateSpaces": "Kernel g∈[0,1] ramps in seconds (GAIT_EXPRESSION_RAMP_SECONDS). Painter G∈{0,1} from motionStrength. Machine ĝ∈{0,1} intent. φ 4π. Content px. physGait channels in world units.",
+  "physicalLaw": [
+    "Kernel (WorldPhysicsDriver): gaitTarget = walking ∧ ¬boo ∧ (speed>ε ∨ anticipation) ∧ embodimentGain=1. g ramps linearly at dt/τ. Expression = g²(3−2g) (smoothstep, zero slope at 0 and 1). This is the locomotion onset.",
+    "First stroke sets g=1 and φ=0. Sustain must not. That is the 2π-wrap / 14px side-swap crime.",
+    "Painter line: const gaitGate=motionStrength>0.001?1:0. Binary firewall for reduced motion / identity raster. It is NOT locomotion. It multiplies bob, plant, step, flatten, bank, squash, flight, swing, wind, supportLoad, telemetry.",
+    "Rest identity at motion-on is kernel zeros, not the painter binary. Painter G is 1 whenever he is living. If the kernel still leaks, G=1 shows the leak.",
+    "Machine ĝ is intent (Rest|Walk). It does not write physGait. It does not write #body. It is not yet gaitTarget.",
+    "Lawful stack: ĝ → kernel gaitTarget → ramp g → smoothstep → physGait → × painter motionFirewall → paint. Never ĝ × channels (hard cut = vault pop on relaunch, already named in the driver).",
+    "booGate is a sibling, reduced-motion only. Do not fold Boo into gaitGate."
+  ],
+  "artisticLaw": [
+    "Onset must ease. A Walk click that slams g=1 is a pop. The 180ms ramp is the read.",
+    "Reduced motion freezes the step picture (painter G=0) even if the kernel is still walking. That is constitution 7.1, not Rest.",
+    "Presence never touches g. Take Playing may arm walking; it does not set G.",
+    "Rename in speech: kernel = expression gate. Painter = motion firewall. Machine = intent."
+  ],
+  "invariants": [
+    "gaitGate=0 at kernel rest ⇒ 168.3, no stepRig, no plant telemetry.",
+    "φ is not reset when g ramps down. First-stroke only primes φ.",
+    "closedSpline remains the only d. gaitGate is a scalar, not a path.",
+    "Engine 3.0.0. Machine still flags-only until a later hook writes gaitTarget."
+  ],
+  "failureModes": [
+    "Painter binary used as locomotion (Walk while motionStrength already 1 does nothing extra).",
+    "Machine ĝ multiplied onto channels → vault on first frame of Walk.",
+    "Double ramp (machine ease AND kernel ease) → mushy 360ms onset.",
+    "Sustain re-file sets g=1 and φ=0 → 14px spike.",
+    "Naming the world-driver node param 'gate' as if it cooked — it does not."
+  ],
+  "uncertainty": [
+    "Exact GAIT_EXPRESSION_RAMP_SECONDS value (driver says ~180ms perceptual window).",
+    "Whether machine Walk should set performanceGait (in-place) or only locomotion intent.",
+    "Whether painter G should ever read kernel g. Probably not — different jobs."
+  ],
+  "tests": [
+    "Painter still contains motionStrength>0.001?1:0 for its firewall.",
+    "Driver still ramps this.gaitGate and uses smoothstep.",
+    "Machine gaitGate is not mentioned in all-script-3.js.",
+    "Rest height 168.3 with motion living (painter G=1, kernel g=0).",
+    "Presence change does not write gaitGate."
+  ],
+  "visualConsequences": [
+    "Explore only. Picture unchanged.",
+    "Later hook: Walk intent → kernel target 1 → 180ms ease into the W. Rest → target 0 → same ease out. No pop."
+  ],
+  "implementation": [
+    "Explore only. Do not retitle the painter identifier this cut (tests pin the string).",
+    "Next Work: machine ĝ writes WorldPhysicsDriver gaitTarget (or performanceGait), never the painter binary, never a hard g=1 except first-stroke.",
+    "Do not add a second ramp on the machine.",
+    "Keep booGate separate."
+  ],
+  "citations": [
+    {
+      "id": "painter-l3116",
+      "tier": "canon",
+      "source": "assets/all-script-3.js · gaitGate=motionStrength>0.001?1:0",
+      "rule": "Reduced-motion identity firewall. Byte-identical rest raster. Not locomotion."
+    },
+    {
+      "id": "driver-ramp",
+      "tier": "canon",
+      "source": "WorldPhysicsDriver.ts · gaitTarget / gaitGate / smoothstep",
+      "rule": "180ms perceptual ramp. Target from walking∧speed. Expression g²(3−2g)."
+    },
+    {
+      "id": "first-stroke",
+      "tier": "canon",
+      "source": "WorldPhysicsDriver.setPerformanceGait firstStroke",
+      "rule": "Prime g=1 and φ=0 once. Sustain must not wrap φ."
+    },
+    {
+      "id": "state-machine-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T16-46-00-000Z-explore-state-machine",
+      "rule": "Prefer gaitGate blend over a hard Rest|Walk cut. Machine publishes flags the cook already reads."
+    }
+  ]
+}

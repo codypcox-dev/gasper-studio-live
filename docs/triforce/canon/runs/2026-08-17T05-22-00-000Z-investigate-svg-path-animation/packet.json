@@ -1,0 +1,99 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "svg-path-animation",
+    "domain": "vector-draw",
+    "wall": "Four ways to animate SVG d. Live Gasper already writes #body every frame via closedSpline. Risk is swapping the physics writer for SMIL/CSS/Flubber and breaking the 512 lock."
+  },
+  "question": "What SVG path animation techniques exist, which of them honor a locked command grammar, and which one is lawful for Gasper's #body given closedSpline + plant-gated _lp + the 25×40 cage?",
+  "coordinateSpaces": "Content px. #body d is a serialization of 512 posed points, not an animation channel. Cage is 25×40. Time is the organism clock (dt), not SMIL dur.",
+  "physicalLaw": [
+    "A path d is a word in a command grammar: M, C, L, Q, A, Z plus numbers. Interpolating two d strings is legal only when the command sequence is identical and corresponding numbers are the same kind (C control vs C control).",
+    "closedSpline(pts) = M p0 + N cubic Béziers (Catmull-Rom, tangent (p_{i+1}-p_{i-1})/6) + Z. N = pts.length. Live N = 512. Topology never remeshes.",
+    "Per-frame setAttribute('d', closedSpline(wpts)) is the live writer (all-script-3.js ~2923). clipBody uses the unfiltered 512. body uses wpts after _lp.",
+    "SMIL <animate attributeName='d'> interpolates matching commands. Chrome once deprecated SMIL then reversed. No springs. Fights any JS writer on the same attribute.",
+    "CSS d: path('...') and WAAPI can tween d where d is a presentation property. Safari does not interpolate d. Same-command-count still required.",
+    "JS libraries (GSAP MorphSVG, Flubber, Motion) can remesh unequal paths. That is a second topology. Forbidden for #body.",
+    "pathLength + stroke-dashoffset is a draw-on, not a shape. getPointAtLength samples an authored curve onto our lock (embedding), it does not replace the lock.",
+    "FLIP (First/Last/Invert/Play) is a layout technique for boxes. The pearl is not a box."
+  ],
+  "artisticLaw": [
+    "The organism is points. d is ink. Animate the 512 / 1000, then serialize. Never animate the ink and hope the body follows.",
+    "Takes store embeddings (cage floats or 512 xy), not d keyframes. Playback = lerp points → closedSpline.",
+    "SMIL/CSS/WAAPI may dress chrome (pills, dock). They may not own #body, #clipBody, or the ribbon duals.",
+    "Stroke draw (pathLength) may reveal the grid. It may not fake a walk.",
+    "getPointAtLength is legal for snapping an authored silhouette (paddle, remote) onto the 512. Flubber remesh is not."
+  ],
+  "invariants": [
+    "Do not put <animate> on #body.",
+    "Do not CSS-transition d on #body.",
+    "Do not import Flubber / MorphSVG / anime.js path morph for the hull.",
+    "512 samples. Same C-count every frame. closedSpline stays the serializer.",
+    "_lp remains the time filter. SMIL dur is not τ.",
+    "Cage 25×40 remains the shape authority. d is the rim of that embedding."
+  ],
+  "failureModes": [
+    "SMIL + rAF both writing d: last-writer wins, W buzzes or pops.",
+    "CSS d tween in Safari: no interpolation, snap. In Chrome: fights _lp.",
+    "Flubber between rest and paddle: new vertex count, identity W gone.",
+    "Lerp of d strings with mismatched C counts: browser drops the animation, one-frame pop.",
+    "pathLength walk: a stroke chasing itself. Not feet.",
+    "Storing takes as d strings: yaw/LOD/closedSpline changes make old takes unloadable."
+  ],
+  "uncertainty": [
+    "Safari d-as-CSS may change. Do not bet the organism on it.",
+    "Whether bloom cx/cy should stay setAttribute or move to WAAPI. Low value; leave JS.",
+    "getPointAtLength on a paddle SVG is a future embedding helper, not this cut."
+  ],
+  "tests": [
+    "Painter contains function closedSpline(pts) and body.setAttribute('d',bodyD).",
+    "No <animate attributeName=\"d\" in the live avatar markup.",
+    "No flubber / MorphSVG / anime.timeline path morph dependency for #body.",
+    "512 command count: closedSpline output has exactly pts.length C segments + Z."
+  ],
+  "visualConsequences": [
+    "Walk stays socket → _lp → spline. No SMIL chew.",
+    "Morphs (paddle, puff) stay cage embeddings serialized to the same 512 C-count.",
+    "Grid reveal may use pathLength. Hull may not.",
+    "If d starts popping, someone added a second writer."
+  ],
+  "implementation": [
+    "Investigate only. No painter cut this receipt.",
+    "Live writer is already the lawful one: JS rAF + closedSpline.",
+    "Next implement (if asked): take recorder stores 512/1000 floats, not d.",
+    "Optional later: getPointAtLength sampler for authored silhouettes → cage target. Not a morph library."
+  ],
+  "citations": [
+    {
+      "id": "motion-svg-animation-families",
+      "tier": "reference",
+      "source": "https://motion.dev/docs/svg-animation",
+      "rule": "Four families: SMIL, CSS, WAAPI, JS. d morph requires same commands. CSS/WAAPI d interpolation fails Safari."
+    },
+    {
+      "id": "smil-same-vertex-rule",
+      "tier": "reference",
+      "source": "https://css-tricks.com/guide-svg-animations-smil/",
+      "rule": "Start, end, and intermediates must have the same number of vertices in the same order or interpolation aborts."
+    },
+    {
+      "id": "closedSpline-live",
+      "tier": "canon",
+      "source": "packages/desktop/src/gasper/assets/all-script-3.js closedSpline + body.setAttribute",
+      "rule": "Catmull-Rom cubics on a locked 512. d is a serialization of points already filtered by _lp."
+    },
+    {
+      "id": "caged-hull-no-remesh",
+      "tier": "canon",
+      "source": "docs/triforce/NORTHSTAR-CAGED-HULL.md",
+      "rule": "25×40 never remeshes. Shape is an embedding. Silhouette is the rim."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T05-22-00-000Z-investigate-svg-path-animation",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T05:22:00.000Z"
+}

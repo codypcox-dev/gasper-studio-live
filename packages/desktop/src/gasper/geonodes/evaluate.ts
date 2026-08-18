@@ -1,29 +1,10 @@
 import type { GeoEval, GeoGraph } from "./types";
 import { GEONODES_SCHEMA } from "./types";
+import { kahnOrder } from "./topology";
+import { applyCouplings } from "./coupling";
 
 export function topoOrder(graph: GeoGraph): string[] {
-  const incoming = new Map<string, number>();
-  const outs = new Map<string, string[]>();
-  for (const n of graph.nodes) {
-    incoming.set(n.id, 0);
-    outs.set(n.id, []);
-  }
-  for (const l of graph.links) {
-    incoming.set(l.to, (incoming.get(l.to) || 0) + 1);
-    outs.get(l.from)?.push(l.to);
-  }
-  const q = graph.nodes.filter((n) => (incoming.get(n.id) || 0) === 0).map((n) => n.id);
-  const order: string[] = [];
-  while (q.length) {
-    const id = q.shift()!;
-    order.push(id);
-    for (const nxt of outs.get(id) || []) {
-      const c = (incoming.get(nxt) || 1) - 1;
-      incoming.set(nxt, c);
-      if (c === 0) q.push(nxt);
-    }
-  }
-  return order;
+  return kahnOrder(graph).order;
 }
 
 export function evaluateGraph(graph: GeoGraph): GeoEval {
@@ -36,12 +17,15 @@ export function evaluateGraph(graph: GeoGraph): GeoEval {
     if (n.organId) params[n.organId] = params[n.id];
     for (const p of n.params) params[n.id][p.id] = p.value;
   }
+  const mix = params.couple?.mix ?? 1;
+  const coupled = applyCouplings(params, mute, mix);
   return {
     schema: GEONODES_SCHEMA,
     mute,
-    params,
+    params: coupled.params,
     order: topoOrder(graph),
     selected: graph.selected,
+    couple: coupled.traces,
   };
 }
 

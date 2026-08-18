@@ -1,36 +1,35 @@
 import type { GeoGraph, GraphNode } from "./types";
-import { PILLAR_IDS, type PillarId, seatOf } from "./pillars";
+import { type PillarId, seatOf } from "./pillars";
 
 export { PILLARS, PILLAR_IDS, seatOf, belongsToPillar, ORGAN_PILLAR, type PillarId, type PillarDef, type PillarSeat } from "./pillars";
 
-export const LAYOUT_VERSION = 10;
-export const CARD_W = 188;
-const CARD_H = 168;
-const HEADER = 92;
-const FOOT = 28;
-const GUTTER = 10;
-const COL_W = 220;
-const COL_GAP = 64;
+export const LAYOUT_VERSION = 18;
+export const CARD_W = 156;
+export const CARD_H = 88;
+const HEADER = 44;
+const FOOT = 16;
+const GUTTER = 8;
+const COL_W = 188;
+const COL_GAP = 36;
 const ORIGIN_X = 20;
-const ORIGIN_Y = 12;
+const ORIGIN_Y = 36;
 
-/** First-class compilers. Phase is a clock, not a column. */
 export const COMPILER_PILLARS: readonly PillarId[] = ["machine", "kernel", "cook", "painter", "score"];
 
-/** Top → bottom = order of function inside that compiler. */
 export const FUNCTION_ORDER: Record<string, readonly string[]> = {
   machine: ["machine", "eight-state", "gsap", "compositor"],
   kernel: ["world-driver", "gait", "support", "walk-scaffold"],
-  cook: ["identity", "cage", "handles", "voigt", "kappa", "field-api"],
+  cook: ["identity", "cage", "handles", "voigt", "kappa", "couple", "field-api"],
   painter: ["orbit", "pearl", "hull", "radial-facing"],
   score: ["northstar-20", "path-take", "curve-track", "rig-controller"],
 };
 
-export const COMPILER_BUS: readonly { from: PillarId; to: PillarId; label: string }[] = [
-  { from: "machine", to: "kernel", label: "may I" },
-  { from: "kernel", to: "cook", label: "mass" },
-  { from: "cook", to: "painter", label: "silhouette" },
-  { from: "score", to: "kernel", label: "replay" },
+export const COMPILER_BUS: readonly { from: PillarId; to: PillarId; label: string; step: number }[] = [
+  { from: "machine", to: "kernel", label: "may I", step: 1 },
+  { from: "kernel", to: "cook", label: "mass", step: 2 },
+  { from: "cook", to: "painter", label: "silhouette", step: 3 },
+  { from: "painter", to: "score", label: "frame", step: 4 },
+  { from: "score", to: "machine", label: "again", step: 5 },
 ];
 
 export const ACTIVE_LINE = [
@@ -43,6 +42,7 @@ export const ACTIVE_LINE = [
   "handles",
   "voigt",
   "kappa",
+  "couple",
   "orbit",
   "pearl",
   "hull",
@@ -67,8 +67,14 @@ export function browserCat(n: Pick<GraphNode, "id" | "organId" | "status">): Bro
   return p === "phase" ? "kernel" : p;
 }
 
+export function isLiveNode(n: GraphNode): boolean {
+  if (n.id === "identity" || n.id === "hull") return true;
+  return !n.muted;
+}
+
 export function isStageNode(n: GraphNode): boolean {
   if (n.id === "identity" || n.id === "hull") return true;
+  if (n.loose) return true;
   return !n.muted;
 }
 
@@ -82,7 +88,7 @@ export type CompilerCol = { id: PillarId; x: number; y: number; w: number; h: nu
 export function compilerColumns(graph?: GeoGraph): CompilerCol[] {
   const counts: Record<string, number> = {};
   if (graph) {
-    for (const n of graph.nodes.filter(isStageNode)) {
+    for (const n of graph.nodes.filter(isLiveNode)) {
       const p = compilerOf(n.id, n.organId);
       counts[p] = (counts[p] ?? 0) + 1;
     }
@@ -94,13 +100,14 @@ export function compilerColumns(graph?: GeoGraph): CompilerCol[] {
   });
 }
 
-/** @deprecated use compilerColumns */
 export function boxesForGraph(graph: GeoGraph): CompilerCol[] {
   return compilerColumns(graph);
 }
 
 export function occupiedPillars(graph: GeoGraph): PillarId[] {
-  return compilerColumns(graph).filter((c) => (graph.nodes.filter((n) => isStageNode(n) && compilerOf(n.id, n.organId) === c.id).length > 0)).map((c) => c.id);
+  return compilerColumns(graph)
+    .filter((c) => graph.nodes.some((n) => isLiveNode(n) && compilerOf(n.id, n.organId) === c.id))
+    .map((c) => c.id);
 }
 
 function orderIndex(pillar: PillarId, id: string): number {
@@ -109,11 +116,26 @@ function orderIndex(pillar: PillarId, id: string): number {
   return i < 0 ? 100 + id.charCodeAt(0) : i;
 }
 
+export function resetLayout(graph: GeoGraph): GeoGraph {
+  const live = new Set<string>(ACTIVE_LINE);
+  live.add("identity");
+  live.add("hull");
+  return arrangeGraph({
+    ...graph,
+    racks: {},
+    nodes: graph.nodes.map((n) => ({
+      ...n,
+      muted: !live.has(n.id),
+      loose: false,
+    })),
+  });
+}
+
 export function arrangeGraph(graph: GeoGraph): GeoGraph {
   const cols = new Map(compilerColumns(graph).map((c) => [c.id, c]));
   const buckets: Record<string, GraphNode[]> = {};
   for (const id of COMPILER_PILLARS) buckets[id] = [];
-  for (const n of graph.nodes.filter(isStageNode)) {
+  for (const n of graph.nodes.filter(isLiveNode)) {
     const p = compilerOf(n.id, n.organId);
     if (!buckets[p]) buckets[p] = [];
     buckets[p].push(n);
@@ -133,11 +155,20 @@ export function arrangeGraph(graph: GeoGraph): GeoGraph {
   return {
     ...graph,
     layoutVersion: LAYOUT_VERSION,
+    racks: {},
     nodes: graph.nodes.map((n) => {
       const p = pos.get(n.id);
-      return p ? { ...n, x: p.x, y: p.y } : n;
+      return p ? { ...n, x: p.x, y: p.y, loose: false } : n;
     }),
   };
+}
+
+export function setRack(graph: GeoGraph, _id: PillarId, _patch: Partial<CompilerCol>): GeoGraph {
+  return graph;
+}
+
+export function columnAt(graph: GeoGraph, x: number, y: number): CompilerCol | null {
+  return compilerColumns(graph).find((c) => x >= c.x && x <= c.x + c.w && y >= c.y && y <= c.y + c.h) ?? null;
 }
 
 export function cookSpineXs(graph: GeoGraph): number[] {
@@ -152,4 +183,33 @@ export function graphBounds(graph?: GeoGraph): { minX: number; minY: number; max
     maxX: Math.max(...cols.map((c) => c.x + c.w)) + 24,
     maxY: Math.max(...cols.map((c) => c.y + c.h)) + 24,
   };
+}
+
+export function feedOf(graph: GeoGraph, id: string): { inFromNode: boolean; outToNode: boolean } {
+  const live = new Set(graph.nodes.filter(isLiveNode).map((n) => n.id));
+  return {
+    inFromNode: graph.links.some((l) => l.to === id && live.has(l.from)),
+    outToNode: graph.links.some((l) => l.from === id && live.has(l.to)),
+  };
+}
+
+export function railOf(col: CompilerCol): { left: number; right: number; headY: number } {
+  return { left: col.x + 10, right: col.x + col.w - 10, headY: col.y + 28 };
+}
+
+/** Kept so old imports compile. No grid snap. */
+export const GRID = 1;
+export function snap(n: number): number {
+  return Math.round(n);
+}
+export function magnetizeCard(
+  graph: GeoGraph,
+  id: string,
+  x: number,
+  y: number,
+): { x: number; y: number; seated: boolean } {
+  const col = columnAt(graph, x + CARD_W / 2, y + CARD_H / 2);
+  const n = graph.nodes.find((node) => node.id === id);
+  const home = compilerOf(id, n?.organId);
+  return { x: Math.round(x), y: Math.round(y), seated: !!col && col.id === home };
 }

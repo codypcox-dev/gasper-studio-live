@@ -1,0 +1,98 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "state-machine",
+    "domain": "behavior-architecture",
+    "wall": "Eight-state, gait φ, takes, GSAP, and the cook line are four clocks. None is a machine. Treating the loop as the character FSM would put presence on the hull."
+  },
+  "parentResidual": "control-rig",
+  "question": "What is a state machine versus a phase, a score, and a dataflow graph — which family Gasper needs, how many orthogonal regions, and what must never become a state?",
+  "coordinateSpaces": "Discrete state s ∈ S per region. Continuous phase φ (gait, 4π). Score time τ_take ∈ [0, T]. Cook graph G each frame. Content px on the 512. No exec token.",
+  "physicalLaw": [
+    "FSM: one state per region. Transition s→s' when guard G is true. Entry/exit are actions. Flat FSMs explode (n² edges).",
+    "Harel / HFSM: nested states inherit transitions. Orthogonal regions (AND-states) run at once. A character is AND, not OR.",
+    "Behavior tree: ticks leaves until an action. Good for decisions. Bad as the hull. A BT that SetLocations is Event Graph.",
+    "Motion matching: nearest pose in a clip DB. Complements locomotion select. Gasper has no clip DB. Voigt is not MM.",
+    "A continuous phase is not a state. Contact = hold(φ)>θ is a predicate on φ, not a node you fire.",
+    "A take is a score (time-parameterized). Playing it is one state in the Take region. The 512 samples inside the take are not states.",
+    "Anim Graph cooks every frame (already law). The machine only chooses which cooks are live. It does not write d."
+  ],
+  "artisticLaw": [
+    "Three orthogonal regions: Locomotion ⊥ Presence ⊥ Take.",
+    "Locomotion: Rest | Walk. Walk's substates are plant-L / plant-R — they ARE SupportExchange, not a second writer.",
+    "Presence: the eight holds + wake. Face / energy / GSAP. Never the hull.",
+    "Take: Idle | Playing(score). 20s is a score bind, not Delay.",
+    "The cook line is dataflow, not a fourth region. Mute is passthrough, not a transition.",
+    "Do not add Walk to EightStateId. Do not add presence-thinking to gait."
+  ],
+  "invariants": [
+    "closedSpline remains the only d.",
+    "Gait φ stays 4π periodic. First-stroke prime stays.",
+    "Eight-state writes channels, not #body.",
+    "No exec / OnTick / BT leaf on the 512.",
+    "Engine 3.0.0. ACTIVE_LINE stays the glance cook."
+  ],
+  "failureModes": [
+    "Flat 40-organ FSM → n² transitions, every mute a state.",
+    "Eight-state owns walk → W dies, viscosity unhooked.",
+    "BT ticks handles every frame → fire() travel.",
+    "Take states that store 512 as the machine → paddle ghost (no Backwards).",
+    "Calling φ a state and resetting it on transition."
+  ],
+  "uncertainty": [
+    "Whether Rest/Walk is a hard exclusive or a gaitGate ∈ [0,1] (already live). Prefer the gate; name Rest/Walk as labels on the gate, not hard cuts.",
+    "Whether Presence should be an HFSM or stay a loop route + interrupt.",
+    "Whether the Nodes page should show the three regions as a second strip."
+  ],
+  "tests": [
+    "EightStateId still has no walk/run/plant.",
+    "Painter has no eight-state write to #body.",
+    "gaitGate=0 ⇒ rest identity 168.3 even if eight-state is thinking.",
+    "Playing 20s does not add a travel writer.",
+    "No typeId exec/tick/delay/behavior-tree."
+  ],
+  "visualConsequences": [
+    "Explore only. Picture unchanged.",
+    "Later: a Presence chip and a Locomotion chip on the desk, not 8 walk states."
+  ],
+  "implementation": [
+    "Explore only. Do not add an FSM library. Do not recut FormMaster.",
+    "Next Work: a 3-region chart (Locomotion, Presence, Take) that only publishes flags the cook already reads (gaitGate, eightState, takePlay).",
+    "Keep eight-state as the Presence route. Keep φ as Walk's clock. Keep takes as scores.",
+    "If a Nodes card is added, it is view.machine — mute = hide labels, not stop the cook."
+  ],
+  "citations": [
+    {
+      "id": "harel-statecharts",
+      "tier": "reference",
+      "source": "Harel · Statecharts (1987) / Barr Group HSM",
+      "rule": "Nested states inherit transitions. Orthogonal regions run at once. A character is AND, not OR."
+    },
+    {
+      "id": "ue-mm-vs-fsm-2026",
+      "tier": "reference",
+      "source": "UE forum · State Machine vs Motion Matching (2026)",
+      "rule": "MM select is ~31× an FSM eval. Overall cost similar. Gasper has no clip DB — do not import MM as the hull."
+    },
+    {
+      "id": "polymath-fsm-bt",
+      "tier": "reference",
+      "source": "Polymath · State Machines vs Behavior Trees",
+      "rule": "FSM = exclusive states + transitions. BT = ticking decisions. BT is not a pose graph."
+    },
+    {
+      "id": "eight-state-live",
+      "tier": "canon",
+      "source": "eight-state-loop/types.ts",
+      "rule": "Eight holds + wake. Three-beat gather/peak/settle/hold. Presence grammar. Not locomotion."
+    },
+    {
+      "id": "control-rig-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T16-08-00-000Z-explore-control-rig",
+      "rule": "Forwards cooks bones. Event Graph forbidden. Takes need Backwards onto handles."
+    }
+  ]
+}

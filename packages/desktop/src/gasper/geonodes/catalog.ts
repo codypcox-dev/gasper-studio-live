@@ -66,7 +66,7 @@ export const GASPER_ORGANS: readonly Organ[] = [
   { id: "instrument", kind: "ui", label: "Instrument table", status: "LIVE", file: "dais-first/InstrumentTable.tsx", note: "Sliders. Not the graph." },
   { id: "lumen", kind: "ui", label: "Lumen glass", status: "LIVE", file: "dais-first/LumenGlass.tsx", note: "Play / Rec / Orbit pills." },
   { id: "worldclass", kind: "ui", label: "WorldClass shell", status: "LIVE", file: "studio/worldclass/", note: "Operate / Form / Motion." },
-  { id: "goose", kind: "physics", label: "Goosebumps field", status: "TWIN", file: "scaffold/GoosebumpsField.ts", note: "Relief writer. Easy to dual." },
+  { id: "couple", kind: "physics", label: "Couple", status: "LIVE", file: "geonodes/coupling.ts", note: "Driven keys. Hz→τ, gate→lift, yaw→pearl, k→τ." },
   { id: "paddle", kind: "animation", label: "Paddle mesh", status: "UNHOOKED", file: "scaffold/PaddleMesh.ts", note: "UV snap. Not live hull." },
   { id: "walk-scaffold", kind: "animation", label: "walkScaffoldZ", status: "DEAD", file: "assets/all-script-3.js", note: "Gated off under physics-authority." },
 ] as const;

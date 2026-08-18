@@ -1,11 +1,9 @@
 # ThinkOps CURRENT
 
-phase: hold
-residual: first-step-still-soft
-lastClaim: checkpoint-strut-unshear
-checkpoint: checkpoint/gasper-strut-unshear-20260817
-commit: 4a6cb11
-prior: checkpoint/gasper-unified-runtime (d25b98d)
-events: 54
-updated: 2026-08-17T05:07:00Z
-note: Restore this version if the next pass regresses the planted W / unshear / height lock.
+phase: work
+residual: control-rig
+lastClaim: organ-graph-v2
+dualsKilled: nine-cards=all-organs; samples=handles; untyped-wire=language
+events: 67
+updated: 2026-08-17T16:10:00Z
+note: Every catalog organ is a card. Sockets are typed. Controls ≠ bones. Construction / Forwards / Backwards / Dynamics. Mute still passthrough. Hull still the only d. No exec.

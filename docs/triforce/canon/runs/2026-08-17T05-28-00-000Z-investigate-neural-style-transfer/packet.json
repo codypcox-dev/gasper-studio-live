@@ -1,0 +1,107 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "investigate",
+  "residual": {
+    "id": "neural-style-transfer",
+    "domain": "material-look",
+    "wall": "NST is a raster Gram/AdaIN match. Gasper is a vector organism. Screenshot-stylize would paint a second body and kill the cage."
+  },
+  "question": "What is neural style transfer, what does it actually match, and what is the lawful analog on a 25×40 vector fabric that must stay a deep glossy purple pearl?",
+  "coordinateSpaces": "NST lives in pixel / VGG feature space. Gasper lives in content px + 1000-float embeddings + SVG material stops. Do not mix the two writers.",
+  "physicalLaw": [
+    "Gatys 2015/16: I* = argmin_I (α ‖F(I)−F(I_c)‖² + β Σ_ℓ ‖G^ℓ(I)−G^ℓ(I_s)‖²). F = VGG activations (content). G = Gram matrices of those activations (style as second-order channel correlations).",
+    "Optimization NST is per-image, hundreds of steps, seconds to minutes. Not a frame budget.",
+    "Johnson / Ulyanov 2016: train a feed-forward net per style. Real-time, one style per weight file.",
+    "AdaIN (Huang & Belongie 2017): AdaIN(F_c, F_s) = σ(F_s) ((F_c−μ(F_c))/σ(F_c)) + μ(F_s). Match first two channel moments. Arbitrary style, real-time, still raster.",
+    "Diffusion / CLIP stylizers (2022–25): stronger semantics, still emit pixels. Not an SVG contour.",
+    "Vector NST (2023): applying the same content/style losses to path parameters barely moves drawing style — the structure is the paths, not the Gram of a rasterization.",
+    "AdaIN on a scalar field is just moment matching: x' = σ_s (x−μ_c)/σ_c + μ_s. That operation is legal on a 1000-float relief/shade field. It is not legal on a PNG of Gasper."
+  ],
+  "artisticLaw": [
+    "Content for Gasper is the cage embedding C = Γ(L)+Σs_i and the face lock. Style is the material packet (pearl, clearcoat, rim, key, optical depth) plus a saved look.",
+    "Canonical appearance is not a style you transfer away. Van Gogh-ing the pearl is a species change. Forbidden.",
+    "Looks we already save are the style library. loadLook is the stylizer. No VGG.",
+    "If we ever 'transfer style' between two Gaspers, match material moments and optional relief AdaIN on the 1000. Do not rasterize.",
+    "Screenshot → NST → <image> under #body is a second body. Same crime as cosmic cells and CageShadePass canvas."
+  ],
+  "invariants": [
+    "No VGG, ONNX stylizer, or diffusion img2img in the live painter.",
+    "No drawImage / foreignObject photo of a styled frame as the hull.",
+    "bodyBase stays in the violet well. Looks may tint stops inside that well, not blow to Starry Night.",
+    "512 / 25×40 topology unchanged. Style is not a remesh.",
+    "Saved looks remain 1000-float embeddings + material coeffs, not PNG styles."
+  ],
+  "failureModes": [
+    "Gatys on a capture: 30s+ stall, raster out, W and face become paint.",
+    "AdaIN video of the preview: smear, identity loss, no takes, no sockets.",
+    "StyleGAN / SD img2img: new creature every frame. Not Gasper.",
+    "CSS filter / mix-blend 'style': we already banned screen-blend.",
+    "Calling a saved look 'NST' and then adding a CNN anyway."
+  ],
+  "uncertainty": [
+    "Whether relief-field AdaIN (moment match on the 1000) is worth a later Explore. Not this cut.",
+    "Material-packet lerp between two looks is already almost style transfer. Confirm live loadLook covers it.",
+    "Offline research renders (not live) may rasterize for a paper. They must not ship."
+  ],
+  "tests": [
+    "No vgg / onnx / tensorflow / style-transfer package in the live painter deps.",
+    "No <image> or foreignObject as #body fill.",
+    "Looks API still stores floats (GasperField saveLook), not d and not png.",
+    "bodyBase stop colors stay in the violet well after any look load."
+  ],
+  "visualConsequences": [
+    "He stays the same organism. A look changes embedding + material, not species.",
+    "If he suddenly looks like a painting, someone rasterized.",
+    "If he bleaches or pizza-fans, that is the old film dual, not NST."
+  ],
+  "implementation": [
+    "Investigate only. No painter cut.",
+    "Live analog already exists: saveLook / loadLook + material coeffs.",
+    "Next implement only if asked: AdaIN on the 1000-float relief/shade field between two saved looks. Still no CNN.",
+    "Do not add a style-image upload that runs Gatys."
+  ],
+  "citations": [
+    {
+      "id": "gatys-2016-nst",
+      "tier": "reference",
+      "source": "https://arxiv.org/abs/1508.06576",
+      "rule": "Content = VGG activations. Style = Gram matrices. Pixel optimization. Raster only."
+    },
+    {
+      "id": "adain-2017",
+      "tier": "reference",
+      "source": "https://arxiv.org/abs/1703.06868",
+      "rule": "AdaIN matches μ,σ of feature maps. Real-time arbitrary style. Still feature-map raster."
+    },
+    {
+      "id": "style-transfer-decade-survey-2025",
+      "tier": "reference",
+      "source": "https://arxiv.org/html/2506.19278v1",
+      "rule": "F:(I_c,I_s)→I_t. Decade of raster pipelines through diffusion. None emit a locked 512 spline."
+    },
+    {
+      "id": "vector-nst-2023",
+      "tier": "reference",
+      "source": "https://www.researchgate.net/publication/369063548_Neural_Style_Transfer_for_Vector_Graphics",
+      "rule": "Standard NST losses barely move vector drawing style; structure is the paths."
+    },
+    {
+      "id": "caged-hull-canonical-appearance",
+      "tier": "canon",
+      "source": "docs/triforce/NORTHSTAR-CAGED-HULL.md §3.0",
+      "rule": "Deep glossy purple pearl is identity, not a transferable style."
+    },
+    {
+      "id": "gasper-field-looks",
+      "tier": "canon",
+      "source": "packages/desktop/src/gasper/scaffold/GasperFieldApi.ts saveLook/loadLook",
+      "rule": "Looks are 1000-float embeddings. That is our stylizer."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-17T05-28-00-000Z-investigate-neural-style-transfer",
+    "returned": true
+  },
+  "earnedAt": "2026-08-17T05:28:00.000Z"
+}

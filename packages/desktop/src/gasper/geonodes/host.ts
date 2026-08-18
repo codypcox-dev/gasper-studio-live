@@ -1,11 +1,13 @@
 import { defaultGeoGraph, nodeFromBlueprint } from "./defaultGraph";
 import { evaluateGraph, publishGeoEval } from "./evaluate";
-import { LAYOUT_VERSION, arrangeGraph, compilerOf } from "./layout";
+import { LAYOUT_VERSION, arrangeGraph, compilerOf, resetLayout } from "./layout";
+import { kahnOrder, sanitizeGraph, wouldCycleKahn, type WireResult } from "./topology";
+import { lockReason } from "./params";
 import { NODE_BLUEPRINTS } from "./library";
 import type { GeoGraph, GraphNode, NodeTypeId } from "./types";
 import { GEONODES_SCHEMA, socketsCompatible } from "./types";
 
-const STORAGE_KEY = "gasper.geonodes.v1";
+const STORAGE_KEY = "gasper.geonodes.v5";
 
 export function loadGeoGraph(): GeoGraph {
   if (typeof localStorage === "undefined") return defaultGeoGraph();
@@ -14,13 +16,14 @@ export function loadGeoGraph(): GeoGraph {
     if (!raw) return defaultGeoGraph();
     const parsed = JSON.parse(raw) as GeoGraph;
     if (parsed?.schema !== GEONODES_SCHEMA || !Array.isArray(parsed.nodes)) return defaultGeoGraph();
-    return ensureLayout(mergeMissingOrgans(relayoutIfCollapsed(parsed)));
+    return ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(relayoutIfCollapsed(parsed)))));
   } catch {
     return defaultGeoGraph();
   }
 }
 
 function ensureLayout(graph: GeoGraph): GeoGraph {
+  if ((graph.layoutVersion ?? 0) < 17) return resetLayout(graph);
   if ((graph.layoutVersion ?? 0) >= LAYOUT_VERSION) return graph;
   return arrangeGraph(graph);
 }
@@ -60,8 +63,14 @@ function hydrateMeta(graph: GeoGraph): GeoGraph {
     nodes: graph.nodes.map((n) => {
       const bp = NODE_BLUEPRINTS.find((b) => b.idPrefix === n.id || b.organId === n.organId);
       if (!bp) return n;
+      const params = bp.params.map((p) => {
+        const cur = n.params.find((x) => x.id === p.id);
+        const value = cur ? Math.max(p.min, Math.min(p.max, cur.value)) : p.value;
+        return { ...p, value };
+      });
       return {
         ...n,
+        params,
         element: n.element ?? bp.element,
         event: n.event ?? bp.event,
         inType: n.inType ?? bp.inType,
@@ -80,24 +89,30 @@ export function saveGeoGraph(graph: GeoGraph): void {
   }
 }
 
-export function setNodeMuted(graph: GeoGraph, id: string, muted: boolean): GeoGraph {
+export function setNodeMuted(graph: GeoGraph, id: string, muted: boolean, loose = false): GeoGraph {
+  if (lockReason(id)) return graph;
+  if (id === "identity" || id === "hull") return graph;
   return {
     ...graph,
-    nodes: graph.nodes.map((n) => (n.id === id ? { ...n, muted } : n)),
+    nodes: graph.nodes.map((n) =>
+      n.id === id ? { ...n, muted, loose: muted ? loose : false } : n,
+    ),
   };
 }
 
 export function setNodeParam(graph: GeoGraph, id: string, paramId: string, value: number): GeoGraph {
   return {
     ...graph,
-    nodes: graph.nodes.map((n) =>
-      n.id === id
-        ? {
-            ...n,
-            params: n.params.map((p) => (p.id === paramId ? { ...p, value } : p)),
-          }
-        : n,
-    ),
+    nodes: graph.nodes.map((n) => {
+      if (n.id !== id) return n;
+      const has = n.params.some((p) => p.id === paramId);
+      return {
+        ...n,
+        params: has
+          ? n.params.map((p) => (p.id === paramId ? { ...p, value } : p))
+          : [...n.params, { id: paramId, label: paramId, min: 0, max: 1, step: 0.01, value }],
+      };
+    }),
   };
 }
 
@@ -112,8 +127,8 @@ const COMPILER_FEED: Record<string, string[]> = {
   machine: ["kernel"],
   kernel: ["cook"],
   cook: ["painter"],
-  painter: [],
-  score: ["kernel", "painter", "machine"],
+  painter: ["score"],
+  score: ["machine"],
 };
 
 export function canBind(from: GraphNode, to: GraphNode): boolean {
@@ -126,32 +141,33 @@ export function canBind(from: GraphNode, to: GraphNode): boolean {
 }
 
 export function wouldCycle(graph: GeoGraph, from: string, to: string): boolean {
-  if (from === to) return true;
-  const outs = new Map<string, string[]>();
-  for (const n of graph.nodes) outs.set(n.id, []);
-  for (const l of graph.links) outs.get(l.from)?.push(l.to);
-  outs.get(from)?.push(to);
-  const seen = new Set<string>();
-  const stack = [to];
-  while (stack.length) {
-    const id = stack.pop()!;
-    if (id === from) return true;
-    if (seen.has(id)) continue;
-    seen.add(id);
-    for (const nxt of outs.get(id) || []) stack.push(nxt);
+  return wouldCycleKahn(graph, from, to);
+}
+
+export function tryConnect(graph: GeoGraph, from: string, to: string): WireResult {
+  const a = graph.nodes.find((n) => n.id === from);
+  const b = graph.nodes.find((n) => n.id === to);
+  if (!a || !b) return { graph, ok: false, reason: "missing", detail: "Missing node" };
+  if (from === to) return { graph, ok: false, reason: "self", detail: "A node cannot feed itself" };
+  if (graph.links.some((l) => l.from === from && l.to === to)) {
+    return { graph, ok: false, reason: "already", detail: "Already wired" };
   }
-  return false;
+  if (!canBind(a, b)) {
+    return { graph, ok: false, reason: "bind", detail: `${a.label} cannot bind to ${b.label}` };
+  }
+  if (wouldCycleKahn(graph, from, to)) {
+    return { graph, ok: false, reason: "cycle", detail: `Cycle: ${a.label} cannot feed ${b.label}` };
+  }
+  const links = graph.links.filter((l) => l.to !== to);
+  const next = { ...graph, links: [...links, { from, to }] };
+  if (kahnOrder(next).cyclic) {
+    return { graph, ok: false, reason: "cycle", detail: `Cycle: ${a.label} cannot feed ${b.label}` };
+  }
+  return { graph: next, ok: true, reason: "ok", detail: `${a.label} → ${b.label}` };
 }
 
 export function connectNodes(graph: GeoGraph, from: string, to: string): GeoGraph {
-  const a = graph.nodes.find((n) => n.id === from);
-  const b = graph.nodes.find((n) => n.id === to);
-  if (!a || !b) return graph;
-  if (graph.links.some((l) => l.from === from && l.to === to)) return graph;
-  if (wouldCycle(graph, from, to)) return graph;
-  if (!canBind(a, b)) return graph;
-  const links = graph.links.filter((l) => !(l.from === from && l.to === to) && l.to !== to);
-  return { ...graph, links: [...links, { from, to }] };
+  return tryConnect(graph, from, to).graph;
 }
 
 export function disconnectNodes(graph: GeoGraph, from: string, to: string): GeoGraph {
@@ -209,17 +225,26 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
       scaffold?: { scaffoldCoupling?: number };
       wispwalker?: { footAmp?: number; cleftDepth?: number };
       cageLight?: Record<string, number>;
+      pearl?: Record<string, number>;
     };
-    SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void };
     __GASPER_VISCO_TAU__?: number;
     __GASPER_FACING_YAW__?: number;
+    __GASPER_GAIT_HZ__?: number;
+    __GASPER_HANDLE_LIFT__?: number;
+    __GASPER_HANDLE_ADVANCE__?: number;
+    __GASPER_GAIT_TEMPO__?: number;
+    __GASPER_SUPPORT_K__?: number;
+    __GASPER_VISCO_TAU_REST__?: number;
+    __GASPER_NORTHSTAR_PLAY__?: number;
+    __GASPER_MACHINE_GATE__?: number;
     __GASPER_TAU_FIELD__?: { foot: number; waist: number; crown: number };
+    SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void; setYaw?: (y: number) => void };
   };
   const byOrgan = (organId: string) => graph.nodes.find((n) => n.organId === organId || n.id === organId);
   const cage = ev.params.cage || ev.params["relief-1000"] || {};
   const gridNode = byOrgan("paint-grid");
   const gridOn = (cage.grid ?? gridNode?.params.find((p) => p.id === "show")?.value ?? 0) > 0.5;
-  if (cage.grid !== undefined || gridNode) host.__GASPER_SHOW_GRID__ = gridOn && !ev.mute.cage && !gridNode?.muted;
+  if (cage.grid !== undefined || gridNode) host.__GASPER_SHOW_GRID__ = gridOn && !ev.mute.cage;
   if (!host.__GASPER_LIVE_COEFFS__) host.__GASPER_LIVE_COEFFS__ = {};
   if (cage.coupling !== undefined) {
     host.__GASPER_LIVE_COEFFS__.scaffold = {
@@ -240,6 +265,9 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     host.__GASPER_ORBIT_YAW__ = orbit.yaw;
     host.__GASPER_ORBIT_PITCH__ = orbit.pitch ?? 0;
     host.SidekickFormMasterRig?.setOrbit?.(orbit.yaw, orbit.pitch ?? 0);
+    host.SidekickFormMasterRig?.setYaw?.(orbit.yaw);
+  } else if (!ev.mute["radial-facing"] && (ev.params["radial-facing"]?.yaw !== undefined)) {
+    host.SidekickFormMasterRig?.setYaw?.(ev.params["radial-facing"].yaw);
   }
   const voigt = ev.params.voigt || {};
   if (!ev.mute.voigt && voigt.tau !== undefined) {
@@ -253,6 +281,17 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
       };
     }
   }
+  if (!ev.mute.voigt && voigt.rest !== undefined) host.__GASPER_VISCO_TAU_REST__ = voigt.rest;
+  const support = ev.params.support || {};
+  if (!ev.mute.support && support.k !== undefined) host.__GASPER_SUPPORT_K__ = support.k;
+  const machine = ev.params.machine || {};
+  if (machine.gate !== undefined) host.__GASPER_MACHINE_GATE__ = ev.mute.machine ? 0 : machine.gate;
+  const ns = ev.params["northstar-20"] || {};
+  if (ns.play !== undefined) host.__GASPER_NORTHSTAR_PLAY__ = ev.mute["northstar-20"] ? 0 : ns.play;
+  const gait = ev.params.gait || ev.params["gait-law"] || {};
+  if (!ev.mute.gait && (gait.live === undefined || gait.live > 0.5) && gait.hz !== undefined) {
+    host.__GASPER_GAIT_HZ__ = gait.hz;
+  }
   const facing = ev.params["radial-facing"] || {};
   if (facing.yaw !== undefined && !byOrgan("radial-facing")?.muted) host.__GASPER_FACING_YAW__ = facing.yaw;
   const light = ev.params["cage-light"] || ev.params.pearl || {};
@@ -260,4 +299,13 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     if (!host.__GASPER_LIVE_COEFFS__.cageLight) host.__GASPER_LIVE_COEFFS__.cageLight = {};
     host.__GASPER_LIVE_COEFFS__.cageLight.light_spec = light.spec;
   }
+  const pearl = ev.params.pearl || {};
+  if (!ev.mute.pearl && pearl.depth !== undefined) {
+    host.__GASPER_LIVE_COEFFS__.pearl = { ...(host.__GASPER_LIVE_COEFFS__.pearl ?? {}), depth: pearl.depth };
+  }
+  const handles = ev.params.handles || ev.params.stance || {};
+  if (handles.lift !== undefined) host.__GASPER_HANDLE_LIFT__ = ev.mute.handles ? 1 : handles.lift;
+  if (handles.advance !== undefined) host.__GASPER_HANDLE_ADVANCE__ = ev.mute.handles ? 1 : handles.advance;
+  const world = ev.params["world-driver"] || {};
+  if (world.gate !== undefined) host.__GASPER_GAIT_TEMPO__ = ev.mute["world-driver"] ? 1 : world.gate;
 }

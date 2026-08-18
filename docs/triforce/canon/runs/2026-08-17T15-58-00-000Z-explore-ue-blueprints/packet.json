@@ -1,0 +1,101 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "ue-blueprints",
+    "domain": "geonodes-language",
+    "wall": "Blueprints is not one graph. Event Graph exec would become a second walk writer. The steal is Anim Graph pose flow and Construction Script as Home — not Tick."
+  },
+  "parentResidual": "visual-scripting",
+  "question": "How do Unreal Blueprints actually evaluate, which of their graphs is for a living character, and which laws Gasper may steal versus must refuse?",
+  "coordinateSpaces": "UE: Actor, EventGraph, ConstructionScript, AnimGraph, ControlRig. Pins: Exec (white), Data (typed color), Pose. Gasper: Contour512, phase φ, frame t. No exec token on the hull.",
+  "physicalLaw": [
+    "Two pin families (Epic): Execution pins activate a node then fire an output exec. Data pins are type-specific; incompatible wires error. Function Call nodes have one exec in and one exec out.",
+    "Impure nodes have exec pins and run only when exec arrives. Pure nodes have no exec pin and recook once per data connection — a Random wired twice rolls twice (zomgmoz).",
+    "Latent nodes (Delay, async) create one latent action per node instance. Re-exec cancels the previous. Only the last Delay in a loop completes.",
+    "Construction Script runs on spawn / construction in editor. Event Graph runs after, on events (BeginPlay, Tick, input). They are different times, not two skins of one graph.",
+    "Anim Graph is not event-based. It evaluates every frame. Pose pins pass poses to Output Pose. Pulsing wires show continuous cook. Event Graph on an AnimBP only feeds values; it does not blend the pose.",
+    "Control Rig / deformer graphs are the character-shape instrument. Gameplay Event Graphs are not.",
+    "Data fan-out is legal. Exec typically has one next (branch/sequence are explicit). Auto-cast inserts a converter node. Alt-click breaks a pin."
+  ],
+  "artisticLaw": [
+    "Do not put Event Tick on the 512. A walk is gait-law + handles, not a fired sequence of Set Actor Location.",
+    "Home / Identity is a Construction Script: authored once, restored, not ticked.",
+    "The Nodes page is an Anim Graph analog: contour/pose flows every frame toward Hull.",
+    "Takes are scores (Anim Notify / montage analog), not latent Delay chains on the hull.",
+    "A pure node that writes travel is a lie. Impurity must be visible or forbidden."
+  ],
+  "invariants": [
+    "No exec / event / OnTick / Delay typeId on the hull graph.",
+    "closedSpline remains the only d.",
+    "Mute stays passthrough, not an exec skip.",
+    "512/360/1000 never remesh.",
+    "Engine pinned 3.0.0.",
+    "Parent residual visual-scripting still holds: wires must carry typed data before they are a language."
+  ],
+  "failureModes": [
+    "Stealing Event Graph → fire() walk, GSAP-on-travel, camera as animation.",
+    "Pure node with hidden side effects (UE pitfall) → τ changes twice per frame.",
+    "Latent Delay on plant → first-step snap becomes a wait, W dies.",
+    "One Blueprint to rule construction + tick + deform → mixer/language dual again.",
+    "Calling the Nodes page 'Blueprints' and shipping exec pins."
+  ],
+  "uncertainty": [
+    "Whether Gasper Functions (reusable groups) should ban latent the way UE functions do.",
+    "Whether a Take Play node is a latent (UE) or a score bind (Gasper law). Recommend score bind.",
+    "Control Rig VM vs our 512 push cook — measure before choosing a VM."
+  ],
+  "tests": [
+    "NODE_BLUEPRINTS contains no exec, event, tick, delay, beginplay.",
+    "Identity is not recooked by Event Tick. Rest height 168.3 with graph page open.",
+    "A spawned second κ-box does not write a second d.",
+    "wouldCycle still rejects hull→identity.",
+    "If a future Function group is added, it cannot contain Delay."
+  ],
+  "visualConsequences": [
+    "Wires stay cream/typed, never white exec arrows on the hull.",
+    "Monitor still cooks every frame (Anim Graph), not on click (Event Graph).",
+    "Home button = Construction Script restore. 20s = score, not a latent chain."
+  ],
+  "implementation": [
+    "Discover only. Do not add Blueprint exec to NodeGraphPage.",
+    "Steal: type-colored data pins; auto-cast as an inserted node; Alt/click break (already click-wire-to-cut); Construction vs cook as two times (Home vs frame).",
+    "Steal: Anim Graph law — pose/contour flows every frame to Hull. Pulse the live wire, do not exec it.",
+    "Refuse: Event Tick, latent Delay on the 512, BeginPlay as a walk starter, ExpandEnumAsExecs on gait.",
+    "Name the graphs in UI: Cook (frame) and Home (identity). Do not name them Event / Construction.",
+    "Next Work remains GeoSocket types from visual-scripting. Blueprints do not change that order."
+  ],
+  "citations": [
+    {
+      "id": "epic-nodes",
+      "tier": "reference",
+      "source": "Epic · Nodes in Unreal Engine 5.8",
+      "rule": "Execution pins activate then fire an output exec. Data pins are type-specific. Function Call: one exec in, one exec out."
+    },
+    {
+      "id": "epic-animgraph",
+      "tier": "reference",
+      "source": "Epic · Graphing in Animation Blueprints",
+      "rule": "Anim Graph evaluates each frame and is not event-based. Pose pins pass poses to Output Pose. Event Graph fires; Anim Graph always cooks."
+    },
+    {
+      "id": "zomgmoz-eval",
+      "tier": "reference",
+      "source": "zomgmoz · How blueprint evaluation works",
+      "rule": "Pure nodes execute once per connection. A latent node holds one action; re-exec cancels the prior."
+    },
+    {
+      "id": "ue-construction-vs-event",
+      "tier": "reference",
+      "source": "UE forums / tharlevfx construction scripts",
+      "rule": "Construction Script runs on spawn. Event Graph runs after, on events. Different times."
+    },
+    {
+      "id": "visual-scripting-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T15-48-00-000Z-explore-visual-scripting",
+      "rule": "Gasper is fields + patch. Not Blueprints exec. Dual: rack = visual-script."
+    }
+  ]
+}

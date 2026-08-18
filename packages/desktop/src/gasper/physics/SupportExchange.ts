@@ -124,7 +124,9 @@ export function projectPlantedScreenX(
 
 /** S0 hold: tanh(k·cos(φ/2)) — saturated through single support. */
 export function supportHold(phase: number): number {
-  return Math.tanh(GAIT_LAW.stepPlacementSharpness * Math.cos(phase / 2));
+  const hostK = Number((globalThis as { __GASPER_SUPPORT_K__?: number }).__GASPER_SUPPORT_K__);
+  const k = Number.isFinite(hostK) && hostK > 0 ? hostK : GAIT_LAW.stepPlacementSharpness;
+  return Math.tanh(k * Math.cos(phase / 2));
 }
 
 export function stepSupportExchange(
