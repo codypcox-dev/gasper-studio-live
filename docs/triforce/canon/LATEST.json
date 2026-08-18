@@ -1,8 +1,15 @@
 {
-  "runId": "2026-08-17T17-12-00-000Z-explore-gaitgate",
+  "runId": "2026-08-18T18-30-00-000Z-explore-seven-studio-laws",
   "mode": "explore",
-  "residual": "gaitgate",
-  "depositPath": "docs/triforce/canon/runs/2026-08-17T17-12-00-000Z-explore-gaitgate",
-  "parentResidual": "state-machine",
+  "residual": "seven-studio-laws",
+  "depositPath": "docs/triforce/canon/runs/2026-08-18T18-30-00-000Z-explore-seven-studio-laws",
+  "parentResidual": "vector-studio-ux",
+  "related": [
+    "2026-08-18T18-17-00-000Z-explore-keyframe-easing-curves",
+    "2026-08-18T18-17-00-000Z-explore-node-based-compositing",
+    "2026-08-18T18-00-00-000Z-explore-vector-studio-ux"
+  ],
+  "plan": "docs/triforce/plans/2026-08-18-studio-master-book.md",
+  "northstar": "docs/triforce/NORTHSTAR-STUDIO.md",
   "engineVersion": "3.0.0"
 }

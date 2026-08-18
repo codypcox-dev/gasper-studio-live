@@ -1,0 +1,250 @@
+{
+  "errors": [],
+  "layout": {
+    "cards": [
+      {
+        "id": "node-card-machine",
+        "x": 185.8604736328125,
+        "y": 100.93023681640625,
+        "w": 157.81396484375,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-gait",
+        "x": 412.4651184082031,
+        "y": 198.0465087890625,
+        "w": 157.81393432617188,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-support",
+        "x": 412.4651184082031,
+        "y": 295.16278076171875,
+        "w": 157.81393432617188,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-world-driver",
+        "x": 412.4651184082031,
+        "y": 100.93023681640625,
+        "w": 157.81393432617188,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-identity",
+        "x": 639.0697631835938,
+        "y": 100.93023681640625,
+        "w": 157.81402587890625,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-cage",
+        "x": 639.0697631835938,
+        "y": 198.0465087890625,
+        "w": 157.81402587890625,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-handles",
+        "x": 639.0697631835938,
+        "y": 295.16278076171875,
+        "w": 157.81402587890625,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-voigt",
+        "x": 639.0697631835938,
+        "y": 392.2790832519531,
+        "w": 157.81402587890625,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-kappa",
+        "x": 639.0697631835938,
+        "y": 489.3953552246094,
+        "w": 157.81402587890625,
+        "h": 89.02322387695312,
+        "visible": true
+      },
+      {
+        "id": "node-card-couple",
+        "x": 639.0697631835938,
+        "y": 586.5116577148438,
+        "w": 157.81402587890625,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-orbit",
+        "x": 865.6744384765625,
+        "y": 100.93023681640625,
+        "w": 157.81396484375,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-hull",
+        "x": 865.6744384765625,
+        "y": 295.16278076171875,
+        "w": 157.81396484375,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-pearl",
+        "x": 865.6744384765625,
+        "y": 198.0465087890625,
+        "w": 157.81396484375,
+        "h": 89.02325439453125,
+        "visible": true
+      },
+      {
+        "id": "node-card-northstar-20",
+        "x": 1092.279052734375,
+        "y": 100.93023681640625,
+        "w": 157.81396484375,
+        "h": 89.02325439453125,
+        "visible": true
+      }
+    ],
+    "cardCount": 14,
+    "mon": {
+      "x": 1100,
+      "y": 16,
+      "w": 300,
+      "h": 380
+    },
+    "stage": {
+      "x": 1100,
+      "y": 44,
+      "w": 300,
+      "h": 352
+    },
+    "transport": {
+      "x": 0,
+      "y": 772,
+      "w": 1440,
+      "h": 128
+    },
+    "dope": {
+      "x": 0,
+      "y": 828,
+      "w": 1440,
+      "h": 72
+    },
+    "inspector": {
+      "x": 10,
+      "y": 513.25,
+      "w": 360,
+      "h": 218.75
+    },
+    "showGrid": true,
+    "hasXyz": true,
+    "evalCage": {
+      "coupling": 0,
+      "grid": 1
+    }
+  },
+  "hits": {
+    "stageCenter": {
+      "x": 1250,
+      "y": 220,
+      "tag": "SECTION",
+      "id": null,
+      "testid": "gasper-dais",
+      "className": "gasper-dais ",
+      "card": null
+    },
+    "voigt": {
+      "x": 717.9767761230469,
+      "y": 412.2790832519531,
+      "tag": "B",
+      "id": null,
+      "testid": null,
+      "className": "node-card__readout",
+      "card": "node-card-voigt"
+    },
+    "voigtSlider": {
+      "x": 717.9767761230469,
+      "y": 465.3023376464844,
+      "tag": "INPUT",
+      "id": null,
+      "testid": null,
+      "className": "",
+      "card": "node-card-voigt"
+    },
+    "orbit": {
+      "x": 944.5814208984375,
+      "y": 120.93023681640625,
+      "tag": "B",
+      "id": null,
+      "testid": null,
+      "className": "node-card__readout",
+      "card": "node-card-orbit"
+    }
+  },
+  "before": {
+    "showGrid": true,
+    "tau": 0.0512,
+    "yaw": 8,
+    "cage": {
+      "coupling": 0,
+      "grid": 1
+    },
+    "voigt": {
+      "tau": 0.0512,
+      "rest": 0.42
+    },
+    "orbit": {
+      "yaw": 8,
+      "pitch": 0
+    }
+  },
+  "grid": {
+    "gridBefore": "1",
+    "gridAfter": "0",
+    "afterGrid": {
+      "showGrid": false,
+      "cageGrid": 0,
+      "dots": 6,
+      "paintOn": false
+    }
+  },
+  "afterVoigt": {
+    "tau": 0.08,
+    "voigt": {
+      "tau": 0.08,
+      "rest": 0.42
+    }
+  },
+  "afterOrbit": {
+    "yaw": 179.08,
+    "orbit": {
+      "yaw": 179.08,
+      "pitch": 0
+    }
+  },
+  "sculpt": {
+    "sx": 1250,
+    "sy": 177.76,
+    "beforeH": 155.9539337158203,
+    "afterH": 155.63999938964844,
+    "hit": {
+      "x": 1250,
+      "y": 177.76,
+      "tag": "SECTION",
+      "id": null,
+      "testid": "gasper-dais",
+      "className": "gasper-dais ",
+      "card": null
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "beforeSculpt": {
+    "energy": 0,
+    "w": 156.0741424560547,
+    "h": 173.46585083007812,
+    "hit": {
+      "tag": "path",
+      "id": "cosmicCloudPath",
+      "testid": null
+    },
+    "pe": "auto"
+  },
+  "afterSculpt": {
+    "energy": 1982.9948284327984,
+    "w": 154.95928955078125,
+    "h": 173.17050170898438,
+    "selected": 1
+  },
+  "sculptDelta": 1982.9948284327984,
+  "beforeYaw": 8,
+  "afterYaw": {
+    "yaw": -142.4,
+    "eval": -142.4
+  },
+  "beforeFoot": {
+    "foot": 4,
+    "h": 173.02407836914062
+  },
+  "afterFoot": {
+    "foot": 8,
+    "h": 180.58090209960938,
+    "eval": 8
+  },
+  "pass": true
+}

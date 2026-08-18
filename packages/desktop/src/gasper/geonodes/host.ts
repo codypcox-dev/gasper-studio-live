@@ -1,4 +1,5 @@
-import { defaultGeoGraph, nodeFromBlueprint } from "./defaultGraph";
+import { defaultGeoGraph, isCookBlueprint, nodeFromBlueprint } from "./defaultGraph";
+
 import { evaluateGraph, publishGeoEval } from "./evaluate";
 import { LAYOUT_VERSION, arrangeGraph, compilerOf, resetLayout } from "./layout";
 import { kahnOrder, sanitizeGraph, wouldCycleKahn, type WireResult } from "./topology";
@@ -16,7 +17,8 @@ export function loadGeoGraph(): GeoGraph {
     if (!raw) return defaultGeoGraph();
     const parsed = JSON.parse(raw) as GeoGraph;
     if (parsed?.schema !== GEONODES_SCHEMA || !Array.isArray(parsed.nodes)) return defaultGeoGraph();
-    return ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(relayoutIfCollapsed(parsed)))));
+    return ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(stripUiChrome(relayoutIfCollapsed(parsed))))));
+
   } catch {
     return defaultGeoGraph();
   }
@@ -43,11 +45,22 @@ function relayoutIfCollapsed(graph: GeoGraph): GeoGraph {
   };
 }
 
+function stripUiChrome(graph: GeoGraph): GeoGraph {
+  const nodes = graph.nodes.filter((n) => isCookBlueprint(n.organId || n.id, n.id));
+  if (nodes.length === graph.nodes.length) return graph;
+  return {
+    ...graph,
+    nodes,
+    links: graph.links.filter((l) => nodes.some((n) => n.id === l.from) && nodes.some((n) => n.id === l.to)),
+  };
+}
+
 function mergeMissingOrgans(graph: GeoGraph): GeoGraph {
   const have = new Set(graph.nodes.map((n) => n.organId || n.id));
   const extra: GraphNode[] = [];
   let col = 0;
   for (const bp of NODE_BLUEPRINTS) {
+    if (!isCookBlueprint(bp.organId, bp.idPrefix)) continue;
     if (have.has(bp.organId) || have.has(bp.idPrefix)) continue;
     const node = nodeFromBlueprint(bp.idPrefix, 28 + (col % 6) * 220, 980 + Math.floor(col / 6) * 210, bp);
     if (node) extra.push(node);

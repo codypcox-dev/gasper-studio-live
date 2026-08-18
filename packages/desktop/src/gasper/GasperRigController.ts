@@ -56,7 +56,9 @@ import {
 import type { GasperTake } from "./takes/GasperTake";
 import { worldFromTake } from "./takes/GasperTake";
 import { bindTake } from "./takes/bindTake";
+import { evaluateTake, type TakeImpulse } from "./takes/evaluateTake";
 import { NORTHSTAR_TWENTY_TAKE } from "./takes/NorthstarTwentyTake";
+import { evalChannel } from "./curves/CurveTrack";
 import { buildNorthstarTwentyClip } from "./takes/northstarTwentyClip";
 import {
   createPhysicsField,
@@ -1988,9 +1990,10 @@ export class GasperRigController {
     this.setWanderEnabled(take.setup.wander === true);
     this.headingPinDeg = take.setup.headingPinDeg ?? 0;
     if (take.policy === "snap" && take.setup.embodiment) {
-      if (this.authoredMainForm !== take.setup.embodiment) {
-        this.snapEmbodiment(take.setup.embodiment);
-      }
+      // Always bind selection to the take form. authoredMainForm defaults
+      // to wispwalker while selection defaults to presence — gating on
+      // authored !== setup left the kernel reading a footless body.
+      this.snapEmbodiment(take.setup.embodiment);
     }
     this.enableBoo(take.setup.boo === true);
     try {
@@ -2050,12 +2053,9 @@ export class GasperRigController {
     } catch {
       /* review clock is optional */
     }
-    const fired = new Set<string>();
-    const fire = (id: string, at: number, t: number, fn: () => void) => {
-      if (fired.has(id) || t < at) return;
-      fired.add(id);
-      fn();
-    };
+    let lastT = Number.NEGATIVE_INFINITY;
+    let prevStrutAt: number | null = null;
+    let prevRunAt: number | null = null;
     const applyAction = (action: GasperTake["beats"][number]["actions"][number]) => {
       const driver = this.ensurePhysicsDriver();
       const live = driver.getState().body;
@@ -2154,39 +2154,135 @@ export class GasperRigController {
         this.playAuthoredTake(take);
       }
     };
+    const resetPhysicsToBind = () => {
+      // Backward seek is replay from bind, not un-apply.
+      // disarm comet + standDown wander/life/performance. setWorldPose is
+      // illegal on this path, so bind.originX/Z stay the score origin;
+      // the next locomotion / launchComet plant inherits lastHandoff.
+      this.sealTakePlant();
+      this.physicsDriver?.disarm();
+    };
+    const applyImpulseBatch = (items: readonly TakeImpulse[]) => {
+      for (const impulse of items) {
+        if (impulse.action.type === "loop") continue;
+        applyAction(impulse.action);
+      }
+    };
     const unsub = this.organismClock.subscribe({
       id: `take:${take.id}`,
       priority: 48,
       onFrame: () => {
-        const t = (this.organismClock.nowMs() - t0) / 1000;
-        if (take.headingWindows) {
-          let pin: number | null = null;
-          for (const w of take.headingWindows) {
-            if (t < w.until) {
-              pin = w.deg;
-              break;
+        const origin = Number((globalThis as { __GASPER_TAKE_T0__?: number }).__GASPER_TAKE_T0__);
+        const t0Now = Number.isFinite(origin) ? origin : t0;
+        const t = (this.organismClock.nowMs() - t0Now) / 1000;
+        if (this.walkBooLoop && t >= take.durationSec) {
+          this.enableBoo(false);
+          this.physicsDriver?.disarm();
+          this.headingPinDeg = 0;
+          this.playAuthoredTake(take);
+          return;
+        }
+        const state = evaluateTake(take, t);
+        const backward = t + 1e-4 < lastT;
+        if (backward) {
+          resetPhysicsToBind();
+          prevStrutAt = null;
+          prevRunAt = null;
+        }
+        // Always write heading / walkEnable / boo / expression (idempotent).
+        // take.headingWindows are folded into state.headingDeg.
+        applyAction({ type: "heading", deg: state.headingDeg });
+        applyAction({ type: "walkEnable", on: state.walkEnable !== 0 });
+        applyAction({ type: "boo", on: state.boo });
+        if (state.expressionId) applyAction({ type: "expression", id: state.expressionId });
+        if (state.reliefPreset) applyAction({ type: "relief", preset: state.reliefPreset });
+        if (state.motion != null) applyAction({ type: "motion", value: state.motion });
+        if (state.physics) {
+          applyAction({
+            type: "physics",
+            launchPower: state.physics.launchPower,
+            intensity: state.physics.intensity,
+          });
+        }
+        const strutAt = state.strut ? state.strut.at : null;
+        if (prevStrutAt != null && strutAt !== prevStrutAt) {
+          this.physicsDriver?.standDownLocomotion("wander");
+        }
+        if (state.strut && strutAt !== prevStrutAt) {
+          applyAction(state.strut.action);
+        }
+        prevStrutAt = strutAt;
+        const runAt = state.runInPlace ? state.runInPlace.at : null;
+        if (prevRunAt != null && runAt !== prevRunAt) {
+          this.physicsDriver?.standDownLocomotion("performance");
+        }
+        if (state.runInPlace && runAt !== prevRunAt) {
+          applyAction(state.runInPlace.action);
+        }
+        prevRunAt = runAt;
+        if (backward) {
+          applyImpulseBatch(state.impulses);
+        } else {
+          applyImpulseBatch(state.impulses.filter((impulse) => impulse.at > lastT && impulse.at <= t));
+        }
+        // Wave 2 — sample Score CurveTracks after evaluateTake.
+        // Impulses stay impulses. Do not restore a fired Set.
+        const tracks = take.tracks;
+        if (tracks) {
+          const yawTrack = tracks.yaw;
+          if (yawTrack) {
+            let headingBeatWins = false;
+            for (const beat of take.beats) {
+              if (beat.at > t) continue;
+              for (const action of beat.actions) {
+                if (action.type === "heading") {
+                  headingBeatWins = true;
+                  break;
+                }
+              }
+              if (headingBeatWins) break;
+            }
+            if (!headingBeatWins) {
+              this.headingPinDeg = evalChannel(yawTrack, t).value;
             }
           }
-          if (pin != null) this.headingPinDeg = pin;
-        }
-        for (const beat of take.beats) {
-          fire(beat.id, beat.at, t, () => {
-            for (const action of beat.actions) applyAction(action);
-          });
-          for (const action of beat.actions) {
-            if (
-              (action.type !== "strut" && action.type !== "runInPlace") ||
-              !(Number(action.sustainUntil) > beat.at)
-            ) {
-              continue;
-            }
-            if (t < beat.at || t > Number(action.sustainUntil)) continue;
-            const tick = Math.floor(t * 2);
-            fire(`${beat.id}-${tick}`, Math.max(beat.at, tick * 0.5), t, () => {
-              applyAction(action);
+          if (state.runInPlace && (tracks.cadenceHz || tracks.driveGain)) {
+            const cadenceHz = tracks.cadenceHz
+              ? evalChannel(tracks.cadenceHz, t).value
+              : state.runInPlace.action.cadenceHz;
+            const driveGain = tracks.driveGain
+              ? evalChannel(tracks.driveGain, t).value
+              : state.runInPlace.action.driveGain;
+            // Do not re-file locomotion every frame (that hitch is a 2Hz cousin).
+            this.ensurePhysicsDriver().setPerformanceGait({
+              cadenceHz,
+              driveGain,
+              lateralAxis: 1,
+              compressionRatio: state.runInPlace.action.compression ?? 0.08,
             });
           }
+          if (tracks.face) {
+            const face = evalChannel(tracks.face, t).value;
+            try {
+              const g = (
+                globalThis as {
+                  SidekickFormMasterRig?: { setFaceEnergy?: (n: number) => void };
+                }
+              ).SidekickFormMasterRig;
+              if (typeof g?.setFaceEnergy === "function") {
+                g.setFaceEnergy(face);
+              } else {
+                (this.mount?.rig as { setMotion?: (n: number) => void } | undefined)?.setMotion?.(face);
+              }
+            } catch {
+              /* face hook optional — skip rather than invent a second writer */
+            }
+          }
+          if (tracks.stretch && Math.abs(evalChannel(tracks.stretch, t).value) > 1e-9) {
+            // fence 0 while planted — Wave 2 authors 0; no writer
+          }
         }
+        lastT = t;
       },
     });
     this.northstarTwentyUnsub = () => {

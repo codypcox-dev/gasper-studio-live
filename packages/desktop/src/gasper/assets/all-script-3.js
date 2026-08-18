@@ -1592,11 +1592,14 @@ function applyMeshWarp(contour,mesh){
       }
     }
   }
-  avatar.addEventListener('pointerdown',event=>{
+  avatar.style.pointerEvents='auto';
+  const skinRoot=avatar.closest('[data-testid="gasper-dais"]')||avatar;
+  const onSkinDown=event=>{
+    if(event.button!=null&&event.button!==0)return;
     const p=skinPoint(event);
     if(globalThis.__GASPER_SHOW_GRID__!==false&&globalThis.__GASPER_GRID_XYZ__){
       const xyz=globalThis.__GASPER_GRID_XYZ__,cx=Number(globalThis.__GASPER_GRID_CX__),cy=Number(globalThis.__GASPER_GRID_CY__);
-      let best=-1,bestD=10;
+      let best=-1,bestD=18;
       for(let i=0;i<1000;i++){
         const d=Math.hypot(cx+(xyz[i*3]||0)-p.x,cy+(xyz[i*3+1]||0)-p.y);
         if(d<bestD){bestD=d;best=i;}
@@ -1604,29 +1607,35 @@ function applyMeshWarp(contour,mesh){
       if(best>=0){
         selectedGrid=best;
         dragOrigin={pointer:p,snap:new Float32Array(gridSculpt)};
-        avatar.setPointerCapture(event.pointerId);
+        if(skinRoot.setPointerCapture) skinRoot.setPointerCapture(event.pointerId);
         event.preventDefault();
+        event.stopPropagation();
         return;
       }
     }
     if(!debugOn||!lastMeshPoints.length)return;
     let best=-1,bestDistance=Infinity;
     for(const vertex of lastMeshPoints){const distance=Math.hypot(vertex.x-p.x,vertex.y-p.y);if(distance<bestDistance){bestDistance=distance;best=vertex.index;}}
-    if(bestDistance>8)return;selectedVertex=best;dragOrigin={pointer:p,offset:{...meshOffsets[best]}};avatar.setPointerCapture(event.pointerId);event.preventDefault();
-  });
-  avatar.addEventListener('pointermove',event=>{
+    if(bestDistance>8)return;selectedVertex=best;dragOrigin={pointer:p,offset:{...meshOffsets[best]}};if(skinRoot.setPointerCapture)skinRoot.setPointerCapture(event.pointerId);event.preventDefault();
+  };
+  const onSkinMove=event=>{
     if(selectedGrid>=0&&dragOrigin&&dragOrigin.snap){
       const p=skinPoint(event);
       stampGridSculpt(selectedGrid,p.x-dragOrigin.pointer.x,p.y-dragOrigin.pointer.y,dragOrigin.snap);
+      event.preventDefault();
       return;
     }
     if(selectedVertex<0||!dragOrigin)return;const p=eventPoint(event);meshOffsets[selectedVertex].x=dragOrigin.offset.x+p.x-dragOrigin.pointer.x;meshOffsets[selectedVertex].y=dragOrigin.offset.y+p.y-dragOrigin.pointer.y;
-  });
+  };
   function endDrag(event){
-    if(selectedGrid>=0){selectedGrid=-1;dragOrigin=null;if(avatar.hasPointerCapture(event.pointerId))avatar.releasePointerCapture(event.pointerId);return;}
-    if(selectedVertex<0)return;selectedVertex=-1;dragOrigin=null;if(avatar.hasPointerCapture(event.pointerId))avatar.releasePointerCapture(event.pointerId);
+    if(selectedGrid>=0){selectedGrid=-1;dragOrigin=null;if(skinRoot.hasPointerCapture&&skinRoot.hasPointerCapture(event.pointerId))skinRoot.releasePointerCapture(event.pointerId);return;}
+    if(selectedVertex<0)return;selectedVertex=-1;dragOrigin=null;if(skinRoot.hasPointerCapture&&skinRoot.hasPointerCapture(event.pointerId))skinRoot.releasePointerCapture(event.pointerId);
   }
-  avatar.addEventListener('pointerup',endDrag);avatar.addEventListener('pointercancel',endDrag);
+  skinRoot.addEventListener('pointerdown',onSkinDown,true);
+  skinRoot.addEventListener('pointermove',onSkinMove,true);
+  skinRoot.addEventListener('pointerup',endDrag,true);
+  skinRoot.addEventListener('pointercancel',endDrag,true);
+
   function computeNormals(pts){const out=[];for(let i=0;i<pts.length;i++){const p=pts[i],p0=pts[(i-1+pts.length)%pts.length],p2=pts[(i+1)%pts.length];let nx=p2.y-p0.y,ny=-(p2.x-p0.x);const len=Math.hypot(nx,ny)||1;nx/=len;ny/=len;if(nx*(p.x-120)+ny*(p.y-110)<0){nx=-nx;ny=-ny;}out.push({x:nx,y:ny});}return out;}
   function angleToIndex(angle,n=CONTOUR_SAMPLES){const start=1.5*Math.PI,a=((angle%(2*Math.PI))+2*Math.PI)%(2*Math.PI),delta=(a-start+2*Math.PI)%(2*Math.PI);return Math.round(delta/(2*Math.PI)*n)%n;}
   function ribbonFromAnchors(pts,normals,anchors,lightDir,offsetBase,offsetGain,widthBase,widthGain){const outer=[],inner=[];for(let j=0;j<anchors.length;j++){const idx=angleToIndex(anchors[j],pts.length),p=pts[idx],n=normals[idx];let q=Math.max(0,n.x*lightDir[0]+n.y*lightDir[1]);q=smoothstep(0.18,0.96,q);const env=Math.pow(Math.sin(Math.PI*(j/Math.max(1,anchors.length-1))),0.9),off=offsetBase+offsetGain*(0.20+0.80*q),w=(widthBase+widthGain*q)*env;outer.push({x:p.x-n.x*(off-w*.5),y:p.y-n.y*(off-w*.5)});inner.push({x:p.x-n.x*(off+w*.5),y:p.y-n.y*(off+w*.5)});}return{outer,inner};}
@@ -1997,7 +2006,7 @@ function applyMeshWarp(contour,mesh){
       for(let s=0;s<S;s++){
         const i=r*S+s;
         const hot=i===selectedGrid;
-        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'2.2':'1.05')+'" fill="'+(hot?'#fff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.85')+'" stroke="#0b1a22" stroke-width="0.25"/>');
+        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.4':'2.15')+'" fill="'+(hot?'#fff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.92')+'" stroke="#0b1a22" stroke-width="0.35"/>');
       }
     }
     g.innerHTML=html.join('');
@@ -2861,6 +2870,8 @@ function applyMeshWarp(contour,mesh){
       const snap=globalThis.__GASPER_VISCO_SNAP__;
       if(snap) globalThis.__GASPER_VISCO_SNAP__=0;
       const _lp=(prev,raw)=>{
+        const GN=globalThis.__GASPER_GEONODES_EVAL__||{};
+        if(GN.mute&&GN.mute.voigt) return raw;
         if(!prev||prev.length!==raw.length||dragOrigin!==null||snap){
           return raw.map(p=>({...p}));
         }
@@ -2877,12 +2888,11 @@ function applyMeshWarp(contour,mesh){
           const ww=wL+wR;
           const stanceTau=ww>1e-4?(tauL*wL+tauR*wR)/ww:VISCO_TAU_SWING;
           const gated=viscoTau+w*(VISCO_TAU_PLANT-viscoTau);
-          const GN=globalThis.__GASPER_GEONODES_EVAL__||{};
           const tauLower=Number(GN.params&&GN.params.voigt&&GN.params.voigt.tau)||0.05;
-          const tau=GN.mute&&GN.mute.voigt?0.02:(restHold?VISCO_TAU_REST:(_lower>0.12&&S.live?tauLower:(1-restHold)*(ww>0.05?stanceTau:gated)));
+          const tau=restHold?VISCO_TAU_REST:(_lower>0.12&&S.live?tauLower:(1-restHold)*(ww>0.05?stanceTau:gated));
           const TF=globalThis.__GASPER_TAU_FIELD__;
           let tauUse=tau;
-          if(TF&&!(GN.mute&&GN.mute.voigt)){
+          if(TF){
             const v=Math.min(1,Math.max(0,(Math.sin(th)+1)*0.5));
             const tc=Number(TF.crown),tw=Number(TF.waist),tf=Number(TF.foot);
             if(Number.isFinite(tc)&&Number.isFinite(tw)&&Number.isFinite(tf)){

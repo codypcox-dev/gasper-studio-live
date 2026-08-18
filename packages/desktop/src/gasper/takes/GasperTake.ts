@@ -4,6 +4,7 @@
  * to the live body at bind time. Embodiment class can refuse.
  */
 import type { EmbodimentLocomotionClass } from "../behavior/EmbodimentLocomotion";
+import type { CurveTrack } from "../curves/CurveTrack";
 
 export const GASPER_TAKE_SCHEMA = "gasper.take.v1" as const;
 
@@ -76,6 +77,8 @@ export type GasperTake = Readonly<{
   setup: TakeSetup;
   headingWindows?: readonly TakeHeadingWindow[];
   beats: readonly TakeBeat[];
+  /** Score CurveTracks (parameters, not pose / not 512). */
+  tracks?: Readonly<Record<string, CurveTrack>>;
 }>;
 
 export type TakeBind = Readonly<{

@@ -1,13 +1,13 @@
 # DesignOps CURRENT
 
-phase: work
-residual: node-graph-page
-crystal: bone cards on a dark board, live monitor PIP
-flash: Blender geometry nodes + Ableton rack
+phase: plan
+residual: score-is-not-a-curve
+crystal: Stage|Graph + one transport + inspector-follows + dopesheet/value-graph toggle
+flash: AE playhead, Rive graph-replaces-timeline, Spine setup/animate, Harmony offsets, Figma few-tools
 sterile: 0
-surface: NodeGraphPage + StudioDesk
-events: 4
-updated: 2026-08-17T15:42:00Z
-handoff: docs/designops/INSTRUMENT-HANDOFF.md
-gate: Work
-note: Graph page recedes the stage to a monitor. Desk stays the session strip.
+surface: NORTHSTAR-STUDIO chrome (not yet built)
+events: 6
+updated: 2026-08-18T18:35:00Z
+gate: Plan
+note: Do not crystal Wave 4 until Waves 0–3 prove. Monitor is a picture, not a transport.
+book: docs/triforce/plans/2026-08-18-studio-master-book.md

@@ -1,0 +1,158 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "engineVersion": "3.0.0",
+  "residual": {
+    "id": "node-based-compositing",
+    "domain": "geonodes-language",
+    "wall": "Nuke Merge is A+B(1-a) on pixel buffers. Gasper is one closed silhouette. Calling the five-column compiler a compositor is a category error: there is no plate B. Dual: composite = one hull. Second dual: composition-frame = composition-graph."
+  },
+  "parentResidual": "visual-scripting",
+  "question": "Is node-based compositing lawful for a single-organism SVG painter, what should flow on wires, which sockets do not lie, which of Machine/Kernel/Cook/Painter/Score is a compositor, how Harmony offset maps to cards, what fat from Nuke/AE must be refused, and whether to (A) refuse compositing as a product and deepen the compiler or (B) add a merge/over/mask graph after the hull exists?",
+  "coordinateSpaces": "Graph G=(N,E). Socket kinds: contour512, lattice360/672, relief25x40, scalar, phase φ, pose (VEC-501 bindings), take τ∈[0,T], shade coeffs. Content px on the hull. Screen-space composition frame (GasperCompositionContract). No image buffer. No exec token. No plate B.",
+  "physicalLaw": [
+    "A compositor operates on independent image buffers. Nuke Merge default over is A + B(1-a) on premultiplied RGBA. Fusion/Natron are the same family. No B ⇒ no Merge.",
+    "Architecture lock: pixel_buffers_forbidden, mix_blend_mode_forbidden, css_image_space_compositing_forbidden, mask_image_space_forbidden, svg_filter_primitives_forbidden, pixel_intermediate_forbidden. geometric_clip_path_allowed = #bodyClip of the same hull, not a Cutter matte drawing.",
+    "Blender keeps three graphs because they operate on three substances: Geometry Nodes (mesh/fields), Shader Nodes (BSDF at a point), Compositor (rendered pixels). Unreal keeps Event / Anim / Material / Control Rig for the same reason. Gasper already has Machine (flags+pose mixer), Cook (fields), Painter (shade + sole d).",
+    "Cavalry: generators → effectors → render. They refuse to be a compositor and hand alpha to AE. Gasper is Cavalry, not AE.",
+    "Harmony Composite node: several images → one image. Cutter: matte drawing hides a drawing. Peg: transform. Attribute Controller: insert an offset into the attribute's final values so rig and controller both adjust (non-destructive).",
+    "VEC-501 ResolvedPoseCompositor composites semantic bindings (numbers) in a fixed order. It is a mixer of offsets, not an image tree. Single authority. Compatibility adapters may not resolve independently.",
+    "Fields compile. Mute = out=in on the incoming buffer. Fan-out legal. Fan-in is one source or Join=Σ on the same lock or Offset. Never concatenate. Never remesh. Cycles illegal.",
+    "Circle (scalar/phase/pose/take) may feed diamond (contour/lattice/relief). Diamond may not feed circle without Reduce. Shade feeds shade only. take→pose is Backwards. take→contour is illegal."
+  ],
+  "artisticLaw": [
+    "One organism on the monitor. The graph is the instrument. The PIP is him.",
+    "Cards OFFSET. They do not overwrite. Couple lerp(user, law, mix) is already Harmony Attribute Controller. Living is additive. Character-state is the only overwrite and is final authority.",
+    "Pearl is painter's algorithm on inset contours of the same 512. Not A-over-B of independent plates. Vesicle-stack already named foam-on-black = vesicles-in-gel.",
+    "GasperCompositionContract keeps the word composition for shot framing (safe margin, occupy, face overlap). Do not spend it on a graph.",
+    "A card without a typed port that can reject is a poster. socketsCompatible currently cannot reject. That is chrome.",
+    "Do not name the Nodes page a compositor. Do not add a sixth column. Do not catalog the ghost compositor as Merge."
+  ],
+  "invariants": [
+    "512 / 360 / 672 / 1000 never change cardinality.",
+    "closedSpline is the only d writer. FormMaster is the sole #body writer.",
+    "No pixel buffer, mix-blend-mode, CSS image-space composite, image-space mask, or SVG filter primitive.",
+    "VEC-501 remains the sole pose mixer. Order unchanged.",
+    "Mute handles/voigt/kappa already honored as contour passthrough in all-script-3.js.",
+    "Schema remains gasper.geometry-nodes.v1 until sockets reject, then v2.",
+    "Engine pinned 3.0.0. Do not stamp 3.3.",
+    "Pick (A). (B) is lock-illegal."
+  ],
+  "failureModes": [
+    "Calling the rack a compositor → Merge node → second hull → second d.",
+    "socketsCompatible family-set no-op → shade feeds contour → remesh / paddle ghost.",
+    "Cataloguing the ghost compositor as a sixth column → two graphs, split brain.",
+    "Pearl promoted to Merge/Over/Mask → mix-blend, plates, vesicle-stack regression.",
+    "Muted card overwrites host global to 0 instead of passing incoming buffer / reverting to base.",
+    "GasperCompositionContract turned into a node → framing law becomes a camera DAG.",
+    "Exec wires, Event Tick, or a second walk writer disguised as Over.",
+    "Rewire that does not change cook = lying instrument (parent residual, still true)."
+  ],
+  "uncertainty": [
+    "Pull vs push cook on 512 at 60–120 fps — still unmeasured (parent residual).",
+    "Whether shade coeffs deserve a nested painter group after sockets exist, or stay hardcoded in FormMaster forever.",
+    "Whether the ghost compositor card should ever be catalogued as a Machine pose-mixer (pose→pose, mix) or stay unnamed and invoked only from stateResolver.",
+    "Relief25x40 as a field over the 512 vs a separate geometry that samples onto it (parent residual, still open)."
+  ],
+  "tests": [
+    "socketsCompatible('shade','contour') === false. Current true is a fail.",
+    "socketsCompatible('take','contour') === false. socketsCompatible('pose','contour') === false.",
+    "socketsCompatible('scalar','contour') === true. socketsCompatible('contour','contour') === true.",
+    "connectNodes(pearl, identity) remains rejected. connectNodes(kappa, hull) remains accepted.",
+    "wouldCycle(hull, identity) remains true.",
+    "Mute voigt ⇒ incoming contour untouched, height 168.3 at rest.",
+    "No Merge/Over/Mask/Premult/Reformat typeId in NODE_BLUEPRINTS.",
+    "GASPER_ORGANS has no image/buffer/exr organ. compositor remains absent or, if added, organ.module pose→pose in Machine, status UNHOOKED until sockets exist.",
+    "Architecture lock flags pixel_buffers_forbidden and mix_blend_mode_forbidden stay true.",
+    "GeoNodes.test layoutVersion matches LAYOUT_VERSION (today 18; test still expects 17)."
+  ],
+  "visualConsequences": [
+    "No new Merge column. Five pillars unchanged.",
+    "Wires that mean something: cutting Voigt lets Handles reach κ raw (parent next-work, still the cut).",
+    "A Viewer on the 512 strokes curvature, not a second pearl.",
+    "Pearl stack stays painter-owned insets. Monitor still shows one organism.",
+    "Composition contract still fences the frame; it does not grow nodes."
+  ],
+  "implementation": [
+    "Explore only. Do not recut FormMaster this deposit. Pick (A).",
+    "Refuse (B): no merge/over/mask graph after the hull. Pearl + #bodyClip + VEC-501 already are the lawful after-hull stack.",
+    "Next Work (compiler deepen, not a new product): (1) tighten socketsCompatible so the type can reject; (2) GeoSocket on every card; (3) LIVE nodes read/write named buffers; painter consults eval.order; (4) mute = passthrough on every LIVE card, host globals revert to base; (5) cards OFFSET from base; Couple stays the driven-key bus; (6) Viewer after that, never Merge.",
+    "Do not catalog the ghost compositor this cut. If later, it is Machine pose→pose mix, UNHOOKED, not a column.",
+    "Refuse Blueprint exec, remesh, second hull, OCIO, EXR, Deep, Cryptomatte, 3D camera DAG, particles, mix-blend, SVG fe, image-space masks.",
+    "Keep Harmony Attribute Controller law, Blender field/circle rule, Cavalry's refusal, VEC-501 single pose mixer."
+  ],
+  "citations": [
+    {
+      "id": "nuke-merge-over",
+      "tier": "reference",
+      "source": "Foundry Nuke Merge node — Algorithm: A + B(1 - a)",
+      "rule": "Default over layers A on B by alpha of A. Operates on premultiplied image buffers. No B ⇒ no Merge."
+    },
+    {
+      "id": "natron-fusion-merge",
+      "tier": "reference",
+      "source": "Natron MergePlugin / Fusion Merge A=green B=yellow",
+      "rule": "Same family as Nuke. Image tree. A on top of B. Gasper has one silhouette."
+    },
+    {
+      "id": "harmony-attribute-controller",
+      "tier": "reference",
+      "source": "Toon Boom Harmony 27 Premium · Attribute Controller",
+      "rule": "Inserts an offset into the attribute's final values so the standard rig and the controller both adjust. Non-destructive. Maps to Couple lerp and card base+Δ."
+    },
+    {
+      "id": "harmony-composite-cutter",
+      "tier": "reference",
+      "source": "Harmony Composite node / Cutter node",
+      "rule": "Composite: several images → one image. Cutter: matte drawing hides a drawing. Peg: transform. Steal Peg + offset. Refuse Composite as a second hull."
+    },
+    {
+      "id": "blender-three-graphs",
+      "tier": "reference",
+      "source": "Blender Geometry Nodes vs Shader Nodes vs Compositor",
+      "rule": "Three substances: mesh/fields, surface BSDF, rendered pixels. Do not port the Compositor. Cook = GN. Pearl = Shader. Pixels forbidden."
+    },
+    {
+      "id": "cavalry-refusal",
+      "tier": "reference",
+      "source": "Cavalry: generators → effectors → render; composite in AE",
+      "rule": "Cavalry refuses to be a compositor. Gasper is the generator. Do not become After Effects."
+    },
+    {
+      "id": "architecture-lock-pixels",
+      "tier": "canon",
+      "source": "packages/desktop/src/gasper/contracts/GASPER_ARCHITECTURE_LOCK.json",
+      "rule": "pixel_buffers_forbidden, mix_blend_mode_forbidden, css_image_space_compositing_forbidden, mask_image_space_forbidden, geometric_clip_path_allowed, single canonical compositor = VEC-501 pose mixer."
+    },
+    {
+      "id": "visual-scripting-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T15-48-00-000Z-explore-visual-scripting",
+      "rule": "Rack = visual-script. Wires do not carry values. Promote compositor groups only after sockets exist. This packet answers: never promote them as Merge."
+    },
+    {
+      "id": "geometry-nodes-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T14-55-00-000Z-explore-geometry-nodes",
+      "rule": "Fields compile. Mute is passthrough. 512/360/1000 never remesh. One writer closedSpline. Join is Σ."
+    },
+    {
+      "id": "vesicle-stack-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T23-43-00-000Z-investigate-vesicle-stack",
+      "rule": "Pearl is painter's algorithm on the same cage. Not A-over-B plates. foam-on-black = vesicles-in-gel."
+    },
+    {
+      "id": "ue-blueprints-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T15-58-00-000Z-explore-ue-blueprints",
+      "rule": "Anim Graph cooks every frame. Event Graph fires. No exec on the hull. Material Editor is shade, not Merge."
+    },
+    {
+      "id": "state-machine-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T16-46-00-000Z-explore-state-machine",
+      "rule": "Machine is three orthogonal regions. Cook is dataflow, not a fourth region. Mute is passthrough, not a transition."
+    }
+  ]
+}

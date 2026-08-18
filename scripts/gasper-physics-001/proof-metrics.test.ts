@@ -77,7 +77,7 @@ describe("Gasper Northstar proof metrics", () => {
     expect(appSource).toMatch(/gasper-live-isolated-proof/);
     expect(appSource).toMatch(/holdUserWorldFrame/);
     expect(appSource).toMatch(/data-cinematic-set/);
-    expect(appSource).toMatch(/playNorthstarTwenty/);
+    expect(appSource).not.toMatch(/playNorthstarTwenty/);
     expect(appSource).toMatch(/pinOpeningRest/);
     expect(appSource).not.toMatch(/if \(!captureTag\) dais.playNorthstarTwenty/);
     const twenty = readFileSync(

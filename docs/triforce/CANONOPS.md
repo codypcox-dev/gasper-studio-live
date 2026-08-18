@@ -33,7 +33,20 @@ Only reusable findings promote into the Tri-Force canon.
 
 ## Current residual
 
-`gaitgate` — three values named gaitGate. Dual: gate = gate = gate.
+`score-is-not-a-curve` — take is a fire list; easing a fire is a category error; compositing one hull is a category error.
+Book: `docs/triforce/plans/2026-08-18-studio-master-book.md`
+Northstar: `docs/triforce/NORTHSTAR-STUDIO.md`
+Latest Explore: `docs/triforce/canon/runs/2026-08-18T18-30-00-000Z-explore-seven-studio-laws`.
+Siblings: keyframe-easing-curves, node-based-compositing, vector-studio-ux.
+
+Prior: `node-based-compositing` — Nuke Merge needs plate B. Gasper is one hull. Dual: `composite = one hull`. Pick (A): refuse compositing as a product; deepen the compiler.
+Latest Explore: `docs/triforce/canon/runs/2026-08-18T18-17-00-000Z-explore-node-based-compositing`.
+Parent: `visual-scripting`.
+
+Prior: `vector-studio-ux` — five UIs claimed the instrument. Dual: badge-rail = transport. Dual: wall-clock = organism-clock.
+Latest Explore: `docs/triforce/canon/runs/2026-08-18T18-00-00-000Z-explore-vector-studio-ux`.
+
+Prior: `gaitgate` — three values named gaitGate. Dual: gate = gate = gate.
 Latest Explore: `docs/triforce/canon/runs/2026-08-17T17-12-00-000Z-explore-gaitgate`.
 Parent: `state-machine`.
 

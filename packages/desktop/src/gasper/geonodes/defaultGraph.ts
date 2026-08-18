@@ -1,7 +1,14 @@
+import { COOK_ORGANS } from "./catalog";
 import { NODE_BLUEPRINTS } from "./library";
 import { ACTIVE_LINE, LAYOUT_VERSION, arrangeGraph } from "./layout";
 import type { GeoGraph, GraphNode } from "./types";
 import { GEONODES_SCHEMA } from "./types";
+
+const COOK_IDS = new Set(COOK_ORGANS.map((o) => o.id));
+
+export function isCookBlueprint(organId: string, idPrefix: string): boolean {
+  return COOK_IDS.has(organId) || COOK_IDS.has(idPrefix);
+}
 
 export function nodeFromBlueprint(
   id: string,
@@ -33,6 +40,7 @@ export function defaultGeoGraph(): GeoGraph {
   const nodes: GraphNode[] = [];
   const seen = new Set<string>();
   for (const bp of NODE_BLUEPRINTS) {
+    if (!isCookBlueprint(bp.organId, bp.idPrefix)) continue;
     if (seen.has(bp.idPrefix)) continue;
     seen.add(bp.idPrefix);
     const node = nodeFromBlueprint(bp.idPrefix, 0, 0, bp);

@@ -1,0 +1,33 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "explore",
+  "residual": "seven-studio-laws",
+  "stamp": "2026-08-18T18-30-00-000Z",
+  "engine": "3.0.0",
+  "parentResidual": "vector-studio-ux",
+  "question": "Which irreducible laws of Illustrator, Rive, Cavalry, After Effects, Harmony, Spine, and Figma survive on a single living SVG organism, and which first-class claims are mutually exclusive?",
+  "verdict": "Keep 10 Gasper laws. Refuse layers, Merge, clip-FSM, pen, bones, variants. Transport is AE's one stolen law. Stage|Graph is a view split. Nodes are the Cook. Offsets not overwrites.",
+  "duals": [
+    "path=organism",
+    "timeline-clip=presence",
+    "rack=language",
+    "layer=organ",
+    "drawing-layer=region",
+    "bone-hierarchy=cage",
+    "variant=take",
+    "easing=viscosity",
+    "composite=one-hull"
+  ],
+  "invariants": [
+    "One embedding, one d, one clock, one tau",
+    "Five compilers, not four authoring worlds",
+    "Construction / Forwards / Score",
+    "Offsets not overwrites",
+    "Controls ≠ bones ≠ nulls",
+    "Typed cook, no exec token"
+  ],
+  "implementation": [
+    "docs/triforce/NORTHSTAR-STUDIO.md",
+    "docs/triforce/plans/2026-08-18-studio-master-book.md"
+  ]
+}

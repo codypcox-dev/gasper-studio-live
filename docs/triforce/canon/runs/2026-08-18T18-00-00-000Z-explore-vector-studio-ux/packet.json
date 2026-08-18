@@ -1,0 +1,17 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "explore",
+  "residual": "vector-studio-ux",
+  "stamp": "2026-08-18T18-00-00-000Z",
+  "engine": "3.0.0",
+  "question": "What is the irreducible chrome of a first-class vector edit/animate studio, and what duals was Gasper Studio carrying instead?",
+  "duals": ["badge-rail=transport", "wall-clock=organism-clock", "mixer-rack=node-editor"],
+  "invariants": [
+    "VEC-401 is the only playhead",
+    "One transport owns play/pause/loop/scrub",
+    "Inspector follows the selected node",
+    "Stage and Graph are modes, not chapter museums"
+  ],
+  "sources": ["Rive editor", "Cavalry", "After Effects", "Toon Boom Harmony", "Spine", "Figma", "Illustrator", "docs/triforce/canon/runs/2026-08-16T19-40-00-000Z-explore-daw-integration"],
+  "implementation": ["packages/gasper-studio/src/dais-first/studioClock.ts", "packages/gasper-studio/src/dais-first/StudioTransport.tsx", "packages/gasper-studio/src/dais-first/StudioDesk.tsx"]
+}

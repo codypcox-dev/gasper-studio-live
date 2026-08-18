@@ -1,0 +1,197 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "mode": "explore",
+  "residual": {
+    "id": "keyframe-easing-curves",
+    "domain": "animation-timing",
+    "wall": "User asked for AE/Rive/Spine easing. Takes are edge-triggered impulses with no interval. CurveTrack is already C1 Hermite and is not on the 20s take. Five string easing stacks compete. Nobody named which object may have a curve."
+  },
+  "question": "What is a keyframe easing curve on a living 2.5D SVG organism that already has one clock (VEC-401), plant-gated tau, a C1 hull writer, and edge-triggered takes — and which of the five existing easing stacks is the lawful model?",
+  "coordinateSpaces": "Organism time nowMs (ms, VEC-401). Take time t=(nowMs-T0)/1000 (s). Editor playheadMs is a view. Pack time seconds. Channel value in channel units. CSS cubic-bezier lives on the unit square [0,1]^2. AE/Rive handles live in (dt seconds, dv channel-units). Hull p_i in R^2, i in Z/512Z. Phase phi 4pi-periodic. tau_plant=0.02s.",
+  "physicalLaw": [
+    "Hold is C-1. Linear is C0. Named power eases are C0. Cubic Hermite is C1 iff m_in=m_out. Independent in/out Hermite is C0 with a legal artistic corner. Periodic C2 spline is not live and is illegal on the W.",
+    "CSS cubic-bezier(x1,y1,x2,y2) is a timing function on the unit square, P0=(0,0), P3=(1,1), x in [0,1]. It is a preset compiler into Hermite, not the store.",
+    "AE value graph stores independent in/out (influence, speed). Speed graph is the same handles viewed as |vdot|. Spatial Bezier is a different object.",
+    "Rive Cubic = CSS-like. Rive Cubic Value = AE-grade handles with legal overshoot. That is the named grade.",
+    "m is velocity in channel-units/second. CurveTrack already exposes evaluateCurveTrackDerivative.",
+    "A take beat is a Heaviside step on an action set. Physics state is not a function of t. Easing a fire is a category error.",
+    "Disney slow-in-slow-out is artistic spacing. C2 is gamma-double-dot continuous. Minimum-jerk quintic is the physical cousin, live as breath/gather.",
+    "Plant-gated tau is the organism ease for the hull. tau_i = viscoTau + w*(0.02-viscoTau). A CurveTrack that also eases stretch/walkEnable during stance is two low-passes fighting."
+  ],
+  "artisticLaw": [
+    "SISO on keyed parameters. Not on hull samples. Not on plant tau. Not on the fire.",
+    "Holds are events (Doctrine 5). A hold is stepped.",
+    "Overshoot is authored. Never an accident of Fritsch-Carlson failing.",
+    "Blocking first: every curve ships a stepped twin.",
+    "The W stays a W. No C2-smoothing of the cleft.",
+    "Face vertices are Dirichlet. Face energy 0..1 is a legal keyed channel.",
+    "Do not ease yaw on take start. That was the opening head-shake."
+  ],
+  "invariants": [
+    "One clock. nowMs is the only playhead. T0 is clock time.",
+    "One hull writer. closedSpline to #body.",
+    "One free-motion writer per segment. Physics or curve-authority, never both on world_*.",
+    "After the next cut, eval is a pure function of (tracks, take, bind, t). The fired Set dies.",
+    "Hermite endpoints exact. Unit channels stay in [0,1] unless interp=overshoot and the fence allows it.",
+    "Volume law Sx*Sy=1 on silhouette.",
+    "tau_plant=0.02 is not keyable.",
+    "Loop wrap restores bind. No ping-pong on takes."
+  ],
+  "failureModes": [
+    "Backward seek with today's fired Set: comet stays in the air.",
+    "Loop wrap with leftover velocity: slide instead of plant.",
+    "Keyed stretch during stance vs plant-gated tau: taffy plant.",
+    "Bezier on launchComet vx,vy: gather dies.",
+    "Ease yaw at T0: opening head-shake.",
+    "applyEasing scrub != GSAP play: handles lie when parked.",
+    "CSS bezier as store: cannot punch, cannot independent in/out.",
+    "Key 512 or d: second writer, W buzzes.",
+    "Key world pose during physics: teleport against the pendulum.",
+    "C2 on the W in the name of SISO: cleft becomes a U.",
+    "Sustain tick every 0.5s re-files locomotion: gait hitch."
+  ],
+  "uncertainty": [
+    "Replay-from-bind at 120fps on every scrub frame — need a 10Hz cache?",
+    "headingWindows vs a yaw CurveTrack: two sources is a dual.",
+    "MCP stays on preset strings; handles are Studio.",
+    "Whether AnimationClip lowers onto CurveTrack this wave.",
+    "Quintic is not one Hermite segment. Named evaluator for breath only.",
+    "Take face + LifePack face on the same clock: two writers."
+  ],
+  "tests": [
+    "Broken Bezier: value exact, left deriv~0, right deriv~2.",
+    "Matched handles remain C1.",
+    "ease-in-out preset matches CSS reference within 0.02 at midpoint.",
+    "Unit-channel compile without overshoot fail-closed.",
+    "eval determinism + finite-difference derivative (existing CurveTrack tests).",
+    "Backward scrub 12s to 4s: walkEnable=0, no comet, yaw is the 5.2 window.",
+    "Loop wrap: bind pose, empty replay history.",
+    "scrubStudio(3500) playhead equals 3500 and equals nowMs-T0 while paused.",
+    "No performance.now() in the take playhead path.",
+    "Keyed stretch during 2.618-5.15 fenced; max theta(y>140)<=0.90.",
+    "Opening 0-2.618: yaw locked, no head-shake."
+  ],
+  "visualConsequences": [
+    "20s take stops switching. Cadence and face arrive. Walk still plants. Comet still kicks.",
+    "Graph shows v(t) and vdot(t) for legal channels. Impulses stay markers.",
+    "Backward scrub is a replay from bind, not an un-apply.",
+    "Planted foot stays planted.",
+    "W stays a W. Parameter cubics may overshoot. Hull cubic may not grow horns."
+  ],
+  "implementation": [
+    "Explore only. Do not recut FormMaster. Do not add a sixth easing module.",
+    "Keep CurveTrack + PerformancePackDriver + VEC-401. That is the kernel.",
+    "Next: state-of-t take evaluation (replay-from-bind). Kills backward-scrub residual.",
+    "Then: independent in/out on CurveKey. Presets compile. Four string lists become one preset table.",
+    "Then: parameter tracks on the 20s take (yaw, face, cadenceHz, driveGain). Impulses stay impulses.",
+    "Graph UI draws evalChannel. AnimationEditorSession stays the session. No new clock.",
+    "Do not key the 512. Do not ease the plant. Do not C2 the W.",
+    "Do not put Bezier handles on TakeBeat."
+  ],
+  "codeInventory": {
+    "liveKernel": [
+      "packages/desktop/src/gasper/curves/CurveTrack.ts",
+      "packages/desktop/src/gasper/curves/PerformancePack.ts",
+      "packages/desktop/src/gasper/curves/PerformancePackDriver.ts",
+      "packages/desktop/src/gasper/clock/GasperGsapClockBridge.ts",
+      "packages/desktop/src/gasper/takes/GasperTake.ts",
+      "packages/desktop/src/gasper/takes/NorthstarTwentyTake.ts",
+      "packages/gasper-studio/src/dais-first/studioClock.ts"
+    ],
+    "liveWrongProduct": [
+      "packages/shared/src/gasper-animation/evaluate.ts",
+      "packages/shared/src/gasper-animation/types.ts",
+      "packages/desktop/src/gasper/eight-state-loop/beat-sequence.ts",
+      "packages/desktop/src/gasper/GasperRigController.ts (playCanonicalClip, playAuthoredTake fired Set)"
+    ],
+    "liveTransportDeadGraph": [
+      "packages/desktop/src/gasper/animation-editor/AnimationEditorSession.ts",
+      "packages/desktop/src/studio/worldclass/animate/PlaybackControls.tsx"
+    ],
+    "deadOrForbidden": [
+      "packages/desktop/src/gasper/GasperAnimateTracks.ts (no easing field)",
+      "SMIL/CSS d/WAAPI/Flubber on #body",
+      "retired camera_* and ground_impact pack channels"
+    ]
+  },
+  "citations": [
+    {
+      "id": "thomas-johnston-1981",
+      "tier": "reference",
+      "source": "Thomas & Johnston, The Illusion of Life, 1981",
+      "rule": "Slow in / slow out is spacing of drawings between extremes, not C2 of a spline."
+    },
+    {
+      "id": "farin-cagd",
+      "tier": "reference",
+      "source": "Farin, Curves and Surfaces for CAGD",
+      "rule": "Cn vs Gn. Cubic Hermite. Catmull-Rom is C1."
+    },
+    {
+      "id": "fritsch-carlson-1980",
+      "tier": "reference",
+      "source": "Fritsch & Carlson 1980",
+      "rule": "Monotone cubic interpolation. Live as CurveTrack clamped-auto."
+    },
+    {
+      "id": "flash-hogan-1985",
+      "tier": "reference",
+      "source": "Flash & Hogan 1985",
+      "rule": "Minimum-jerk. Live as quinticMinimumJerk."
+    },
+    {
+      "id": "w3c-css-easing",
+      "tier": "reference",
+      "source": "W3C CSS Easing Functions / MDN cubic-bezier()",
+      "rule": "Timing function on the unit square. Not a value graph. Preset compiler only."
+    },
+    {
+      "id": "ae-speed-graph",
+      "tier": "reference",
+      "source": "Adobe AE Help: Speed between keyframes",
+      "rule": "Value graph vs speed graph. Independent in/out. Spatial interpolation is separate."
+    },
+    {
+      "id": "rive-interpolation",
+      "tier": "reference",
+      "source": "https://rive.app/docs/editor/animate-mode/interpolation-easing",
+      "rule": "Hold / Linear / Cubic / Cubic Value. Cubic Value is the named AE-grade."
+    },
+    {
+      "id": "c2-continuity-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T14-30-00-000Z-explore-c2-continuity",
+      "rule": "CurveTrack is C1 Hermite, not a hull writer. C2 everywhere pads the W."
+    },
+    {
+      "id": "svg-path-animation-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-17T05-22-00-000Z-investigate-svg-path-animation",
+      "rule": "Animate 512 points. Never tween d."
+    },
+    {
+      "id": "daw-integration-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T19-40-00-000Z-explore-daw-integration",
+      "rule": "VEC-401 sole dispatch. A second ticker is the opening shake."
+    },
+    {
+      "id": "vector-studio-ux-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-18T18-00-00-000Z-explore-vector-studio-ux",
+      "rule": "Take beats are edge-triggered. Backward scrub does not un-apply."
+    },
+    {
+      "id": "plant-gated-tau-prior",
+      "tier": "canon",
+      "source": "docs/triforce/canon/runs/2026-08-16T16-20-00-000Z-investigate-plant-gated-tau",
+      "rule": "tau_plant=0.02s. Not a slider. Not an ease."
+    }
+  ],
+  "triforce": {
+    "engineVersion": "3.0.0",
+    "depositPath": "docs/triforce/canon/runs/2026-08-18T18-17-00-000Z-explore-keyframe-easing-curves",
+    "returned": true
+  },
+  "earnedAt": "2026-08-18T18:17:00.000Z"
+}

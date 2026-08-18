@@ -75,9 +75,18 @@ export type GeoEval = {
 
 const SCALAR_OK: SocketType[] = ["contour", "lattice", "relief", "scalar", "phase", "shade", "pose", "take"];
 
+/** Directed socket law. A type that cannot reject is chrome. */
+const SOCKET_FEED: Record<SocketType, readonly SocketType[]> = {
+  scalar: SCALAR_OK,
+  phase: ["phase", "scalar", "pose"],
+  pose: ["pose", "scalar"],
+  take: ["pose"],
+  contour: ["contour", "shade"],
+  lattice: ["lattice"],
+  relief: ["relief"],
+  shade: ["shade"],
+};
+
 export function socketsCompatible(from: SocketType, to: SocketType): boolean {
-  if (from === to) return true;
-  if (from === "scalar" || to === "scalar") return true;
-  const family = new Set<SocketType>(["contour", "lattice", "relief", "pose", "phase", "shade", "take"]);
-  return family.has(from) && family.has(to);
+  return (SOCKET_FEED[from] ?? []).includes(to);
 }

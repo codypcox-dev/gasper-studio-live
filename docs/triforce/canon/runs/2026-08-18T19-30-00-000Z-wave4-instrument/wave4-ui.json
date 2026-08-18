@@ -1,0 +1,16 @@
+{
+  "audit": {
+    "rail": 0,
+    "bar": 0,
+    "monitorTl": 0,
+    "transport": 1,
+    "scrub": 1,
+    "dope": 1,
+    "graphToggle": 1,
+    "valueGraph": 0,
+    "height": 173.46585083007812
+  },
+  "valueGraphAfterToggle": 1,
+  "errors": [],
+  "pass": true
+}

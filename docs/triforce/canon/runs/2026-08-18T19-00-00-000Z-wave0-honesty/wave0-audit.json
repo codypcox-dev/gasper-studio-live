@@ -1,0 +1,22 @@
+{
+  "audit": {
+    "rail": 0,
+    "bar": 0,
+    "monitorTl": 0,
+    "monitorPause": 0,
+    "transport": 1,
+    "scrub": 1,
+    "grid": 2,
+    "monitor": 1,
+    "height": 173.46585083007812,
+    "bbox": {
+      "x": 45.525856018066406,
+      "y": 30.18000030517578,
+      "w": 156.1080780029297,
+      "h": 173.46585083007812
+    },
+    "profile": "wispwalker"
+  },
+  "consoleErrors": [],
+  "pass": true
+}

@@ -22,7 +22,7 @@ describe("graph topology", () => {
 
   it("refuses a cycle with a reason and keeps the graph", () => {
     const g = defaultGeoGraph();
-    const r = tryConnect(g, "hull", "identity");
+    const r = tryConnect(g, "gait", "identity");
     expect(r.ok).toBe(false);
     expect(r.reason).toBe("cycle");
     expect(r.graph).toBe(g);

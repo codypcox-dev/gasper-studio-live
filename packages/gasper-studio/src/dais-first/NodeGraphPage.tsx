@@ -62,7 +62,6 @@ const CARD_W = 156;
 let HIST = emptyHistory();
 const MONITOR_KEY = "gasper.monitor.v3";
 const BAR = 28;
-const TLINE = 36;
 
 type Monitor = { x: number; y: number; w: number; h: number };
 
@@ -92,7 +91,7 @@ function dockStage(mon: Monitor): void {
     host.style.setProperty("--monitor-y", `${mon.y}px`);
     host.style.setProperty("--monitor-w", `${mon.w}px`);
     host.style.setProperty("--monitor-h", `${mon.h}px`);
-    host.style.setProperty("--monitor-tl", `${TLINE}px`);
+    host.style.setProperty("--monitor-tl", "0px");
   }
   if (stage) {
     stage.style.position = "fixed";
@@ -100,10 +99,10 @@ function dockStage(mon: Monitor): void {
     stage.style.top = `${mon.y + BAR}px`;
     stage.style.right = "auto";
     stage.style.width = `${mon.w}px`;
-    stage.style.height = `${mon.h - BAR - TLINE}px`;
+    stage.style.height = `${mon.h - BAR}px`;
     stage.style.zIndex = "78";
     stage.style.maxWidth = `${mon.w}px`;
-    stage.style.maxHeight = `${mon.h - BAR - TLINE}px`;
+    stage.style.maxHeight = `${mon.h - BAR}px`;
   }
 }
 
@@ -153,7 +152,6 @@ export function NodeGraphPage(): ReactElement {
   const [alert, setAlert] = useState<string | null>(null);
   const [hoverCol, setHoverCol] = useState<string | null>(null);
   const [gridOn, setGridOn] = useState(true);
-  const [clock, setClock] = useState({ t: 0, dur: 1, mode: "gait" as "gait" | "take" });
   const playArmed = useRef(false);
 
   const commit = useCallback((next: GeoGraph | ((g: GeoGraph) => GeoGraph)) => {
@@ -199,26 +197,6 @@ export function NodeGraphPage(): ReactElement {
     const g = (cage?.params.find((p) => p.id === "grid")?.value ?? 0) > 0.5;
     setGridOn(g);
   }, [graph]);
-
-  useEffect(() => {
-    let raf = 0;
-    const tick = () => {
-      const host = globalThis as { __GASPER_TAKE_T0__?: number };
-      const av = document.querySelector("#avatar") as HTMLElement | null;
-      const t0 = Number(host.__GASPER_TAKE_T0__);
-      if (Number.isFinite(t0) && t0 > 0) {
-        const dur = 20000;
-        const t = ((performance.now() - t0) % dur + dur) % dur;
-        setClock({ t, dur, mode: "take" });
-      } else {
-        const phase = Number(av?.dataset.gaitPhase ?? 0);
-        setClock({ t: ((phase % 1) + 1) % 1, dur: 1, mode: "gait" });
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
 
   useEffect(() => {
     dockStage(mon);
@@ -371,6 +349,11 @@ export function NodeGraphPage(): ReactElement {
       if ((e.key === "Backspace" || e.key === "Delete") && selected && selected.id !== "identity" && selected.id !== "hull") {
         e.preventDefault();
         commit((g) => arrangeGraph(setNodeMuted(g, selected.id, true)));
+        return;
+      }
+      if (!cmd && (e.key === "m" || e.key === "M") && selected && selected.id !== "identity" && selected.id !== "hull") {
+        e.preventDefault();
+        commit((g) => arrangeGraph(setNodeMuted(g, selected.id, !selected.muted)));
       }
     };
     window.addEventListener("keydown", onKey, true);
@@ -553,8 +536,8 @@ export function NodeGraphPage(): ReactElement {
   }, [cat, graph.nodes, commit]);
 
   const param = useCallback((id: string, pid: string, value: number) => {
-    setGraph((g) => setNodeParam(g, id, pid, value));
-  }, []);
+    commit((g) => setNodeParam(g, id, pid, value));
+  }, [commit]);
 
   return (
     <div className="node-graph-page node-graph-page--stage" data-testid="node-graph-page" onPointerMove={onMove} onPointerUp={onUp}>
@@ -721,6 +704,7 @@ export function NodeGraphPage(): ReactElement {
                     const bin = isBinaryParam(p);
                     return (
                     <label key={p.id}>
+                      <span>{p.label} <b>{bin ? p.value : p.value.toFixed(2)}</b></span>
                       <input
                         type="range"
                         min={bin ? p.min : -1}
@@ -874,41 +858,6 @@ export function NodeGraphPage(): ReactElement {
               Grid
             </button>
             <small className="gasper-monitor__topo" data-testid="monitor-topology">512 · 360 · 1000</small>
-          </div>
-          <div className="gasper-monitor__tl" data-testid="monitor-timeline">
-            <span>{clock.mode === "take" ? `${(clock.t / 1000).toFixed(1)}s` : `φ ${clock.t.toFixed(2)}`}</span>
-            <input
-              type="range"
-              min={0}
-              max={clock.dur}
-              step={clock.mode === "take" ? 20 : 0.01}
-              value={clock.t}
-              aria-label="Scrub animation"
-              onPointerDown={() => {
-                (globalThis as { __GASPER_SCRUB_HOLD__?: number }).__GASPER_SCRUB_HOLD__ = 1;
-              }}
-              onPointerUp={() => {
-                (globalThis as { __GASPER_SCRUB_HOLD__?: number }).__GASPER_SCRUB_HOLD__ = 0;
-              }}
-              onChange={(e) => {
-                const t = Number(e.target.value);
-                const host = globalThis as {
-                  __GASPER_TAKE_T0__?: number;
-                  __GASPER_SCRUB_MS__?: number;
-                  __GASPER_SCRUB_PHASE__?: number;
-                  __GASPER_SCRUB_HOLD__?: number;
-                };
-                host.__GASPER_SCRUB_HOLD__ = 1;
-                if (clock.mode === "take") {
-                  host.__GASPER_TAKE_T0__ = performance.now() - t;
-                  host.__GASPER_SCRUB_MS__ = t;
-                } else {
-                  host.__GASPER_SCRUB_PHASE__ = t;
-                }
-                setClock((c) => ({ ...c, t }));
-              }}
-            />
-            <span>{clock.mode === "take" ? "20s" : "step"}</span>
           </div>
           <button
             type="button"

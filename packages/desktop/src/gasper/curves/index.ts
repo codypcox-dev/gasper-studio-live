@@ -3,19 +3,36 @@
  * authority (barrel).
  */
 export {
+  CURVE_INTERP_SET,
   CURVE_TANGENT_SET,
   curveAutoTangents,
   curveTrackDuration,
+  evalChannel,
   evaluateCurveTrack,
   evaluateCurveTrackDerivative,
+  handleSlope,
+  isCurveHandle,
+  keyInterp,
   normalizeCurveTrack,
+  validateInterp,
   validateTangentType,
 } from "./CurveTrack";
 export type {
+  ChannelSample,
+  CurveHandle,
+  CurveInterp,
   CurveKey,
   CurveTangentType,
   CurveTrack,
 } from "./CurveTrack";
+export {
+  EASING_PRESET_BEZIERS,
+  EASING_PRESET_NAMES,
+  compileCubicBezier,
+  compileEasingPreset,
+  isEasingPresetName,
+} from "./easingPresets";
+export type { CompiledEasing, EasingPresetName } from "./easingPresets";
 export {
   PACK_CHANNEL_SET,
   PACK_SHOT_SCALE_SET,

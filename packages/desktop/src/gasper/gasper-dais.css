@@ -52,14 +52,17 @@
   height: 100%;
   transform-origin: center center;
   z-index: 1;
-  pointer-events: none; /* handles capture interaction */
+  pointer-events: auto;
 }
 
 .gasper-dais-content .gasper-svg-host,
-.gasper-dais-content svg {
-  pointer-events: none;
+.gasper-dais-content svg,
+.gasper-dais-content #avatar {
+  pointer-events: auto;
   overflow: visible !important;
+  cursor: crosshair;
 }
+
 
 /* No nested page chrome */
 .gasper-dais-content main,

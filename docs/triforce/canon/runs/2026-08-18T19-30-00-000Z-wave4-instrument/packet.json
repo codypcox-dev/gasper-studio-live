@@ -1,0 +1,16 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "prove",
+  "residual": "badge-rail=transport",
+  "wave": 4,
+  "book": "GASPER-STUDIO-MASTER-001",
+  "verdict": "PASS with overseer correction",
+  "correction": "Score toggle labeled Curves so it is not dual with workspace Graph.",
+  "dom": {
+    "transport": 1,
+    "scrub": 1,
+    "dopesheet": 1,
+    "valueGraphOnToggle": 1,
+    "monitorTl": 0
+  }
+}

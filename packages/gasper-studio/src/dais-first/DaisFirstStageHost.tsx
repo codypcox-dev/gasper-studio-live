@@ -1,5 +1,5 @@
 /**
- * Dais-first stage host — primary live character canvas + control rail + transport.
+ * Dais-first stage host — primary live character canvas + StudioDesk.
  * Composes IntegratedGasperStage (or any stage child) as the open workspace focus.
  * Dais remains render-only; shell rail owns AUTHORING tools.
  *
@@ -24,18 +24,16 @@ import {
   DEFAULT_FRAME_FPS,
   dispatchDaisKeyCommand,
   resolveDaisKeyCommand,
+  setWalkBooLoopFromRail,
   SHELL_SHARED_KEY_COMMANDS,
   WINDOW_ONLY_KEY_COMMANDS,
   type DaisFirstAdapter,
   type DaisKeyboardCommand,
 } from "./daisFirstControls";
-import { DaisControlRail } from "./DaisControlRail";
-import { DaisTransportBar } from "./DaisTransportBar";
 import { StudioDesk } from "./StudioDesk";
 import { applySkinTake, type SkinTake } from "./LumenGlass";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { publishScaffoldAuthority } from "../../../desktop/src/gasper/scaffold/ScaffoldFieldAuthority";
-import { playNorthstarTwentyFromRail, setWalkBooLoopFromRail } from "./daisFirstControls";
 import {
   computeReviewCropLabelGeometry,
   EIGHT_HOLD_STATE_LABELS,
@@ -71,41 +69,27 @@ function isFocusInsideHost(target: EventTarget | null): boolean {
 
 export function DaisFirstStageHost({
   adapter,
-  tuningLab,
-  referenceTraining,
-  studioPilot,
   children,
   fps = DEFAULT_FRAME_FPS,
   className,
   reviewMode: reviewModeProp,
-  onReviewModeChange,
 }: DaisFirstStageHostProps): React.ReactElement {
-  const [localReviewMode, setLocalReviewMode] = useState(false);
   const [take, setTake] = useState<SkinTake>("neutral");
 
   useEffect(() => {
     const id = window.setTimeout(() => {
       applySkinTake("neutral");
-      dispatchField("showGrid", { on: false });
       dispatchField("clear", {});
       publishScaffoldAuthority({ pressure: 0, coupling: 0, relief: 0 });
       setWalkBooLoopFromRail(true);
-      playNorthstarTwentyFromRail();
     }, 1400);
     return () => window.clearTimeout(id);
   }, []);
-  const [activeEightState, setActiveEightState] = useState<string>(
+  const [activeEightState] = useState<string>(
     "presence-neutral-settled",
   );
 
-  const reviewMode = reviewModeProp ?? localReviewMode;
-  const setReviewMode = useCallback(
-    (enabled: boolean) => {
-      setLocalReviewMode(enabled);
-      onReviewModeChange?.(enabled);
-    },
-    [onReviewModeChange],
-  );
+  const reviewMode = reviewModeProp ?? false;
 
   const chrome = useMemo(() => reviewModeChromeFlags(reviewMode), [reviewMode]);
 
@@ -197,6 +181,7 @@ export function DaisFirstStageHost({
       data-review-mode={reviewMode ? "1" : "0"}
       data-facial-review-scale={chrome.facialReviewScale ? "1" : "0"}
       data-character-crop-primary={chrome.characterCropPrimary ? "1" : "0"}
+      data-studio-v2="1"
       tabIndex={0}
       onKeyDown={onKeyDown}
       role="region"
@@ -252,21 +237,6 @@ export function DaisFirstStageHost({
         ) : null}
       </div>
       <StudioDesk adapter={adapter} take={take} onTake={setTake} />
-      <DaisControlRail
-        adapter={adapter}
-        tuningLab={tuningLab}
-        referenceTraining={referenceTraining}
-        studioPilot={studioPilot}
-        reviewMode={reviewMode}
-        onReviewModeChange={setReviewMode}
-        activeEightState={activeEightState}
-        onEightStateChange={setActiveEightState}
-      />
-      <DaisTransportBar
-        adapter={adapter}
-        fps={fps}
-        reviewMode={reviewMode}
-      />
     </div>
   );
 }

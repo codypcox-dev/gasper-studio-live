@@ -1,0 +1,14 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "prove",
+  "residual": "fire=curve",
+  "wave": 1,
+  "book": "GASPER-STUDIO-MASTER-001",
+  "verdict": "PASS with overseer correction",
+  "correction": "scrubStudio calls clock.step(0) so the paused driver still dispatches take:id.",
+  "film": {
+    "t12": "in air after comet",
+    "scrub4": "back on the floor, W is W, comet gone"
+  },
+  "tests": "evaluateTake + studioClock + NorthstarTwentyAuthority 16/16 then worker 17/17"
+}

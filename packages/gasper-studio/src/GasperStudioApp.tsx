@@ -405,7 +405,6 @@ export function GasperStudioApp() {
               releaseUserWorldFrame?: () => void;
               holdUserWorldFrame?: (frame?: { zoom?: number; panX?: number; panY?: number }) => void;
             };
-            playNorthstarTwenty?: () => void;
             playWalkBooTwenty?: () => void;
             setWalkBooLoop?: (v: boolean) => void;
             pinOpeningRest?: () => void;
@@ -454,9 +453,8 @@ export function GasperStudioApp() {
         panX: 0,
         panY: CINEMATIC_PAN_Y,
       });
-      // Owner: play the real Northstar 20s on the live driver. Loop until Stand.
+      // Loop until Stand. Prefer explicit user 20s — no boot autoplay.
       dais.setWalkBooLoop?.(true);
-      dais.playNorthstarTwenty?.();
       const clip = live.ok ? live.activeClipId : "error";
       setShowcaseNote(
         clip

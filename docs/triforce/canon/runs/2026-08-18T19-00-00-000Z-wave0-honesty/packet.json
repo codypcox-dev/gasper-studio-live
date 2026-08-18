@@ -1,0 +1,25 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "prove",
+  "residual": "costume-chrome",
+  "wave": 0,
+  "book": "GASPER-STUDIO-MASTER-001",
+  "stamp": "2026-08-18T19-00-00-000Z",
+  "verdict": "PASS with overseer correction",
+  "correction": "UI organs stay in the catalog but are not Cook cards (defaultGraph + mergeMissing skip kind=ui).",
+  "dom": {
+    "rail": 0,
+    "bar": 0,
+    "monitorTl": 0,
+    "transport": 1,
+    "scrub": 1
+  },
+  "film": {
+    "t0": "rest pearl, W is W",
+    "t2.6": "still planted rest, no head-shake",
+    "t5.2": "walk plant support=1",
+    "t9.2": "walk continues, no spikes",
+    "t12": "leave / comet, grid rides body"
+  },
+  "geonodes": "19/19 pass after COOK_ORGANS filter"
+}

@@ -63,13 +63,28 @@ export const GASPER_ORGANS: readonly Organ[] = [
   { id: "field-api", kind: "controller", label: "GasperFieldApi", status: "LIVE", file: "scaffold/GasperFieldApi.ts", note: "25×40 API for UI/MCP." },
   { id: "rig-controller", kind: "controller", label: "GasperRigController", status: "LIVE", file: "GasperRigController.ts", note: "Takes, play, inspect." },
   { id: "machine", kind: "controller", label: "State machine", status: "LIVE", file: "machine/GasperStateMachine.ts", note: "Three regions. Flags only. No d." },
-  { id: "instrument", kind: "ui", label: "Instrument table", status: "LIVE", file: "dais-first/InstrumentTable.tsx", note: "Sliders. Not the graph." },
-  { id: "lumen", kind: "ui", label: "Lumen glass", status: "LIVE", file: "dais-first/LumenGlass.tsx", note: "Play / Rec / Orbit pills." },
-  { id: "worldclass", kind: "ui", label: "WorldClass shell", status: "LIVE", file: "studio/worldclass/", note: "Operate / Form / Motion." },
+  { id: "instrument", kind: "ui", label: "Instrument table", status: "DEAD", file: "dais-first/InstrumentTable.tsx", note: "Unmounted sliders. Leftover." },
+  { id: "lumen", kind: "ui", label: "Lumen glass", status: "DEAD", file: "dais-first/LumenGlass.tsx", note: "Unmounted Play / Rec / Orbit pills." },
+  { id: "worldclass", kind: "ui", label: "WorldClass shell", status: "DEAD", file: "studio/worldclass/", note: "CSS-corpsed Operate / Form / Motion chrome." },
+  { id: "geonode-editor", kind: "ui", label: "GeoNode editor", status: "DEAD", file: "dais-first/GeoNodeEditor.tsx", note: "Unmounted editor. Leftover." },
+  { id: "authoring-atlas", kind: "ui", label: "Authoring atlas", status: "DEAD", file: "dais-first/AuthoringAtlas.tsx", note: "Unmounted atlas. Leftover." },
+  { id: "dais-control-rail", kind: "ui", label: "Dais control rail", status: "DEAD", file: "dais-first/DaisControlRail.tsx", note: "Unmounted this wave." },
+  { id: "dais-transport-bar", kind: "ui", label: "Dais transport bar", status: "DEAD", file: "dais-first/DaisTransportBar.tsx", note: "Unmounted this wave." },
+  { id: "machine-strip", kind: "ui", label: "Machine strip", status: "DEAD", file: "dais-first/MachineStrip.tsx", note: "Unmounted leftover strip." },
+  { id: "studio-desk", kind: "ui", label: "Studio desk", status: "LIVE", file: "dais-first/StudioDesk.tsx", note: "Theater desk. Mounts in DaisFirstStageHost. Not a Cook card." },
+  { id: "node-graph-page", kind: "ui", label: "Node graph page", status: "LIVE", file: "dais-first/NodeGraphPage.tsx", note: "Graph workspace. Not a Cook card." },
+  { id: "studio-transport", kind: "ui", label: "Studio transport", status: "LIVE", file: "dais-first/StudioTransport.tsx", note: "Single playhead. Not a Cook card." },
   { id: "couple", kind: "physics", label: "Couple", status: "LIVE", file: "geonodes/coupling.ts", note: "Driven keys. Hz→τ, gate→lift, yaw→pearl, k→τ." },
   { id: "paddle", kind: "animation", label: "Paddle mesh", status: "UNHOOKED", file: "scaffold/PaddleMesh.ts", note: "UV snap. Not live hull." },
   { id: "walk-scaffold", kind: "animation", label: "walkScaffoldZ", status: "DEAD", file: "assets/all-script-3.js", note: "Gated off under physics-authority." },
 ] as const;
+
+/** Chrome is catalogued for honesty. It is not a Cook card. */
+export function isCookOrgan(o: Pick<Organ, "kind">): boolean {
+  return o.kind !== "ui";
+}
+
+export const COOK_ORGANS: readonly Organ[] = GASPER_ORGANS.filter(isCookOrgan);
 
 export const LIVE_PIPELINE = [
   "contour-512",

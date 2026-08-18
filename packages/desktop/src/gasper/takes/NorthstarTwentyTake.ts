@@ -1,3 +1,6 @@
+import type { CurveHandle, CurveInterp, CurveTrack } from "../curves/CurveTrack";
+import { normalizeCurveTrack } from "../curves/CurveTrack";
+import { compileEasingPreset } from "../curves/easingPresets";
 import { READABLE_THREE_QUARTER_DEG } from "../physics/RadialFacingLaw";
 import type { GasperTake } from "./GasperTake";
 
@@ -6,6 +9,69 @@ import type { GasperTake } from "./GasperTake";
  * Same beats as the scored law. Targets are offsets from bind origin.
  */
 export const NORTHSTAR_TWENTY_TAKE_ID = "take-northstar-20s";
+
+function scoreTrack(
+  points: ReadonlyArray<{ t: number; v: number; ease?: string }>,
+  opts?: { unit?: boolean },
+): CurveTrack {
+  const raw: unknown[] = [];
+  let pendingIn: CurveHandle | undefined;
+  for (let i = 0; i < points.length; i++) {
+    const p = points[i];
+    const n = points[i + 1];
+    const compiled = n
+      ? compileEasingPreset(p.ease ?? "hold", n.v - p.v, n.t - p.t)
+      : ({ interp: "hold" } as { interp: CurveInterp; out?: CurveHandle; in?: CurveHandle });
+    const out =
+      compiled.out ??
+      (compiled.interp === "hold" ? "stepped" : compiled.interp === "linear" ? "linear" : "spline-auto");
+    raw.push({
+      t: p.t,
+      v: p.v,
+      interp: compiled.interp,
+      out,
+      ...(pendingIn ? { in: pendingIn } : {}),
+      weight: 1,
+    });
+    pendingIn = compiled.in;
+  }
+  return normalizeCurveTrack(raw, opts);
+}
+
+/**
+ * First legal Score tracks (parameters, not pose, not 512).
+ * yaw holds 0 until the seat — do not ease yaw at T0.
+ * launchComet.vx stays an impulse.
+ */
+export const NORTHSTAR_TWENTY_TRACKS: Readonly<Record<string, CurveTrack>> = Object.freeze({
+  yaw: scoreTrack([
+    { t: 0, v: 0, ease: "hold" },
+    { t: 5.2, v: -READABLE_THREE_QUARTER_DEG },
+  ]),
+  face: scoreTrack(
+    [
+      { t: 0, v: 0, ease: "hold" },
+      { t: 6.6, v: 0, ease: "ease-in-out" },
+      { t: 7.1, v: 1, ease: "ease-in-out" },
+      { t: 8.8, v: 0.55 },
+    ],
+    { unit: true },
+  ),
+  cadenceHz: scoreTrack([
+    { t: 0, v: 0, ease: "hold" },
+    { t: 2.618, v: 2.6, ease: "hold" },
+    { t: 5.15, v: 0 },
+  ]),
+  driveGain: scoreTrack([
+    { t: 0, v: 0, ease: "hold" },
+    { t: 2.618, v: 0.85, ease: "hold" },
+    { t: 5.15, v: 0 },
+  ]),
+  stretch: scoreTrack([
+    { t: 0, v: 0, ease: "hold" },
+    { t: 20, v: 0 },
+  ]),
+});
 
 export const NORTHSTAR_TWENTY_TAKE: GasperTake = Object.freeze({
   schema: "gasper.take.v1",
@@ -35,6 +101,7 @@ export const NORTHSTAR_TWENTY_TAKE: GasperTake = Object.freeze({
     Object.freeze({ until: 5.2, deg: 0 }),
     Object.freeze({ until: 20, deg: 0 }),
   ]),
+  tracks: NORTHSTAR_TWENTY_TRACKS,
   beats: Object.freeze([
     Object.freeze({
       id: "strut-go",
