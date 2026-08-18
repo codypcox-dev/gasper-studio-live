@@ -1,6 +1,8 @@
 /**
  * ScoreUnion — one reader of beats + tracks.
- * Dual killed: headingWindows = yaw track. Channel ids are node.param.
+ * Dual killed: headingWindows = yaw track for LIGHTS only.
+ * Painted travel is headingDeg (beats). Orbit.yaw is the cage / n̂·L sink.
+ * Channel ids are node.param.
  */
 import { evalChannel } from "../curves/CurveTrack";
 import type { GasperTake } from "./GasperTake";
@@ -58,25 +60,29 @@ export function evaluateScore(take: GasperTake, t: number): EvaluatedScore {
   return { ...state, binds, params };
 }
 
-export function applyScoreBinds(binds: readonly ScoreBind[]): void {
-  const host = globalThis as {
-    __GASPER_ORBIT_YAW__?: number;
-    __GASPER_ORBIT_PITCH__?: number;
-    __GASPER_GAIT_HZ__?: number;
-    __GASPER_LIVE_COEFFS__?: {
-      pearl?: Record<string, number>;
-    };
-    SidekickFormMasterRig?: {
-      setOrbit?: (y: number, p: number) => void;
-      setYaw?: (y: number) => void;
-      setFaceEnergy?: (n: number) => void;
-    };
+type ScoreHost = {
+  __GASPER_ORBIT_YAW__?: number;
+  __GASPER_ORBIT_PITCH__?: number;
+  __GASPER_GAIT_HZ__?: number;
+  __GASPER_GAIT_DRIVE__?: number;
+  __GASPER_HANDLE_STRETCH__?: number;
+  __GASPER_LIVE_COEFFS__?: {
+    pearl?: Record<string, number>;
   };
+  SidekickFormMasterRig?: {
+    setOrbit?: (y: number, p: number) => void;
+    setFaceEnergy?: (n: number) => void;
+  };
+};
+
+export function applyScoreBinds(binds: readonly ScoreBind[]): void {
+  const host = globalThis as ScoreHost;
   for (const b of binds) {
     if (b.node === "orbit" && b.param === "yaw") {
+      // Lights + cage loft only. Do NOT setYaw — that is the painted dial
+      // and adds with headingYawDeg. One writer for painted travel: heading beats.
       host.__GASPER_ORBIT_YAW__ = b.value;
       host.SidekickFormMasterRig?.setOrbit?.(b.value, host.__GASPER_ORBIT_PITCH__ ?? 0);
-      host.SidekickFormMasterRig?.setYaw?.(b.value);
     }
     if (b.node === "pearl" && b.param === "depth") {
       if (!host.__GASPER_LIVE_COEFFS__) host.__GASPER_LIVE_COEFFS__ = {};
@@ -89,6 +95,12 @@ export function applyScoreBinds(binds: readonly ScoreBind[]): void {
     }
     if (b.node === "gait" && b.param === "hz") {
       host.__GASPER_GAIT_HZ__ = b.value;
+    }
+    if (b.node === "gait" && b.param === "drive") {
+      host.__GASPER_GAIT_DRIVE__ = b.value;
+    }
+    if (b.node === "handles" && b.param === "stretch") {
+      host.__GASPER_HANDLE_STRETCH__ = b.value;
     }
   }
 }

@@ -232,8 +232,10 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     __GASPER_VISCO_TAU__?: number;
     __GASPER_FACING_YAW__?: number;
     __GASPER_GAIT_HZ__?: number;
+    __GASPER_GAIT_DRIVE__?: number;
     __GASPER_HANDLE_LIFT__?: number;
     __GASPER_HANDLE_ADVANCE__?: number;
+    __GASPER_HANDLE_STRETCH__?: number;
     __GASPER_GAIT_TEMPO__?: number;
     __GASPER_SUPPORT_K__?: number;
     __GASPER_VISCO_TAU_REST__?: number;
@@ -317,15 +319,22 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   if (!ev.mute.gait && (gait.live === undefined || gait.live > 0.5) && gait.hz !== undefined) {
     host.__GASPER_GAIT_HZ__ = gait.hz;
   }
+  if (!ev.mute.gait && gait.drive !== undefined) host.__GASPER_GAIT_DRIVE__ = gait.drive;
   const facing = ev.params["radial-facing"] || {};
   if (facing.yaw !== undefined && !byOrgan("radial-facing")?.muted) host.__GASPER_FACING_YAW__ = facing.yaw;
   const light = ev.params["cage-light"] || ev.params.pearl || {};
   if (!host.__GASPER_LIVE_COEFFS__.cageLight) host.__GASPER_LIVE_COEFFS__.cageLight = {};
   if (light.spec !== undefined) {
-    host.__GASPER_LIVE_COEFFS__.cageLight.light_spec = ev.mute["cage-light"] ? 0 : light.spec;
+    host.__GASPER_LIVE_COEFFS__.cageLight.light_spec = liveOrBase(!!ev.mute["cage-light"], "cage-light", "spec", light.spec) ?? 0;
   }
   if (light.wrap !== undefined) {
-    host.__GASPER_LIVE_COEFFS__.cageLight.light_wrap = ev.mute["cage-light"] ? 0 : light.wrap;
+    host.__GASPER_LIVE_COEFFS__.cageLight.light_wrap = liveOrBase(!!ev.mute["cage-light"], "cage-light", "wrap", light.wrap) ?? 0;
+  }
+  if (light.keyAz !== undefined) {
+    host.__GASPER_LIVE_COEFFS__.cageLight.key_az = liveOrBase(!!ev.mute["cage-light"], "cage-light", "keyAz", light.keyAz) ?? 0;
+  }
+  if (light.keyEl !== undefined) {
+    host.__GASPER_LIVE_COEFFS__.cageLight.key_el = liveOrBase(!!ev.mute["cage-light"], "cage-light", "keyEl", light.keyEl) ?? 0;
   }
   const pearl = ev.params.pearl || {};
   if (pearl.depth !== undefined) {
@@ -335,6 +344,7 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const handles = ev.params.handles || ev.params.stance || {};
   if (handles.lift !== undefined) host.__GASPER_HANDLE_LIFT__ = liveOrBase(!!ev.mute.handles, "handles", "lift", handles.lift);
   if (handles.advance !== undefined) host.__GASPER_HANDLE_ADVANCE__ = liveOrBase(!!ev.mute.handles, "handles", "advance", handles.advance);
+  if (handles.stretch !== undefined) host.__GASPER_HANDLE_STRETCH__ = liveOrBase(!!ev.mute.handles, "handles", "stretch", handles.stretch);
   const world = ev.params["world-driver"] || {};
   if (world.gate !== undefined) host.__GASPER_GAIT_TEMPO__ = liveOrBase(!!ev.mute["world-driver"], "world-driver", "gate", world.gate);
 }

@@ -1,0 +1,356 @@
+{
+  "errors": [],
+  "cold": {
+    "stageMode": "1",
+    "inspector": true,
+    "inspectorDials": 12,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21239,
+    "showGrid": true,
+    "orbitYaw": 8,
+    "facingYaw": "10.02",
+    "headingYaw": "0.00",
+    "dialYaw": "10.020723",
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "stretch": 0,
+    "cageSpecX": "95.1",
+    "cageSpecY": "75.6",
+    "lightTilt": "8.0",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.181",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "95.1",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "bodyH": 173.6958465576172,
+    "bodyW": 155.93414306640625
+  },
+  "yaw42": {
+    "stageMode": "1",
+    "inspector": true,
+    "inspectorDials": 12,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21239,
+    "showGrid": true,
+    "orbitYaw": 42,
+    "facingYaw": "10.37",
+    "headingYaw": "0.00",
+    "dialYaw": "10.3685",
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "stretch": 0,
+    "cageSpecX": "83.6",
+    "cageSpecY": "74.9",
+    "lightTilt": "42.0",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.177",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "83.6",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "bodyH": 173.6958465576172,
+    "bodyW": 155.88414001464844
+  },
+  "key48": {
+    "stageMode": "1",
+    "inspector": true,
+    "inspectorDials": 12,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21239,
+    "showGrid": true,
+    "orbitYaw": 42,
+    "facingYaw": "11.25",
+    "headingYaw": "0.00",
+    "dialYaw": "11.246841",
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "stretch": 0,
+    "cageSpecX": "81.9",
+    "cageSpecY": "56.0",
+    "lightTilt": "42.0",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.170",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "81.9",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "bodyH": 173.6958465576172,
+    "bodyW": 155.76412963867188
+  },
+  "grid": {
+    "gridBefore": true,
+    "gridAfterOff": false,
+    "gridAfterOn": true
+  },
+  "graph": {
+    "stageMode": "0",
+    "inspector": false,
+    "inspectorDials": 0,
+    "compilerCols": 5,
+    "cards": 15,
+    "stageW": 300,
+    "stageH": 352,
+    "dLen": 21239,
+    "showGrid": true,
+    "orbitYaw": 8,
+    "facingYaw": "10.39",
+    "headingYaw": "0.00",
+    "dialYaw": "10.3888",
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "stretch": 0,
+    "cageSpecX": "95.1",
+    "cageSpecY": "75.6",
+    "lightTilt": "8.0",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.176",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "95.1",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "bodyH": 173.6958465576172,
+    "bodyW": 155.88658142089844
+  },
+  "walk": {
+    "stageMode": "1",
+    "inspector": true,
+    "inspectorDials": 12,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21231,
+    "showGrid": true,
+    "orbitYaw": 0,
+    "facingYaw": "7.88",
+    "headingYaw": "0.00",
+    "dialYaw": "7.879332",
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "stretch": 0,
+    "cageSpecX": "95.7",
+    "cageSpecY": "77.8",
+    "lightTilt": "0.0",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.188",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "95.7",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "bodyH": 172.98362731933594,
+    "bodyW": 156.83999633789062
+  },
+  "seat": {
+    "stageMode": "1",
+    "inspector": true,
+    "inspectorDials": 12,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21220,
+    "showGrid": true,
+    "orbitYaw": -22,
+    "facingYaw": "-5.10",
+    "headingYaw": "-14.29",
+    "dialYaw": "9.1882",
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "stretch": 0,
+    "cageSpecX": "104.3",
+    "cageSpecY": "77.5",
+    "lightTilt": "-22.0",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 437
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 465
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.182",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "104.3",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "bodyH": 174.01441955566406,
+    "bodyW": 159.0574951171875
+  },
+  "specTravel": 11.5,
+  "keyTravel": 13.199999999999989,
+  "paintedSeat": -5.1,
+  "headingSeat": -14.29,
+  "dialSeat": 9.1882,
+  "doubleWrite": false,
+  "pass": {
+    "noPageError": true,
+    "inspector": true,
+    "inspectorDials": true,
+    "cratersGone": true,
+    "shadeMuted": true,
+    "noWhiteHot": true,
+    "gridToggle": true,
+    "specMoves": true,
+    "noDoubleYaw": true,
+    "stageDefault": true
+  }
+}

@@ -3481,6 +3481,12 @@ analyze it deeply and repair it out."
 - **N357 · Do not stop until achieved.** Screenshot, adversarial audit, clickthrough proof, then close the residual. Chat is transport.
 - **N358 · Restore exists.** `checkpoint-real-system-20260818` if a wave burns the pearl.
 
+### 2026-08-18 — one writer (MASTER-004)
+
+- **N359 · Orbit is lights.** `orbit.yaw` writes `setOrbit` and `__GASPER_ORBIT_YAW__`. It does not write `setYaw`. Painted travel is heading. Dial is the user / setup three-quarter. They add. A bind that writes both is a dual and a −44 face.
+- **N360 · Look dials are Cook.** Orbit yaw/pitch, pearl, foot/cleft, τ bands, spec/wrap, key az/el. Mute writes authored base. Inspector must not cover transport.
+
+
 
 
 

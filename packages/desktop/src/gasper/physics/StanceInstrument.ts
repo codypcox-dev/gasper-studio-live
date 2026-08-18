@@ -188,16 +188,21 @@ export function stanceFromGait(gait: {
       : 0;
   const advRaw = Number(gait.swingAdvanceUnits);
   const advNorm = Number.isFinite(advRaw) ? Math.max(-1, Math.min(1, advRaw / 352)) : undefined;
-  const host = globalThis as { __GASPER_HANDLE_LIFT__?: number; __GASPER_HANDLE_ADVANCE__?: number };
+  const host = globalThis as {
+    __GASPER_HANDLE_LIFT__?: number;
+    __GASPER_HANDLE_ADVANCE__?: number;
+    __GASPER_HANDLE_STRETCH__?: number;
+  };
   const liftK = Number.isFinite(Number(host.__GASPER_HANDLE_LIFT__)) ? Number(host.__GASPER_HANDLE_LIFT__) : 1;
   const advK = Number.isFinite(Number(host.__GASPER_HANDLE_ADVANCE__)) ? Number(host.__GASPER_HANDLE_ADVANCE__) : 1;
+  const stretchK = Number.isFinite(Number(host.__GASPER_HANDLE_STRETCH__)) ? Number(host.__GASPER_HANDLE_STRETCH__) : 0;
   return tickStance({
     phase: gait.phase,
     hz: gait.stepHz,
     supportSide: gait.supportSide,
     plantedCompress: gait.plantedCompress,
     incomingCompress: gait.incomingCompress,
-    swingLift: liftK,
+    swingLift: liftK * (1 + stretchK),
     swingAdvance: advNorm === undefined ? undefined : advNorm * advK,
     live,
   });

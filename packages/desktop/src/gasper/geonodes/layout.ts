@@ -20,7 +20,7 @@ export const FUNCTION_ORDER: Record<string, readonly string[]> = {
   machine: ["machine", "eight-state", "gsap", "compositor"],
   kernel: ["world-driver", "gait", "support", "walk-scaffold"],
   cook: ["identity", "cage", "handles", "voigt", "kappa", "couple", "field-api"],
-  painter: ["orbit", "pearl", "hull", "radial-facing"],
+  painter: ["orbit", "pearl", "cage-light", "hull", "radial-facing"],
   score: ["northstar-20", "path-take", "curve-track", "rig-controller"],
 };
 

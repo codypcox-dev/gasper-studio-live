@@ -1911,11 +1911,19 @@ function applyMeshWarp(contour,mesh){
   let _lastLightTiltDeg=0;
   let _cageSpecSm={x:120,y:90,w:0};
   function viewFixedLights(yawDeg){
-    // Room key in XZ. Orbit yaw turns L around Y. Do not spin lights in XY —
-    // that cancelled n̂·L and pinned the bloom to the dome center.
+    // Room key in XZ. Orbit yaw + authored key azimuth turn L around Y.
+    // Key elevation tips L in YZ. Do not spin lights in XY.
+    const live=((globalThis.__GASPER_LIVE_COEFFS__||{}).cageLight)||{};
+    const az=yawDeg+(Number(live.key_az)||0);
+    const el=Number(live.key_el)||0;
     const lights=[{x:-0.55,y:-0.65,z:0.52,I:1},{x:0.6,y:0.35,z:0.55,I:0.35},{x:0.1,y:-0.75,z:-0.6,I:0.45}];
-    const a=(-yawDeg*Math.PI)/180,c=Math.cos(a),s=Math.sin(a);
-    return lights.map(L=>({x:L.x*c+L.z*s,y:L.y,z:-L.x*s+L.z*c,I:L.I}));
+    const a=(-az*Math.PI)/180,c=Math.cos(a),s=Math.sin(a);
+    const pe=(el*Math.PI)/180,ce=Math.cos(pe),se=Math.sin(pe);
+    return lights.map(L=>{
+      const x1=L.x*c+L.z*s,z1=-L.x*s+L.z*c;
+      const y2=L.y*ce-z1*se,z2=L.y*se+z1*ce;
+      return {x:x1,y:y2,z:z2,I:L.I};
+    });
   }
   function shadeCagePoints(xyz,cx,cy){
     const R=25,S=40;
@@ -1944,17 +1952,21 @@ function applyMeshWarp(contour,mesh){
           const hx=L.x,hy=L.y,hz=L.z+1,hl=Math.hypot(hx,hy,hz)||1;
           Ssum+=L.I*Math.pow(Math.max(0,nx*hx/hl+ny*hy/hl+nz*hz/hl),14);
         }
-        lam[i]=Lsum;spec[i]=Ssum*specGain;
+        lam[i]=Lsum;
+        const cheek=Math.exp(-0.5*Math.pow((v-0.38)/0.22,2));
+        const Svis=Ssum*specGain*(0.28+0.72*cheek);
+        spec[i]=Svis;
         if((xyz[i*3+2]||0)<0) continue;
-        const px=cx+xyz[i*3],py=cy+xyz[i*3+1],w=Math.pow(Math.max(0,Ssum),2.2);
+        const px=cx+xyz[i*3],py=cy+xyz[i*3+1],w=Math.pow(Math.max(0,Svis),2.2);
         specX+=px*w;specY+=py*w;specW+=w;
-        if(Ssum>hotS){hotS=Ssum;hotI=i;}
+        if(Svis>hotS){hotS=Svis;hotI=i;}
       }
     }
-    if(hotI>=0){
+    if(specW>1e-6){specX/=specW;specY/=specW;}
+    else if(hotI>=0){
       specX=cx+(xyz[hotI*3]||0);
       specY=cy+(xyz[hotI*3+1]||0);
-    }else if(specW>1e-6){specX/=specW;specY/=specW;}
+    }
     const a=0.9;
     _cageSpecSm.x+=(specX-_cageSpecSm.x)*a;
     _cageSpecSm.y+=(specY-_cageSpecSm.y)*a;
@@ -1964,6 +1976,10 @@ function applyMeshWarp(contour,mesh){
       avatar.dataset.cageSpecY=_cageSpecSm.y.toFixed(1);
       avatar.dataset.cageSpecW=_cageSpecSm.w.toFixed(3);
       avatar.dataset.lightTilt=_lastLightTiltDeg.toFixed(1);
+      if(hotI>=0){
+        avatar.dataset.cageHotX=(cx+(xyz[hotI*3]||0)).toFixed(1);
+        avatar.dataset.cageHotY=(cy+(xyz[hotI*3+1]||0)).toFixed(1);
+      }
     }
     globalThis.__GASPER_CAGE_LAM__=lam;
     globalThis.__GASPER_CAGE_SPEC__=spec;
@@ -2016,7 +2032,15 @@ function applyMeshWarp(contour,mesh){
       const b0=bloom.querySelector('stop');
       if(b0){b0.setAttribute('stop-opacity','0.32');b0.setAttribute('stop-color','#d8c4ff');}
     }
-    if(hot&&Number.isFinite(sx)&&sx!==0){
+    const hx=Number(avatar&&avatar.dataset.cageHotX);
+    const hy=Number(avatar&&avatar.dataset.cageHotY);
+    if(hot&&Number.isFinite(hx)&&hx!==0){
+      hot.setAttribute('cx',hx.toFixed(1));
+      hot.setAttribute('cy',(Number.isFinite(hy)?hy:sy).toFixed(1));
+      hot.setAttribute('r','18');
+      const h0=hot.querySelector('stop');
+      if(h0){h0.setAttribute('stop-opacity','0.26');h0.setAttribute('stop-color','#efe6ff');}
+    }else if(hot&&Number.isFinite(sx)&&sx!==0){
       hot.setAttribute('cx',sx.toFixed(1));
       hot.setAttribute('cy',sy.toFixed(1));
       hot.setAttribute('r','18');

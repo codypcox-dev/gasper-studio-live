@@ -1,5 +1,5 @@
 /**
- * Stage look inspector — orbit, identity, authored τ field, cage wrap/spec.
+ * Stage look inspector — orbit, identity, authored τ field, cage wrap/spec/key.
  * Writes Cook params through setNodeParam. Not InstrumentTable.
  */
 import { type ReactElement } from "react";
@@ -17,7 +17,9 @@ type Dial = {
 };
 
 const DIALS: Dial[] = [
-  { testid: "look-orbit-yaw", node: "orbit", param: "yaw", label: "Orbit", min: -180, max: 180, step: 1 },
+  { testid: "look-orbit-yaw", node: "orbit", param: "yaw", label: "Orbit yaw", min: -180, max: 180, step: 1 },
+  { testid: "look-orbit-pitch", node: "orbit", param: "pitch", label: "Orbit pitch", min: -80, max: 80, step: 1 },
+  { testid: "look-pearl", node: "pearl", param: "depth", label: "Pearl", min: 0, max: 1.44, step: 0.01 },
   { testid: "look-foot", node: "identity", param: "footAmp", label: "Foot", min: 0, max: 8, step: 0.1 },
   { testid: "look-cleft", node: "identity", param: "cleftDepth", label: "Cleft", min: 0, max: 6.4, step: 0.1 },
   { testid: "look-tau-foot", node: "voigt", param: "foot", label: "τ foot", min: 0.02, max: 0.2, step: 0.005 },
@@ -25,6 +27,8 @@ const DIALS: Dial[] = [
   { testid: "look-tau-crown", node: "voigt", param: "crown", label: "τ crown", min: 0.04, max: 0.6, step: 0.01 },
   { testid: "look-spec", node: "cage-light", param: "spec", label: "Spec", min: -1, max: 1, step: 0.02 },
   { testid: "look-wrap", node: "cage-light", param: "wrap", label: "Wrap", min: -1, max: 1, step: 0.02 },
+  { testid: "look-key-az", node: "cage-light", param: "keyAz", label: "Key az", min: -180, max: 180, step: 1 },
+  { testid: "look-key-el", node: "cage-light", param: "keyEl", label: "Key el", min: -80, max: 80, step: 1 },
 ];
 
 function readParam(graph: { nodes: { id: string; params: { id: string; value: number }[] }[] }, node: string, param: string, fallback: number): number {
@@ -41,7 +45,7 @@ export function StageLookInspector(): ReactElement {
       </header>
       <div className="stage-look__dials">
         {DIALS.map((d) => {
-          const value = readParam(graph, d.node, d.param, d.min);
+          const value = readParam(graph, d.node, d.param, (d.min + d.max) / 2);
           return (
             <label key={d.testid}>
               <span>{d.label}</span>

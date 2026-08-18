@@ -99,9 +99,11 @@ const META: Record<string, Meta> = {
   stance: { element: "control", event: "forwards", inType: "phase", outType: "pose", params: [
     { id: "lift", label: "Lift", min: 0, max: 2, step: 0.01, value: 1, base: 1 },
     { id: "advance", label: "Advance", min: 0, max: 2, step: 0.01, value: 1, base: 1 },
+    { id: "stretch", label: "Stretch", min: -1, max: 1, step: 0.01, value: 0, base: 0 },
   ]},
   "gait-law": { element: "control", event: "forwards", inType: "scalar", outType: "phase", params: [
     { id: "hz", label: "Hz", min: 0.6, max: 4.6, step: 0.05, value: 2.6, base: 2.6 },
+    { id: "drive", label: "Drive", min: 0, max: 1.4, step: 0.01, value: 0.85, base: 0.85 },
     { id: "live", label: "Live", min: 0, max: 1, step: 1, value: 1 },
   ]},
   support: { element: "control", event: "forwards", inType: "phase", outType: "phase", params: [
@@ -138,8 +140,10 @@ const META: Record<string, Meta> = {
     { id: "rough", label: "Rough", min: 0, max: 1, step: 0.01, value: 0.2 },
   ]},
   "cage-light": { element: "view", event: "forwards", inType: "shade", outType: "shade", params: [
-    { id: "spec", label: "Spec", min: -1, max: 1, step: 0.02, value: 0 },
-    { id: "wrap", label: "Wrap", min: -1, max: 1, step: 0.02, value: 0 },
+    { id: "spec", label: "Spec", min: -1, max: 1, step: 0.02, value: 0, base: 0 },
+    { id: "wrap", label: "Wrap", min: -1, max: 1, step: 0.02, value: 0, base: 0 },
+    { id: "keyAz", label: "Key az", min: -180, max: 180, step: 1, value: 0, base: 0 },
+    { id: "keyEl", label: "Key el", min: -80, max: 80, step: 1, value: 0, base: 0 },
   ]},
   "hard-highlights": { element: "view", event: "forwards", inType: "shade", outType: "shade", params: [
     { id: "mute", label: "Mute", min: 0, max: 1, step: 1, value: 1 },

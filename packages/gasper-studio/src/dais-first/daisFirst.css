@@ -2049,11 +2049,13 @@
   z-index: 24;
   top: 18px;
   right: 16px;
-  width: min(248px, 28vw);
+  width: min(320px, 34vw);
+  max-height: calc(100vh - 168px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px 12px 12px;
+  gap: 6px;
+  padding: 8px 10px 10px;
   border-radius: 14px;
   background: rgba(18, 17, 15, 0.88);
   border: 1px solid rgba(236, 232, 225, 0.14);
@@ -2071,13 +2073,14 @@
 .stage-look header span { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(236,232,225,0.5); }
 .stage-look__dials {
   display: grid;
-  gap: 7px;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
 }
 .stage-look__dials label {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1px 8px;
-  font-size: 11px;
+  gap: 0 6px;
+  font-size: 10px;
 }
 .stage-look__dials label span { color: rgba(236,232,225,0.72); }
 .stage-look__dials label b { font-variant-numeric: tabular-nums; color: #d8c9a4; }
@@ -2085,6 +2088,7 @@
   grid-column: 1 / -1;
   width: 100%;
   accent-color: #d8c9a4;
+  height: 16px;
 }
 .compiler-col[data-tip]:hover::after,
 .node-card[data-tip]:hover::after {

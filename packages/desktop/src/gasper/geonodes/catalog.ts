@@ -52,7 +52,7 @@ export const GASPER_ORGANS: readonly Organ[] = [
   { id: "closed-spline", kind: "renderer", label: "closedSpline C¹", status: "LIVE", file: "assets/all-script-3.js", note: "Catmull-Rom τ=1/6. Only d." },
   { id: "pearl", kind: "renderer", label: "Pearl layer stack", status: "LIVE", file: "assets/all-script-3.js", note: "bodyBase, opticalDepth, crown bloom." },
   { id: "surface-shader", kind: "renderer", label: "SurfaceShader", status: "TWIN", file: "scaffold/SurfaceShader.ts", note: "Cage normals. Shade loft." },
-  { id: "cage-light", kind: "renderer", label: "CageLight", status: "LIVE", file: "assets/all-script-3.js", note: "n·L on liveGridXYZ. Drives bloom/hot. Mute skips authored spec/wrap." },
+  { id: "cage-light", kind: "renderer", label: "CageLight", status: "LIVE", file: "assets/all-script-3.js", note: "n·L on liveGridXYZ. Spec/wrap/key az·el. Mute writes authored base." },
   { id: "hard-highlights", kind: "renderer", label: "Hard highlights", status: "DEAD", file: "assets/all-script-3.js", note: "muteHardHighlights zeros glints and lobe-shade craters." },
   { id: "ribbons", kind: "renderer", label: "Ribbon lobes", status: "DEAD", file: "assets/all-script-3.js", note: "d still written; opacity 0. 512 contour is the nub." },
   { id: "path-take", kind: "take", label: "PathEmbeddingTake", status: "LIVE", file: "takes/PathEmbeddingTake.ts", note: "512 floats. No d strings." },
