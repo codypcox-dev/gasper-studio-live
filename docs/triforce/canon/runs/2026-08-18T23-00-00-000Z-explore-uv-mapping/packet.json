@@ -1,0 +1,19 @@
+{
+  "runId": "2026-08-18T23-00-00-000Z-explore-uv-mapping",
+  "mode": "explore",
+  "residual": "homothety = UV",
+  "question": "What UV binds the 25×40 so the cage is the skin of the live 512, including the W, without a polar pizza?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "polar-pizza-is-not-skin",
+  "dualKilled": "homothety = UV",
+  "lawfulBind": "offset-curve isolines; ring 24 = 512; v along inward normal",
+  "refused": ["Y-band as bind (breaks rim=hull)", "LSCM this pass", "UDIM / multi-chart", "second polar overlay"],
+  "sources": [
+    "CGAL Surface_mesh_parameterization (Floater, LSCM, Tutte, authalic)",
+    "Lévy 2002 Least Squares Conformal Maps",
+    "Floater 1997/2003 mean-value coordinates",
+    "docs/triforce/canon/MESH-STACK.md",
+    "docs/triforce/NORTHSTAR-CAGED-HULL.md"
+  ],
+  "fix": "bindHullToLiveGrid: p = rim + n_in * (1-v) * inset; keep front-dome z"
+}

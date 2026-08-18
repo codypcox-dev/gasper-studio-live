@@ -33,7 +33,10 @@ Only reusable findings promote into the Tri-Force canon.
 
 ## Current residual
 
-`pillar = work-surface` — Score now binds Cook (`evaluateScore` + `applyScoreBinds`); Publish embeds the take. Remaining chrome: S2 keys-drag, S3 cook fold.
+`homothety = UV` — a pole lerp is a polar map, not a chart. Dual killed. Lawful bind is offset isolines (ring 24 = 512, v along inward normal). Y-band is a view, not the bind. LSCM/UDIM refused this pass.
+Latest Explore: `docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping`.
+
+Prior: `pillar = work-surface` — Score now binds Cook (`evaluateScore` + `applyScoreBinds`); Publish embeds the take. Remaining chrome: S2 keys-drag, S3 cook fold.
 Book close: `docs/triforce/plans/2026-08-18-studio-master-003.md`
 Latest film: `docs/triforce/canon/runs/2026-08-18T22-25-00-000Z-master-close`.
 Restore: `checkpoint-real-system-20260818`.

@@ -79,7 +79,7 @@ Today shade and silhouette do not share it:
 - Puff moves the rim, does not shade.
 - `meshOffsets` dent the 360 in secret.
 
-Lawful workflow: author → bind polar UV (u=sector, v=ring) → apply pressure+relief+captured → **both** `shadeLitMesh` and the rim read the same scalars. Zero is +0, never 8-bit mid-gray.
+Lawful workflow: author → bind offset UV (u=sector, v=ring along inward normal of the live 512; not a pole homothety) → apply pressure+relief+captured → **both** `shadeLitMesh` and the rim read the same scalars. Zero is +0, never 8-bit mid-gray.
 
 ## Mastery order
 

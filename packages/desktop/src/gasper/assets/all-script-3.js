@@ -2076,22 +2076,34 @@ function applyMeshWarp(contour,mesh){
     let ax=0,ay=0;
     for(let s=0;s<S;s++){ax+=rimX[s];ay+=rimY[s];}
     const cx=ax/S,cy=ay/S;
-    let hipY=0,hipN=0;
-    for(let s=0;s<S;s++) if(rimY[s]>cy+8){hipY+=rimY[s];hipN++;}
-    hipY=hipN?hipY/hipN:cy+28;
+    const nx=new Float32Array(S),ny=new Float32Array(S),sxn=new Float32Array(S),syn=new Float32Array(S),inset=new Float32Array(S);
+    for(let s=0;s<S;s++){
+      const p0x=rimX[(s-1+S)%S],p0y=rimY[(s-1+S)%S],p2x=rimX[(s+1)%S],p2y=rimY[(s+1)%S];
+      let tx=p2x-p0x,ty=p2y-p0y,len=Math.hypot(tx,ty)||1;
+      let nnx=ty/len,nny=-tx/len;
+      if(nnx*(cx-rimX[s])+nny*(cy-rimY[s])<0){nnx=-nnx;nny=-nny;}
+      nx[s]=nnx;ny[s]=nny;
+    }
+    for(let s=0;s<S;s++){
+      const a=(s-1+S)%S,b=(s+1)%S;
+      sxn[s]=nx[a]+nx[s]*2+nx[b];
+      syn[s]=ny[a]+ny[s]*2+ny[b];
+      const nl=Math.hypot(sxn[s],syn[s])||1;
+      nx[s]=sxn[s]/nl;ny[s]=syn[s]/nl;
+      inset[s]=0.62*Math.max(10,Math.hypot(rimX[s]-cx,rimY[s]-cy));
+    }
     let sculpted=false;
     const _cageYaw=(Number(globalThis.__GASPER_ORBIT_YAW__??8)||0)*Math.PI/180;
     const cyaw=Math.cos(_cageYaw),syaw=Math.sin(_cageYaw);
     for(let s=0;s<S;s++){
-      const w=Math.max(0,Math.min(1,(rimY[s]-128)/28));
-      const poleX=cx,poleY=cy*(1-w)+hipY*w;
       for(let r=0;r<R;r++){
-        const i=r*S+s,v=r/Math.max(1,R-1);
-        let ox=(rimX[s]-poleX)*v+(poleX-cx),oy=(rimY[s]-poleY)*v+(poleY-cy);
+        const i=r*S+s,v=Math.pow(r/Math.max(1,R-1),0.55);
+        const d=(1-v)*inset[s];
+        let ox=rimX[s]+nx[s]*d-cx,oy=rimY[s]+ny[s]*d-cy;
         const sx=gridSculpt[i*2]||0,syv=gridSculpt[i*2+1]||0;
         if(sx||syv){ox+=sx;oy+=syv;sculpted=true;}
-        // Front dome. Sector is contour arc, not longitude — do not cull the W
-        // as the back of a sphere. Depth yaws about Y; screen XY stay on the hull.
+        // Offset UV: rings are insets of the live 512, not a homothety pizza.
+        // Front dome. Sector is contour arc, not longitude.
         const z0=58*Math.sqrt(Math.max(0,1-v*v));
         liveGridXYZ[i*3]=ox;
         liveGridXYZ[i*3+1]=oy;
