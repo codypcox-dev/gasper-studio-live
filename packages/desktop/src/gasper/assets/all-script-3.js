@@ -1628,7 +1628,19 @@ function applyMeshWarp(contour,mesh){
     if(selectedVertex<0||!dragOrigin)return;const p=eventPoint(event);meshOffsets[selectedVertex].x=dragOrigin.offset.x+p.x-dragOrigin.pointer.x;meshOffsets[selectedVertex].y=dragOrigin.offset.y+p.y-dragOrigin.pointer.y;
   };
   function endDrag(event){
-    if(selectedGrid>=0){selectedGrid=-1;dragOrigin=null;if(skinRoot.hasPointerCapture&&skinRoot.hasPointerCapture(event.pointerId))skinRoot.releasePointerCapture(event.pointerId);return;}
+    if(selectedGrid>=0){
+      const snap=dragOrigin&&dragOrigin.snap;
+      let changed=false;
+      if(snap){
+        for(let i=0;i<gridSculpt.length;i++) if((gridSculpt[i]||0)!==(snap[i]||0)){changed=true;break;}
+      }
+      selectedGrid=-1;dragOrigin=null;
+      if(skinRoot.hasPointerCapture&&skinRoot.hasPointerCapture(event.pointerId))skinRoot.releasePointerCapture(event.pointerId);
+      if(changed){
+        try{window.dispatchEvent(new CustomEvent('gasper:sculpt-commit',{detail:{before:Array.from(snap)}}));}catch(_e){}
+      }
+      return;
+    }
     if(selectedVertex<0)return;selectedVertex=-1;dragOrigin=null;if(skinRoot.hasPointerCapture&&skinRoot.hasPointerCapture(event.pointerId))skinRoot.releasePointerCapture(event.pointerId);
   }
   skinRoot.addEventListener('pointerdown',onSkinDown,true);

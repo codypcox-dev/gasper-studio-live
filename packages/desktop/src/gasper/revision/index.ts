@@ -1,0 +1,32 @@
+export {
+  REVISION_SCHEMA,
+  SOURCE_PIN,
+  FACTORY_REVISION_ID,
+  AUTOSAVE_KEY,
+  PUBLISH_KEY,
+  MAX_PUBLISHES,
+  encodeSculpt,
+  decodeSculpt,
+  isGasperRevision,
+  factoryRevision,
+  captureRevision,
+  applyRevisionSculpt,
+  writeAutosave,
+  readAutosave,
+  listPublishes,
+  savePublish,
+  deletePublish,
+  type GasperRevision,
+  type RevisionKind,
+  type SculptCodec,
+} from "./GasperRevision";
+export { readLiveSculpt, writeLiveSculpt, sculptEnergy, SCULPT_COUNT } from "./sculptHost";
+export {
+  registerRevisionBridge,
+  revisionBridge,
+  onRevisionBridge,
+  SCULPT_COMMIT_EVENT,
+  REVISION_CHANGED_EVENT,
+  emitRevisionChanged,
+  type RevisionBridge,
+} from "./sessionBridge";

@@ -4,6 +4,7 @@
  */
 import { useCallback, useEffect, useState, type ReactElement } from "react";
 import { ScoreDopesheet } from "./ScoreDopesheet";
+import { VersionStrip } from "./VersionStrip";
 import {
   formatPlayhead,
   pauseStudio,
@@ -171,6 +172,7 @@ export function StudioTransport({
           </button>
         </div>
       </div>
+      <VersionStrip />
       <ScoreDopesheet graphView={scoreGraph} playhead={ph} />
     </div>
   );

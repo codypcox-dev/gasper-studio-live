@@ -1,0 +1,39 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "investigate",
+  "residual": "version-control",
+  "stamp": "2026-08-18T20-40-00-000Z",
+  "engine": "3.0.0",
+  "parentResidual": "seven-studio-laws",
+  "question": "What is a version of Gasper — engine, instrument, or organism — and which restore primitive belongs to each?",
+  "verdict": "Dual: tag = organism. Git pins the engine. Undo is a session tape. A Publish document (graph + sculpt + clock) is the missing character version. Perforce/USD/Figma branches are the wrong mass.",
+  "duals": [
+    "tag=organism",
+    "undo=publish",
+    "baseline=revision",
+    "embodiment=fourth-space",
+    "perforce=product-vcs"
+  ],
+  "invariants": [
+    "Source pins never serialize the sculpt field",
+    "Publishes never rewrite the painter",
+    "Undo includes sculpt or says it does not",
+    "Factory Wispwalker is publish v000 read-only",
+    "One schema gasper.revision.v1",
+    "VEC-401 only clock; revision stores playheadMs"
+  ],
+  "spaces": ["source", "instrument", "organism", "publish"],
+  "verbs": ["pin", "undo", "publish"],
+  "currentPins": [
+    "checkpoint/gasper-unified-runtime",
+    "checkpoint/gasper-strut-unshear-20260817",
+    "checkpoint-glued-cage-20260818",
+    "checkpoint-live-skin-20260818"
+  ],
+  "implementation": [
+    "packages/desktop/src/gasper/revision/GasperRevision.ts",
+    "join pushPast to sculpt or label Undo graph-only",
+    "localStorage gasper.revision.autosave",
+    "Score strip: Factory / Autosave / named publishes"
+  ]
+}

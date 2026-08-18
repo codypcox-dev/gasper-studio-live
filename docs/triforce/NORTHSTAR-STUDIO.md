@@ -1,12 +1,13 @@
 # NORTHSTAR — Gasper Studio (the instrument)
 
 **Id:** `GASPER-STUDIO-MASTER-001`  
-**Status:** LIVE-SKIN CHECKPOINT — 2026-08-18. SVG accepts pointer. Cage drag deforms hull. Orbit yaw + foot nub proven.  
-**Proof:** `docs/triforce/canon/runs/2026-08-18T20-10-00-000Z-live-input-fix`  
+**Status:** REAL-SYSTEM CHECKPOINT — 2026-08-18. Live cage drag. Joined undo. Publish looks.  
+**Proof:** `docs/triforce/canon/runs/2026-08-18T20-55-00-000Z-revision-publish`  
 **Chase this.** Chat is transport. This file plus the day book win over memory.  
 **Parent locks:** `NORTHSTAR-CAGED-HULL.md`, `NORTHSTAR-PILLARS.md`  
-**Checkpoint restore:** `checkpoint-live-skin-20260818`  
-**Prior restore:** `1d3dfd5` / `checkpoint-glued-cage-20260818`  
+**Checkpoint restore:** `checkpoint-real-system-20260818`  
+**Organism restore:** Factory / Autosave / Save look (`gasper.revision.v1`) — not a git tag. Dual: `tag = organism`.  
+**Prior restore:** `checkpoint-live-skin-20260818` · `checkpoint-glued-cage-20260818`  
 **Engine:** Tri-Force lock 3.0.0 (CLI absent in this host; disk is still law)
 
 ---

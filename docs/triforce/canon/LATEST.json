@@ -1,12 +1,11 @@
 {
-  "runId": "2026-08-18T18-30-00-000Z-explore-seven-studio-laws",
-  "mode": "explore",
-  "residual": "seven-studio-laws",
-  "depositPath": "docs/triforce/canon/runs/2026-08-18T18-30-00-000Z-explore-seven-studio-laws",
-  "parentResidual": "vector-studio-ux",
+  "runId": "2026-08-18T20-40-00-000Z-investigate-version-control",
+  "mode": "investigate",
+  "residual": "version-control",
+  "depositPath": "docs/triforce/canon/runs/2026-08-18T20-40-00-000Z-investigate-version-control",
+  "parentResidual": "seven-studio-laws",
   "related": [
-    "2026-08-18T18-17-00-000Z-explore-keyframe-easing-curves",
-    "2026-08-18T18-17-00-000Z-explore-node-based-compositing",
+    "2026-08-18T18-30-00-000Z-explore-seven-studio-laws",
     "2026-08-18T18-00-00-000Z-explore-vector-studio-ux"
   ],
   "plan": "docs/triforce/plans/2026-08-18-studio-master-book.md",

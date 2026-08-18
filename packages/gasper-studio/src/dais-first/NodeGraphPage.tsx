@@ -5,7 +5,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactElement, type WheelEvent as ReactWheelEvent } from "react";
 import { createPortal } from "react-dom";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
+import {
+  applyRevisionSculpt,
+  captureRevision,
+  emitRevisionChanged,
+  registerRevisionBridge,
+  SCULPT_COMMIT_EVENT,
+  writeAutosave,
+  type GasperRevision,
+} from "../../../desktop/src/gasper/revision";
 import { playNorthstarTwentyFromRail } from "./daisFirstControls";
+import { readPlayhead } from "./studioClock";
 import {
   BROWSER_CATS,
   PILLARS,
@@ -153,6 +163,31 @@ export function NodeGraphPage(): ReactElement {
   const [hoverCol, setHoverCol] = useState<string | null>(null);
   const [gridOn, setGridOn] = useState(true);
   const playArmed = useRef(false);
+  const graphRef = useRef(graph);
+  graphRef.current = graph;
+  const autosaveTimer = useRef(0);
+
+  const showGridOf = (g: GeoGraph) =>
+    (g.nodes.find((n) => n.id === "cage")?.params.find((p) => p.id === "grid")?.value ?? 0) > 0.5;
+
+  const scheduleAutosave = useCallback((g: GeoGraph) => {
+    window.clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = window.setTimeout(() => {
+      const ph = readPlayhead();
+      writeAutosave(
+        captureRevision({
+          name: "Autosave",
+          kind: "autosave",
+          graph: g,
+          showGrid: showGridOf(g),
+          takeId: ph.mode === "take" ? "northstar-20" : null,
+          playheadMs: ph.t,
+          paused: ph.paused,
+        }),
+      );
+      emitRevisionChanged();
+    }, 800);
+  }, []);
 
   const commit = useCallback((next: GeoGraph | ((g: GeoGraph) => GeoGraph)) => {
     setGraph((g) => {
@@ -196,7 +231,45 @@ export function NodeGraphPage(): ReactElement {
     const cage = graph.nodes.find((n) => n.id === "cage");
     const g = (cage?.params.find((p) => p.id === "grid")?.value ?? 0) > 0.5;
     setGridOn(g);
-  }, [graph]);
+    scheduleAutosave(graph);
+  }, [graph, scheduleAutosave]);
+
+  useEffect(() => {
+    const onSculpt = (ev: Event) => {
+      const before = (ev as CustomEvent<{ before?: number[] }>).detail?.before;
+      HIST = hist.current = pushPast(hist.current, graphRef.current, before);
+      scheduleAutosave(graphRef.current);
+    };
+    window.addEventListener(SCULPT_COMMIT_EVENT, onSculpt);
+    return () => window.removeEventListener(SCULPT_COMMIT_EVENT, onSculpt);
+  }, [scheduleAutosave]);
+
+  useEffect(() => {
+    return registerRevisionBridge({
+      graph: () => graphRef.current,
+      capture: (name, kind) => {
+        const g = graphRef.current;
+        const ph = readPlayhead();
+        return captureRevision({
+          name,
+          kind,
+          graph: g,
+          showGrid: showGridOf(g),
+          takeId: ph.mode === "take" ? "northstar-20" : null,
+          playheadMs: ph.t,
+          paused: ph.paused,
+        });
+      },
+      hydrate: (rev: GasperRevision) => {
+        setGraph((g) => {
+          HIST = hist.current = pushPast(hist.current, g);
+          applyRevisionSculpt(rev);
+          dispatchField("showGrid", { on: rev.showGrid });
+          return rev.graph;
+        });
+      },
+    });
+  }, []);
 
   useEffect(() => {
     dockStage(mon);
@@ -557,8 +630,8 @@ export function NodeGraphPage(): ReactElement {
           <button type="button" onClick={() => zoomAt((boardRef.current?.getBoundingClientRect().left ?? 0) + 240, (boardRef.current?.getBoundingClientRect().top ?? 0) + 80, 1.12)} aria-label="Zoom in" title={tipForUi("zoomIn")}>+</button>
           <button type="button" onClick={() => { commit((g) => resetLayout(g)); playCook(); }} data-testid="node-graph-arrange" title={tipForUi("compile")}>Reset</button>
           <button type="button" data-testid="node-graph-cook" onClick={playCook} title={tipForUi("cook")}>Cook</button>
-          <button type="button" data-testid="node-graph-undo" onClick={undo} title={tipForUi("undo")}>Undo</button>
-          <button type="button" data-testid="node-graph-redo" onClick={redo} title={tipForUi("redo")}>Redo</button>
+          <button type="button" data-testid="node-graph-undo" onClick={undo} title="Undo graph and sculpt">Undo</button>
+          <button type="button" data-testid="node-graph-redo" onClick={redo} title="Redo graph and sculpt">Redo</button>
           <span className="node-graph-page__note" data-testid="node-graph-wire-note">{wireNote}</span>
         </div>
         {alert ? (

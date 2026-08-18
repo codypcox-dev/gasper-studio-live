@@ -62,7 +62,7 @@ export {
   wouldCycle,
 } from "./host";
 export { NODE_BLUEPRINTS, blueprintFromOrgan, type NodeBlueprint } from "./library";
-export { cloneGraph, emptyHistory, pushPast, redoGraph, undoGraph, type GraphHistory } from "./history";
+export { cloneGraph, emptyHistory, pushPast, redoGraph, undoGraph, type GraphHistory, type SessionFrame } from "./history";
 export { inspectGraph, kahnOrder, sanitizeGraph, cookTrace, type CookStep, type WireResult } from "./topology";
 export { lockReason, sliderT, fromSliderT, isBinaryParam, LOCKED_CARDS } from "./params";
 export { tipForNode, tipForParam, tipForPillar, tipForUi } from "./tips";
