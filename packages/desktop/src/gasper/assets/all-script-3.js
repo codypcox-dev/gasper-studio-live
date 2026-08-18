@@ -1901,6 +1901,8 @@ function applyMeshWarp(contour,mesh){
       if(stops[6])stops[6].setAttribute('stop-color','#9468d4');
     }
     if(opticalDepth)opticalDepth.style.setProperty('opacity','0.22','important');
+    if(cyanReservoirPath){cyanReservoirPath.setAttribute('d','');cyanReservoirPath.setAttribute('opacity','0');}
+    if(cyanFieldNode)cyanFieldNode.setAttribute('opacity','0.05');
     const cosmic=$('cosmicTextureLayer');
     if(cosmic)cosmic.setAttribute('opacity','0.10');
     for(const id of ['cosmicCellA','cosmicCellB','cosmicCellC','cosmicCellD','cosmicCloudPath']){
@@ -2074,18 +2076,26 @@ function applyMeshWarp(contour,mesh){
     let ax=0,ay=0;
     for(let s=0;s<S;s++){ax+=rimX[s];ay+=rimY[s];}
     const cx=ax/S,cy=ay/S;
+    let hipY=0,hipN=0;
+    for(let s=0;s<S;s++) if(rimY[s]>cy+8){hipY+=rimY[s];hipN++;}
+    hipY=hipN?hipY/hipN:cy+28;
     let sculpted=false;
     const _cageYaw=(Number(globalThis.__GASPER_ORBIT_YAW__??8)||0)*Math.PI/180;
+    const cyaw=Math.cos(_cageYaw),syaw=Math.sin(_cageYaw);
     for(let s=0;s<S;s++){
+      const w=Math.max(0,Math.min(1,(rimY[s]-128)/28));
+      const poleX=cx,poleY=cy*(1-w)+hipY*w;
       for(let r=0;r<R;r++){
         const i=r*S+s,v=r/Math.max(1,R-1);
-        let ox=(rimX[s]-cx)*v,oy=(rimY[s]-cy)*v;
-        const sx=gridSculpt[i*2]||0,sy=gridSculpt[i*2+1]||0;
-        if(sx||sy){ox+=sx;oy+=sy;sculpted=true;}
-        const z=58*Math.sqrt(Math.max(0,1-v*v));
+        let ox=(rimX[s]-poleX)*v+(poleX-cx),oy=(rimY[s]-poleY)*v+(poleY-cy);
+        const sx=gridSculpt[i*2]||0,syv=gridSculpt[i*2+1]||0;
+        if(sx||syv){ox+=sx;oy+=syv;sculpted=true;}
+        // Front dome. Sector is contour arc, not longitude — do not cull the W
+        // as the back of a sphere. Depth yaws about Y; screen XY stay on the hull.
+        const z0=58*Math.sqrt(Math.max(0,1-v*v));
         liveGridXYZ[i*3]=ox;
         liveGridXYZ[i*3+1]=oy;
-        liveGridXYZ[i*3+2]=z*Math.cos((s/S)*Math.PI*2-_cageYaw);
+        liveGridXYZ[i*3+2]=ox*syaw+z0*cyaw;
       }
     }
     if(sculpted){
@@ -2133,30 +2143,32 @@ function applyMeshWarp(contour,mesh){
       return (cx+(xyz[i*3]||0)).toFixed(1)+' '+(cy+(xyz[i*3+1]||0)).toFixed(1);
     };
     const html=[];
-    for(let r=3;r<R;r++){
+    for(let r=2;r<R;r++){
       let d='',pen=false;
       for(let s0=0;s0<=S;s0++){
         const s=((s0%S)+S)%S,i=r*S+s,p={z:xyz[i*3+2]||0};
         if(p.z<0){pen=false;continue;}
         d+=(pen?'L':'M')+at(r,s0);pen=true;
       }
-      if(d) html.push('<path d="'+d+'" fill="none" stroke="#eaf7ff" stroke-width="'+(r===R-1?'1.05':'0.55')+'" stroke-opacity="'+(r===R-1?'0.95':'0.62')+'"/>');
+      const rim=r>=R-3;
+      if(d) html.push('<path d="'+d+'" fill="none" stroke="'+(rim?'#f4fbff':'#eaf7ff')+'" stroke-width="'+(rim?'1.35':r===R-1?'1.15':'0.6')+'" stroke-opacity="'+(rim?'1':'0.7')+'"/>');
     }
     for(let s0=0;s0<S;s0++){
       let d='',pen=false;
-      for(let r=3;r<R;r++){
+      for(let r=2;r<R;r++){
         const i=r*S+s0,p={z:xyz[i*3+2]||0};
         if(p.z<0){pen=false;continue;}
         d+=(pen?'L':'M')+at(r,s0);pen=true;
       }
-      if(d) html.push('<path d="'+d+'" fill="none" stroke="#bfe9ff" stroke-width="0.45" stroke-opacity="0.55"/>');
+      if(d) html.push('<path d="'+d+'" fill="none" stroke="#d9f0ff" stroke-width="0.55" stroke-opacity="0.7"/>');
     }
-    for(let r=4;r<R;r++){
+    for(let r=3;r<R;r++){
       for(let s=0;s<S;s++){
         const i=r*S+s,p={z:xyz[i*3+2]||0};
         if(p.z<0) continue;
         const hot=i===selectedGrid;
-        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.4':'2.15')+'" fill="'+(hot?'#fff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.92')+'" stroke="#0b1a22" stroke-width="0.35"/>');
+        const outer=r>=R-4;
+        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.6':outer?'2.7':'2.05')+'" fill="'+(hot?'#fff':outer?'#ffffff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.96')+'" stroke="#0b1a22" stroke-width="0.4"/>');
       }
     }
     g.innerHTML=html.join('');
@@ -2855,7 +2867,7 @@ function applyMeshWarp(contour,mesh){
     keyFacetA.setAttribute('d',closedSpline(meshCurve(mesh,[[13,19],[13,20],[12,21],[11,22],[10,21],[11,20]])));keyFacetB.setAttribute('d',closedSpline(meshCurve(mesh,[[13,23],[13,0],[12,1],[10,2],[9,1],[10,0],[11,23]])));keyFacetC.setAttribute('d',closedSpline(meshCurve(mesh,[[12,20],[13,21],[12,22],[10,22],[9,21],[10,20]])));keyFacetD.setAttribute('d',closedSpline(meshCurve(mesh,[[11,23],[12,0],[11,1],[9,1],[8,0],[9,23]])));
     // D-0072: ride the SAME authored hotspot ribbon ~12px closer to the rim (off 8+13q -> 3.5+6q) so the hard highlight crosses the apex strip (the crown void) instead of dying 13-21px below it; envelope/width/anchors unchanged.
     const crown=ribbonFromAnchors(pts,normals,CROWN_ANCHORS,[-.42,-.91],3,18,22,34),crownHot=ribbonFromAnchors(pts,normals,CROWN_HOT_ANCHORS,[-.18,-.98],3.5,6,5,12),cyan=ribbonFromAnchors(pts,normals,CYAN_ANCHORS,[0,-1],2,16,12,24);
-    crownBloomPath.setAttribute('d',ribbonPath(crown.outer,crown.inner));cyanReservoirPath.setAttribute('d',ribbonPath(cyan.outer,cyan.inner));
+    crownBloomPath.setAttribute('d',ribbonPath(crown.outer,crown.inner));cyanReservoirPath.setAttribute('d','');cyanReservoirPath.setAttribute('opacity','0');
     const rightPin=ribbonFromAnchors(pts,normals,RIGHT_CROWN_PIN_ANCHORS,[.56,-.83],5.4,7.2,2.0,4.8),secondary=ribbonFromAnchors(pts,normals,SECONDARY_ANCHORS,[.84,-.54],8,10,2.2,5.2),leftLobeVolumeRig=ribbonFromAnchors(pts,normals,LEFT_LOBE_ANCHORS,[-.95,-.18],1.2,4.0,7.0,11.0),rightLobeVolumeRig=ribbonFromAnchors(pts,normals,RIGHT_LOBE_ANCHORS,[.94,-.22],1.4,3.8,6.4,10.2),leftLobe=ribbonFromAnchors(pts,normals,LEFT_LOBE_ANCHORS,[-.95,-.18],2.4,7,2.2,5.8),rightLobe=ribbonFromAnchors(pts,normals,RIGHT_LOBE_ANCHORS,[.94,-.22],3.2,6,1.8,4.2);
     secondaryCore.setAttribute('d',ribbonPath(secondary.outer,secondary.inner));leftLobeShade.setAttribute('d',ribbonPath(leftLobeVolumeRig.outer,leftLobeVolumeRig.inner));rightLobeShade.setAttribute('d',ribbonPath(rightLobeVolumeRig.outer,rightLobeVolumeRig.inner));leftLobeVolume.setAttribute('d',ribbonPath(leftLobeVolumeRig.outer,leftLobeVolumeRig.inner));rightLobeVolume.setAttribute('d',ribbonPath(rightLobeVolumeRig.outer,rightLobeVolumeRig.inner));
     const leftGlintD=ribbonPath(leftLobe.outer,leftLobe.inner),rightGlintD=ribbonPath(rightLobe.outer,rightLobe.inner);
@@ -3347,7 +3359,7 @@ avatar.dataset.gazeLeadX=gazeLeadX.toFixed(3);avatar.dataset.gazeLeadY=gazeLeadY
     avatar.dataset.v3DepthGlow=depthGlow.toFixed(4);avatar.dataset.v3FormExpansion=formExpansion.toFixed(4);avatar.dataset.v3FormTension=formTension.toFixed(4);avatar.dataset.v3RecognitionPop=recognitionPop.toFixed(4);avatar.dataset.motionLightGain=_mlGate.toFixed(4);avatar.dataset.motionLightSpeed=_mlSpeed.toFixed(4);avatar.dataset.motionLightFactor=_mlFactor.toFixed(4); // D-0040 V3 + D-0041 V3 Layer A + D-0063 motion-light read-only telemetry (clean CDP observables; no behavior). D-0063 reports the APPLIED factor (the exact multiplier folded into e) + the speed + the gate so the witness reconstructs expected = 1+amp*min(1,speed/refSpeed)*gate and compares to the observed factor (proves wiring + formula + gate)
     avatar.dataset.eightStateRecipe=eightStateId;avatar.dataset.stateCrown=stateCrown.toFixed(4);avatar.dataset.stateExpansion=stateExpansion.toFixed(4);avatar.dataset.stateTension=stateTension.toFixed(4);avatar.dataset.stateLight=stateLight.toFixed(4);avatar.dataset.stateLow=stateLow.toFixed(4);avatar.dataset.stateWide=stateWide.toFixed(4);avatar.dataset.stateBeat=stateBeat.toFixed(4);avatar.dataset.eightStateBodyEnabled=eightStateBodyEnabled?'1':'0';const _mAg=EIGHT_STATE_MOUTH.enabled?(((globalThis.__GASPER_LIVE_COEFFS__||{}).mouth||{}).mouthGain??1):0;avatar.dataset.stateMouthCurve=(stateMouthCurve*_mAg).toFixed(4);avatar.dataset.stateMouthOpen=(stateMouthOpen*_mAg).toFixed(4);avatar.dataset.stateMouthSkew=(stateMouthSkew*_mAg).toFixed(4);avatar.dataset.stateMouthPullR=(stateMouthPullR*_mAg).toFixed(4);avatar.dataset.stateMouthPullL=(stateMouthPullL*_mAg).toFixed(4);avatar.dataset.mouthGain=_mAg.toFixed(4);avatar.dataset.statePop=statePop.toFixed(4);avatar.dataset.popGain=((eightStateBodyEnabled&&EIGHT_STATE_POP.enabled)?(((globalThis.__GASPER_LIVE_COEFFS__||{}).pop||{}).popGain??1):0).toFixed(4); // D-0059 read-only telemetry: stateMouth* report the APPLIED delta (eased * gain) so the channel is truthful — at gain 0 the V4 contribution to the render is exactly 0 and the dataset reads 0 (the held mouth is then the pre-existing substrate only); at gain 1 it equals the eased delta. mouthGain = the raw gate. (D-0049 stateCrown..stateBeat telemetry unchanged on the prior line.)
     const _fvGtel=EIGHT_STATE_FORM_VARIANT.enabled?(((globalThis.__GASPER_LIVE_COEFFS__||{}).formVariant||{}).formVariantGain??1):0;const _fvApp=(silhouetteProfile==='presence'&&_fvGtel!==0)?1:0;avatar.dataset.fvCrown=(fvCrown*_fvApp).toFixed(4);avatar.dataset.fvLow=(fvLow*_fvApp).toFixed(4);avatar.dataset.fvWide=(fvWide*_fvApp).toFixed(4);avatar.dataset.fvAsym=(fvAsym*_fvApp).toFixed(4);avatar.dataset.fvMaxAbs=fvMaxAbs.toFixed(4);avatar.dataset.formVariantGain=_fvGtel.toFixed(4); // D-0066 SLICE A read-only telemetry (clean CDP observables; no behavior). fvCrown/fvLow/fvWide report the APPLIED eased variant features (x _fvApp so they read exactly 0 when the composition is skipped at gain 0 or off-presence — honest applied value, not the raw eased state); fvMaxAbs = the MEASURED max |per-vertex variant radius delta| this frame (the no-pinch check; 0 when skipped; must be <= EIGHT_STATE_FORM_VARIANT.pinch=2.0 at gain 1); formVariantGain = the raw gate. The witness reconstructs the expected per-state features from the shipped const and compares to these + asserts the pinch bound + the gain-0 identity.
-    cyanFieldNode.setAttribute('opacity',Math.max(.10,Math.min(.80,.62*e)).toFixed(3)); // N204: MOTION_LIGHT may brighten the SAME hull (cyan foot + crown volume). It must not drive faceRecess/bloom — those hug the locked almonds, they are not a card that zip energy reveals. D-0055: de-saturate the per-state interior-light read so the D-0049/D-0053 stateLight delta reads in a still. Prior bases (.55/.62/.92) pinned violet (.55->.52 ceil) and face (.92->.72 ceil) at their clamp ceiling already at neutral e~=1, so the per-state light landed on the flat top of the clamp = zero static read. Re-based to the CURRENT neutral opacities (.52/.62/.72) and WIDENED the clamp windows (ceilings .52/.68/.72 -> .66/.80/.90; floors .10/.14/.18 -> .06/.10/.16) so the +/-~18% e swing (lightAmp 0.10->0.18, :48) stays in the LINEAR region: recognition/pleased visibly luminous, blocked/thinking/dormant visibly dimmer, NEUTRAL LOOK PRESERVED (identical .52/.62/.72 neutral opacities at e=1). INTENSITY-ONLY (opacity of existing field nodes; no hue D-0033; no new element; no silhouette touch => zero pinch). Max per-state |delta from neutral| ~0.13, recognition-blocked spread ~0.25, both < maxPaletteDelta 0.32. At low interior energy (e<~0.78) the face field tracks energy faithfully instead of sitting clipped/flat (calmer=dimmer; witnessed). Reversible (restore bases/ceilings/floors + lightAmp 0.10 => prior).
+    cyanFieldNode.setAttribute('opacity','0.05');
     const _cvG=unifiedLight?unifiedLight.crown:((globalThis.__GASPER_LIVE_COEFFS__||{}).crownLight||{}).crownLightGain??1; // D-0068 / GASPER-UNIFIED-LIGHT-001: canonical crown response owns volumetric fill in unified mode; legacy gain remains fallback.
     if(_cvG>0){const _cvE=Math.max(0,Math.min(1,e));apexGlowNode.setAttribute('opacity',Math.max(.16,Math.min(.42,(.18+.26*_cvE)*_cvG)).toFixed(3));crownVolumePath.setAttribute('opacity',Math.max(.22,Math.min(.60,(.28+.28*_cvE)*_cvG)).toFixed(3));}else{apexGlowNode.setAttribute('opacity','0');crownVolumePath.setAttribute('opacity','0');}
     avatar.dataset.crownLightGain=_cvG.toFixed(4); // read-only telemetry (same idiom as :1586)

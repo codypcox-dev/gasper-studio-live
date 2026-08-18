@@ -44,7 +44,9 @@ describe("cage hull honor — chase GASPER-CAGED-HULL-001", () => {
   });
 
   it("lofts the live contour for the grid and drops back-facing meridians", () => {
-    expect(formMaster).toContain("z=58*Math.sqrt(Math.max(0,1-v*v))");
+    expect(formMaster).toContain("z0=58*Math.sqrt(Math.max(0,1-v*v))");
+    expect(formMaster).not.toContain("z*Math.cos((s/S)*Math.PI*2-_cageYaw)");
+    expect(formMaster).toContain("ox*syaw+z0*cyaw");
     expect(formMaster).toContain("if(p.z<0)");
     expect(formMaster).toContain("function setOrbit(yaw,pitch)");
     expect(formMaster).toContain("orbitYawDegrees");

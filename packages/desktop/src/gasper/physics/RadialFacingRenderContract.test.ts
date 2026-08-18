@@ -231,7 +231,7 @@ describe("gait 3/4 paint contract", () => {
     expect(renderer).toContain("p.x=_tcx+_rx*_hK;");
     expect(renderer).not.toContain("_hK*(_rx<0?_lK:_rK)");
     expect(renderer).toContain("radius+=(_wc.lobeAmp??_wcc.lobeAmp)*(gaussAngle(th,_wcc.leftLobeTheta,_wcc.lobeSigma)+gaussAngle(th,_wcc.rightLobeTheta,_wcc.lobeSigma))");
-    expect(renderer).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(renderer).toContain("S.left.x-100)*wL+(S.right.x-140)*wR+(S.crotch.x-120)*wC");
     expect(renderer).not.toContain("posed.y-=_liftPx*_swingArtW");
   });
   it("does not cartoon-fatten the hull or idleRig", () => {

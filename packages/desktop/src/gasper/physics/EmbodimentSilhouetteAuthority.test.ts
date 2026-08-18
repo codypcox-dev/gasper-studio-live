@@ -342,7 +342,7 @@ describe("Cycle 12 production wiring (source proof)", () => {
     expect(script).toContain("const walkLean=0;");
     expect(script).toContain("const walkPostX=0;");
     expect(script).toContain("const z=walkAsym*0.55*asymShape+footPress*footShape*(1-0.28*_clear);");
-    expect(script).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(script).toContain("S.left.x-100)*wL+(S.right.x-140)*wR+(S.crotch.x-120)*wC");
     expect(script).toContain("const k=Math.min(1,wSum*(S.live||0))");
     expect(script).not.toContain("posed.y-=_liftPx*_swingArtW");
     expect(script).not.toContain("posed.x+=_advPx*_swingArtW");
