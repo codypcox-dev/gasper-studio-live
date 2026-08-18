@@ -33,7 +33,11 @@ Only reusable findings promote into the Tri-Force canon.
 
 ## Current residual
 
-`homothety = UV` — a pole lerp is a polar map, not a chart. Dual killed. Lawful bind is offset isolines (ring 24 = 512, v along inward normal). Y-band is a view, not the bind. LSCM/UDIM refused this pass.
+`unwrap = bind` — flatteners (ABF++ / LSCM / BFF / xatlas) map 3D → 2D. Gasper already is a disk; the 512 is the cut. Dual killed. Position bind stays offset isolines. BFF is lawful later as shade-UV names only.
+Latest Explore: `docs/triforce/canon/runs/2026-08-18T23-10-00-000Z-explore-uv-unwrapping`.
+Parent: `homothety = UV`.
+
+Prior: `homothety = UV` — a pole lerp is a polar map, not a chart. Dual killed. Lawful bind is offset isolines (ring 24 = 512, v along inward normal). Y-band is a view, not the bind. LSCM/UDIM refused this pass.
 Latest Explore: `docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping`.
 
 Prior: `pillar = work-surface` — Score now binds Cook (`evaluateScore` + `applyScoreBinds`); Publish embeds the take. Remaining chrome: S2 keys-drag, S3 cook fold.

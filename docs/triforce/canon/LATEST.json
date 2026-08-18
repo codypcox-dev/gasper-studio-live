@@ -1,10 +1,10 @@
 {
-  "runId": "2026-08-18T23-00-00-000Z-explore-uv-mapping",
+  "runId": "2026-08-18T23-10-00-000Z-explore-uv-unwrapping",
   "mode": "explore",
-  "residual": "homothety = UV",
-  "depositPath": "docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping",
-  "parentResidual": "polar-pizza-is-not-skin",
+  "residual": "unwrap = bind",
+  "depositPath": "docs/triforce/canon/runs/2026-08-18T23-10-00-000Z-explore-uv-unwrapping",
+  "parentResidual": "homothety = UV",
   "book": "docs/triforce/plans/2026-08-18-studio-master-003.md",
   "engineVersion": "3.0.0",
-  "before": "docs/triforce/canon/runs/2026-08-18T22-25-00-000Z-master-close"
+  "before": "docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping"
 }

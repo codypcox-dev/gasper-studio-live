@@ -1,0 +1,44 @@
+{
+  "runId": "2026-08-18T23-10-00-000Z-explore-uv-unwrapping",
+  "mode": "explore",
+  "residual": "unwrap = bind",
+  "question": "Which UV unwrap algorithms exist, and which (if any) may write Gasper's 25×40 positions?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "homothety = UV",
+  "dualKilled": "unwrap = bind",
+  "pipeline": ["cut", "flatten", "pack"],
+  "gasper": {
+    "cut": "already a disk; silhouette is the cut; zero seams",
+    "flatten": "inverse problem; we embed, we do not flatten",
+    "pack": "one cage; no UDIM"
+  },
+  "flatteners": [
+    "Tutte 1963",
+    "Floater MVC 1997/2003",
+    "LSCM Lévy 2002",
+    "ABF++ Sheffer 2005",
+    "ARAP-param Liu 2008",
+    "BFF Sawhney & Crane 2017",
+    "SCAF/SLIM",
+    "xatlas/PartUV (cut+pack)"
+  ],
+  "lawfulPosition": "offset isolines (parent Explore). Harmonic/BFF starve the W inlets.",
+  "lawfulLater": "BFF as shade-UV names only, never liveGridXYZ",
+  "refused": [
+    "ABF++/LSCM/xatlas as painter",
+    "LSCM free border",
+    "seams / UDIM / pack",
+    "Liu ARAP-param swapped for Igarashi ARAP"
+  ],
+  "sources": [
+    "Sawhney & Crane 2017 Boundary First Flattening (TOG, CMU)",
+    "geometry-central parameterizeBFF*",
+    "Sheffer et al. ABF++",
+    "Lévy et al. 2002 LSCM",
+    "Liu et al. 2008 ARAP parameterization",
+    "Wang et al. 2025 PartUV (cut/flatten/pack taxonomy)",
+    "docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping",
+    "docs/triforce/canon/runs/2026-08-17T00-26-00-000Z-investigate-arap-solver"
+  ],
+  "fix": "none this pass. Dual only."
+}
