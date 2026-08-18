@@ -10,7 +10,7 @@ import {
 } from "../../../desktop/src/gasper/takes/NorthstarTwentyTake";
 import { TAKE_DURATION_MS, type StudioPlayhead } from "./studioClock";
 
-export const SCORE_CHANNEL_IDS = ["yaw", "face", "cadenceHz", "driveGain", "stretch"] as const;
+export const SCORE_CHANNEL_IDS = ["orbit.yaw", "pearl.depth", "gait.hz", "driveGain", "stretch"] as const;
 export type ScoreChannelId = (typeof SCORE_CHANNEL_IDS)[number];
 
 const SAMPLE_COUNT = 80;
@@ -58,7 +58,7 @@ export function ScoreDopesheet({
   graphView: boolean;
   playhead: StudioPlayhead;
 }): ReactElement {
-  const [selected, setSelected] = useState<ScoreChannelId>("yaw");
+  const [selected, setSelected] = useState<ScoreChannelId>("orbit.yaw");
   const t = playhead.t;
   const frac =
     playhead.mode === "take" && playhead.dur > 0 ? Math.min(1, Math.max(0, t / playhead.dur)) : 0;

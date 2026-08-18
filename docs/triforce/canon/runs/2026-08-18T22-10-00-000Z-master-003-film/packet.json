@@ -1,0 +1,31 @@
+{
+  "id": "GASPER-STUDIO-MASTER-003-film",
+  "residual": "overlay-ellipse = cage-surface",
+  "book": "docs/triforce/plans/2026-08-18-studio-master-003.md",
+  "classification": "live-observed",
+  "notOwnerAcceptance": true,
+  "killSwitches": {
+    "height": "bbox in 160-180 (clickthrough height:true)",
+    "oneD": true,
+    "noPageError": true
+  },
+  "pass": {
+    "stageDefault": true,
+    "graphFive": true,
+    "gridToggle": true,
+    "cratersGone": true,
+    "noWhiteHot": true,
+    "cageSpec": true,
+    "inspector": true,
+    "height": true,
+    "noPageError": true
+  },
+  "yawTravelPx": 1.4,
+  "yawTravelNote": "spec 121.1→122.5 in 500ms at yaw 8→42. Weak crawl. Lights rotate; dome centroid stays near center. Not a 16px G4 close.",
+  "open": [
+    "score-does-not-bind",
+    "pillar = work-surface",
+    "spec travel < 16px",
+    "reliefShadow fascia still #03010b (not nub craters)"
+  ]
+}

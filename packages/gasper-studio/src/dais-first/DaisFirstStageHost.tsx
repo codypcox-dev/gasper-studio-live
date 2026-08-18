@@ -24,7 +24,6 @@ import {
   DEFAULT_FRAME_FPS,
   dispatchDaisKeyCommand,
   resolveDaisKeyCommand,
-  setWalkBooLoopFromRail,
   SHELL_SHARED_KEY_COMMANDS,
   WINDOW_ONLY_KEY_COMMANDS,
   type DaisFirstAdapter,
@@ -81,7 +80,6 @@ export function DaisFirstStageHost({
       applySkinTake("neutral");
       dispatchField("clear", {});
       publishScaffoldAuthority({ pressure: 0, coupling: 0, relief: 0 });
-      setWalkBooLoopFromRail(true);
     }, 1400);
     return () => window.clearTimeout(id);
   }, []);

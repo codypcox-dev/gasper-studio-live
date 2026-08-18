@@ -29,6 +29,7 @@ export function kahnOrder(graph: GeoGraph): { order: string[]; cyclic: boolean; 
     outs.set(n.id, []);
   }
   for (const l of graph.links) {
+    if (l.law) continue;
     if (!incoming.has(l.from) || !incoming.has(l.to)) continue;
     incoming.set(l.to, (incoming.get(l.to) || 0) + 1);
     outs.get(l.from)?.push(l.to);
@@ -79,7 +80,10 @@ export function cookTrace(graph: GeoGraph): { steps: CookStep[]; cyclic: boolean
 export function ancestorsOf(graph: GeoGraph, sink: string): Set<string> {
   const ins = new Map<string, string[]>();
   for (const n of graph.nodes) ins.set(n.id, []);
-  for (const l of graph.links) ins.get(l.to)?.push(l.from);
+  for (const l of graph.links) {
+    if (l.law) continue;
+    ins.get(l.to)?.push(l.from);
+  }
   const seen = new Set<string>();
   const stack = [sink];
   while (stack.length) {
@@ -114,7 +118,7 @@ export function inspectGraph(graph: GeoGraph): GraphHealth {
 export function wouldCycleKahn(graph: GeoGraph, from: string, to: string): boolean {
   const trial: GeoGraph = {
     ...graph,
-    links: [...graph.links.filter((l) => l.to !== to), { from, to }],
+    links: [...graph.links.filter((l) => !(l.to === to && !l.law)), { from, to }],
   };
   return kahnOrder(trial).cyclic;
 }

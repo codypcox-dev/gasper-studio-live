@@ -2044,6 +2044,48 @@
 }
 .node-inspector__couple em { font-style: normal; color: #d8c9a4; }
 .node-inspector__couple span { color: rgba(236,232,225,0.62); }
+.stage-look {
+  position: fixed;
+  z-index: 24;
+  top: 18px;
+  right: 16px;
+  width: min(248px, 28vw);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-radius: 14px;
+  background: rgba(18, 17, 15, 0.88);
+  border: 1px solid rgba(236, 232, 225, 0.14);
+  color: #ece8e1;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+.stage-look header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+.stage-look header strong { font-size: 13px; letter-spacing: 0.04em; }
+.stage-look header span { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(236,232,225,0.5); }
+.stage-look__dials {
+  display: grid;
+  gap: 7px;
+}
+.stage-look__dials label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1px 8px;
+  font-size: 11px;
+}
+.stage-look__dials label span { color: rgba(236,232,225,0.72); }
+.stage-look__dials label b { font-variant-numeric: tabular-nums; color: #d8c9a4; }
+.stage-look__dials input[type="range"] {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: #d8c9a4;
+}
 .compiler-col[data-tip]:hover::after,
 .node-card[data-tip]:hover::after {
   content: attr(data-tip);

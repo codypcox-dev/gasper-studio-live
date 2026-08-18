@@ -1,0 +1,22 @@
+{
+  "cold": {
+    "graphPage": 0,
+    "compilerCols": 0,
+    "stageMode": "1",
+    "factory": true,
+    "transport": true,
+    "w": 1440,
+    "h": 736,
+    "playing": false
+  },
+  "graph": {
+    "graphPage": 1,
+    "compilerCols": 5
+  },
+  "back": {
+    "graphPage": 0,
+    "compilerCols": 0,
+    "factory": true
+  },
+  "pass": true
+}

@@ -66,4 +66,4 @@ export { cloneGraph, emptyHistory, pushPast, redoGraph, undoGraph, type GraphHis
 export { inspectGraph, kahnOrder, sanitizeGraph, cookTrace, type CookStep, type WireResult } from "./topology";
 export { lockReason, sliderT, fromSliderT, isBinaryParam, LOCKED_CARDS } from "./params";
 export { tipForNode, tipForParam, tipForPillar, tipForUi } from "./tips";
-export { COUPLE_LAWS, applyCouplings, lawsFor, type CoupleLaw, type CoupleTrace } from "./coupling";
+export { COUPLE_LAWS, applyCouplings, lawsFor, ensureCoupleLinks, COUPLES_VERSION, type CoupleLaw, type CoupleTrace } from "./coupling";

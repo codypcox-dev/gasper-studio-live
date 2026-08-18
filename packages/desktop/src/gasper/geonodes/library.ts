@@ -110,6 +110,9 @@ const META: Record<string, Meta> = {
   voigt: { element: "bone", event: "dynamics", inType: "contour", outType: "contour", params: [
     { id: "tau", label: "τ lower", min: 0.02, max: 0.08, step: 0.01, value: 0.05, base: 0.05 },
     { id: "rest", label: "τ rest", min: 0.20, max: 0.64, step: 0.01, value: 0.42, base: 0.42 },
+    { id: "foot", label: "τ foot", min: 0.02, max: 0.2, step: 0.005, value: 0.028, base: 0.028 },
+    { id: "waist", label: "τ waist", min: 0.02, max: 0.24, step: 0.005, value: 0.05, base: 0.05 },
+    { id: "crown", label: "τ crown", min: 0.04, max: 0.6, step: 0.01, value: 0.12, base: 0.12 },
   ]},
   kappa: { element: "bone", event: "dynamics", inType: "contour", outType: "contour", params: [
     { id: "cap", label: "θ cap", min: 0.4, max: 1.4, step: 0.02, value: 0.9, base: 0.9 },
@@ -136,6 +139,7 @@ const META: Record<string, Meta> = {
   ]},
   "cage-light": { element: "view", event: "forwards", inType: "shade", outType: "shade", params: [
     { id: "spec", label: "Spec", min: -1, max: 1, step: 0.02, value: 0 },
+    { id: "wrap", label: "Wrap", min: -1, max: 1, step: 0.02, value: 0 },
   ]},
   "hard-highlights": { element: "view", event: "forwards", inType: "shade", outType: "shade", params: [
     { id: "mute", label: "Mute", min: 0, max: 1, step: 1, value: 1 },

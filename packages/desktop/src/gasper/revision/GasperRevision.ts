@@ -5,6 +5,8 @@
 import { defaultGeoGraph } from "../geonodes/defaultGraph";
 import { cloneGraph } from "../geonodes/history";
 import type { GeoGraph } from "../geonodes/types";
+import { NORTHSTAR_TWENTY_TAKE } from "../takes/NorthstarTwentyTake";
+import type { GasperTake } from "../takes/GasperTake";
 import { readLiveSculpt, SCULPT_COUNT, writeLiveSculpt } from "./sculptHost";
 
 export const REVISION_SCHEMA = "gasper.revision.v1" as const;
@@ -32,6 +34,7 @@ export type GasperRevision = {
   sculpt: SculptCodec;
   showGrid: boolean;
   takeId: string | null;
+  take: GasperTake | null;
   playheadMs: number;
   paused: boolean;
 };
@@ -74,7 +77,8 @@ export function factoryRevision(): GasperRevision {
     graph: defaultGeoGraph(),
     sculpt: { n: SCULPT_COUNT, nz: [] },
     showGrid: true,
-    takeId: "northstar-20",
+    takeId: NORTHSTAR_TWENTY_TAKE.id,
+    take: NORTHSTAR_TWENTY_TAKE,
     playheadMs: 0,
     paused: false,
   };
@@ -87,9 +91,11 @@ export function captureRevision(input: {
   sculpt?: readonly number[];
   showGrid: boolean;
   takeId?: string | null;
+  take?: GasperTake | null;
   playheadMs?: number;
   paused?: boolean;
 }): GasperRevision {
+  const take = input.take === undefined ? NORTHSTAR_TWENTY_TAKE : input.take;
   return {
     schema: REVISION_SCHEMA,
     id: input.kind === "autosave" ? "revision-autosave" : `revision-${Date.now().toString(36)}`,
@@ -100,7 +106,8 @@ export function captureRevision(input: {
     graph: cloneGraph(input.graph),
     sculpt: encodeSculpt(input.sculpt ?? readLiveSculpt()),
     showGrid: input.showGrid,
-    takeId: input.takeId ?? "northstar-20",
+    takeId: take?.id ?? input.takeId ?? NORTHSTAR_TWENTY_TAKE.id,
+    take,
     playheadMs: input.playheadMs ?? 0,
     paused: !!input.paused,
   };
@@ -108,6 +115,16 @@ export function captureRevision(input: {
 
 export function applyRevisionSculpt(rev: GasperRevision): void {
   writeLiveSculpt(decodeSculpt(rev.sculpt));
+}
+
+export function liveTakeOf(rev: GasperRevision | null | undefined): GasperTake {
+  return rev?.take ?? NORTHSTAR_TWENTY_TAKE;
+}
+
+export function applyRevisionTake(rev: GasperRevision): void {
+  const take = liveTakeOf(rev);
+  const host = globalThis as { __GASPER_LIVE_TAKE__?: GasperTake };
+  host.__GASPER_LIVE_TAKE__ = take;
 }
 
 export function writeAutosave(rev: GasperRevision): void {

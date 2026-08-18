@@ -44,20 +44,17 @@ function scoreTrack(
  * launchComet.vx stays an impulse.
  */
 export const NORTHSTAR_TWENTY_TRACKS: Readonly<Record<string, CurveTrack>> = Object.freeze({
-  yaw: scoreTrack([
+  "orbit.yaw": scoreTrack([
     { t: 0, v: 0, ease: "hold" },
     { t: 5.2, v: -READABLE_THREE_QUARTER_DEG },
   ]),
-  face: scoreTrack(
-    [
-      { t: 0, v: 0, ease: "hold" },
-      { t: 6.6, v: 0, ease: "ease-in-out" },
-      { t: 7.1, v: 1, ease: "ease-in-out" },
-      { t: 8.8, v: 0.55 },
-    ],
-    { unit: true },
-  ),
-  cadenceHz: scoreTrack([
+  "pearl.depth": scoreTrack([
+    { t: 0, v: 0.72, ease: "hold" },
+    { t: 6.6, v: 0.72, ease: "ease-in-out" },
+    { t: 7.1, v: 1.08, ease: "ease-in-out" },
+    { t: 8.8, v: 0.72 },
+  ]),
+  "gait.hz": scoreTrack([
     { t: 0, v: 0, ease: "hold" },
     { t: 2.618, v: 2.6, ease: "hold" },
     { t: 5.15, v: 0 },
@@ -96,11 +93,6 @@ export const NORTHSTAR_TWENTY_TAKE: GasperTake = Object.freeze({
     life: false,
     wander: false,
   }),
-  headingWindows: Object.freeze([
-    Object.freeze({ until: 2.618, deg: 0 }),
-    Object.freeze({ until: 5.2, deg: 0 }),
-    Object.freeze({ until: 20, deg: 0 }),
-  ]),
   tracks: NORTHSTAR_TWENTY_TRACKS,
   beats: Object.freeze([
     Object.freeze({

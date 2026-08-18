@@ -34,7 +34,7 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
 
   it("(b) swingAdvanceUnits has a real renderer consumer on the swing lobe", () => {
     expect(script).toContain("__GASPER_STANCE__");
-    expect(script).toContain("S.left.x*wL+S.right.x*wR+S.crotch.x*wC");
+    expect(script).toContain("(S.left.x-100)*wL+(S.right.x-140)*wR+(S.crotch.x-120)*wC");
     expect(controller).toContain("stanceFromGait");
     expect(controller).toContain("swingAdvanceUnits: out.gaitScreen.swingAdvanceUnits");
     expect(driver).toContain("swingAdvanceUnits: gaitExpressionGate * lobe.swingAdvanceUnits");
@@ -63,7 +63,7 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
       "wDx=((worldPoseCurrent.x+physGait.swayXUnits*gaitGate)/WORLD_SPACE.unitsPerContentPx)*wScale",
     );
     expect(script).toContain("wDx=(worldPoseCurrent.x/WORLD_SPACE.unitsPerContentPx)*wScale");
-    expect(script).toContain("wTilt=worldPoseCurrent.tilt;");
+    expect(script).toContain("wTilt=_stanceLive?0:worldPoseCurrent.tilt");
   });
 
   it("(e) rest/seat collapses lift/advance/payment continuously", () => {
@@ -78,7 +78,8 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
     expect(script).not.toContain(
       "const _stepping=physGait.speedRatio>0.01&&_side!==0;",
     );
-    expect(script).toContain("const k=Math.min(1,wSum*(S.live||0))");
+    expect(script).toContain("const _gaitLive=restHold?0:1");
+    expect(script).toContain("(S.live||0)>0.004");
     expect(script).not.toContain(
       "42*Math.max(0,Math.min(1,(Number(physGait.swingLiftUnits)||0)/(68*8)))",
     );
@@ -128,7 +129,8 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
     expect(script).not.toContain("radius-=_lift*gaussAngle(th,1.31,_sig);");
     expect(script).not.toContain("posed.y-=_liftPx*_swingArtW");
     expect(script).toContain("gaussAngle(th,Math.PI/2,0.18)");
-    expect(script).toContain("S.crotch.y*wC");
+    expect(script).toContain("(S.crotch.y-172)*wC");
+    expect(script).toContain("(S.left.y-188)*wL+(S.right.y-188)*wR+(S.crotch.y-172)*wC");
   });
 
   it("walk proof uses readable 3/4, not heading 0", () => {
@@ -143,7 +145,9 @@ describe("N332 walk — plant, lobe lift, advance, support payment", () => {
     expect(take).toContain("yaw: 8");
     expect(take).toContain('id: "strut-go"');
     expect(take).toContain("at: 2.618");
-    expect(take).toContain("until: 2.618");
-    expect(play).toContain("take.headingWindows");
+    expect(take).toContain("sustainUntil: 5.15");
+    expect(play).toContain("evaluateScore(take, t)");
+    expect(play).toContain("applyScoreBinds");
+    expect(take).not.toContain("headingWindows");
   });
 });

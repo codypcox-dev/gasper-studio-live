@@ -11,6 +11,8 @@ export {
   factoryRevision,
   captureRevision,
   applyRevisionSculpt,
+  applyRevisionTake,
+  liveTakeOf,
   writeAutosave,
   readAutosave,
   listPublishes,

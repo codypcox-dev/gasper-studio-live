@@ -18,7 +18,8 @@ export function evaluateGraph(graph: GeoGraph): GeoEval {
     for (const p of n.params) params[n.id][p.id] = p.value;
   }
   const mix = mute.couple ? 0 : (params.couple?.mix ?? 1);
-  const coupled = applyCouplings(params, mute, mix);
+  const wired = new Set(graph.links.map((l) => l.law).filter((id): id is string => !!id));
+  const coupled = applyCouplings(params, mute, mix, (law) => wired.has(law.id));
   return {
     schema: GEONODES_SCHEMA,
     mute,

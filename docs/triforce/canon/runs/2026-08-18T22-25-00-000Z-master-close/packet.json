@@ -1,0 +1,28 @@
+{
+  "id": "GASPER-STUDIO-MASTER-CLOSE",
+  "books": ["GASPER-STUDIO-MASTER-003", "GASPER-STUDIO-MASTER-002"],
+  "residual": "pillar=work-surface",
+  "classification": "live-observed",
+  "notOwnerAcceptance": true,
+  "pass": {
+    "stageDefault": true,
+    "graphFive": true,
+    "gridToggle": true,
+    "cratersGone": true,
+    "noWhiteHot": true,
+    "cageSpec": true,
+    "inspector": true,
+    "noPageError": true,
+    "headingWindowsDead": true,
+    "evaluateScore": true,
+    "factoryEmbedsTake": true
+  },
+  "yawTravelPx": 13.8,
+  "yawTravelNote": "spec 94.8→81.0 at yaw 8→42. XZ light yaw + hot-peak. Was 1.4px. G4 16px not claimed.",
+  "reliefShadow": { "fill": "#2a1458", "op": "0", "dLen": 0 },
+  "open": [
+    "pillar = work-surface (S2 keys-drag, S3 cook fold)",
+    "G4 spec travel 13.8 < 16",
+    "rest height ~173 vs kill 168.3 (prior leftover)"
+  ]
+}

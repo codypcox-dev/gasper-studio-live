@@ -56,9 +56,9 @@ import {
 import type { GasperTake } from "./takes/GasperTake";
 import { worldFromTake } from "./takes/GasperTake";
 import { bindTake } from "./takes/bindTake";
-import { evaluateTake, type TakeImpulse } from "./takes/evaluateTake";
+import { evaluateScore, applyScoreBinds } from "./takes/evaluateScore";
+import type { TakeImpulse } from "./takes/evaluateTake";
 import { NORTHSTAR_TWENTY_TAKE } from "./takes/NorthstarTwentyTake";
-import { evalChannel } from "./curves/CurveTrack";
 import { buildNorthstarTwentyClip } from "./takes/northstarTwentyClip";
 import {
   createPhysicsField,
@@ -2182,15 +2182,13 @@ export class GasperRigController {
           this.playAuthoredTake(take);
           return;
         }
-        const state = evaluateTake(take, t);
+        const state = evaluateScore(take, t);
         const backward = t + 1e-4 < lastT;
         if (backward) {
           resetPhysicsToBind();
           prevStrutAt = null;
           prevRunAt = null;
         }
-        // Always write heading / walkEnable / boo / expression (idempotent).
-        // take.headingWindows are folded into state.headingDeg.
         applyAction({ type: "heading", deg: state.headingDeg });
         applyAction({ type: "walkEnable", on: state.walkEnable !== 0 });
         applyAction({ type: "boo", on: state.boo });
@@ -2225,62 +2223,16 @@ export class GasperRigController {
         } else {
           applyImpulseBatch(state.impulses.filter((impulse) => impulse.at > lastT && impulse.at <= t));
         }
-        // Wave 2 — sample Score CurveTracks after evaluateTake.
-        // Impulses stay impulses. Do not restore a fired Set.
-        const tracks = take.tracks;
-        if (tracks) {
-          const yawTrack = tracks.yaw;
-          if (yawTrack) {
-            let headingBeatWins = false;
-            for (const beat of take.beats) {
-              if (beat.at > t) continue;
-              for (const action of beat.actions) {
-                if (action.type === "heading") {
-                  headingBeatWins = true;
-                  break;
-                }
-              }
-              if (headingBeatWins) break;
-            }
-            if (!headingBeatWins) {
-              this.headingPinDeg = evalChannel(yawTrack, t).value;
-            }
-          }
-          if (state.runInPlace && (tracks.cadenceHz || tracks.driveGain)) {
-            const cadenceHz = tracks.cadenceHz
-              ? evalChannel(tracks.cadenceHz, t).value
-              : state.runInPlace.action.cadenceHz;
-            const driveGain = tracks.driveGain
-              ? evalChannel(tracks.driveGain, t).value
-              : state.runInPlace.action.driveGain;
-            // Do not re-file locomotion every frame (that hitch is a 2Hz cousin).
-            this.ensurePhysicsDriver().setPerformanceGait({
-              cadenceHz,
-              driveGain,
-              lateralAxis: 1,
-              compressionRatio: state.runInPlace.action.compression ?? 0.08,
-            });
-          }
-          if (tracks.face) {
-            const face = evalChannel(tracks.face, t).value;
-            try {
-              const g = (
-                globalThis as {
-                  SidekickFormMasterRig?: { setFaceEnergy?: (n: number) => void };
-                }
-              ).SidekickFormMasterRig;
-              if (typeof g?.setFaceEnergy === "function") {
-                g.setFaceEnergy(face);
-              } else {
-                (this.mount?.rig as { setMotion?: (n: number) => void } | undefined)?.setMotion?.(face);
-              }
-            } catch {
-              /* face hook optional — skip rather than invent a second writer */
-            }
-          }
-          if (tracks.stretch && Math.abs(evalChannel(tracks.stretch, t).value) > 1e-9) {
-            // fence 0 while planted — Wave 2 authors 0; no writer
-          }
+        applyScoreBinds(state.binds);
+        if (state.runInPlace) {
+          const cadenceHz = state.params["gait.hz"] ?? state.runInPlace.action.cadenceHz;
+          const driveGain = state.params["gait.drive"] ?? state.runInPlace.action.driveGain;
+          this.ensurePhysicsDriver().setPerformanceGait({
+            cadenceHz,
+            driveGain,
+            lateralAxis: 1,
+            compressionRatio: state.runInPlace.action.compression ?? 0.08,
+          });
         }
         lastT = t;
       },
@@ -2298,7 +2250,8 @@ export class GasperRigController {
    * Presence is a sphere; the scored window must not morph into one.
    */
   playNorthstarTwenty(): void {
-    this.playAuthoredTake(NORTHSTAR_TWENTY_TAKE);
+    const live = (globalThis as { __GASPER_LIVE_TAKE__?: typeof NORTHSTAR_TWENTY_TAKE }).__GASPER_LIVE_TAKE__;
+    this.playAuthoredTake(live ?? NORTHSTAR_TWENTY_TAKE);
   }
 
   /**

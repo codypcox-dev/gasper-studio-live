@@ -96,6 +96,7 @@ export function applyCouplings(
   params: Record<string, Record<string, number>>,
   mute: Record<string, boolean>,
   masterMix = 1,
+  enabled?: (law: CoupleLaw) => boolean,
 ): { params: Record<string, Record<string, number>>; traces: CoupleTrace[] } {
   if (mute.couple || masterMix <= 0) {
     return { params, traces: [] };
@@ -104,6 +105,7 @@ export function applyCouplings(
   for (const [k, bag] of Object.entries(params)) next[k] = { ...bag };
   const traces: CoupleTrace[] = [];
   for (const law of COUPLE_LAWS) {
+    if (enabled && !enabled(law)) continue;
     if (mute[law.from.node] || mute[law.to.node]) continue;
     const driver = read(next, law.from);
     const driven = read(next, law.to);
@@ -121,6 +123,25 @@ export function applyCouplings(
     });
   }
   return { params: next, traces };
+}
+
+export function coupleLinksForGraph(hasNode: (id: string) => boolean): { from: string; to: string; law: string }[] {
+  return COUPLE_LAWS.filter((l) => hasNode(l.from.node) && hasNode(l.to.node)).map((l) => ({
+    from: l.from.node,
+    to: l.to.node,
+    law: l.id,
+  }));
+}
+
+export const COUPLES_VERSION = 1;
+
+export function ensureCoupleLinks<T extends { nodes: { id: string }[]; links: { from: string; to: string; law?: string }[]; couplesVersion?: number }>(
+  graph: T,
+): T {
+  if (graph.couplesVersion === COUPLES_VERSION) return graph;
+  const have = new Set(graph.nodes.map((n) => n.id));
+  const extra = coupleLinksForGraph((id) => have.has(id)).filter((l) => !graph.links.some((x) => x.law === l.law));
+  return { ...graph, links: [...graph.links, ...extra], couplesVersion: COUPLES_VERSION };
 }
 
 export function lawsFor(nodeId: string): CoupleLaw[] {

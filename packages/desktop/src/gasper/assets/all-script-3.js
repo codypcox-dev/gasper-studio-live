@@ -792,6 +792,7 @@
   }
   function rotate(x,y,cx,cy,deg){ const r=deg*Math.PI/180,dx=x-cx,dy=y-cy;return{x:cx+dx*Math.cos(r)-dy*Math.sin(r),y:cy+dx*Math.sin(r)+dy*Math.cos(r)}; }
   function splineSegments(pts){ if(pts.length<2)return'';let s='';for(let i=0;i<pts.length-1;i++){const p0=pts[Math.max(0,i-1)],p1=pts[i],p2=pts[i+1],p3=pts[Math.min(pts.length-1,i+2)];const c1x=p1.x+(p2.x-p0.x)/6,c1y=p1.y+(p2.y-p0.y)/6,c2x=p2.x-(p3.x-p1.x)/6,c2y=p2.y-(p3.y-p1.y)/6;s+=` C ${c1x.toFixed(2)} ${c1y.toFixed(2)} ${c2x.toFixed(2)} ${c2y.toFixed(2)} ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;}return s; }
+  // GasperPathTake writes the 512 rim via Field; closedSpline serializes. No SMIL.
   function closedSpline(pts){ let d=`M ${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}`;const n=pts.length;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];const c1x=p1.x+(p2.x-p0.x)/6,c1y=p1.y+(p2.y-p0.y)/6,c2x=p2.x-(p3.x-p1.x)/6,c2y=p2.y-(p3.y-p1.y)/6;d+=` C ${c1x.toFixed(2)} ${c1y.toFixed(2)} ${c2x.toFixed(2)} ${c2y.toFixed(2)} ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;}return d+' Z'; }
   const KAPPA_TH_CAP=0.9,KAPPA_LOWER_SIN=0.12,KAPPA_ITERS=8,KAPPA_PULL=0.55;
   function kappaBoxLower(pts,S){
@@ -1847,7 +1848,10 @@ function applyMeshWarp(contour,mesh){
         const lam=nx*Lx+ny*Ly+nz*Lz;
         const gx=(x0+x1+x2+x3)*0.25,gy=(y0+y1+y2+y3)*0.25,e=1+slope*opts.expand;
         const q=`M${(gx+(x0-gx)*e).toFixed(2)} ${(gy+(y0-gy)*e).toFixed(2)}L${(gx+(x1-gx)*e).toFixed(2)} ${(gy+(y1-gy)*e).toFixed(2)}L${(gx+(x2-gx)*e).toFixed(2)} ${(gy+(y2-gy)*e).toFixed(2)}L${(gx+(x3-gx)*e).toFixed(2)} ${(gy+(y3-gy)*e).toFixed(2)}Z`;
-        if(lam>0)highlight.push(q);else shadow.push(q);
+        if(lam>0)highlight.push(q);else{
+          const nub=((s>=6&&s<=14)||(s>=26&&s<=34))&&r>8&&r<22;
+          if(!nub)shadow.push(q);
+        }
       }
     }
     return{highlight:highlight.join(''),shadow:shadow.join('')};
@@ -1883,8 +1887,10 @@ function applyMeshWarp(contour,mesh){
     return{highlight:highlight.join(' '),shadow:shadow.join(' ')};
   }
   function muteHardHighlights(){
-    const hard=[keyCore,keyFacetA,keyFacetB,keyFacetC,keyFacetD,leftLobeGlint,rightLobeGlint,leftLobeGlintHalo,rightLobeGlintHalo,secondaryCore,fillHalo,fillBand];
-    for(const n of hard){if(n)n.setAttribute('opacity','0');}
+    const hard=[keyCore,keyFacetA,keyFacetB,keyFacetC,keyFacetD,leftLobeGlint,rightLobeGlint,leftLobeGlintHalo,rightLobeGlintHalo,secondaryCore,fillHalo,fillBand,leftLobeShade,rightLobeShade,leftLobeVolume,rightLobeVolume,leftLobeAura,rightLobeAura,leftLobeAuraOuter,rightLobeAuraOuter];
+    for(const n of hard){if(n)n.style.setProperty('opacity','0','important');}
+    if(containedLobeMaterial)containedLobeMaterial.setAttribute('opacity','0');
+    if(containedLobeMaterial)containedLobeMaterial.style.setProperty('opacity','0','important');
     if(keyReflectionLayer)keyReflectionLayer.setAttribute('opacity','0');
     if(lobeGlintsLayer)lobeGlintsLayer.setAttribute('opacity','0');
     if(secondaryReflectionLayer)secondaryReflectionLayer.setAttribute('opacity','0');
@@ -1902,26 +1908,123 @@ function applyMeshWarp(contour,mesh){
     }
     if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.30');
   }
+  let _lastLightTiltDeg=0;
+  let _cageSpecSm={x:120,y:90,w:0};
+  function viewFixedLights(yawDeg){
+    // Room key in XZ. Orbit yaw turns L around Y. Do not spin lights in XY —
+    // that cancelled n̂·L and pinned the bloom to the dome center.
+    const lights=[{x:-0.55,y:-0.65,z:0.52,I:1},{x:0.6,y:0.35,z:0.55,I:0.35},{x:0.1,y:-0.75,z:-0.6,I:0.45}];
+    const a=(-yawDeg*Math.PI)/180,c=Math.cos(a),s=Math.sin(a);
+    return lights.map(L=>({x:L.x*c+L.z*s,y:L.y,z:-L.x*s+L.z*c,I:L.I}));
+  }
+  function shadeCagePoints(xyz,cx,cy){
+    const R=25,S=40;
+    const tilt=Number(globalThis.__GASPER_ORBIT_YAW__??globalThis.__GASPER_FACING_YAW__??8)||0;
+    _lastLightTiltDeg=tilt;
+    const lights=viewFixedLights(tilt);
+    const live=((globalThis.__GASPER_LIVE_COEFFS__||{}).cageLight)||{};
+    const wrap=Math.max(0.04,Math.min(0.55,0.22+0.2*(Number(live.light_wrap)||0)));
+    const specGain=Math.max(0.35,Math.min(2.2,1+0.85*(Number(live.light_spec)||0)));
+    let specX=0,specY=0,specW=0,hotS=0,hotI=-1;
+    const lam=new Float32Array(R*S),spec=new Float32Array(R*S);
+    for(let r=0;r<R;r++){
+      const v=r/Math.max(1,R-1),z0=58*Math.sqrt(Math.max(0,1-v*v));
+      const r1=Math.min(R-1,r+1),v1=r1/Math.max(1,R-1),z1=58*Math.sqrt(Math.max(0,1-v1*v1));
+      for(let s=0;s<S;s++){
+        const i=r*S+s,s1=(s+1)%S,iu=r*S+s1,iv=r1*S+s;
+        const ux=xyz[iu*3]-xyz[i*3],uy=xyz[iu*3+1]-xyz[i*3+1],uz=0;
+        const vx=xyz[iv*3]-xyz[i*3],vy=xyz[iv*3+1]-xyz[i*3+1],vz=z1-z0;
+        let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
+        if(nz<0){nx=-nx;ny=-ny;nz=-nz;}
+        const nl=Math.hypot(nx,ny,nz)||1;nx/=nl;ny/=nl;nz/=nl;
+        let Lsum=0,Ssum=0;
+        for(const L of lights){
+          const ndl=nx*L.x+ny*L.y+nz*L.z;
+          Lsum+=L.I*Math.max(0,(ndl+wrap)/(1+wrap));
+          const hx=L.x,hy=L.y,hz=L.z+1,hl=Math.hypot(hx,hy,hz)||1;
+          Ssum+=L.I*Math.pow(Math.max(0,nx*hx/hl+ny*hy/hl+nz*hz/hl),14);
+        }
+        lam[i]=Lsum;spec[i]=Ssum*specGain;
+        if((xyz[i*3+2]||0)<0) continue;
+        const px=cx+xyz[i*3],py=cy+xyz[i*3+1],w=Math.pow(Math.max(0,Ssum),2.2);
+        specX+=px*w;specY+=py*w;specW+=w;
+        if(Ssum>hotS){hotS=Ssum;hotI=i;}
+      }
+    }
+    if(hotI>=0){
+      specX=cx+(xyz[hotI*3]||0);
+      specY=cy+(xyz[hotI*3+1]||0);
+    }else if(specW>1e-6){specX/=specW;specY/=specW;}
+    const a=0.9;
+    _cageSpecSm.x+=(specX-_cageSpecSm.x)*a;
+    _cageSpecSm.y+=(specY-_cageSpecSm.y)*a;
+    _cageSpecSm.w+=(specW-_cageSpecSm.w)*a;
+    if(avatar){
+      avatar.dataset.cageSpecX=_cageSpecSm.x.toFixed(1);
+      avatar.dataset.cageSpecY=_cageSpecSm.y.toFixed(1);
+      avatar.dataset.cageSpecW=_cageSpecSm.w.toFixed(3);
+      avatar.dataset.lightTilt=_lastLightTiltDeg.toFixed(1);
+    }
+    globalThis.__GASPER_CAGE_LAM__=lam;
+    globalThis.__GASPER_CAGE_SPEC__=spec;
+    return _cageSpecSm;
+  }
+  function paintCageSpecWash(g,xyz,cx,cy,spec){
+    if(!g||!xyz||!spec){if(g){g.replaceChildren();g.setAttribute('opacity','0');}return;}
+    const R=25,S=40,hits=[];
+    for(let r=6;r<R;r++){
+      for(let s=0;s<S;s++){
+        const i=r*S+s,z=xyz[i*3+2]||0;
+        if(z<0) continue;
+        const sp=spec[i]||0;
+        if(sp<0.18) continue;
+        hits.push({i,r,s,sp,z});
+      }
+    }
+    hits.sort((a,b)=>b.sp-a.sp);
+    const top=hits.slice(0,10);
+    const html=[];
+    for(const h of top){
+      const x=(cx+(xyz[h.i*3]||0)).toFixed(1);
+      const y=(cy+(xyz[h.i*3+1]||0)).toFixed(1);
+      const rr=(1.6+Math.min(3.2,h.sp*2.4)).toFixed(2);
+      const op=Math.max(0.08,Math.min(0.28,h.sp*0.22)).toFixed(3);
+      html.push('<ellipse cx="'+x+'" cy="'+y+'" rx="'+rr+'" ry="'+(Number(rr)*0.72).toFixed(2)+'" fill="#e4d2ff" fill-opacity="'+op+'"/>');
+    }
+    g.replaceChildren();
+    if(html.length){g.innerHTML=html.join('');g.setAttribute('opacity','0.55');}
+    else g.setAttribute('opacity','0');
+  }
   function paintSurfaceShade(){
     const g=$('surfaceShade');
     if(g){g.replaceChildren();g.setAttribute('opacity','0');}
+    const xyz=globalThis.__GASPER_GRID_XYZ__;
+    const cx=Number(globalThis.__GASPER_GRID_CX__);
+    const cy=Number(globalThis.__GASPER_GRID_CY__);
+    const loft=globalThis.__GASPER_SHADE_LOFT__;
+    if(xyz&&xyz.length===1000*3&&Number.isFinite(cx)) shadeCagePoints(xyz,cx,cy);
+    if(loft&&typeof loft==='object') avatar.dataset.shadeLoft='1';
+    const spec=globalThis.__GASPER_CAGE_SPEC__;
+    paintCageSpecWash(g,xyz,cx,cy,spec);
     const bloom=$('crownBloomGrad'),hot=$('crownHotGrad');
-    const gx=Number(avatar&&avatar.dataset.lightRigGlintX);
-    const gy=Number(avatar&&avatar.dataset.lightRigGlintY);
-    if(bloom&&Number.isFinite(gx)&&gx!==0){
-      bloom.setAttribute('cx',gx.toFixed(1));
-      bloom.setAttribute('cy',gy.toFixed(1));
-      bloom.setAttribute('r','52');
+    const sx=Number(avatar&&avatar.dataset.cageSpecX);
+    const sy=Number(avatar&&avatar.dataset.cageSpecY);
+    if(bloom&&Number.isFinite(sx)&&sx!==0){
+      bloom.setAttribute('cx',sx.toFixed(1));
+      bloom.setAttribute('cy',sy.toFixed(1));
+      bloom.setAttribute('r','56');
       const b0=bloom.querySelector('stop');
-      if(b0){b0.setAttribute('stop-opacity','0.36');b0.setAttribute('stop-color','#fff6ff');}
+      if(b0){b0.setAttribute('stop-opacity','0.32');b0.setAttribute('stop-color','#d8c4ff');}
     }
-    if(hot&&Number.isFinite(gx)&&gx!==0){
-      hot.setAttribute('cx',gx.toFixed(1));
-      hot.setAttribute('cy',gy.toFixed(1));
-      hot.setAttribute('r','20');
+    if(hot&&Number.isFinite(sx)&&sx!==0){
+      hot.setAttribute('cx',sx.toFixed(1));
+      hot.setAttribute('cy',sy.toFixed(1));
+      hot.setAttribute('r','18');
       const h0=hot.querySelector('stop');
-      if(h0){h0.setAttribute('stop-opacity','0.42');h0.setAttribute('stop-color','#fffaff');}
+      if(h0){h0.setAttribute('stop-opacity','0.26');h0.setAttribute('stop-color','#efe6ff');}
     }
+    if(tssGlintNode)tssGlintNode.setAttribute('opacity',Math.min(0.22,Number(tssGlintNode.getAttribute('opacity')||0)*0.35).toFixed(3));
+    if(tssSheenNode)tssSheenNode.setAttribute('opacity',Math.min(0.10,Number(tssSheenNode.getAttribute('opacity')||0)*0.35).toFixed(3));
   }
   const liveGridXYZ=new Float32Array(1000*3);
   function bindHullToLiveGrid(pts){
@@ -1948,15 +2051,17 @@ function applyMeshWarp(contour,mesh){
     for(let s=0;s<S;s++){ax+=rimX[s];ay+=rimY[s];}
     const cx=ax/S,cy=ay/S;
     let sculpted=false;
+    const _cageYaw=(Number(globalThis.__GASPER_ORBIT_YAW__??8)||0)*Math.PI/180;
     for(let s=0;s<S;s++){
       for(let r=0;r<R;r++){
         const i=r*S+s,v=r/Math.max(1,R-1);
         let ox=(rimX[s]-cx)*v,oy=(rimY[s]-cy)*v;
         const sx=gridSculpt[i*2]||0,sy=gridSculpt[i*2+1]||0;
         if(sx||sy){ox+=sx;oy+=sy;sculpted=true;}
+        const z=58*Math.sqrt(Math.max(0,1-v*v));
         liveGridXYZ[i*3]=ox;
         liveGridXYZ[i*3+1]=oy;
-        liveGridXYZ[i*3+2]=52*Math.sqrt(Math.max(0,1-v*v));
+        liveGridXYZ[i*3+2]=z*Math.cos((s/S)*Math.PI*2-_cageYaw);
       }
     }
     if(sculpted){
@@ -2005,18 +2110,27 @@ function applyMeshWarp(contour,mesh){
     };
     const html=[];
     for(let r=3;r<R;r++){
-      let d='';
-      for(let s0=0;s0<=S;s0++) d+=(s0?'L':'M')+at(r,s0);
-      html.push('<path d="'+d+'Z" fill="none" stroke="#eaf7ff" stroke-width="'+(r===R-1?'1.05':'0.55')+'" stroke-opacity="'+(r===R-1?'0.95':'0.62')+'"/>');
+      let d='',pen=false;
+      for(let s0=0;s0<=S;s0++){
+        const s=((s0%S)+S)%S,i=r*S+s,p={z:xyz[i*3+2]||0};
+        if(p.z<0){pen=false;continue;}
+        d+=(pen?'L':'M')+at(r,s0);pen=true;
+      }
+      if(d) html.push('<path d="'+d+'" fill="none" stroke="#eaf7ff" stroke-width="'+(r===R-1?'1.05':'0.55')+'" stroke-opacity="'+(r===R-1?'0.95':'0.62')+'"/>');
     }
     for(let s0=0;s0<S;s0++){
-      let d='';
-      for(let r=3;r<R;r++) d+=(r>3?'L':'M')+at(r,s0);
-      html.push('<path d="'+d+'" fill="none" stroke="#bfe9ff" stroke-width="0.45" stroke-opacity="0.55"/>');
+      let d='',pen=false;
+      for(let r=3;r<R;r++){
+        const i=r*S+s0,p={z:xyz[i*3+2]||0};
+        if(p.z<0){pen=false;continue;}
+        d+=(pen?'L':'M')+at(r,s0);pen=true;
+      }
+      if(d) html.push('<path d="'+d+'" fill="none" stroke="#bfe9ff" stroke-width="0.45" stroke-opacity="0.55"/>');
     }
     for(let r=4;r<R;r++){
       for(let s=0;s<S;s++){
-        const i=r*S+s;
+        const i=r*S+s,p={z:xyz[i*3+2]||0};
+        if(p.z<0) continue;
         const hot=i===selectedGrid;
         html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.4':'2.15')+'" fill="'+(hot?'#fff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.92')+'" stroke="#0b1a22" stroke-width="0.35"/>');
       }
@@ -2149,7 +2263,7 @@ function applyMeshWarp(contour,mesh){
     const _fasciaFrame=frame;
     const _fasciaLight=evaluateMaterialLight({point:{depth:-0.2},normal:{x:0,y:-1},phase:_fasciaFrame.elapsedMs/1000*0.05,profile,family:'subsurface_band'});
     const _fasciaLightK=0.85+0.3*_fasciaLight.intensity;
-    const cx=120+profile.cx,cy=110+profile.cy,highlight=[],shadow=[],n=contour.length;
+    const cx=120+profile.cx,cy=110+profile.cy,highlight=[],n=contour.length;
     for(let b=0;b<FASCIA.bands;b++){
       const radial=FASCIA.radialInner+(FASCIA.radialOuter-FASCIA.radialInner)*(b/(FASCIA.bands-1||1));
       const bandFreq=FASCIA.freq*(1+b*0.17);
@@ -2161,15 +2275,21 @@ function applyMeshWarp(contour,mesh){
         const vis=Math.pow(breathe,1.6);
         if(vis<FASCIA.visFloor)continue;
         const x=cx+(boundary.x-cx)*radial,y=cy+(boundary.y-cy)*radial,size=FASCIA.size*(0.7+0.5*vis);
-        highlight.push(ellipseSubpath(x-normal.x*0.5,y-normal.y*0.5,size,size));shadow.push(ellipseSubpath(x+normal.x*0.46,y+normal.y*0.46,size*1.08,size*1.08));
+        if(y>152)continue;
+        highlight.push(ellipseSubpath(x-normal.x*0.5,y-normal.y*0.5,size,size));
       }
     }
-    reliefHighlight.setAttribute('d',highlight.join(' '));reliefShadow.setAttribute('d',shadow.join(' '));
-    if(reliefHighlightSoft)reliefHighlightSoft.setAttribute('d',highlight.join(' '));if(reliefShadowSoft)reliefShadowSoft.setAttribute('d',shadow.join(' '));
+    reliefHighlight.setAttribute('d',highlight.join(' '));
+    reliefShadow.setAttribute('d','');
+    reliefShadow.setAttribute('opacity','0');
+    reliefShadow.setAttribute('fill','#2a1458');
+    if(reliefHighlightSoft)reliefHighlightSoft.setAttribute('d',highlight.join(' '));
+    if(reliefShadowSoft){reliefShadowSoft.setAttribute('d','');reliefShadowSoft.setAttribute('opacity','0');}
     const _tenDef=FORM_TENSION.enabled?(1+FORM_TENSION.fasciaAmp*formTension):1; // D-0041 V3 Layer A: tension -> slightly more surface definition (the tense mass shows a touch more membrane); bounded + capped well under event-driven relief; reversible (enabled=false => 1)
-    reliefHighlight.setAttribute('opacity',Math.min(0.5,FASCIA.speckleOpacity*_tenDef*_fasciaLightK).toFixed(3));reliefShadow.setAttribute('opacity',Math.min(0.5,FASCIA.speckleOpacity*_tenDef*_fasciaLightK).toFixed(3));
+    reliefHighlight.setAttribute('opacity',Math.min(0.5,FASCIA.speckleOpacity*_tenDef*_fasciaLightK).toFixed(3));
+    reliefShadow.setAttribute('opacity','0');
     if(reliefHighlightSoft)reliefHighlightSoft.setAttribute('opacity',Math.min(0.28,FASCIA.speckleOpacity*_tenDef*0.55*_fasciaLightK).toFixed(3));
-    if(reliefShadowSoft)reliefShadowSoft.setAttribute('opacity',Math.min(0.28,FASCIA.speckleOpacity*_tenDef*0.55*_fasciaLightK).toFixed(3));
+    if(reliefShadowSoft)reliefShadowSoft.setAttribute('opacity','0');
     reliefLayer.setAttribute('opacity',Math.min(0.30,FASCIA.opacity*_tenDef*_fasciaLightK).toFixed(3)); // D-0041 V3 Layer A: capped 0.30 << event-driven 0.52/0.70 (still a dark pearl, never a textured ball)
   }
   const layerVisibility = new Map(MATERIAL_MESH_BINDINGS.map(([key])=>[key,true]));
@@ -2243,6 +2363,13 @@ function applyMeshWarp(contour,mesh){
   function setSilhouetteProfile(profile,settle){if(!FORM_PROFILES[profile])return;const same=silhouetteProfile===profile;silhouetteProfile=profile;if(settle&&!same){BASE_CONTOUR=createBaseContour();FACE_SURFACE_ANCHORS=createFaceSurfaceAnchors();}applyFormPresence();applyLayerVisibility();renderSilhouetteProfileButtons();}
   function setDemoSilhouetteProfile(profile){setSilhouetteProfile(profile);demoIndex=Math.max(0,DEMO_SEQUENCE.indexOf(profile));}
   function setYaw(value){viewYawDegrees=clampYaw(value);yaw.value=String(viewYawDegrees);$('yawValue').textContent=`${viewYawDegrees.toFixed(0)}°`;applyFormPresence();}
+  let orbitYawDegrees=8,orbitPitchDegrees=0;
+  function setOrbit(yaw,pitch){
+    orbitYawDegrees=Number(yaw)||0;
+    orbitPitchDegrees=Number(pitch)||0;
+    globalThis.__GASPER_ORBIT_YAW__=orbitYawDegrees;
+    globalThis.__GASPER_ORBIT_PITCH__=orbitPitchDegrees;
+  }
   function renderSilhouetteProfileButtons(){document.querySelectorAll('[data-form-profile]').forEach(button=>{button.classList.toggle('active',button.dataset.formProfile===silhouetteProfile);button.onclick=()=>setDemoSilhouetteProfile(button.dataset.formProfile);});}
   function setPreviewSize(size){previewSize=size;avatar.style.setProperty('--avatar-size',`${size}px`);document.querySelectorAll('[data-preview-size]').forEach(button=>button.classList.toggle('active',Number(button.dataset.previewSize)===size));}
   function renderPreviewButtons(){document.querySelectorAll('[data-preview-size]').forEach(button=>{button.onclick=()=>setPreviewSize(Number(button.dataset.previewSize));});setPreviewSize(previewSize);}
@@ -3201,7 +3328,7 @@ avatar.dataset.gazeLeadX=gazeLeadX.toFixed(3);avatar.dataset.gazeLeadY=gazeLeadY
     if(_cvG>0){const _cvE=Math.max(0,Math.min(1,e));apexGlowNode.setAttribute('opacity',Math.max(.16,Math.min(.42,(.18+.26*_cvE)*_cvG)).toFixed(3));crownVolumePath.setAttribute('opacity',Math.max(.22,Math.min(.60,(.28+.28*_cvE)*_cvG)).toFixed(3));}else{apexGlowNode.setAttribute('opacity','0');crownVolumePath.setAttribute('opacity','0');}
     avatar.dataset.crownLightGain=_cvG.toFixed(4); // read-only telemetry (same idiom as :1586)
     if(!spatialBaseCaptured){spatialBase={leftLobeGlint:parseFloat(leftLobeGlint.getAttribute('opacity'))||1,rightLobeGlint:parseFloat(rightLobeGlint.getAttribute('opacity'))||1,leftLobeAura:parseFloat(leftLobeAura.getAttribute('opacity'))||1,rightLobeAura:parseFloat(rightLobeAura.getAttribute('opacity'))||1,leftLobeVolume:parseFloat(leftLobeVolume.getAttribute('opacity'))||1,rightLobeVolume:parseFloat(rightLobeVolume.getAttribute('opacity'))||1,leftLobeShade:parseFloat(leftLobeShade.getAttribute('opacity'))||1,rightLobeShade:parseFloat(rightLobeShade.getAttribute('opacity'))||1};spatialBaseCaptured=true;} const _sdlCfg=(globalThis.__GASPER_LIVE_COEFFS__||{}).depthLight||{};const _sdlG=SPATIAL_DEPTH_LIGHT.enabled?(_sdlCfg.spatialGain??1):0;const _sdlM=getViewMetrics(FORM_PROFILES[silhouetteProfile]);const _sdlLeftIsNear=_sdlM.amount<0;const _sdlL=(_sdlLeftIsNear?_sdlM.nearLobeScale:_sdlM.farLobeScale)-1;const _sdlR=(_sdlLeftIsNear?_sdlM.farLobeScale:_sdlM.nearLobeScale)-1;const _sdlIn=Math.max(0,Math.min(1,e));const _sdlDefs=[['leftLobeGlint',leftLobeGlint,_sdlL,1],['rightLobeGlint',rightLobeGlint,_sdlR,1],['leftLobeAura',leftLobeAura,_sdlL,1],['rightLobeAura',rightLobeAura,_sdlR,1],['leftLobeVolume',leftLobeVolume,_sdlL,1],['rightLobeVolume',rightLobeVolume,_sdlR,1],['leftLobeShade',leftLobeShade,_sdlL,SPATIAL_DEPTH_LIGHT.shadeSign],['rightLobeShade',rightLobeShade,_sdlR,SPATIAL_DEPTH_LIGHT.shadeSign]];for(const _d of _sdlDefs){const _b=spatialBase[_d[0]];const _t=_sdlG*_sdlIn*_d[2]*SPATIAL_DEPTH_LIGHT.K*_d[3];const _o=Math.max(_b*SPATIAL_DEPTH_LIGHT.floorFrac,Math.min(Math.min(_b*SPATIAL_DEPTH_LIGHT.ceilFrac,1),_b*(1+_t)));if(avatar.dataset.materialSpace==='persistent'&&(_d[0]==='leftLobeGlint'||_d[0]==='rightLobeGlint')){depthLightGlintGain[_d[0]==='leftLobeGlint'?'left':'right']=_b>0?_o/_b:1;continue;} // GASPER-MAT-004 owns the final glint write on the persistent path; the fold only contributes its normalized view-depth gain.
-_d[1].setAttribute('opacity',_o.toFixed(3));} avatar.dataset.spatialGain=_sdlG.toFixed(4);avatar.dataset.sdlRightSign=_sdlR.toFixed(4);avatar.dataset.sdlLeftSign=_sdlL.toFixed(4);avatar.dataset.sdlInterior=_sdlIn.toFixed(4); // D-0060 spatial per-lobe depth-light fold (see SPATIAL_DEPTH_LIGHT const for the full rationale); telemetry exposes the gate + the two lobe signs + the interior factor so the witness reconstructs the expected per-node modulation = gain*interior*sign*K*nodeSignMult and compares to the observed opacity (proves wiring + sign-correctness + interior-gate)
+_d[1].setAttribute('opacity','0');} avatar.dataset.spatialGain=_sdlG.toFixed(4);avatar.dataset.sdlRightSign=_sdlR.toFixed(4);avatar.dataset.sdlLeftSign=_sdlL.toFixed(4);avatar.dataset.sdlInterior=_sdlIn.toFixed(4); // D-0060 spatial per-lobe depth-light fold (see SPATIAL_DEPTH_LIGHT const for the full rationale); telemetry exposes the gate + the two lobe signs + the interior factor so the witness reconstructs the expected per-node modulation = gain*interior*sign*K*nodeSignMult and compares to the observed opacity (proves wiring + sign-correctness + interior-gate)
     // D-0046 PILLAR 3 momentum/inertia rig: integrate the CoM spring-damper toward the contour centroid shift,
     // then expose momOffsetX/Y/Lean for the idleRig transform below. pts is the blended/morphed/smoothed contour
     // in body-local space (:1304-1326); its first moment moves when the form morphs asymmetric (comet front-heavy
@@ -3396,6 +3523,8 @@ _d[1].setAttribute('opacity',_o.toFixed(3));} avatar.dataset.spatialGain=_sdlG.t
     return{available:true,equal:firstJson===secondJson,iterations:count,deltaMs:dt*1000,first,second};
   }
   globalThis.SidekickFormMasterRig={
+    setOrbit,
+    setYaw,
     setPaused(value){paused=Boolean(value);$('pause').textContent=paused?'Resume motion':'Pause motion';},
     setWorldPose(pose){const p=pose&&typeof pose==='object'?pose:{};const num=(v,fb)=>typeof v==='number'&&Number.isFinite(v)?v:fb;const prov=(typeof p.provenance==='string'&&['scene-authority','physics-authority','capture-drive','curve-authority','wander-authority','life-authority'].includes(p.provenance))?p.provenance:'none';const zc=Math.max(WORLD_SPACE.zNear,Math.min(WORLD_SPACE.zFar,num(p.z,0)));const ws=WORLD_SPACE.homeViewDistance/(WORLD_SPACE.homeViewDistance+zc);const xh=WORLD_SPACE.xHalf/ws,ym=WORLD_SPACE.yMax/ws;worldPoseTarget=prov==='none'?{x:0,y:0,z:0,tilt:0,provenance:'none'}:{x:Math.max(-xh,Math.min(xh,num(p.x,0))),y:Math.max(0,Math.min(ym,num(p.y,0))),z:zc,tilt:Math.max(-WORLD_SPACE.maxTiltDeg,Math.min(WORLD_SPACE.maxTiltDeg,num(p.tilt,0))),provenance:prov};if(paused)requestFormMasterFrame();}, // GASPER-SPACE-001 PHASE A + GASPER-CRAFT-002 S2 (D-0099 Doctrine 2) — world pose intake. Provenance fence (D-0088 idiom applied to space): only scene-authority / physics-authority / capture-drive / curve-authority (GASPER-CRAFT-001 C1 performance packs) / wander-authority (GASPER-CRAFT-002 D-0106 golden-angle idle wander) may move Gasper through the world; anything else fails closed to home. Bounds fence is the FRUSTUM AT THE POSE'S OWN DEPTH: z ∈ [zNear (the monitor glass), zFar (the far fade)], x/y inside the frustum half-width/ceiling at that depth (the space is wider in the distance, narrower at the glass). Authored poses draw EXACTLY — keys are truth; only the home-return transition eases.
     getWorldPose(){return{target:{...worldPoseTarget},applied:{...worldPoseCurrent}};}, // GASPER-SPACE-001 PHASE A — read-back for witness telemetry (applied = the value actually drawn; for any provenance in flight applied === target exactly — keys are truth)

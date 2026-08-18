@@ -77,7 +77,7 @@ describe("GeoNodes", () => {
     expect(socketsCompatible("pose", "contour")).toBe(false);
     expect(socketsCompatible("contour", "contour")).toBe(true);
     expect(socketsCompatible("contour", "shade")).toBe(true);
-    expect(connectNodes(g, "machine", "world-driver").links.some((l) => l.from === "machine" && l.to === "world-driver")).toBe(true);
+    expect(connectNodes(g, "couple", "voigt").links.some((l) => l.from === "couple" && l.to === "voigt")).toBe(true);
     const clash = tryConnect(g, "pearl", "identity");
     expect(clash.ok).toBe(false);
     expect(clash.reason).toBe("bind");

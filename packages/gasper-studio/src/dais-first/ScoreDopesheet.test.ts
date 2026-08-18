@@ -20,7 +20,7 @@ describe("score dopesheet", () => {
   });
 
   it("lists the five Northstar score channels and samples evalChannel", () => {
-    expect(SCORE_CHANNEL_IDS).toEqual(["yaw", "face", "cadenceHz", "driveGain", "stretch"]);
+    expect(SCORE_CHANNEL_IDS).toEqual(["orbit.yaw", "pearl.depth", "gait.hz", "driveGain", "stretch"]);
     expect(sheet).toContain('data-testid="score-dopesheet"');
     expect(sheet).toContain('data-testid="score-value-graph"');
     expect(sheet).toContain("NORTHSTAR_TWENTY_TRACKS");

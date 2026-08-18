@@ -96,7 +96,7 @@ export function VersionStrip(): ReactElement {
           </span>
         ))}
       </div>
-      <button type="button" data-testid="revision-save" title="Publish this look — graph, sculpt, grid, playhead" onClick={saveLook}>
+      <button type="button" data-testid="revision-save" title="Publish this look — graph, sculpt, take, playhead" onClick={saveLook}>
         Save look
       </button>
     </div>

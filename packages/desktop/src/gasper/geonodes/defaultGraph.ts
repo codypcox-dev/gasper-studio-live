@@ -1,6 +1,7 @@
 import { COOK_ORGANS } from "./catalog";
 import { NODE_BLUEPRINTS } from "./library";
 import { ACTIVE_LINE, LAYOUT_VERSION, arrangeGraph } from "./layout";
+import { ensureCoupleLinks } from "./coupling";
 import type { GeoGraph, GraphNode } from "./types";
 import { GEONODES_SCHEMA } from "./types";
 
@@ -59,12 +60,14 @@ export function defaultGeoGraph(): GeoGraph {
     { from: "pearl", to: "hull" },
   ].filter((l) => nodes.some((n) => n.id === l.from) && nodes.some((n) => n.id === l.to));
 
-  return arrangeGraph({
-    schema: GEONODES_SCHEMA,
-    nodes,
-    links,
-    output: "hull",
-    selected: "handles",
-    layoutVersion: LAYOUT_VERSION,
-  });
+  return ensureCoupleLinks(
+    arrangeGraph({
+      schema: GEONODES_SCHEMA,
+      nodes,
+      links,
+      output: "hull",
+      selected: "handles",
+      layoutVersion: LAYOUT_VERSION,
+    }),
+  );
 }

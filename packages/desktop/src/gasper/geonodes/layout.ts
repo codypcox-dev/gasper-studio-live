@@ -45,6 +45,7 @@ export const ACTIVE_LINE = [
   "couple",
   "orbit",
   "pearl",
+  "cage-light",
   "hull",
   "northstar-20",
 ] as const;

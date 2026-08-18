@@ -1,0 +1,1199 @@
+{
+  "errors": [],
+  "cold": {
+    "stageMode": "1",
+    "graphMode": "0",
+    "factory": true,
+    "transport": true,
+    "inspector": true,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21239,
+    "showGrid": true,
+    "yaw": 8,
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "cageSpecX": "95.0",
+    "cageSpecY": "75.6",
+    "lightRigX": "88.73",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.184",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "95.0",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "eval": {
+      "mute": {
+        "identity": false,
+        "contour-512": false,
+        "lattice-360": true,
+        "cage": false,
+        "relief-1000": false,
+        "topology-lock": true,
+        "scaffold-z": true,
+        "paint-grid": true,
+        "hex-cube": true,
+        "contour-solver": true,
+        "adaptive-shell": true,
+        "arap": true,
+        "fabric-solver": true,
+        "handles": false,
+        "stance": false,
+        "gait": false,
+        "gait-law": false,
+        "support": false,
+        "voigt": false,
+        "kappa": false,
+        "world-driver": false,
+        "radial-facing": true,
+        "orbit": false,
+        "formmaster": true,
+        "hull": false,
+        "closed-spline": false,
+        "pearl": false,
+        "surface-shader": true,
+        "cage-light": false,
+        "hard-highlights": true,
+        "ribbons": true,
+        "path-take": true,
+        "northstar-20": false,
+        "gsap": true,
+        "eight-state": true,
+        "curve-track": true,
+        "field-api": true,
+        "rig-controller": true,
+        "machine": false,
+        "couple": false,
+        "paddle": true,
+        "walk-scaffold": true
+      },
+      "couple": [
+        {
+          "id": "froude-tau",
+          "label": "Hz → τ",
+          "from": {
+            "node": "gait",
+            "param": "hz"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.05
+        },
+        {
+          "id": "tempo-lift",
+          "label": "Gate → lift",
+          "from": {
+            "node": "world-driver",
+            "param": "gate"
+          },
+          "to": {
+            "node": "handles",
+            "param": "lift"
+          },
+          "before": 1,
+          "after": 1
+        },
+        {
+          "id": "yaw-pearl",
+          "label": "Yaw → pearl",
+          "from": {
+            "node": "orbit",
+            "param": "yaw"
+          },
+          "to": {
+            "node": "pearl",
+            "param": "depth"
+          },
+          "before": 0.72,
+          "after": 0.7197225231759596
+        },
+        {
+          "id": "plant-k-tau",
+          "label": "k → τ",
+          "from": {
+            "node": "support",
+            "param": "k"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.0512
+        }
+      ],
+      "order": [
+        "identity",
+        "lattice-360",
+        "topology-lock",
+        "scaffold-z",
+        "paint-grid",
+        "hex-cube",
+        "contour-solver",
+        "adaptive-shell",
+        "arap",
+        "fabric-solver",
+        "radial-facing",
+        "formmaster",
+        "surface-shader",
+        "cage-light",
+        "hard-highlights",
+        "ribbons",
+        "path-take",
+        "northstar-20",
+        "gsap",
+        "eight-state",
+        "curve-track",
+        "field-api",
+        "rig-controller",
+        "machine",
+        "couple",
+        "paddle",
+        "walk-scaffold",
+        "cage",
+        "handles",
+        "support",
+        "gait",
+        "world-driver",
+        "voigt",
+        "kappa",
+        "orbit",
+        "pearl",
+        "hull"
+      ]
+    },
+    "bodyH": 173.6958465576172
+  },
+  "graph": {
+    "stageMode": "0",
+    "graphMode": "1",
+    "factory": true,
+    "transport": true,
+    "inspector": false,
+    "compilerCols": 5,
+    "cards": 15,
+    "stageW": 300,
+    "stageH": 352,
+    "dLen": 21239,
+    "showGrid": true,
+    "yaw": 8,
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "cageSpecX": "95.1",
+    "cageSpecY": "75.6",
+    "lightRigX": "88.89",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.179",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "95.1",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "eval": {
+      "mute": {
+        "identity": false,
+        "contour-512": false,
+        "lattice-360": true,
+        "cage": false,
+        "relief-1000": false,
+        "topology-lock": true,
+        "scaffold-z": true,
+        "paint-grid": true,
+        "hex-cube": true,
+        "contour-solver": true,
+        "adaptive-shell": true,
+        "arap": true,
+        "fabric-solver": true,
+        "handles": false,
+        "stance": false,
+        "gait": false,
+        "gait-law": false,
+        "support": false,
+        "voigt": false,
+        "kappa": false,
+        "world-driver": false,
+        "radial-facing": true,
+        "orbit": false,
+        "formmaster": true,
+        "hull": false,
+        "closed-spline": false,
+        "pearl": false,
+        "surface-shader": true,
+        "cage-light": false,
+        "hard-highlights": true,
+        "ribbons": true,
+        "path-take": true,
+        "northstar-20": false,
+        "gsap": true,
+        "eight-state": true,
+        "curve-track": true,
+        "field-api": true,
+        "rig-controller": true,
+        "machine": false,
+        "couple": false,
+        "paddle": true,
+        "walk-scaffold": true
+      },
+      "couple": [
+        {
+          "id": "froude-tau",
+          "label": "Hz → τ",
+          "from": {
+            "node": "gait",
+            "param": "hz"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.05
+        },
+        {
+          "id": "tempo-lift",
+          "label": "Gate → lift",
+          "from": {
+            "node": "world-driver",
+            "param": "gate"
+          },
+          "to": {
+            "node": "handles",
+            "param": "lift"
+          },
+          "before": 1,
+          "after": 1
+        },
+        {
+          "id": "yaw-pearl",
+          "label": "Yaw → pearl",
+          "from": {
+            "node": "orbit",
+            "param": "yaw"
+          },
+          "to": {
+            "node": "pearl",
+            "param": "depth"
+          },
+          "before": 0.72,
+          "after": 0.7197225231759596
+        },
+        {
+          "id": "plant-k-tau",
+          "label": "k → τ",
+          "from": {
+            "node": "support",
+            "param": "k"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.0512
+        }
+      ],
+      "order": [
+        "identity",
+        "lattice-360",
+        "topology-lock",
+        "scaffold-z",
+        "paint-grid",
+        "hex-cube",
+        "contour-solver",
+        "adaptive-shell",
+        "arap",
+        "fabric-solver",
+        "radial-facing",
+        "formmaster",
+        "surface-shader",
+        "cage-light",
+        "hard-highlights",
+        "ribbons",
+        "path-take",
+        "northstar-20",
+        "gsap",
+        "eight-state",
+        "curve-track",
+        "field-api",
+        "rig-controller",
+        "machine",
+        "couple",
+        "paddle",
+        "walk-scaffold",
+        "cage",
+        "handles",
+        "support",
+        "gait",
+        "world-driver",
+        "voigt",
+        "kappa",
+        "orbit",
+        "pearl",
+        "hull"
+      ]
+    },
+    "bodyH": 173.6958465576172
+  },
+  "card": {
+    "stageMode": "0",
+    "graphMode": "1",
+    "factory": true,
+    "transport": true,
+    "inspector": false,
+    "compilerCols": 5,
+    "cards": 15,
+    "stageW": 300,
+    "stageH": 352,
+    "dLen": 21239,
+    "showGrid": true,
+    "yaw": 8,
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "cageSpecX": "95.2",
+    "cageSpecY": "75.6",
+    "lightRigX": "89.04",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.173",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "95.2",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "eval": {
+      "mute": {
+        "identity": false,
+        "contour-512": false,
+        "lattice-360": true,
+        "cage": false,
+        "relief-1000": false,
+        "topology-lock": true,
+        "scaffold-z": true,
+        "paint-grid": true,
+        "hex-cube": true,
+        "contour-solver": true,
+        "adaptive-shell": true,
+        "arap": true,
+        "fabric-solver": true,
+        "handles": false,
+        "stance": false,
+        "gait": false,
+        "gait-law": false,
+        "support": false,
+        "voigt": false,
+        "kappa": false,
+        "world-driver": false,
+        "radial-facing": true,
+        "orbit": false,
+        "formmaster": true,
+        "hull": false,
+        "closed-spline": false,
+        "pearl": false,
+        "surface-shader": true,
+        "cage-light": false,
+        "hard-highlights": true,
+        "ribbons": true,
+        "path-take": true,
+        "northstar-20": false,
+        "gsap": true,
+        "eight-state": true,
+        "curve-track": true,
+        "field-api": true,
+        "rig-controller": true,
+        "machine": false,
+        "couple": false,
+        "paddle": true,
+        "walk-scaffold": true
+      },
+      "couple": [
+        {
+          "id": "froude-tau",
+          "label": "Hz → τ",
+          "from": {
+            "node": "gait",
+            "param": "hz"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.05
+        },
+        {
+          "id": "tempo-lift",
+          "label": "Gate → lift",
+          "from": {
+            "node": "world-driver",
+            "param": "gate"
+          },
+          "to": {
+            "node": "handles",
+            "param": "lift"
+          },
+          "before": 1,
+          "after": 1
+        },
+        {
+          "id": "yaw-pearl",
+          "label": "Yaw → pearl",
+          "from": {
+            "node": "orbit",
+            "param": "yaw"
+          },
+          "to": {
+            "node": "pearl",
+            "param": "depth"
+          },
+          "before": 0.72,
+          "after": 0.7197225231759596
+        },
+        {
+          "id": "plant-k-tau",
+          "label": "k → τ",
+          "from": {
+            "node": "support",
+            "param": "k"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.0512
+        }
+      ],
+      "order": [
+        "identity",
+        "lattice-360",
+        "topology-lock",
+        "scaffold-z",
+        "paint-grid",
+        "hex-cube",
+        "contour-solver",
+        "adaptive-shell",
+        "arap",
+        "fabric-solver",
+        "radial-facing",
+        "formmaster",
+        "surface-shader",
+        "cage-light",
+        "hard-highlights",
+        "ribbons",
+        "path-take",
+        "northstar-20",
+        "gsap",
+        "eight-state",
+        "curve-track",
+        "field-api",
+        "rig-controller",
+        "machine",
+        "couple",
+        "paddle",
+        "walk-scaffold",
+        "cage",
+        "handles",
+        "support",
+        "gait",
+        "world-driver",
+        "voigt",
+        "kappa",
+        "orbit",
+        "pearl",
+        "hull"
+      ]
+    },
+    "bodyH": 173.6958465576172
+  },
+  "twenty": {
+    "stageMode": "1",
+    "graphMode": "0",
+    "factory": true,
+    "transport": true,
+    "inspector": true,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21235,
+    "showGrid": true,
+    "yaw": 0,
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "cageSpecX": "96.3",
+    "cageSpecY": "78.4",
+    "lightRigX": "95.37",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.187",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "96.3",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "eval": {
+      "mute": {
+        "identity": false,
+        "contour-512": false,
+        "lattice-360": true,
+        "cage": false,
+        "relief-1000": false,
+        "topology-lock": true,
+        "scaffold-z": true,
+        "paint-grid": true,
+        "hex-cube": true,
+        "contour-solver": true,
+        "adaptive-shell": true,
+        "arap": true,
+        "fabric-solver": true,
+        "handles": false,
+        "stance": false,
+        "gait": false,
+        "gait-law": false,
+        "support": false,
+        "voigt": false,
+        "kappa": false,
+        "world-driver": false,
+        "radial-facing": true,
+        "orbit": false,
+        "formmaster": true,
+        "hull": false,
+        "closed-spline": false,
+        "pearl": false,
+        "surface-shader": true,
+        "cage-light": false,
+        "hard-highlights": true,
+        "ribbons": true,
+        "path-take": true,
+        "northstar-20": false,
+        "gsap": true,
+        "eight-state": true,
+        "curve-track": true,
+        "field-api": true,
+        "rig-controller": true,
+        "machine": false,
+        "couple": false,
+        "paddle": true,
+        "walk-scaffold": true
+      },
+      "couple": [
+        {
+          "id": "froude-tau",
+          "label": "Hz → τ",
+          "from": {
+            "node": "gait",
+            "param": "hz"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.05
+        },
+        {
+          "id": "tempo-lift",
+          "label": "Gate → lift",
+          "from": {
+            "node": "world-driver",
+            "param": "gate"
+          },
+          "to": {
+            "node": "handles",
+            "param": "lift"
+          },
+          "before": 1,
+          "after": 1
+        },
+        {
+          "id": "yaw-pearl",
+          "label": "Yaw → pearl",
+          "from": {
+            "node": "orbit",
+            "param": "yaw"
+          },
+          "to": {
+            "node": "pearl",
+            "param": "depth"
+          },
+          "before": 0.72,
+          "after": 0.7197225231759596
+        },
+        {
+          "id": "plant-k-tau",
+          "label": "k → τ",
+          "from": {
+            "node": "support",
+            "param": "k"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.0512
+        }
+      ],
+      "order": [
+        "identity",
+        "lattice-360",
+        "topology-lock",
+        "scaffold-z",
+        "paint-grid",
+        "hex-cube",
+        "contour-solver",
+        "adaptive-shell",
+        "arap",
+        "fabric-solver",
+        "radial-facing",
+        "formmaster",
+        "surface-shader",
+        "cage-light",
+        "hard-highlights",
+        "ribbons",
+        "path-take",
+        "northstar-20",
+        "gsap",
+        "eight-state",
+        "curve-track",
+        "field-api",
+        "rig-controller",
+        "machine",
+        "couple",
+        "paddle",
+        "walk-scaffold",
+        "cage",
+        "handles",
+        "support",
+        "gait",
+        "world-driver",
+        "voigt",
+        "kappa",
+        "orbit",
+        "pearl",
+        "hull"
+      ]
+    },
+    "bodyH": 173.4508056640625
+  },
+  "grid": {
+    "gridBefore": true,
+    "gridAfterOff": false,
+    "gridAfterOn": true,
+    "stageMode": "1",
+    "graphMode": "0",
+    "factory": true,
+    "transport": true,
+    "inspector": true,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21238,
+    "showGrid": true,
+    "yaw": 8,
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "cageSpecX": "94.9",
+    "cageSpecY": "75.6",
+    "lightRigX": "88.66",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.186",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "94.9",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "eval": {
+      "mute": {
+        "identity": false,
+        "contour-512": false,
+        "lattice-360": true,
+        "cage": false,
+        "relief-1000": false,
+        "topology-lock": true,
+        "scaffold-z": true,
+        "paint-grid": true,
+        "hex-cube": true,
+        "contour-solver": true,
+        "adaptive-shell": true,
+        "arap": true,
+        "fabric-solver": true,
+        "handles": false,
+        "stance": false,
+        "gait": false,
+        "gait-law": false,
+        "support": false,
+        "voigt": false,
+        "kappa": false,
+        "world-driver": false,
+        "radial-facing": true,
+        "orbit": false,
+        "formmaster": true,
+        "hull": false,
+        "closed-spline": false,
+        "pearl": false,
+        "surface-shader": true,
+        "cage-light": false,
+        "hard-highlights": true,
+        "ribbons": true,
+        "path-take": true,
+        "northstar-20": false,
+        "gsap": true,
+        "eight-state": true,
+        "curve-track": true,
+        "field-api": true,
+        "rig-controller": true,
+        "machine": false,
+        "couple": false,
+        "paddle": true,
+        "walk-scaffold": true
+      },
+      "couple": [
+        {
+          "id": "froude-tau",
+          "label": "Hz → τ",
+          "from": {
+            "node": "gait",
+            "param": "hz"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.05
+        },
+        {
+          "id": "tempo-lift",
+          "label": "Gate → lift",
+          "from": {
+            "node": "world-driver",
+            "param": "gate"
+          },
+          "to": {
+            "node": "handles",
+            "param": "lift"
+          },
+          "before": 1,
+          "after": 1
+        },
+        {
+          "id": "yaw-pearl",
+          "label": "Yaw → pearl",
+          "from": {
+            "node": "orbit",
+            "param": "yaw"
+          },
+          "to": {
+            "node": "pearl",
+            "param": "depth"
+          },
+          "before": 0.72,
+          "after": 0.7197225231759596
+        },
+        {
+          "id": "plant-k-tau",
+          "label": "k → τ",
+          "from": {
+            "node": "support",
+            "param": "k"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.0512
+        }
+      ],
+      "order": [
+        "identity",
+        "lattice-360",
+        "topology-lock",
+        "scaffold-z",
+        "paint-grid",
+        "hex-cube",
+        "contour-solver",
+        "adaptive-shell",
+        "arap",
+        "fabric-solver",
+        "radial-facing",
+        "formmaster",
+        "surface-shader",
+        "cage-light",
+        "hard-highlights",
+        "ribbons",
+        "path-take",
+        "northstar-20",
+        "gsap",
+        "eight-state",
+        "curve-track",
+        "field-api",
+        "rig-controller",
+        "machine",
+        "couple",
+        "paddle",
+        "walk-scaffold",
+        "cage",
+        "handles",
+        "support",
+        "gait",
+        "world-driver",
+        "voigt",
+        "kappa",
+        "orbit",
+        "pearl",
+        "hull"
+      ]
+    },
+    "bodyH": 173.46585083007812
+  },
+  "factory": {
+    "stageMode": "1",
+    "graphMode": "0",
+    "factory": true,
+    "transport": true,
+    "inspector": true,
+    "compilerCols": 0,
+    "cards": 0,
+    "stageW": 1440,
+    "stageH": 736,
+    "dLen": 21238,
+    "showGrid": true,
+    "yaw": 8,
+    "tau": 0.0512,
+    "tauField": {
+      "foot": 0.028,
+      "waist": 0.05,
+      "crown": 0.12
+    },
+    "cageSpecX": "94.8",
+    "cageSpecY": "75.6",
+    "lightRigX": "88.57",
+    "leftShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 439
+    },
+    "rightShade": {
+      "op": "0",
+      "fill": "url(#lobeShadeGrad)",
+      "dLen": 466
+    },
+    "contained": {
+      "op": "0",
+      "fill": null,
+      "dLen": 0
+    },
+    "reliefShadow": {
+      "op": "0",
+      "fill": "#2a1458",
+      "dLen": 0
+    },
+    "tssGlint": {
+      "op": "0.188",
+      "fill": "url(#tssGlintGrad)",
+      "dLen": 0
+    },
+    "bloomCx": "94.8",
+    "bloomColor": "#d8c4ff",
+    "hotColor": "#efe6ff",
+    "eval": {
+      "mute": {
+        "identity": false,
+        "contour-512": false,
+        "lattice-360": true,
+        "cage": false,
+        "relief-1000": false,
+        "topology-lock": true,
+        "scaffold-z": true,
+        "paint-grid": true,
+        "hex-cube": true,
+        "contour-solver": true,
+        "adaptive-shell": true,
+        "arap": true,
+        "fabric-solver": true,
+        "handles": false,
+        "stance": false,
+        "gait": false,
+        "gait-law": false,
+        "support": false,
+        "voigt": false,
+        "kappa": false,
+        "world-driver": false,
+        "radial-facing": true,
+        "orbit": false,
+        "formmaster": true,
+        "hull": false,
+        "closed-spline": false,
+        "pearl": false,
+        "surface-shader": true,
+        "cage-light": false,
+        "hard-highlights": true,
+        "ribbons": true,
+        "path-take": true,
+        "northstar-20": false,
+        "gsap": true,
+        "eight-state": true,
+        "curve-track": true,
+        "field-api": true,
+        "rig-controller": true,
+        "machine": false,
+        "couple": false,
+        "paddle": true,
+        "walk-scaffold": true
+      },
+      "couple": [
+        {
+          "id": "froude-tau",
+          "label": "Hz → τ",
+          "from": {
+            "node": "gait",
+            "param": "hz"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.05
+        },
+        {
+          "id": "tempo-lift",
+          "label": "Gate → lift",
+          "from": {
+            "node": "world-driver",
+            "param": "gate"
+          },
+          "to": {
+            "node": "handles",
+            "param": "lift"
+          },
+          "before": 1,
+          "after": 1
+        },
+        {
+          "id": "yaw-pearl",
+          "label": "Yaw → pearl",
+          "from": {
+            "node": "orbit",
+            "param": "yaw"
+          },
+          "to": {
+            "node": "pearl",
+            "param": "depth"
+          },
+          "before": 0.72,
+          "after": 0.7197225231759596
+        },
+        {
+          "id": "plant-k-tau",
+          "label": "k → τ",
+          "from": {
+            "node": "support",
+            "param": "k"
+          },
+          "to": {
+            "node": "voigt",
+            "param": "tau"
+          },
+          "before": 0.05,
+          "after": 0.0512
+        }
+      ],
+      "order": [
+        "identity",
+        "lattice-360",
+        "topology-lock",
+        "scaffold-z",
+        "paint-grid",
+        "hex-cube",
+        "contour-solver",
+        "adaptive-shell",
+        "arap",
+        "fabric-solver",
+        "radial-facing",
+        "formmaster",
+        "surface-shader",
+        "cage-light",
+        "hard-highlights",
+        "ribbons",
+        "path-take",
+        "northstar-20",
+        "gsap",
+        "eight-state",
+        "curve-track",
+        "field-api",
+        "rig-controller",
+        "machine",
+        "couple",
+        "paddle",
+        "walk-scaffold",
+        "cage",
+        "handles",
+        "support",
+        "gait",
+        "world-driver",
+        "voigt",
+        "kappa",
+        "orbit",
+        "pearl",
+        "hull"
+      ]
+    },
+    "bodyH": 173.46585083007812
+  },
+  "yawTravel": {
+    "before": {
+      "spec": "94.8",
+      "yaw": 8
+    },
+    "after": {
+      "spec": "81.0",
+      "yaw": 42,
+      "leftOp": "0",
+      "hot": "#efe6ff"
+    }
+  },
+  "pass": {
+    "stageDefault": true,
+    "graphFive": true,
+    "gridToggle": true,
+    "cratersGone": true,
+    "noWhiteHot": true,
+    "cageSpec": true,
+    "inspector": true,
+    "height": true,
+    "noPageError": true
+  }
+}

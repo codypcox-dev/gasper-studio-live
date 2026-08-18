@@ -5,17 +5,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactElement, type WheelEvent as ReactWheelEvent } from "react";
 import { createPortal } from "react-dom";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
-import {
-  applyRevisionSculpt,
-  captureRevision,
-  emitRevisionChanged,
-  registerRevisionBridge,
-  SCULPT_COMMIT_EVENT,
-  writeAutosave,
-  type GasperRevision,
-} from "../../../desktop/src/gasper/revision";
-import { playNorthstarTwentyFromRail } from "./daisFirstControls";
-import { readPlayhead } from "./studioClock";
+import { useStudioSession } from "./StudioSession";
 import {
   BROWSER_CATS,
   PILLARS,
@@ -33,7 +23,6 @@ import {
   setRack,
   snap,
   magnetizeCard,
-  applyGeoEvalToHost,
   arrangeGraph,
   resetLayout,
   belongsToPillar,
@@ -41,17 +30,11 @@ import {
   cloneGraph,
   connectNodes,
   disconnectNodes,
-  emptyHistory,
   graphBounds,
-  loadGeoGraph,
   moveNode,
-  pushPast,
-  redoGraph,
-  saveGeoGraph,
   seatOf,
   setNodeMuted,
   setNodeParam,
-  undoGraph,
   tryConnect,
   lockReason,
   sliderT,
@@ -64,12 +47,10 @@ import {
   tipForPillar,
   tipForUi,
   type GeoGraph,
-  type GraphHistory,
   type PillarId,
 } from "../../../desktop/src/gasper/geonodes";
 
 const CARD_W = 156;
-let HIST = emptyHistory();
 const MONITOR_KEY = "gasper.monitor.v3";
 const BAR = 28;
 
@@ -148,10 +129,9 @@ function wirePath(x1: number, y1: number, x2: number, y2: number): string {
 }
 
 export function NodeGraphPage(): ReactElement {
+  const { graph, commit, replace, stampPast, undo, redo } = useStudioSession();
   const boardRef = useRef<HTMLDivElement>(null);
-  const hist = useRef<GraphHistory>(HIST);
   const dragSnap = useRef<GeoGraph | null>(null);
-  const [graph, setGraph] = useState<GeoGraph>(() => resetLayout(loadGeoGraph()));
   const [drag, setDrag] = useState<Drag>(null);
   const dragRef = useRef<Drag>(null);
   dragRef.current = drag;
@@ -162,114 +142,11 @@ export function NodeGraphPage(): ReactElement {
   const [alert, setAlert] = useState<string | null>(null);
   const [hoverCol, setHoverCol] = useState<string | null>(null);
   const [gridOn, setGridOn] = useState(true);
-  const playArmed = useRef(false);
-  const graphRef = useRef(graph);
-  graphRef.current = graph;
-  const autosaveTimer = useRef(0);
-
-  const showGridOf = (g: GeoGraph) =>
-    (g.nodes.find((n) => n.id === "cage")?.params.find((p) => p.id === "grid")?.value ?? 0) > 0.5;
-
-  const scheduleAutosave = useCallback((g: GeoGraph) => {
-    window.clearTimeout(autosaveTimer.current);
-    autosaveTimer.current = window.setTimeout(() => {
-      const ph = readPlayhead();
-      writeAutosave(
-        captureRevision({
-          name: "Autosave",
-          kind: "autosave",
-          graph: g,
-          showGrid: showGridOf(g),
-          takeId: ph.mode === "take" ? "northstar-20" : null,
-          playheadMs: ph.t,
-          paused: ph.paused,
-        }),
-      );
-      emitRevisionChanged();
-    }, 800);
-  }, []);
-
-  const commit = useCallback((next: GeoGraph | ((g: GeoGraph) => GeoGraph)) => {
-    setGraph((g) => {
-      HIST = hist.current = pushPast(hist.current, g);
-      return typeof next === "function" ? next(g) : next;
-    });
-  }, []);
-
-  const undo = useCallback(() => {
-    setGraph((g) => {
-      const r = undoGraph(hist.current, g);
-      if (!r) return g;
-      HIST = hist.current = r.history;
-      return r.graph;
-    });
-  }, []);
-
-  const redo = useCallback(() => {
-    setGraph((g) => {
-      const r = redoGraph(hist.current, g);
-      if (!r) return g;
-      HIST = hist.current = r.history;
-      return r.graph;
-    });
-  }, []);
 
   useEffect(() => {
-    if ((graph.layoutVersion ?? 0) < 18) {
-      setGraph(resetLayout(graph));
-      return;
-    }
-    applyGeoEvalToHost(graph);
-    saveGeoGraph(graph);
-    const ns = graph.nodes.find((n) => n.id === "northstar-20");
-    const play = !!ns && !ns.muted && (ns.params.find((p) => p.id === "play")?.value ?? 0) > 0.5;
-    if (play && !playArmed.current) {
-      playArmed.current = true;
-      playNorthstarTwentyFromRail();
-    }
-    if (!play) playArmed.current = false;
     const cage = graph.nodes.find((n) => n.id === "cage");
-    const g = (cage?.params.find((p) => p.id === "grid")?.value ?? 0) > 0.5;
-    setGridOn(g);
-    scheduleAutosave(graph);
-  }, [graph, scheduleAutosave]);
-
-  useEffect(() => {
-    const onSculpt = (ev: Event) => {
-      const before = (ev as CustomEvent<{ before?: number[] }>).detail?.before;
-      HIST = hist.current = pushPast(hist.current, graphRef.current, before);
-      scheduleAutosave(graphRef.current);
-    };
-    window.addEventListener(SCULPT_COMMIT_EVENT, onSculpt);
-    return () => window.removeEventListener(SCULPT_COMMIT_EVENT, onSculpt);
-  }, [scheduleAutosave]);
-
-  useEffect(() => {
-    return registerRevisionBridge({
-      graph: () => graphRef.current,
-      capture: (name, kind) => {
-        const g = graphRef.current;
-        const ph = readPlayhead();
-        return captureRevision({
-          name,
-          kind,
-          graph: g,
-          showGrid: showGridOf(g),
-          takeId: ph.mode === "take" ? "northstar-20" : null,
-          playheadMs: ph.t,
-          paused: ph.paused,
-        });
-      },
-      hydrate: (rev: GasperRevision) => {
-        setGraph((g) => {
-          HIST = hist.current = pushPast(hist.current, g);
-          applyRevisionSculpt(rev);
-          dispatchField("showGrid", { on: rev.showGrid });
-          return rev.graph;
-        });
-      },
-    });
-  }, []);
+    setGridOn((cage?.params.find((p) => p.id === "grid")?.value ?? 0) > 0.5);
+  }, [graph]);
 
   useEffect(() => {
     dockStage(mon);
@@ -366,18 +243,6 @@ export function NodeGraphPage(): ReactElement {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const cmd = e.metaKey || e.ctrlKey;
-      if (e.key === "Undo" || (cmd && (e.key.toLowerCase() === "z" || e.code === "KeyZ") && !e.shiftKey)) {
-        e.preventDefault();
-        e.stopPropagation();
-        undo();
-        return;
-      }
-      if (e.key === "Redo" || (cmd && (e.key.toLowerCase() === "z" || e.code === "KeyZ") && e.shiftKey) || (cmd && (e.key.toLowerCase() === "y" || e.code === "KeyY"))) {
-        e.preventDefault();
-        e.stopPropagation();
-        redo();
-        return;
-      }
       const t = e.target as HTMLElement | null;
       if (t && (t.tagName === "TEXTAREA" || t.isContentEditable || (t.tagName === "INPUT" && (t as HTMLInputElement).type !== "range"))) return;
       if (cmd && (e.key === "=" || e.key === "+")) {
@@ -399,7 +264,7 @@ export function NodeGraphPage(): ReactElement {
       }
       if (e.key === "Escape") {
         e.preventDefault();
-        setGraph((g) => ({ ...g, selected: null }));
+        replace((g) => ({ ...g, selected: null }));
         setWireNote("Cleared");
         return;
       }
@@ -414,7 +279,7 @@ export function NodeGraphPage(): ReactElement {
         const first = graph.nodes.find((n) => isLiveNode(n) && compilerOf(n.id, n.organId) === id);
         if (first) {
           e.preventDefault();
-          setGraph((g) => ({ ...g, selected: first.id }));
+          replace((g) => ({ ...g, selected: first.id }));
           setWireNote(`${first.label} · ${id}`);
         }
         return;
@@ -431,7 +296,7 @@ export function NodeGraphPage(): ReactElement {
     };
     window.addEventListener("keydown", onKey, true);
     return () => window.removeEventListener("keydown", onKey, true);
-  }, [undo, redo, zoomAt, fitView, selected, commit, graph.nodes]);
+  }, [undo, redo, zoomAt, fitView, selected, commit, replace, graph.nodes]);
 
   const onCardDown = useCallback((e: ReactPointerEvent, id: string) => {
     if ((e.target as HTMLElement).closest("[data-port],[data-dial],button,input")) return;
@@ -443,9 +308,9 @@ export function NodeGraphPage(): ReactElement {
     const p = toBoard(e.clientX, e.clientY);
     const next: Drag = { kind: "card", id, ox: p.x - n.x, oy: p.y - n.y };
     dragRef.current = next;
-    setGraph((g) => ({ ...g, selected: id }));
+    replace((g) => ({ ...g, selected: id }));
     setDrag(next);
-  }, [graph, toBoard]);
+  }, [graph, toBoard, replace]);
 
   const onPortDown = useCallback((e: ReactPointerEvent, id: string, side: "in" | "out") => {
     e.preventDefault();
@@ -454,7 +319,7 @@ export function NodeGraphPage(): ReactElement {
     const p = toBoard(e.clientX, e.clientY);
     if (side === "out") setDrag({ kind: "wire", from: id, x: p.x, y: p.y });
     else {
-      const incoming = graph.links.find((l) => l.to === id);
+      const incoming = graph.links.find((l) => l.to === id && !l.law) ?? graph.links.find((l) => l.to === id);
       if (incoming) {
         commit((g) => disconnectNodes(g, incoming.from, incoming.to));
         setDrag({ kind: "wire", from: incoming.from, x: p.x, y: p.y });
@@ -470,14 +335,14 @@ export function NodeGraphPage(): ReactElement {
     const next: Drag = { kind: "pan", ox: e.clientX, oy: e.clientY, vx: view.x, vy: view.y };
     dragRef.current = next;
     setDrag(next);
-    setGraph((g) => ({ ...g, selected: null }));
-  }, [view.x, view.y]);
+    replace((g) => ({ ...g, selected: null }));
+  }, [view.x, view.y, replace]);
 
   const onMove = useCallback((e: ReactPointerEvent) => {
     if (!drag) return;
     if (drag.kind === "card") {
       const p = toBoard(e.clientX, e.clientY);
-      setGraph((g) => moveNode(g, drag.id, p.x - drag.ox, p.y - drag.oy));
+      replace((g) => moveNode(g, drag.id, p.x - drag.ox, p.y - drag.oy));
       const col = columnAt(graph, p.x, p.y);
       setHoverCol(col?.id ?? null);
     } else if (drag.kind === "wire") {
@@ -499,15 +364,15 @@ export function NodeGraphPage(): ReactElement {
       }));
     } else if (drag.kind === "rack") {
       const p = toBoard(e.clientX, e.clientY);
-      setGraph((g) => setRack(g, drag.id, { x: Math.round(p.x - drag.ox), y: Math.round(p.y - drag.oy) }));
+      replace((g) => setRack(g, drag.id, { x: Math.round(p.x - drag.ox), y: Math.round(p.y - drag.oy) }));
     } else if (drag.kind === "rack-resize") {
       const p = toBoard(e.clientX, e.clientY);
-      setGraph((g) => setRack(g, drag.id, {
+      replace((g) => setRack(g, drag.id, {
         w: Math.round(drag.mw + (p.x - drag.ox)),
         h: Math.round(drag.mh + (p.y - drag.oy)),
       }));
     }
-  }, [drag, toBoard]);
+  }, [drag, toBoard, replace]);
 
   const onUp = useCallback((e: ReactPointerEvent) => {
     const dragNow = dragRef.current;
@@ -534,44 +399,41 @@ export function NodeGraphPage(): ReactElement {
         }
       }
       if (to && to !== dragNow.from) {
-        setGraph((g) => {
+        commit((g) => {
           const r = tryConnect(g, dragNow.from, to!);
           setWireNote(r.detail);
-          if (!r.ok) return g;
-          HIST = hist.current = pushPast(hist.current, g);
-          return r.graph;
+          return r.ok ? r.graph : g;
         });
       } else {
         setWireNote("No port");
       }
     }
     if (dragNow.kind === "card") {
+      if (dragSnap.current) {
+        stampPast(dragSnap.current);
+        dragSnap.current = null;
+      }
       const n = graph.nodes.find((x) => x.id === dragNow.id);
       if (n && n.id !== "identity" && n.id !== "hull") {
         const mag = magnetizeCard(graph, n.id, n.x, n.y);
         if (!mag.seated) {
-          commit((g) => ({
+          replace((g) => ({
             ...g,
             nodes: g.nodes.map((node) =>
               node.id === n.id ? { ...node, muted: true, loose: true, x: Math.round(n.x), y: Math.round(n.y) } : node,
             ),
           }));
           setWireNote(`${n.label} off`);
-          dragSnap.current = null;
           setDrag(null);
           return;
         }
-        commit((g) => arrangeGraph(setNodeMuted({
+        replace((g) => arrangeGraph(setNodeMuted({
           ...g,
           nodes: g.nodes.map((node) => (node.id === n.id ? { ...node, x: mag.x, y: mag.y } : node)),
         }, n.id, false)));
         setWireNote(`${n.label} on`);
       } else if (n) {
-        commit((g) => arrangeGraph(g));
-      }
-      if (dragSnap.current) {
-        HIST = hist.current = pushPast(hist.current, dragSnap.current);
-        dragSnap.current = null;
+        replace((g) => arrangeGraph(g));
       }
     }
     if (dragNow.kind === "chip") {
@@ -925,7 +787,7 @@ export function NodeGraphPage(): ReactElement {
                 const next = !gridOn;
                 setGridOn(next);
                 dispatchField("showGrid", { on: next });
-                setGraph((g) => setNodeParam(g, "cage", "grid", next ? 1 : 0));
+                commit((g) => setNodeParam(g, "cage", "grid", next ? 1 : 0));
               }}
             >
               Grid

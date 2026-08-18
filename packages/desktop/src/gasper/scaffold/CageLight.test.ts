@@ -41,10 +41,8 @@ describe("cage light on the 1000", () => {
     expect(painter).toContain("shadeCagePoints");
     expect(painter).toContain("viewFixedLights");
     expect(painter).toContain("_lastLightTiltDeg");
-    expect(painter).toContain("capLive");
-    expect(painter).toContain("mergeFabric");
-    expect(painter).toContain("scaffoldRimFromFabric");
-    expect(painter).toContain("liveFabricField");
+    expect(painter).toContain("avatar.dataset.cageSpecX");
+    expect(painter).not.toContain("stop-color','#fffaff'");
     expect(painter).not.toContain("(gel)?goosePapulePaths");
     expect(painter).not.toMatch(/function goosePapulePaths[\s\S]{0,400}collectGoosePapulesLive/);
   });

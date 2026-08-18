@@ -52,6 +52,8 @@ export type GraphNode = {
 export type GraphLink = {
   from: string;
   to: string;
+  /** Couple law id. Absent = cook-spine edge. */
+  law?: string;
 };
 
 export type GeoGraph = {
@@ -61,6 +63,7 @@ export type GeoGraph = {
   output: string;
   selected: string | null;
   layoutVersion?: number;
+  couplesVersion?: number;
   racks?: Record<string, { x: number; y: number; w: number; h: number }>;
 };
 

@@ -65,7 +65,7 @@ function inSustainWindow(at: number, t: number, sustainUntil: number | undefined
 
 /**
  * Evaluate a take at playhead t (seconds from T0). Deterministic.
- * headingWindows pin until a heading beat with at ≤ t overrides them.
+ * headingWindows are legacy. Live takes use heading beats + Score tracks.
  */
 export function evaluateTake(take: GasperTake, t: number): EvaluatedTake {
   let headingDeg = typeof take.setup.headingPinDeg === "number" ? take.setup.headingPinDeg : 0;

@@ -5,6 +5,7 @@
 import { useCallback, useEffect, useState, type ReactElement } from "react";
 import { dispatchField } from "../../../desktop/src/gasper/scaffold/GasperFieldApi";
 import { mountPathTake } from "../../../desktop/src/gasper/takes/PathEmbeddingTake";
+import { setNodeParam } from "../../../desktop/src/gasper/geonodes";
 import {
   setWalkBooLoopFromRail,
   releaseWalkReviewShot,
@@ -13,6 +14,8 @@ import {
 import { applySkinTake, type SkinTake } from "./LumenGlass";
 import { NodeGraphPage } from "./NodeGraphPage";
 import { applyMachineIntent } from "./machineApply";
+import { StudioSessionProvider, useStudioSession } from "./StudioSession";
+import { StageLookInspector } from "./StageLookInspector";
 import { StudioTransport, type DeskMode } from "./StudioTransport";
 
 export type DeskChapter = "play" | "shape" | "walk" | "light" | "nodes" | "mixer" | "stack";
@@ -26,14 +29,23 @@ export function StudioDesk({
   take: SkinTake;
   onTake: (id: SkinTake) => void;
 }): ReactElement {
-  const [mode, setMode] = useState<DeskMode>("graph");
+  return (
+    <StudioSessionProvider>
+      <StudioDeskInner />
+    </StudioSessionProvider>
+  );
+}
+
+function StudioDeskInner(): ReactElement {
+  const { graph, commit } = useStudioSession();
+  const [mode, setMode] = useState<DeskMode>("stage");
   const [loopOn, setLoopOn] = useState(true);
-  const [gridOn, setGridOn] = useState(true);
   const [recOn, setRecOn] = useState(false);
+  const gridOn = (graph.nodes.find((n) => n.id === "cage")?.params.find((p) => p.id === "grid")?.value ?? 1) > 0.5;
 
   useEffect(() => {
-    dispatchField("showGrid", { on: true });
-  }, []);
+    dispatchField("showGrid", { on: gridOn });
+  }, [gridOn]);
 
   const playTwenty = useCallback(() => {
     applyMachineIntent({ type: "play20" });
@@ -53,9 +65,9 @@ export function StudioDesk({
 
   const toggleGrid = useCallback(() => {
     const next = !gridOn;
-    setGridOn(next);
+    commit((g) => setNodeParam(g, "cage", "grid", next ? 1 : 0));
     dispatchField("showGrid", { on: next });
-  }, [gridOn]);
+  }, [commit, gridOn]);
 
   const toggleRec = useCallback(() => {
     const api =
@@ -72,7 +84,7 @@ export function StudioDesk({
 
   return (
     <>
-      {mode === "graph" ? <NodeGraphPage /> : null}
+      {mode === "graph" ? <NodeGraphPage /> : <StageLookInspector />}
       <div className="studio-desk" data-testid="studio-desk" data-chapter={mode === "graph" ? "nodes" : "play"} data-panel="0">
         <StudioTransport
           mode={mode}

@@ -1,0 +1,19 @@
+{
+  "schema": "canonops-packet/v1",
+  "mode": "explore",
+  "residual": "studio-002",
+  "stamp": "2026-08-18T21-20-00-000Z",
+  "engine": "3.0.0",
+  "parentResidual": "version-control",
+  "question": "Given live cage, joined undo, and publishes, what replaces the five-column rack, and what leftover of book 001 must be finished before chrome claims the stack is first-class?",
+  "verdict": "001 PASS was not earned. Duals: pillar=work-surface, score-does-not-bind. Chrome pick Layout B (Stage|Score, Cook fold). Language L1–L4. Architect: S0 then language-first.",
+  "duals": [
+    "pillar=work-surface",
+    "score-does-not-bind",
+    "timeline=second-store",
+    "pip=stage",
+    "graph-default=look-authoring"
+  ],
+  "book": "docs/triforce/plans/2026-08-18-studio-master-002.md",
+  "restore": "checkpoint-real-system-20260818"
+}

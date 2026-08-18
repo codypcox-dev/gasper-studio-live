@@ -33,9 +33,13 @@ Only reusable findings promote into the Tri-Force canon.
 
 ## Current residual
 
-`version-control` — git tag is not the organism. Dual: `tag = organism`. Three verbs: Pin (source), Undo (session), Publish (graph + sculpt + clock).
+`pillar = work-surface` — Score now binds Cook (`evaluateScore` + `applyScoreBinds`); Publish embeds the take. Remaining chrome: S2 keys-drag, S3 cook fold.
+Book close: `docs/triforce/plans/2026-08-18-studio-master-003.md`
+Latest film: `docs/triforce/canon/runs/2026-08-18T22-25-00-000Z-master-close`.
+Restore: `checkpoint-real-system-20260818`.
+
+Prior: `version-control` — git tag is not the organism. Dual: `tag = organism`.
 Latest Investigate: `docs/triforce/canon/runs/2026-08-18T20-40-00-000Z-investigate-version-control`.
-Parent: `seven-studio-laws`.
 
 Prior: `score-is-not-a-curve` — take is a fire list; easing a fire is a category error; compositing one hull is a category error.
 Book: `docs/triforce/plans/2026-08-18-studio-master-book.md`

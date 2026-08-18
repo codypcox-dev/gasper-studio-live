@@ -17,7 +17,13 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · finish the planbook, merge to main
+
+Cody: everything fixed, coded, and merged to main. Finish the planbook. Use subs.
+Intention: stop leaving 002/003 as dirty executing trees. Land ScoreUnion / ScoreBind / FilePlays and the cage-light close. Not S3 acceptance — a coded merge.
+
 ## Owner voice — 2026-08-17 · stop repeating · caged hull
+
 
 Cody: write one northstar that aligns the agent with everything already agreed — grid, lighting, physics, tau — and chase that document until it is reached. Tired of restating.
 
@@ -3465,6 +3471,16 @@ analyze it deeply and repair it out."
   the cyclorama. Live-
   observed, not accepted.
   No self-PASS.
+
+### 2026-08-18 — cage light is the skin (MASTER-003)
+
+- **N353 · Cage light is the skin.** Dynamic reflections must come from the surface of the skin / grid / cage — not traveling TSS circles, not `#fffaff` islands, not ribbon bowls. `n̂ · L` on the 1000.
+- **N354 · Honest live stack.** The owner is no longer sure what is live. Columns may be costume. Catalog must match mute must match paint. Do not lose the 3D vector character, segmented density, or true light.
+- **N355 · Black nub craters are broken vectors.** Dark bowls on the feet are a fail. Ribbons and `#03010b` shadow quads are not nubs. The 512 contour is the nub.
+- **N356 · More tools, not more rooms.** Vector tools, animation tools, point-light / render tools. Stage inspector of the live cage — not InstrumentTable, not five compiler rooms, not pen / bones / Merge.
+- **N357 · Do not stop until achieved.** Screenshot, adversarial audit, clickthrough proof, then close the residual. Chat is transport.
+- **N358 · Restore exists.** `checkpoint-real-system-20260818` if a wave burns the pearl.
+
 
 
 

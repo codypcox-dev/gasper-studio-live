@@ -1,12 +1,13 @@
 import { defaultGeoGraph, isCookBlueprint, nodeFromBlueprint } from "./defaultGraph";
 
 import { evaluateGraph, publishGeoEval } from "./evaluate";
-import { LAYOUT_VERSION, arrangeGraph, compilerOf, resetLayout } from "./layout";
+import { LAYOUT_VERSION, arrangeGraph, resetLayout } from "./layout";
 import { kahnOrder, sanitizeGraph, wouldCycleKahn, type WireResult } from "./topology";
-import { lockReason } from "./params";
+import { lockReason, paramBase } from "./params";
 import { NODE_BLUEPRINTS } from "./library";
 import type { GeoGraph, GraphNode, NodeTypeId } from "./types";
 import { GEONODES_SCHEMA, socketsCompatible } from "./types";
+import { ensureCoupleLinks } from "./coupling";
 
 const STORAGE_KEY = "gasper.geonodes.v5";
 
@@ -17,7 +18,7 @@ export function loadGeoGraph(): GeoGraph {
     if (!raw) return defaultGeoGraph();
     const parsed = JSON.parse(raw) as GeoGraph;
     if (parsed?.schema !== GEONODES_SCHEMA || !Array.isArray(parsed.nodes)) return defaultGeoGraph();
-    return ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(stripUiChrome(relayoutIfCollapsed(parsed))))));
+    return ensureCoupleLinks(ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(stripUiChrome(relayoutIfCollapsed(parsed)))))));
 
   } catch {
     return defaultGeoGraph();
@@ -136,21 +137,9 @@ export function moveNode(graph: GeoGraph, id: string, x: number, y: number): Geo
   };
 }
 
-const COMPILER_FEED: Record<string, string[]> = {
-  machine: ["kernel"],
-  kernel: ["cook"],
-  cook: ["painter"],
-  painter: ["score"],
-  score: ["machine"],
-};
-
 export function canBind(from: GraphNode, to: GraphNode): boolean {
   if (from.id === to.id) return false;
-  if (socketsCompatible(from.outType ?? "scalar", to.inType ?? "scalar")) return true;
-  const a = compilerOf(from.id, from.organId);
-  const b = compilerOf(to.id, to.organId);
-  if (a === b) return true;
-  return (COMPILER_FEED[a] ?? []).includes(b);
+  return socketsCompatible(from.outType ?? "scalar", to.inType ?? "scalar");
 }
 
 export function wouldCycle(graph: GeoGraph, from: string, to: string): boolean {
@@ -171,7 +160,7 @@ export function tryConnect(graph: GeoGraph, from: string, to: string): WireResul
   if (wouldCycleKahn(graph, from, to)) {
     return { graph, ok: false, reason: "cycle", detail: `Cycle: ${a.label} cannot feed ${b.label}` };
   }
-  const links = graph.links.filter((l) => l.to !== to);
+  const links = graph.links.filter((l) => !(l.to === to && !l.law));
   const next = { ...graph, links: [...links, { from, to }] };
   if (kahnOrder(next).cyclic) {
     return { graph, ok: false, reason: "cycle", detail: `Cycle: ${a.label} cannot feed ${b.label}` };
@@ -254,15 +243,24 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void; setYaw?: (y: number) => void };
   };
   const byOrgan = (organId: string) => graph.nodes.find((n) => n.organId === organId || n.id === organId);
+  const baseOf = (organId: string, paramId: string): number | undefined => {
+    const p = byOrgan(organId)?.params.find((x) => x.id === paramId);
+    return p ? paramBase(p) : undefined;
+  };
+  const liveOrBase = (muted: boolean, organId: string, paramId: string, live: number | undefined): number | undefined => {
+    if (live === undefined) return undefined;
+    return muted ? (baseOf(organId, paramId) ?? live) : live;
+  };
   const cage = ev.params.cage || ev.params["relief-1000"] || {};
   const gridNode = byOrgan("paint-grid");
   const gridOn = (cage.grid ?? gridNode?.params.find((p) => p.id === "show")?.value ?? 0) > 0.5;
   if (cage.grid !== undefined || gridNode) host.__GASPER_SHOW_GRID__ = gridOn && !ev.mute.cage;
   if (!host.__GASPER_LIVE_COEFFS__) host.__GASPER_LIVE_COEFFS__ = {};
   if (cage.coupling !== undefined) {
+    const coupling = liveOrBase(!!ev.mute.cage, "cage", "coupling", cage.coupling);
     host.__GASPER_LIVE_COEFFS__.scaffold = {
       ...(host.__GASPER_LIVE_COEFFS__.scaffold ?? {}),
-      scaffoldCoupling: ev.mute.cage ? 0 : cage.coupling,
+      scaffoldCoupling: coupling,
     };
   }
   const ident = ev.params.identity || ev.params["contour-512"] || {};
@@ -279,7 +277,16 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     host.__GASPER_ORBIT_PITCH__ = orbit.pitch ?? 0;
     host.SidekickFormMasterRig?.setOrbit?.(orbit.yaw, orbit.pitch ?? 0);
     host.SidekickFormMasterRig?.setYaw?.(orbit.yaw);
-  } else if (!ev.mute["radial-facing"] && (ev.params["radial-facing"]?.yaw !== undefined)) {
+  } else if (ev.mute.orbit) {
+    const yaw = baseOf("orbit", "yaw");
+    const pitch = baseOf("orbit", "pitch") ?? 0;
+    if (yaw !== undefined) {
+      host.__GASPER_ORBIT_YAW__ = yaw;
+      host.__GASPER_ORBIT_PITCH__ = pitch;
+      host.SidekickFormMasterRig?.setOrbit?.(yaw, pitch);
+      host.SidekickFormMasterRig?.setYaw?.(yaw);
+    }
+  } else if (!ev.mute["radial-facing"] && ev.params["radial-facing"]?.yaw !== undefined) {
     host.SidekickFormMasterRig?.setYaw?.(ev.params["radial-facing"].yaw);
   }
   const voigt = ev.params.voigt || {};
@@ -287,10 +294,13 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     host.__GASPER_VISCO_TAU__ = voigt.tau;
     const t = Number(voigt.tau);
     if (Number.isFinite(t)) {
+      const foot = Number(voigt.foot);
+      const waist = Number(voigt.waist);
+      const crown = Number(voigt.crown);
       host.__GASPER_TAU_FIELD__ = {
-        foot: Math.max(0.02, t * 0.55),
-        waist: t,
-        crown: Math.min(0.6, t * 2.4),
+        foot: Number.isFinite(foot) ? Math.max(0.02, foot) : Math.max(0.02, t * 0.55),
+        waist: Number.isFinite(waist) ? Math.max(0.02, waist) : t,
+        crown: Number.isFinite(crown) ? Math.min(0.6, crown) : Math.min(0.6, t * 2.4),
       };
     }
   }
@@ -298,7 +308,9 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const support = ev.params.support || {};
   if (!ev.mute.support && support.k !== undefined) host.__GASPER_SUPPORT_K__ = support.k;
   const machine = ev.params.machine || {};
-  if (machine.gate !== undefined) host.__GASPER_MACHINE_GATE__ = ev.mute.machine ? 0 : machine.gate;
+  if (machine.gate !== undefined) {
+    host.__GASPER_MACHINE_GATE__ = liveOrBase(!!ev.mute.machine, "machine", "gate", machine.gate);
+  }
   const ns = ev.params["northstar-20"] || {};
   if (ns.play !== undefined) host.__GASPER_NORTHSTAR_PLAY__ = ev.mute["northstar-20"] ? 0 : ns.play;
   const gait = ev.params.gait || ev.params["gait-law"] || {};
@@ -308,17 +320,21 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const facing = ev.params["radial-facing"] || {};
   if (facing.yaw !== undefined && !byOrgan("radial-facing")?.muted) host.__GASPER_FACING_YAW__ = facing.yaw;
   const light = ev.params["cage-light"] || ev.params.pearl || {};
+  if (!host.__GASPER_LIVE_COEFFS__.cageLight) host.__GASPER_LIVE_COEFFS__.cageLight = {};
   if (light.spec !== undefined) {
-    if (!host.__GASPER_LIVE_COEFFS__.cageLight) host.__GASPER_LIVE_COEFFS__.cageLight = {};
-    host.__GASPER_LIVE_COEFFS__.cageLight.light_spec = light.spec;
+    host.__GASPER_LIVE_COEFFS__.cageLight.light_spec = ev.mute["cage-light"] ? 0 : light.spec;
+  }
+  if (light.wrap !== undefined) {
+    host.__GASPER_LIVE_COEFFS__.cageLight.light_wrap = ev.mute["cage-light"] ? 0 : light.wrap;
   }
   const pearl = ev.params.pearl || {};
-  if (!ev.mute.pearl && pearl.depth !== undefined) {
-    host.__GASPER_LIVE_COEFFS__.pearl = { ...(host.__GASPER_LIVE_COEFFS__.pearl ?? {}), depth: pearl.depth };
+  if (pearl.depth !== undefined) {
+    const depth = liveOrBase(!!ev.mute.pearl, "pearl", "depth", pearl.depth);
+    host.__GASPER_LIVE_COEFFS__.pearl = { ...(host.__GASPER_LIVE_COEFFS__.pearl ?? {}), depth };
   }
   const handles = ev.params.handles || ev.params.stance || {};
-  if (handles.lift !== undefined) host.__GASPER_HANDLE_LIFT__ = ev.mute.handles ? 1 : handles.lift;
-  if (handles.advance !== undefined) host.__GASPER_HANDLE_ADVANCE__ = ev.mute.handles ? 1 : handles.advance;
+  if (handles.lift !== undefined) host.__GASPER_HANDLE_LIFT__ = liveOrBase(!!ev.mute.handles, "handles", "lift", handles.lift);
+  if (handles.advance !== undefined) host.__GASPER_HANDLE_ADVANCE__ = liveOrBase(!!ev.mute.handles, "handles", "advance", handles.advance);
   const world = ev.params["world-driver"] || {};
-  if (world.gate !== undefined) host.__GASPER_GAIT_TEMPO__ = ev.mute["world-driver"] ? 1 : world.gate;
+  if (world.gate !== undefined) host.__GASPER_GAIT_TEMPO__ = liveOrBase(!!ev.mute["world-driver"], "world-driver", "gate", world.gate);
 }

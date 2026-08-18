@@ -31,6 +31,8 @@ describe("gasper.revision.v1", () => {
     expect(f.schema).toBe(REVISION_SCHEMA);
     expect(f.kind).toBe("factory");
     expect(f.sculpt.nz).toEqual([]);
+    expect(f.take?.id).toBe("take-northstar-20s");
+    expect(f.take?.tracks?.["pearl.depth"]).toBeDefined();
     expect(isGasperRevision(f)).toBe(true);
   });
 

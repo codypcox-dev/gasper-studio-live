@@ -104,7 +104,7 @@ describe("evaluateTake", () => {
     const playStart = controller.indexOf("playAuthoredTake");
     const playEnd = controller.indexOf("N187 — file a grounded strut", playStart);
     const play = controller.slice(playStart, playEnd);
-    expect(play).toContain("evaluateTake(take, t)");
+    expect(play).toContain("evaluateScore(take, t)");
     expect(play).not.toContain("const fired = new Set");
     expect(play).not.toContain("new Set<string>()");
     expect(play).not.toContain("${beat.id}-${tick}");

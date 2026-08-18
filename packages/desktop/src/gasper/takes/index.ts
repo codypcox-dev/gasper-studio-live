@@ -8,6 +8,8 @@ export {
 } from "./NorthstarTwentyTake";
 export { buildNorthstarTwentyClip } from "./northstarTwentyClip";
 export { evaluateTake } from "./evaluateTake";
+export { applyScoreBinds, evaluateScore, parseScoreChannel } from "./evaluateScore";
+export type { EvaluatedScore, ScoreBind } from "./evaluateScore";
 export type {
   ActiveRunInPlace,
   ActiveStrut,
