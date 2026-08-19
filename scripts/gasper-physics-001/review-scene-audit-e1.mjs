@@ -100,7 +100,9 @@ const measure = () =>
       facingDeg: av?.dataset?.facingDeg ?? null,
       posedLY: av?.dataset?.posedLY ?? null,
       posedRY: av?.dataset?.posedRY ?? null,
-      stanceLive: (globalThis.__GASPER_STANCE__ || {}).live ?? null,
+      occupied: av?.dataset?.occupied ?? null,
+      occTry: av?.dataset?.occTry ?? null,
+      occLen: av?.dataset?.occLen ?? null,
       face: (() => {
         const f = document.querySelector("#faceRecessLayer, #faceEmissionLayer");
         return f ? f.getBoundingClientRect() : null;
@@ -183,6 +185,15 @@ const stance = await measure();
 if (mon) await page.screenshot({ path: resolve(OUT, "09-stance.png"), clip: mon });
 
 await page.evaluate(() => {
+  globalThis.__GASPER_STANCE__ = { live: 0 };
+  globalThis.__GASPER_ENVELOPE_MORPH__ = "blowfish";
+  globalThis.__GASPER_SHOW_GRID__ = false;
+});
+await page.waitForTimeout(400);
+const blow = await measure();
+if (mon) await page.screenshot({ path: resolve(OUT, "10-blowfish.png"), clip: mon });
+
+await page.evaluate(() => {
   globalThis.__GASPER_SHOW_GRID__ = true;
   globalThis.__GASPER_SHOW_SKELETON__ = true;
   const rig = globalThis.SidekickFormMasterRig;
@@ -211,6 +222,7 @@ const packet = {
   skel,
   walk,
   stance,
+  blow,
   yaw0,
   yaw42,
 };

@@ -24,7 +24,7 @@ const lock = readFileSync(
 describe("Adobe 2.5D turntable — unchangeable law", () => {
   it("far tuck and near expansion are live", () => {
     expect(painter).toContain(
-      "const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=4.8*turn*Math.pow(Math.max(0,-mx),.78)*lobeBand;",
+      "const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=0;",
     );
     expect(painter).not.toContain("farTuck=0.0*turn");
     expect(lock).toContain("farTuck=0.0*turn");

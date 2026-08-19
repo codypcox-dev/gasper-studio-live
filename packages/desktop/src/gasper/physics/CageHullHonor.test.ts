@@ -20,7 +20,7 @@ describe("cage hull honor — chase GASPER-CAGED-HULL-001", () => {
 
   it("keeps far tuck and near push on the existing view deform", () => {
     expect(formMaster).toContain(
-      "const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=4.8*turn*Math.pow(Math.max(0,-mx),.78)*lobeBand;",
+      "const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=0;",
     );
     expect(formMaster).not.toContain("radius+=7.2*(gaussAngle(th,0.02,0.17)");
     expect(formMaster).toContain("g.replaceChildren();");

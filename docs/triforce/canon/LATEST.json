@@ -1,13 +1,13 @@
 {
-  "runId": "2026-08-19T02-27-00-000Z-e4-plantyaw",
+  "runId": "2026-08-19T02-39-00-000Z-e6-e7",
   "mode": "cut",
-  "residual": "gauss-W = medial-W",
+  "residual": "isobands-on-new-rim",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "E4",
-  "restore": "checkpoint-e3-interiors-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T02-27-00-000Z-e4-plantyaw",
+  "wave": "E7",
+  "restore": "checkpoint-e5-plants-20260818",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T02-39-00-000Z-e6-e7",
   "book": "docs/triforce/plans/2026-08-19-envelope-001.md",
   "engineVersion": "3.0.0",
-  "verdict": "Plant-yaw on interiors. Squash dead. Floor does not tip. Next is E5 plants-only gait — tag first."
+  "verdict": "Book closed. Occupied outline inks #body. Morph table is the same 5-node fabric. FACE_CANON holds."
 }

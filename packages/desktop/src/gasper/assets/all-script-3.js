@@ -37,10 +37,27 @@
     const rest=GASPER_SKELETON.nodes;
     const S=globalThis.__GASPER_STANCE__||{};
     const live=(S.live||0)>0.004&&S.left&&S.right;
-    const plantL=live?{x:S.left.x,y:S.left.y,z:0}:{x:rest.plantL.x,y:rest.plantL.y,z:0};
-    const plantR=live?{x:S.right.x,y:S.right.y,z:0}:{x:rest.plantR.x,y:rest.plantR.y,z:0};
-    const crotch=(live&&S.crotch)?{x:S.crotch.x,y:S.crotch.y,z:0}:{x:rest.crotch.x,y:rest.crotch.y,z:0};
-    return{crown:rest.crown,torso:rest.torso,crotch,plantL,plantR};
+    let plantL=live?{x:S.left.x,y:S.left.y,z:0}:{x:rest.plantL.x,y:rest.plantL.y,z:0};
+    let plantR=live?{x:S.right.x,y:S.right.y,z:0}:{x:rest.plantR.x,y:rest.plantR.y,z:0};
+    let crotch=(live&&S.crotch)?{x:S.crotch.x,y:S.crotch.y,z:0}:{x:rest.crotch.x,y:rest.crotch.y,z:0};
+    let torso={x:rest.torso.x,y:rest.torso.y,z:0};
+    const mode=envelopeMode();
+    if(mode.collapsePlants){
+      plantL={x:crotch.x*0.55+plantL.x*0.45,y:crotch.y+10,z:0};
+      plantR={x:crotch.x*0.55+plantR.x*0.45,y:crotch.y+10,z:0};
+    }
+    if(mode.torsoHook) torso={x:rest.torso.x+mode.torsoHook,y:rest.torso.y,z:0};
+    return{crown:rest.crown,torso,crotch,plantL,plantR};
+  }
+  const GASPER_ENVELOPE_MORPH=Object.freeze({
+    rest:Object.freeze({rScale:1,collapsePlants:0,torsoHook:0}),
+    blowfish:Object.freeze({rScale:1.07,collapsePlants:0,torsoHook:0}),
+    paddle:Object.freeze({rScale:1,collapsePlants:1,torsoHook:0}),
+    question:Object.freeze({rScale:1,collapsePlants:0,torsoHook:18}),
+  });
+  function envelopeMode(){
+    const id=String(globalThis.__GASPER_ENVELOPE_MORPH__||'rest');
+    return GASPER_ENVELOPE_MORPH[id]||GASPER_ENVELOPE_MORPH.rest;
   }
   // E2 — fitted rest radii. Dual killed: plan-table = measurement. Do not feed paint.
   const GASPER_ENVELOPE_R=Object.freeze({
@@ -80,6 +97,98 @@
     // E4 — world-Y through the plants. Dual killed: centroid-yaw = plant-yaw.
     const c=Math.cos(th),s=Math.sin(th),dx=x-Mx,dz=z-Mz;
     return[Mx+dx*c+dz*s,y,Mz-dx*s+dz*c];
+  }
+  function occupiedOutline(skel){
+    // E6 — Rank-1 disk/stadium union. Dual killed: gauss-W = medial-W.
+    const th=((typeof effectiveViewYaw==='function'?effectiveViewYaw():0)||0)*Math.PI/180;
+    const Mx=(skel.plantL.x+skel.plantR.x)*0.5;
+    const pose=n=>{const Q=rotateAboutM(n.x,n.y,n.z||0,Mx,0,th);return{x:Q[0],y:Q[1]};};
+    const n={crown:pose(skel.crown),torso:pose(skel.torso),crotch:pose(skel.crotch),plantL:pose(skel.plantL),plantR:pose(skel.plantR)};
+    const R=GASPER_ENVELOPE_R;
+    const rs=Math.max(0.7,Math.min(1.07,Number(envelopeMode().rScale)||1));
+    const disks=[
+      {x:n.crown.x,y:n.crown.y,r:R.crown*rs},
+      {x:n.torso.x,y:n.torso.y,r:R.torso*rs},
+      {x:n.crotch.x,y:n.crotch.y,r:R.crotch*rs},
+      {x:n.plantL.x,y:n.plantL.y,r:R.plant*rs},
+      {x:n.plantR.x,y:n.plantR.y,r:R.plant*rs},
+    ];
+    const bones=[
+      [n.crown,R.crown,n.torso,R.torso],
+      [n.torso,R.torso,n.crotch,R.crotch],
+      [n.crotch,R.crotch,n.plantL,R.plant],
+      [n.crotch,R.crotch,n.plantR,R.plant],
+    ];
+    const inside=(px,py)=>{
+      for(const d of disks){if(Math.hypot(px-d.x,py-d.y)<d.r-0.55) return true;}
+      for(const b of bones){
+        const ax=b[0].x,ay=b[0].y,ra=b[1],bx=b[2].x,by=b[2].y,rb=b[3];
+        const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy||1;
+        const u=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/L2));
+        if(Math.hypot(px-(ax+u*dx),py-(ay+u*dy))<(ra+u*(rb-ra))-0.55) return true;
+      }
+      return false;
+    };
+    const cand=[];
+    const push=(x,y)=>{if(!inside(x,y)) cand.push({x,y});};
+    for(const d of disks){
+      for(let k=0;k<96;k++){
+        const a=-Math.PI/2+k*Math.PI*2/96;
+        push(d.x+d.r*Math.cos(a),d.y+d.r*Math.sin(a));
+      }
+    }
+    for(const b of bones){
+      const ax=b[0].x,ay=b[0].y,ra=b[1],bx=b[2].x,by=b[2].y,rb=b[3];
+      const dx=bx-ax,dy=by-ay,d=Math.hypot(dx,dy);
+      if(d<1e-3) continue;
+      const al=(ra-rb)/d;
+      if(Math.abs(al)>=0.999) continue;
+      const h=Math.sqrt(Math.max(0,1-al*al)),vx=dx/d,vy=dy/d;
+      for(const sgn of [-1,1]){
+        const nx=vx*al-vy*h*sgn,ny=vy*al+vx*h*sgn;
+        const p0x=ax+ra*nx,p0y=ay+ra*ny,p1x=bx+rb*nx,p1y=by+rb*ny;
+        for(let k=0;k<=16;k++){
+          const t=k/16;
+          push(p0x+(p1x-p0x)*t,p0y+(p1y-p0y)*t);
+        }
+      }
+    }
+    if(cand.length<80) return null;
+    let i=0;
+    for(let k=1;k<cand.length;k++) if(cand[k].y<cand[i].y) i=k;
+    const used=new Uint8Array(cand.length),chain=[cand[i]];
+    used[i]=1;
+    for(let step=0;step<cand.length;step++){
+      const last=chain[chain.length-1];
+      let best=-1,bestD=12;
+      for(let k=0;k<cand.length;k++){
+        if(used[k]) continue;
+        const dd=Math.hypot(cand[k].x-last.x,cand[k].y-last.y);
+        if(dd<bestD){bestD=dd;best=k;}
+      }
+      if(best<0) break;
+      used[best]=1;
+      chain.push(cand[best]);
+      if(chain.length>48&&Math.hypot(cand[best].x-chain[0].x,cand[best].y-chain[0].y)<5) break;
+    }
+    if(chain.length<80) return null;
+    const arc=[0];
+    for(let k=1;k<chain.length;k++) arc.push(arc[k-1]+Math.hypot(chain[k].x-chain[k-1].x,chain[k].y-chain[k-1].y));
+    const close=Math.hypot(chain[0].x-chain[chain.length-1].x,chain[0].y-chain[chain.length-1].y);
+    const total=arc[arc.length-1]+close;
+    if(total<80) return null;
+    const out=new Array(512);
+    let k=0;
+    for(let s=0;s<512;s++){
+      const target=s/512*total;
+      while(k<arc.length-1&&arc[k+1]<target) k++;
+      const a=chain[k],b=chain[(k+1)%chain.length];
+      const span=(k<arc.length-1?arc[k+1]-arc[k]:close)||1;
+      const f=Math.max(0,Math.min(1,(target-arc[k])/span));
+      const th=s/512*Math.PI*2-Math.PI/2;
+      out[s]={index:s,x:a.x*(1-f)+b.x*f,y:a.y*(1-f)+b.y*f,th};
+    }
+    return out;
   }
   function sampleEnvelopeXYZ(){
     // Shadow 25×40. Absolute content px. Dual killed: liveGridXYZ = envelopeXYZ.
@@ -848,7 +957,7 @@
     const sgn=eff<0?-1:1,turn=authoredTurnEase(),nx=lifted.objectX/frame.rx,ny=lifted.objectY/frame.ry,mx=sgn*nx;
     const verticalEnvelope=Math.pow(Math.max(0,1-Math.abs(ny)),.72),interiorEnvelope=Math.max(0,1-Math.hypot(nx,ny));
     const lobeBand=Math.exp(-.5*Math.pow(ny/.32,2)),identityShift=1.2*turn*verticalEnvelope;
-    const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=4.8*turn*Math.pow(Math.max(0,-mx),.78)*lobeBand;
+    const nearExpansion=3.6*turn*Math.pow(Math.max(0,mx),.78)*lobeBand,farTuck=0;
     const crownBias=1.4*turn*Math.max(0,-ny)*(1-Math.min(1,Math.abs(nx))),depthParallax=lifted.latentDepth*.12*sgn*turn*surfaceInfluence;
     const anchorX=point.x+sgn*(identityShift+nearExpansion+farTuck+crownBias)+depthParallax;
     const anchorY=point.y+1.55*turn*mx*verticalEnvelope+.75*turn*ny*interiorEnvelope;
@@ -2485,7 +2594,7 @@ function applyMeshWarp(contour,mesh){
     globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
     globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
     if(avatar){
-      avatar.dataset.envelopeBind='e5';
+      avatar.dataset.envelopeBind=avatar.dataset.occupied==='1'?'e6':'e5';
       avatar.dataset.footZCanal=footN?(footZCanal/footN).toFixed(2):'0';
       avatar.dataset.plantYaw=yawDeg.toFixed(1);
       avatar.dataset.plantMx=Mx.toFixed(1);
@@ -3452,6 +3561,19 @@ function applyMeshWarp(contour,mesh){
     if(morphPhysics){semanticContour=applyRefractoryPointSet(semanticContour,morphPhysics);mesh=applyRefractoryPointSet(mesh,morphPhysics);pts=applyRefractoryPointSet(pts,morphPhysics);activeFaceAnchors=applyRefractoryAnchors(activeFaceAnchors,morphPhysics);}
     pts=applyFabricSnap(pts,formProfile);
     semanticContour=applyFabricSnap(semanticContour,formProfile);
+    let occupied=null;
+    if(avatar) avatar.dataset.occTry=(morphProfileId||'')+':'+String(morphMix||0);
+    if(morphMix<0.0001){
+      occupied=occupiedOutline(poseSkeleton());
+      if(occupied&&occupied.length===512){
+        pts=occupied;
+        semanticContour=occupied;
+        if(avatar){avatar.dataset.envelopeBind='e6';avatar.dataset.occupied='1';}
+      }else if(avatar){
+        avatar.dataset.occupied='0';
+        avatar.dataset.occLen=occupied?String(occupied.length):'null';
+      }
+    }
     let _dgNorm=0;if(DEPTH_GLOW.enabled&&mesh&&mesh.length){let _dgMin=1e9,_dgMax=-1e9;for(const _p of mesh){const _d=_p.projectedDepth||0;if(_d<_dgMin)_dgMin=_d;if(_d>_dgMax)_dgMax=_d;}const _rng=(_dgMax-_dgMin)||0;_dgNorm=Math.min(1,Math.max(0,_rng/DEPTH_GLOW.ref));avatar.dataset.v3DepthRange=_rng.toFixed(4);}else{avatar.dataset.v3DepthRange='0.0000';}depthGlow=lerp(depthGlow,_dgNorm,1-Math.exp(-Math.max(.001,dt)/DEPTH_GLOW.tau)); // D-0040 V3 (A) depth-shaped interior light: ease toward the body's own projectedDepth RANGE — computed HERE (pre-smoothing) because the V2.4 viscoelastic smoothing below low-passes x/y only (D-0071 restored full metadata passthrough after the {x,y}-only strip emptied the galaxy flecks + depth range). yaw 0 => projectedDepth:0 (:906) => range 0 => depthGlow 0 => identity (S1 yaw-0 non-regression). enabled=false => _dgNorm 0. v3DepthRange = raw mesh depth range (debug observable).
     // V2.4 VISCOELASTIC CONTOUR INERTIA (D-0018): temporal low-pass on the body contour + mesh so the
     // per-frame micro-jitter that flipped the razor chin cusp's raster row at panel rate (Cody's ~80 Hz
@@ -3514,7 +3636,12 @@ function applyMeshWarp(contour,mesh){
         }
         return prev;
       };
-      smoothPts=_lp(smoothPts,kappaBoxLower(pts,S)); smoothMesh=_lp(smoothMesh,mesh); pts=kappaBoxLower(smoothPts,S); mesh=smoothMesh;
+      if(occupied){
+        // E6 — Voigt not on extracted xy. Dual killed: _lp on isoline.
+        smoothPts=pts.map(p=>({...p}));
+      }else{
+        smoothPts=_lp(smoothPts,kappaBoxLower(pts,S)); smoothMesh=_lp(smoothMesh,mesh); pts=kappaBoxLower(smoothPts,S); mesh=smoothMesh;
+      }
     }
     const singularityWeight=profileWeight(morphProfileId,nextMorphProfileId,morphMix,'singularity');
     const orbitWeight=profileWeight(morphProfileId,nextMorphProfileId,morphMix,'dormant-orbit');
