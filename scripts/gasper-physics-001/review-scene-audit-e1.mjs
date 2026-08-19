@@ -84,6 +84,14 @@ const measure = () =>
         C: medial.crotch,
       },
       skeleton: sk && sk.nodes,
+      envelope: (globalThis.__GASPER_ENVELOPE_BOX__ || null) && {
+        ...globalThis.__GASPER_ENVELOPE_BOX__,
+        n: globalThis.__GASPER_ENVELOPE_XYZ__
+          ? globalThis.__GASPER_ENVELOPE_XYZ__.length / 3
+          : 0,
+        r: globalThis.__GASPER_ENVELOPE_R__ || null,
+      },
+      envH: av?.dataset?.envelopeH ?? null,
       face: (() => {
         const f = document.querySelector("#faceRecessLayer, #faceEmissionLayer");
         return f ? f.getBoundingClientRect() : null;

@@ -1,16 +1,13 @@
 {
-  "runId": "2026-08-19T01-46-00-000Z-e1-skeleton",
+  "runId": "2026-08-19T01-53-00-000Z-e2-shadow",
   "mode": "cut",
-  "residual": "extracted-medial = rest-lock",
+  "residual": "plan-table = measurement",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "E1",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T01-46-00-000Z-e1-skeleton",
+  "wave": "E2",
+  "restore": "checkpoint-e1-skeleton-20260818",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T01-53-00-000Z-e2-shadow",
   "book": "docs/triforce/plans/2026-08-19-envelope-001.md",
   "engineVersion": "3.0.0",
-  "parents": [
-    "docs/triforce/canon/runs/2026-08-19T02-40-00-000Z-investigate-envelope-clean",
-    "docs/triforce/canon/runs/2026-08-19T01-05-00-000Z-wave-006"
-  ],
-  "verdict": "E1 overlay live. Live cleft in the W. Do not invert #body. Next is E2 shadow envelopeXYZ — fit r first."
+  "verdict": "Shadow envelope live. Fitted 82/56/25/15. Pointer not swapped. Next is E3 interiors only — tag first."
 }

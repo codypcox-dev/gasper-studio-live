@@ -37,4 +37,34 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
     expect(formMaster).toContain("southGate=Math.min(plantL.y,plantR.y)-36");
     expect(formMaster).not.toContain("meanY(a)>=meanY(b)?a:b");
   });
+
+  it("fits regular canal radii and keeps the envelope as a shadow", () => {
+    const R = { crown: 82, torso: 56, crotch: 25, plant: 15, contactY: 203.4 };
+    const nodes = {
+      crown: { x: 120, y: 112 },
+      torso: { x: 120, y: 140 },
+      crotch: { x: 120, y: 172 },
+      plantL: { x: 100, y: 188 },
+      plantR: { x: 140, y: 188 },
+    };
+    const L = (a: { x: number; y: number }, b: { x: number; y: number }) =>
+      Math.hypot(a.x - b.x, a.y - b.y);
+    expect(Math.abs(R.torso - R.crown)).toBeLessThan(L(nodes.crown, nodes.torso) - 0.5);
+    expect(Math.abs(R.crotch - R.torso)).toBeLessThan(L(nodes.torso, nodes.crotch) - 0.5);
+    expect(Math.abs(R.plant - R.crotch)).toBeLessThan(L(nodes.crotch, nodes.plantL) - 0.5);
+    expect(Math.abs(R.plant - R.crotch)).toBeLessThan(L(nodes.crotch, nodes.plantR) - 0.5);
+    expect(R.crotch).toBeLessThanOrEqual(R.contactY - nodes.crotch.y - 6);
+    expect(nodes.crown.y + R.crown).toBeLessThanOrEqual(R.contactY);
+    expect(formMaster).toContain("crown:82");
+    expect(formMaster).toContain("torso:56");
+    expect(formMaster).toContain("crotch:25");
+    expect(formMaster).toContain("plant:15");
+    expect(formMaster).toContain("function sampleEnvelopeXYZ");
+    expect(formMaster).toContain("function sampleCanal");
+    expect(formMaster).toContain("__GASPER_ENVELOPE_XYZ__");
+    expect(formMaster).toContain("lock:'shadow-only'");
+    expect(formMaster).not.toMatch(/liveGridXYZ\s*=\s*envelopeXYZ\s*;/);
+    expect(formMaster).not.toContain("paintCageFill(envelopeXYZ");
+    expect(formMaster).toContain("sampleEnvelopeXYZ();");
+  });
 });

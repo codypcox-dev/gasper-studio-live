@@ -32,6 +32,77 @@
     ]),
   });
   globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
+  // E2 — fitted rest radii. Dual killed: plan-table = measurement. Do not feed paint.
+  const GASPER_ENVELOPE_R=Object.freeze({
+    crown:82,
+    torso:56,
+    crotch:25,
+    plant:15,
+    contactY:203.4,
+    fit:'yaw0-live-20260819',
+    lock:'shadow-only',
+  });
+  const envelopeXYZ=new Float32Array(1000*3);
+  function canalFrame(ax,ay,az,bx,by,bz){
+    const dx=bx-ax,dy=by-ay,dz=bz-az,L=Math.hypot(dx,dy,dz)||1;
+    const tx=dx/L,ty=dy/L,tz=dz/L;
+    let e1x,e1y,e1z;
+    if(Math.abs(ty)<0.92){e1x=-tz;e1y=0;e1z=tx;}
+    else{e1x=1;e1y=0;e1z=0;}
+    const e1l=Math.hypot(e1x,e1y,e1z)||1;
+    e1x/=e1l;e1y/=e1l;e1z/=e1l;
+    const e2x=ty*e1z-tz*e1y,e2y=tz*e1x-tx*e1z,e2z=tx*e1y-ty*e1x;
+    return{L,tx,ty,tz,e1x,e1y,e1z,e2x,e2y,e2z};
+  }
+  function sampleCanal(ax,ay,az,rA,bx,by,bz,rB,u,v,th){
+    const f=canalFrame(ax,ay,az,bx,by,bz);
+    const sigma=(rB-rA)/f.L;
+    const rho=Math.sqrt(Math.max(0,1-sigma*sigma));
+    const ru=rA+u*(rB-rA);
+    const cx=ax+u*(bx-ax),cy=ay+u*(by-ay),cz=az+u*(bz-az);
+    const ct=Math.cos(th),st=Math.sin(th);
+    const nx=-sigma*f.tx+rho*(ct*f.e1x+st*f.e2x);
+    const ny=-sigma*f.ty+rho*(ct*f.e1y+st*f.e2y);
+    const nz=-sigma*f.tz+rho*(ct*f.e1z+st*f.e2z);
+    return[cx+v*ru*nx,cy+v*ru*ny,cz+v*ru*nz];
+  }
+  function sampleEnvelopeXYZ(){
+    // Shadow 25×40. Absolute content px. Dual killed: liveGridXYZ = envelopeXYZ.
+    const n=GASPER_SKELETON.nodes,R=GASPER_ENVELOPE_R,out=envelopeXYZ;
+    const C=n.crown,T=n.torso,X=n.crotch,pL=n.plantL,pR=n.plantR;
+    let yMin=1e9,yMax=-1e9,xMin=1e9,xMax=-1e9;
+    for(let r=0;r<25;r++){
+      for(let s=0;s<40;s++){
+        const i=r*40+s,th=(s/40)*Math.PI*2;
+        let p;
+        if(r<=3){
+          const phi=(r/3)*2.15;
+          p=[C.x+R.crown*Math.sin(phi)*Math.cos(th),C.y-R.crown*Math.cos(phi),R.crown*Math.sin(phi)*Math.sin(th)];
+        }else if(r<=16){
+          const t=(r-3)/13,Lct=28,Ltx=32,dist=t*(Lct+Ltx),v=1;
+          p=dist<=Lct
+            ?sampleCanal(C.x,C.y,0,R.crown,T.x,T.y,0,R.torso,dist/Lct,v,th)
+            :sampleCanal(T.x,T.y,0,R.torso,X.x,X.y,0,R.crotch,(dist-Lct)/Ltx,v,th);
+        }else{
+          const u=(r-16)/8,plant=s<20?pL:pR,local=(s<20?s:s-20)/20*Math.PI*2;
+          p=sampleCanal(X.x,X.y,0,R.crotch,plant.x,plant.y,0,R.plant,u,1,local);
+        }
+        out[i*3]=p[0];out[i*3+1]=p[1];out[i*3+2]=p[2];
+        if(p[1]<yMin)yMin=p[1];if(p[1]>yMax)yMax=p[1];
+        if(p[0]<xMin)xMin=p[0];if(p[0]>xMax)xMax=p[0];
+      }
+    }
+    globalThis.__GASPER_ENVELOPE_XYZ__=out;
+    globalThis.__GASPER_ENVELOPE_R__=R;
+    globalThis.__GASPER_ENVELOPE_BOX__={xMin,yMin,xMax,yMax,h:yMax-yMin};
+    if(avatar){
+      avatar.dataset.envelopeH=(yMax-yMin).toFixed(1);
+      avatar.dataset.envelopeYMin=yMin.toFixed(1);
+      avatar.dataset.envelopeYMax=yMax.toFixed(1);
+      avatar.dataset.envelopeFit=R.fit;
+    }
+    return out;
+  }
   const RELIEF_PRESETS = Object.freeze({
     none:Object.freeze([]),
     brow_raise:Object.freeze([{kind:'brow_raise',u:.88,v:.47,radius:.105,amplitude:.76},{kind:'brow_raise',u:.12,v:.47,radius:.105,amplitude:.76}]),
@@ -2328,6 +2399,7 @@ function applyMeshWarp(contour,mesh){
     globalThis.__GASPER_GRID_SCULPT__=gridSculpt;
     globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
     globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
+    sampleEnvelopeXYZ();
     return pts;
   }
   function paintScaffoldGrid(contour,profile){
@@ -2418,9 +2490,12 @@ function applyMeshWarp(contour,mesh){
       html.push('<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="#f0c24a" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.92"/>');
     }
     const labels=[['crown','C'],['torso','T'],['crotch','X'],['plantL','L'],['plantR','R']];
+    const rad={crown:GASPER_ENVELOPE_R.crown,torso:GASPER_ENVELOPE_R.torso,crotch:GASPER_ENVELOPE_R.crotch,plantL:GASPER_ENVELOPE_R.plant,plantR:GASPER_ENVELOPE_R.plant};
     for(const [id,tag] of labels){
       const n=sk[id];
       if(!n) continue;
+      const rr=rad[id]||8;
+      html.push('<circle cx="'+n.x+'" cy="'+n.y+'" r="'+rr+'" fill="none" stroke="#7ee0ff" stroke-width="1.1" stroke-dasharray="3 3" stroke-opacity="0.55"/>');
       html.push('<circle cx="'+n.x+'" cy="'+n.y+'" r="4.4" fill="#f6d36a" stroke="#1a1204" stroke-width="0.8"/>');
       html.push('<text x="'+(n.x+6)+'" y="'+(n.y-6)+'" fill="#ffe9a8" font-size="7" font-family="ui-sans-serif,system-ui" stroke="#1a1204" stroke-width="0.3">'+tag+'</text>');
     }
