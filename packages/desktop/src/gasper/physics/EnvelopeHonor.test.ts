@@ -65,7 +65,42 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
     expect(formMaster).toContain("lock:'shadow-only'");
     expect(formMaster).not.toMatch(/liveGridXYZ\s*=\s*envelopeXYZ\s*;/);
     expect(formMaster).not.toContain("paintCageFill(envelopeXYZ");
-    expect(formMaster).toContain("sampleEnvelopeXYZ();");
+    expect(formMaster).toContain("sampleEnvelopeXYZ(posed)");
+    expect(formMaster).toContain("function envelopeRadii");
+    expect(formMaster).toContain("snap-id = interpolation");
+    expect(formMaster).not.toMatch(/liveGridXYZ\s*=\s*envelopeXYZ\s*;/);
+    expect(formMaster).not.toContain("paintCageFill(envelopeXYZ");
+  });
+
+  it("interpolates the morph 3-vector and clamps canal regularity", () => {
+    expect(formMaster).toContain("function envelopeMode");
+    expect(formMaster).toContain("__GASPER_ENVELOPE_BLEND__");
+    expect(formMaster).toContain("__GASPER_ENVELOPE_VEC__");
+    expect(formMaster).toContain("setEnvelopeBlend");
+    expect(formMaster).toContain("lerp-512 = morph");
+    const rest = { rScale: 1, collapsePlants: 0, torsoHook: 0 };
+    const blow = { rScale: 1.07, collapsePlants: 0, torsoHook: 0 };
+    const t = 0.5;
+    const rScale = rest.rScale + (blow.rScale - rest.rScale) * t;
+    expect(rScale).toBeCloseTo(1.035, 8);
+    const R0 = { crown: 82, torso: 56, crotch: 25, plant: 15 };
+    const Lct = 28, Ltx = 32;
+    const rawTorsoCrotch = Math.abs(R0.torso * 1.07 - R0.crotch * 1.07);
+    expect(rawTorsoCrotch).toBeGreaterThan(Ltx - 0.5);
+    const clampPair = (rA: number, rB: number, L: number) => {
+      const max = Math.max(0, L - 0.5);
+      if (Math.abs(rB - rA) <= max) return [rA, rB] as const;
+      return rA >= rB ? ([rB + max, rB] as const) : ([rA, rA + max] as const);
+    };
+    const scaled = { crown: 82 * 1.07, torso: 56 * 1.07, crotch: 25 * 1.07 };
+    const [torso, crotch] = clampPair(scaled.torso, scaled.crotch, Ltx);
+    expect(Math.abs(crotch - torso)).toBeLessThanOrEqual(Ltx - 0.5 + 1e-9);
+    const collapse = 0.4;
+    const plantL = { x: 100, y: 188 };
+    const crotchN = { x: 120, y: 172 };
+    const x = plantL.x * (1 - collapse) + (crotchN.x * 0.55 + plantL.x * 0.45) * collapse;
+    expect(x).toBeGreaterThan(100);
+    expect(x).toBeLessThan(110);
   });
 
   it("writes interiors from the canal and glues ring 24 to the 512", () => {

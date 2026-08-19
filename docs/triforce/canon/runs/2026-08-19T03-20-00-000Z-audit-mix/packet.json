@@ -1,0 +1,60 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T03-20-00-000Z-audit-mix",
+  "mode": "investigate",
+  "residual": "snap-id = interpolation",
+  "question": "What is live vs law, and what is the next lawful cut?",
+  "engineVersion": "3.0.0",
+  "liveStack": {
+    "body": "occupiedOutline Rank-1 union (E6) when morphMix~0",
+    "cage": "bindHullToLiveGrid canal interiors + ring 24 glued to the 512",
+    "yaw": "rotateAboutM about plant midpoint",
+    "gait": "poseSkeleton plants from __GASPER_STANCE__",
+    "shade": "xyz finite differences → 4 isobands. No 58-dome.",
+    "morphE7": "WAS a discrete snap. NOW a 3-vector lerp + regularity clamp (this wave).",
+    "face": "FACE_CANON / viewFaceTransform (120,112)",
+    "ink": "closedSpline only"
+  },
+  "gapsRemaining": [
+    "ring-24 glue: interiors from canal, rim from occupied — seam can disagree",
+    "occupied drops when FORM_PROFILE morphMix>0 (gauss 512 returns)",
+    "pear width: Y of spheres cannot be wide pearl + W (physical)",
+    "no UI sliders on the 3-vector yet",
+    "RBF/PSD waits for an off-axis sculpt",
+    "isoCoat still thin at rest (lighting residual, not this wave)",
+    "walkScaffoldZ still exists, gated",
+    "getViewMetrics still computes facingCompress; paint forces 1.0000"
+  ],
+  "thisCut": {
+    "wave": "E7-I continuous mix",
+    "did": [
+      "envelopeMode interpolates (rScale, collapse, hook)",
+      "named ids are presets",
+      "blend {from,to,mix,arc} + live vec + host API",
+      "envelopeRadii scales then |Δr|<L−0.5",
+      "bind + occupied + shadow + overlay share those radii",
+      "sampleEnvelopeXYZ poses + live bone lengths"
+    ],
+    "mustNot": [
+      "lerp #body.d",
+      "revive blendPointSets as envelope morph",
+      "move FACE_CANON",
+      "unglue ring 24",
+      "new painter file"
+    ]
+  },
+  "regularityProof": "uniform rScale 1.07 on torso–crotch: |59.92−26.75|=33.17 > L−0.5=31.5. Clamp fires. Dual killed: puff-table = regular canal.",
+  "dualKilled": [
+    "snap-id = interpolation",
+    "lerp-512 = morph",
+    "rest-table = live mix",
+    "puff-table = regular canal"
+  ],
+  "restore": "checkpoint-e7-morph-20260818",
+  "next": [
+    "Wave II: refractory rest→blowfish film",
+    "UI bipolar sliders for the 3-vector",
+    "E8: unglue ring 24 only after seam Hausdorff is small",
+    "keep occupied through FORM_PROFILE morphs"
+  ]
+}

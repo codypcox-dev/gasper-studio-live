@@ -2,7 +2,7 @@
 
 **Id:** `GASPER-ENVELOPE-001`  
 **Name:** The Medial Envelope  
-**Status:** LAW WRITTEN — CanonOps earned 2026-08-19T02. Impl plan in `docs/triforce/plans/2026-08-19-envelope-001.md`  
+**Status:** E0–E7 landed. E7-I continuous 3-vector mix + regularity clamp landed 2026-08-19T03. Ring-24 glue and FORM_PROFILE morph-drop remain.  
 **Engine:** Tri-Force 3.0.0  
 **Parents:** `NORTHSTAR-CAGED-HULL.md`, medial-fabric, isophote-banding, marching-cubes (refused as body)  
 **Packets:**

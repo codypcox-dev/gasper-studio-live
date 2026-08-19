@@ -1,0 +1,59 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T03-05-00-000Z-explore-morph-interp",
+  "mode": "explore",
+  "residual": "snap-id = interpolation",
+  "question": "How should GASPER_ENVELOPE_MORPH interpolate so rest↔blowfish↔paddle↔question is a living mix, not a snap?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "gauss-W = medial-W",
+  "dualKilled": [
+    "snap-id = interpolation",
+    "lerp-512 = morph",
+    "blendPointSets = envelope morph",
+    "boolean collapsePlants = mix",
+    "slerp/DQS = puff",
+    "RBF-before-examples = interpolator"
+  ],
+  "lawfulObject": "parameter lerp on the 3-vector (rScale, collapse, hook), then resample the canal. Regularity clamp |Δr|<L−ε every frame. Named rows are presets of that vector.",
+  "liveToday": {
+    "envelopeMode": "discrete id snap via __GASPER_ENVELOPE_MORPH__",
+    "collapsePlants": "boolean 0/1",
+    "rScale": "hard clamp [0.7, 1.07] on the snapped row",
+    "blendPointSets": "512 xy lerp between FORM_PROFILES — retired as shape authority (E7)",
+    "sampleRefractoryArc": "already the time-ease for profile morphs. Reuse. Do not grow a second clock."
+  },
+  "families": {
+    "parameterLerp": "lerp the table columns, then occupiedOutline. Home.",
+    "logRadius": "r(t)=r0·(r1/r0)^t — constant-speed puff. Optional on rScale only.",
+    "barycentric": "w_blow+w_paddle+w_question ≤ 1, rest = 1−Σ. Mix several at once.",
+    "regularityClamp": "after lerp, |r_B−r_A| < L−0.5 on every bone or shrink r, never L.",
+    "refractoryMix": "sampleRefractoryArc(progress) drives the lerp. One clock.",
+    "PSD_RBF": "Lewis 2000 scattered interpolation. Pays off only after off-axis sculpted examples exist.",
+    "slerp_DQS": "Kavan 2008. Right for plant-yaw / bone rotation. Wrong for isotropic puff and plant collapse.",
+    "silhouetteLerp": "blendPointSets. Illegal. Crossfades two inks, not one organism."
+  },
+  "regularityDuringMix": "uniform rScale preserves σ=(rB−rA)/L. Mixing blowfish (scale) with paddle (plants move, L changes) can push |σ|≥1 mid-blend. Clamp after compose, every frame.",
+  "refused": [
+    "lerp #body.d between two closedSplines",
+    "reactivate blendPointSets as envelope morph",
+    "Flubber / remesh / second morph writer",
+    "dual-quaternion blend of rest vs blowfish (no rotation to slerp)",
+    "RBF with only 4 axial presets (degenerates to the 3-axis lerp)",
+    "move FACE_CANON during mix"
+  ],
+  "waves": {
+    "I": "envelopeMode() returns a continuous 3-vector. Snap ids become named presets. collapsePlants is a 0..1 weight.",
+    "II": "refractory mix between two presets. Reuse sampleRefractoryArc. Regularity clamp.",
+    "III": "RBF/PSD only if we author off-axis examples (blowfish+paddle as a fifth row)."
+  },
+  "sources": [
+    "Lewis, Cordner, Fong — Pose Space Deformation, SIGGRAPH 2000 (scattered, not grid)",
+    "Anjyo, Lewis, Pighin — Scattered Data Interpolation for Computer Graphics, SIGGRAPH Courses 2014",
+    "Lewis — PSD web notes (smooth vs linear / hyperlinear)",
+    "Kavan et al. — Geometric Skinning with Approximate Dual Quaternion Blending, 2008",
+    "Shoemake — Animating Rotation with Quaternion Curves (slerp), SIGGRAPH 1985",
+    "Garcia & Sotomayor 2006 — canal regularity r'<1",
+    "in-house sampleRefractoryArc + blendPointSets (the latter is the dual)"
+  ],
+  "fix": "none this pass. Dual + interpolator spec only."
+}

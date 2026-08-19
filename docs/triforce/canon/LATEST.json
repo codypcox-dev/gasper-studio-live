@@ -1,13 +1,13 @@
 {
-  "runId": "2026-08-19T02-39-00-000Z-e6-e7",
-  "mode": "cut",
-  "residual": "isobands-on-new-rim",
+  "runId": "2026-08-19T03-20-00-000Z-audit-mix",
+  "mode": "investigate+implement",
+  "residual": "snap-id = interpolation",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "E7",
-  "restore": "checkpoint-e5-plants-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T02-39-00-000Z-e6-e7",
+  "wave": "E7-I-continuous-mix",
+  "restore": "checkpoint-e7-morph-20260818",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-20-00-000Z-audit-mix",
   "book": "docs/triforce/plans/2026-08-19-envelope-001.md",
   "engineVersion": "3.0.0",
-  "verdict": "Book closed. Occupied outline inks #body. Morph table is the same 5-node fabric. FACE_CANON holds."
+  "verdict": "Live stack is E6 body + canal interiors. Morph is now a 3-vector lerp with regularity clamp. Do not lerp the 512. Ring-24 glue remains."
 }

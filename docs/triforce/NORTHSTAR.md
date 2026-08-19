@@ -17,6 +17,16 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · audit, keep moving
+
+Cody: audit, keep moving, keep researching and adversarially improving. Full technical audit of current tech and the gap. Keep going.
+Intention: stop snapping looks. Name every live writer vs every law. Close the next lawful gap (continuous 3-vector mix on the same fabric). Do not lerp the 512. Visual review after the slice.
+
+## Owner voice — 2026-08-18 · Explore morph table interpolation
+
+Cody: Explore morph table interpolation techniques.
+Intention: the E7 table (rest / blowfish / paddle / question) must become a living mix, not a snap. Research how morph tables interpolate — blendshapes, pose-space, RBF, slerp, log-radius — and name the lawful interpolator for the 5-node canal. Dual to kill: lerp the 512 = morph the organism. Do not implement this pass.
+
 ## Owner voice — 2026-08-18 · finish the rest sequentially with visual review
 
 Cody: finish the rest sequentially with visual review between slices.
