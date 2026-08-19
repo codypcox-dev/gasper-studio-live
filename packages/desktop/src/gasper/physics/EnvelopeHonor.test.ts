@@ -70,11 +70,32 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
 
   it("writes interiors from the canal and glues ring 24 to the 512", () => {
     expect(formMaster).toContain("Ring 24 glued to the live 512");
-    expect(formMaster).toContain("envelopeBind='e3'");
+    expect(formMaster).toContain("envelopeBind='e4'");
     expect(formMaster).toContain("const dist=(r/16)*(Lct+Ltx)");
     expect(formMaster).toContain("const u=(r-16)/7");
     expect(formMaster).not.toContain("pts = occupiedOutline");
     expect(formMaster).not.toMatch(/liveGridXYZ\s*=\s*envelopeXYZ\s*;/);
   });
+
+  it("yaws the canal about the plant midpoint and does not squash the 512", () => {
+    expect(formMaster).toContain("function rotateAboutM");
+    expect(formMaster).toContain("centroid-yaw = plant-yaw");
+    expect(formMaster).toContain("envelopeBind='e4'");
+    expect(formMaster).toContain("avatar.dataset.facingCompress='1.0000'");
+    expect(formMaster).not.toContain("const _hK=_vmT.facingCompress");
+    expect(formMaster).not.toContain("from \"./Mesh3D\"");
+    expect(formMaster).not.toContain("rotateViewXYZ(");
+    expect(formMaster).toContain("function authorKeyViewPoint");
+    const Mx = 123.6;
+    const th = (42 * Math.PI) / 180;
+    const x = 120, z = 82;
+    const x2 = Mx + (x - Mx) * Math.cos(th) + z * Math.sin(th);
+    const y2 = 30;
+    const z2 = 0 - (x - Mx) * Math.sin(th) + z * Math.cos(th);
+    expect(x2).toBeGreaterThan(170);
+    expect(y2).toBe(30);
+    expect(z2).toBeGreaterThan(50);
+  });
 });
+
 

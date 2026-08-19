@@ -66,6 +66,11 @@
     const nz=-sigma*f.tz+rho*(ct*f.e1z+st*f.e2z);
     return[cx+v*ru*nx,cy+v*ru*ny,cz+v*ru*nz];
   }
+  function rotateAboutM(x,y,z,Mx,Mz,th){
+    // E4 — world-Y through the plants. Dual killed: centroid-yaw = plant-yaw.
+    const c=Math.cos(th),s=Math.sin(th),dx=x-Mx,dz=z-Mz;
+    return[Mx+dx*c+dz*s,y,Mz-dx*s+dz*c];
+  }
   function sampleEnvelopeXYZ(){
     // Shadow 25×40. Absolute content px. Dual killed: liveGridXYZ = envelopeXYZ.
     const n=GASPER_SKELETON.nodes,R=GASPER_ENVELOPE_R,out=envelopeXYZ;
@@ -2425,6 +2430,29 @@ function applyMeshWarp(contour,mesh){
         liveGridXYZ[i*3+2]=P[2];
       }
     }
+    const yawDeg=(typeof effectiveViewYaw==='function'?effectiveViewYaw():0)||0;
+    const th=yawDeg*Math.PI/180;
+    const Mx=(plantL.x+plantR.x)*0.5,Mz=0;
+    let crownX=0,crownN=0;
+    if(Math.abs(th)>1e-6){
+      for(let r=0;r<R-1;r++){
+        for(let s=0;s<S;s++){
+          const i=r*S+s;
+          const wx=cx+liveGridXYZ[i*3],wy=cy+liveGridXYZ[i*3+1],wz=liveGridXYZ[i*3+2];
+          const Q=rotateAboutM(wx,wy,wz,Mx,Mz,th);
+          liveGridXYZ[i*3]=Q[0]-cx;
+          liveGridXYZ[i*3+1]=Q[1]-cy;
+          liveGridXYZ[i*3+2]=Q[2];
+          if(r<=3&&Q[2]>=0){crownX+=Q[0];crownN++;}
+        }
+      }
+    }else{
+      for(let s=0;s<S;s++){
+        const i=3*S+s,wz=liveGridXYZ[i*3+2]||0;
+        if(wz<0) continue;
+        crownX+=cx+liveGridXYZ[i*3];crownN++;
+      }
+    }
     if(sculpted){
       for(let i=0;i<n;i++){
         const u=arc[i]/total*S;
@@ -2445,8 +2473,11 @@ function applyMeshWarp(contour,mesh){
     globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
     globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
     if(avatar){
-      avatar.dataset.envelopeBind='e3';
+      avatar.dataset.envelopeBind='e4';
       avatar.dataset.footZCanal=footN?(footZCanal/footN).toFixed(2):'0';
+      avatar.dataset.plantYaw=yawDeg.toFixed(1);
+      avatar.dataset.plantMx=Mx.toFixed(1);
+      avatar.dataset.crownX=crownN?(crownX/crownN).toFixed(1):'';
     }
     sampleEnvelopeXYZ();
     return pts;
@@ -2530,8 +2561,17 @@ function applyMeshWarp(contour,mesh){
       g.replaceChildren();
       return;
     }
-    const sk=GASPER_SKELETON.nodes;
+    const sk0=GASPER_SKELETON.nodes;
     const bones=GASPER_SKELETON.bones;
+    const medial=globalThis.__GASPER_MEDIAL__||{};
+    const pL=medial.plantL||sk0.plantL,pR=medial.plantR||sk0.plantR;
+    const Mx=(pL.x+pR.x)*0.5,Mz=0;
+    const th=((typeof effectiveViewYaw==='function'?effectiveViewYaw():0)||0)*Math.PI/180;
+    const pose=n=>{
+      const Q=rotateAboutM(n.x,n.y,n.z||0,Mx,Mz,th);
+      return{x:Q[0],y:Q[1],z:Q[2]};
+    };
+    const sk={crown:pose(sk0.crown),torso:pose(sk0.torso),crotch:pose(sk0.crotch),plantL:pose(sk0.plantL),plantR:pose(sk0.plantR)};
     const html=[];
     for(const pair of bones){
       const a=sk[pair[0]],b=sk[pair[1]];
@@ -3526,7 +3566,14 @@ function applyMeshWarp(contour,mesh){
     const _vmT=getViewMetrics(formProfile);
     const facingYawDeg=_vmT.effectiveYaw;
     const materialFacingYawDeg=facingYawDeg;
-    {const _hK=_vmT.facingCompress;if(pts.length&&Math.abs(_hK-1)>1e-12){let _tcx=0;for(const p of pts){_tcx+=p.x;}_tcx/=pts.length;for(const p of pts){const _rx=p.x-_tcx;p.x=_tcx+_rx*_hK;}for(const p of renderMesh){const _rx=p.x-_tcx;p.x=_tcx+_rx*_hK;}}avatar.dataset.facingCompress=_vmT.facingCompress.toFixed(4);avatar.dataset.facingVerticalScale='1.0000';avatar.dataset.facingFaceFade=_vmT.faceTurnFade.toFixed(4);avatar.dataset.materialFacingYaw=materialFacingYawDeg.toFixed(2);avatar.dataset.nearLobeScale=_vmT.nearLobeScale.toFixed(4);avatar.dataset.farLobeScale=_vmT.farLobeScale.toFixed(4);}
+    { // E4 — plant-yaw owns turn. Dual killed: centroid-yaw = plant-yaw.
+      avatar.dataset.facingCompress='1.0000';
+      avatar.dataset.facingVerticalScale='1.0000';
+      avatar.dataset.facingFaceFade=_vmT.faceTurnFade.toFixed(4);
+      avatar.dataset.materialFacingYaw=materialFacingYawDeg.toFixed(2);
+      avatar.dataset.nearLobeScale=_vmT.nearLobeScale.toFixed(4);
+      avatar.dataset.farLobeScale=_vmT.farLobeScale.toFixed(4);
+    }
     // VM3: normals/light are evaluated from the geometry that is actually painted.
     const normalStarted=performance.now(),normals=computeNormals(pts);
     frameMetrics.normalMs.push(performance.now()-normalStarted);

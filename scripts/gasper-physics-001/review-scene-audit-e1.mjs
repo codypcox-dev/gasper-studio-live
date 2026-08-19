@@ -94,6 +94,11 @@ const measure = () =>
       envH: av?.dataset?.envelopeH ?? null,
       bind: av?.dataset?.envelopeBind ?? null,
       footZ: av?.dataset?.footZCanal ?? null,
+      plantYaw: av?.dataset?.plantYaw ?? null,
+      plantMx: av?.dataset?.plantMx ?? null,
+      crownX: av?.dataset?.crownX ?? null,
+      facingDeg: av?.dataset?.facingDeg ?? null,
+      headingYaw: av?.dataset?.headingYaw ?? null,
       face: (() => {
         const f = document.querySelector("#faceRecessLayer, #faceEmissionLayer");
         return f ? f.getBoundingClientRect() : null;
@@ -156,12 +161,36 @@ if (await playBtn.count()) {
 const walk = await measure();
 if (mon) await page.screenshot({ path: resolve(OUT, "06-strut.png"), clip: mon });
 
+await page.evaluate(() => {
+  globalThis.__GASPER_SHOW_GRID__ = true;
+  globalThis.__GASPER_SHOW_SKELETON__ = true;
+  const rig = globalThis.SidekickFormMasterRig;
+  rig?.setPaused?.(true);
+  rig?.setHeadingYaw?.(0);
+  rig?.setYaw?.(0);
+});
+await page.waitForTimeout(700);
+const yaw0 = await measure();
+if (mon) await page.screenshot({ path: resolve(OUT, "07-yaw0.png"), clip: mon });
+
+await page.evaluate(() => {
+  const rig = globalThis.SidekickFormMasterRig;
+  rig?.setPaused?.(true);
+  rig?.setHeadingYaw?.(0);
+  rig?.setYaw?.(42);
+});
+await page.waitForTimeout(800);
+const yaw42 = await measure();
+if (mon) await page.screenshot({ path: resolve(OUT, "08-yaw42.png"), clip: mon });
+
 const packet = {
   errors: consoleErrors.slice(0, 16),
   rest,
   gridOn,
   skel,
   walk,
+  yaw0,
+  yaw42,
 };
 writeFileSync(resolve(OUT, "packet.json"), JSON.stringify(packet, null, 2));
 console.log(JSON.stringify(packet, null, 2));

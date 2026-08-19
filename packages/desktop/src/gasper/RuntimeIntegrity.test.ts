@@ -47,29 +47,27 @@ describe("GASPER-COMPOSITION-001 Wave 3 runtime integrity", () => {
   });
 
   it("keeps view projection off persistent viscoelastic body memory", () => {
-    const smooth = renderer.indexOf("smoothPts=_lp(smoothPts,pts)");
+    const smooth = renderer.indexOf("smoothPts=_lp(smoothPts,kappaBoxLower(pts,S))");
     const clone = renderer.indexOf("pts=pts.map(p=>({...p}))", smooth);
-    const facing = renderer.indexOf("const _hK=_vmT.facingCompress", clone);
+    const facing = renderer.indexOf("centroid-yaw = plant-yaw", clone);
     expect(smooth).toBeGreaterThanOrEqual(0);
     expect(clone).toBeGreaterThan(smooth);
     expect(facing).toBeGreaterThan(clone);
-    expect(renderer.slice(smooth, clone)).toContain("pts=smoothPts");
+    expect(renderer.slice(smooth, clone)).toContain("pts=kappaBoxLower(smoothPts,S)");
   });
 
   it("uses one post-facing geometry frame for shell, normals, light, and material", () => {
-    const smooth = renderer.indexOf("smoothPts=_lp(smoothPts,pts)");
+    const smooth = renderer.indexOf("smoothPts=_lp(smoothPts,kappaBoxLower(pts,S))");
     const contourClone = renderer.indexOf("pts=pts.map(p=>({...p}))", smooth);
     const meshClone = renderer.indexOf("const renderMesh=(mesh||[]).map(p=>({...p}))", contourClone);
-    const facing = renderer.indexOf("const _hK=_vmT.facingCompress", meshClone);
-    const meshFacing = renderer.indexOf("for(const p of renderMesh)", facing);
-    const normals = renderer.indexOf("normals=computeNormals(pts)", meshFacing);
+    const facing = renderer.indexOf("centroid-yaw = plant-yaw", meshClone);
+    const normals = renderer.indexOf("normals=computeNormals(pts)", facing);
     const light = renderer.indexOf("mesh:renderMesh,pts,normals", normals);
     const material = renderer.indexOf("renderMaterialRig(pts,normals,renderMesh,activeFaceAnchors,organismFrame,faceTurnVisibility,materialFacingYawDeg)", light);
     expect(contourClone).toBeGreaterThan(smooth);
     expect(meshClone).toBeGreaterThan(contourClone);
     expect(facing).toBeGreaterThan(meshClone);
-    expect(meshFacing).toBeGreaterThan(facing);
-    expect(normals).toBeGreaterThan(meshFacing);
+    expect(normals).toBeGreaterThan(facing);
     expect(light).toBeGreaterThan(normals);
     expect(material).toBeGreaterThan(light);
     expect(renderer.slice(smooth, contourClone)).not.toContain("computeNormals(pts)");

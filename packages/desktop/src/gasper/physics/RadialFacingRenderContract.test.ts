@@ -69,7 +69,8 @@ describe("S8 radial facing render contract", () => {
     expect(renderer).toContain("rawFaceShift*(1-faceTurnFade)");
     expect(renderer).toContain("projection:'finite-thickness-turntable-s1'");
     expect(renderer).toContain("if(_herr>180)_herr-=360");
-    expect(renderer).toContain("Math.abs(_hK-1)>1e-12");
+    expect(renderer).toContain("centroid-yaw = plant-yaw");
+    expect(renderer).toContain("avatar.dataset.facingCompress='1.0000'");
     expect(renderer).not.toContain("facingProjectionYawDeg");
     expect(renderer).not.toContain("facingCompress=(1-.08*_frontGate)");
   });
@@ -228,7 +229,8 @@ describe("gait 3/4 paint contract", () => {
     expect(renderer).toContain("gaussAngle(th,0.70,0.19)+gaussAngle(th,2.44,0.19)");
     expect(renderer).toContain("_pR=plantR*(1+(_rightPlant?0.90*_pC:-0.72*_iC))");
     expect(renderer).not.toContain("_pR=plantR*(1-(_rightPlant?0.55*_pC");
-    expect(renderer).toContain("p.x=_tcx+_rx*_hK;");
+    expect(renderer).toContain("function rotateAboutM");
+    expect(renderer).not.toContain("p.x=_tcx+_rx*_hK;");
     expect(renderer).not.toContain("_hK*(_rx<0?_lK:_rK)");
     expect(renderer).toContain("radius+=(_wc.lobeAmp??_wcc.lobeAmp)*(gaussAngle(th,_wcc.leftLobeTheta,_wcc.lobeSigma)+gaussAngle(th,_wcc.rightLobeTheta,_wcc.lobeSigma))");
     expect(renderer).toContain("S.left.x-100)*wL+(S.right.x-140)*wR+(S.crotch.x-120)*wC");

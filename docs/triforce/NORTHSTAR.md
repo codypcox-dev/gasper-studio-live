@@ -17,6 +17,11 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · audit scene keep going · E4
+
+Cody: audit scene keep going.
+Intention: look at the live organism after E3, name what is still wrong, then execute E4 of GASPER-ENVELOPE-001 — plant-yaw. Floor does not tip. Crown x moves. Do not invert `#body`. Tag after it lands. Rewind remains `checkpoint-e3-interiors-20260818`.
+
 ## Owner voice — 2026-08-18 · keep going · E3
 
 Cody: keep going.
