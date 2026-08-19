@@ -39,7 +39,7 @@ describe("GeoNodes", () => {
       expect(order.indexOf(spine[i])).toBeGreaterThan(order.indexOf(spine[i - 1]));
     }
     expect(g.output).toBe("hull");
-    expect(arrangeGraph(g).layoutVersion).toBe(19);
+    expect(arrangeGraph(g).layoutVersion).toBe(20);
     expect(g.nodes.some((n) => n.id === "envelope")).toBe(true);
     expect(g.nodes.find((n) => n.id === "envelope")?.muted).toBe(false);
     expect(occupiedPillars(g).includes("phase")).toBe(false);
@@ -71,7 +71,7 @@ describe("GeoNodes", () => {
     const env = g.nodes.find((n) => n.id === "envelope");
     expect(env?.params.find((p) => p.id === "rScale")?.base).toBe(1);
     expect(env?.params.find((p) => p.id === "collapse")?.value).toBe(0);
-    expect(env?.params.find((p) => p.id === "hook")?.value).toBe(0);
+    expect(env?.params.find((p) => p.id === "bones")?.value).toBe(1);
   });
 
   it("refuses a cycle, a type clash, and accepts a legal rewire", () => {

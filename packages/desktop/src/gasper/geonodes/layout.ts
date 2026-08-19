@@ -3,7 +3,7 @@ import { type PillarId, seatOf } from "./pillars";
 
 export { PILLARS, PILLAR_IDS, seatOf, belongsToPillar, ORGAN_PILLAR, type PillarId, type PillarDef, type PillarSeat } from "./pillars";
 
-export const LAYOUT_VERSION = 19;
+export const LAYOUT_VERSION = 20;
 export const CARD_W = 156;
 export const CARD_H = 88;
 const HEADER = 44;

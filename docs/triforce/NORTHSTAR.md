@@ -17,6 +17,11 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · rig + better light + true skin grid
+
+Cody: keep going with what you're doing, but where did the rig go? also, the light rendering of gasper was much better right before you added the rig. I want both. bring back that better key lighting and deeper control and the more realistic surface light on gasper. his grid still isn't true to form. we need the real skin grid and the rig and the better lighting system!
+Intention: three things at once, none traded. (1) The 5-node body rig must be visible and usable — Bones default on or obvious, not vanished because we hid it behind a zeroed toggle. (2) Restore the glossy key-light / realistic surface that existed before the canal/iso takeover; deeper light dials stay. (3) The painted 25×40 must be the skin of the same body, not a pizza loft. Dual killed: rig XOR light; grid-on = bones.
+
 ## Owner voice — 2026-08-18 · rig, grid, settings — explain first
 
 Cody: it seems like the rig is a good idea? the body rig? we keep that right? why is the grid still messed up? how do we use the new rig system? is it meaningfully wired and represented in settings? full sub agent audit and redesign. but first explain.

@@ -72,6 +72,7 @@ function mergeMissingOrgans(graph: GeoGraph): GeoGraph {
 }
 
 function hydrateMeta(graph: GeoGraph): GeoGraph {
+  const showBones = (graph.layoutVersion ?? 0) < 20;
   return {
     ...graph,
     nodes: graph.nodes.map((n) => {
@@ -79,7 +80,8 @@ function hydrateMeta(graph: GeoGraph): GeoGraph {
       if (!bp) return n;
       const params = bp.params.map((p) => {
         const cur = n.params.find((x) => x.id === p.id);
-        const value = cur ? Math.max(p.min, Math.min(p.max, cur.value)) : p.value;
+        const raw = p.id === "bones" && showBones ? 1 : cur ? cur.value : p.value;
+        const value = Math.max(p.min, Math.min(p.max, raw));
         return { ...p, value };
       });
       return {
@@ -363,6 +365,7 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
       });
     }
     if (env.bones !== undefined) host.__GASPER_SHOW_SKELETON__ = Number(env.bones) > 0.5;
+    else host.__GASPER_SHOW_SKELETON__ = true;
   } else {
     host.SidekickFormMasterRig?.setEnvelopeVec?.({ rScale: 1, collapsePlants: 0, torsoHook: 0 });
     host.__GASPER_SHOW_SKELETON__ = false;

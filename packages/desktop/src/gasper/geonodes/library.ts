@@ -72,7 +72,7 @@ const META: Record<string, Meta> = {
     { id: "rScale", label: "Puff", min: 0.7, max: 1.07, step: 0.005, value: 1, base: 1 },
     { id: "collapse", label: "Collapse", min: 0, max: 1, step: 0.01, value: 0, base: 0 },
     { id: "hook", label: "Hook", min: -24, max: 24, step: 0.5, value: 0, base: 0 },
-    { id: "bones", label: "Bones", min: 0, max: 1, step: 1, value: 0, base: 0 },
+    { id: "bones", label: "Bones", min: 0, max: 1, step: 1, value: 1, base: 1 },
   ]},
   "lattice-360": { element: "bone", event: "construction", inType: "contour", outType: "lattice", params: [
     { id: "mass", label: "Mass", min: 0, max: 2, step: 0.05, value: 1 },

@@ -2188,22 +2188,19 @@ function applyMeshWarp(contour,mesh){
     const base=$('bodyBase');
     if(base){
       const stops=base.querySelectorAll('stop');
-      const well=['#2a1068','#321472','#3a187c','#432088','#4c2494','#5428a0','#5c2cac'];
+      const well=['#3a1478','#4c1c94','#5e28ac','#7034c0','#8248cc','#9460d4','#a878dc'];
       for(let i=0;i<stops.length&&i<well.length;i++) stops[i].setAttribute('stop-color',well[i]);
     }
-    if(opticalDepth)opticalDepth.style.setProperty('opacity','0.22','important');
-    if(cyanReservoirPath){cyanReservoirPath.setAttribute('d','');cyanReservoirPath.setAttribute('opacity','0');}
-    if(cyanFieldNode)cyanFieldNode.setAttribute('opacity','0.05');
+    if(opticalDepth)opticalDepth.style.setProperty('opacity','0.46','important');
+    if(cyanReservoirPath) cyanReservoirPath.setAttribute('opacity','0.16');
+    if(cyanFieldNode)cyanFieldNode.setAttribute('opacity','0.14');
     const cosmic=$('cosmicTextureLayer');
-    if(cosmic)cosmic.setAttribute('opacity','0.10');
-    for(const id of ['cosmicCellA','cosmicCellB','cosmicCellC','cosmicCellD','cosmicCloudPath']){
-      const n=$(id);if(n)n.setAttribute('opacity','0');
-    }
-    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.14');
-    if(shellChromaticPath)shellChromaticPath.setAttribute('opacity','0.08');
-    if(innerVolumePath)innerVolumePath.setAttribute('opacity','0.10');
-    if(pearlCorePath)pearlCorePath.setAttribute('opacity','0.08');
-    if(violetCorePath)violetCorePath.setAttribute('opacity','0.10');
+    if(cosmic)cosmic.setAttribute('opacity','0.20');
+    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.40');
+    if(shellChromaticPath)shellChromaticPath.setAttribute('opacity','0.14');
+    if(innerVolumePath)innerVolumePath.setAttribute('opacity','0.28');
+    if(pearlCorePath)pearlCorePath.setAttribute('opacity','0.22');
+    if(violetCorePath)violetCorePath.setAttribute('opacity','0.24');
     if(body){
       body.setAttribute('stroke','none');
       body.setAttribute('stroke-width','0');
@@ -2417,22 +2414,22 @@ function applyMeshWarp(contour,mesh){
     const E=_isoLam,S=_isoSpec;
     if(g.childElementCount!==4){
       g.innerHTML=[
-        '<path id="isoSss" fill="#3a1068" fill-opacity="0.14" stroke="none" filter="url(#isoFeatherSss)"/>',
-        '<path id="isoBody0" fill="#4a2088" fill-opacity="0.58" stroke="none" filter="url(#isoFeatherBody)"/>',
-        '<path id="isoBody1" fill="#6a38a8" fill-opacity="0.40" stroke="none" filter="url(#isoFeatherBody)"/>',
-        '<path id="isoCoat" fill="#b898d8" fill-opacity="0.28" stroke="none" filter="url(#isoFeatherCoat)"/>'
+        '<path id="isoSss" fill="#5a2088" fill-opacity="0.10" stroke="none" filter="url(#isoFeatherSss)"/>',
+        '<path id="isoBody0" fill="#7a38b4" fill-opacity="0.22" stroke="none" filter="url(#isoFeatherBody)"/>',
+        '<path id="isoBody1" fill="#b070d8" fill-opacity="0.20" stroke="none" filter="url(#isoFeatherBody)"/>',
+        '<path id="isoCoat" fill="#f0dcff" fill-opacity="0.42" stroke="none" filter="url(#isoFeatherCoat)"/>'
       ].join('');
     }
     const sss=$('isoSss'),b0=$('isoBody0'),b1=$('isoBody1'),coat=$('isoCoat');
-    if(sss){sss.setAttribute('fill','#3a1068');sss.setAttribute('fill-opacity','0.14');}
-    if(b0){b0.setAttribute('fill','#4a2088');b0.setAttribute('fill-opacity','0.58');}
-    if(b1){b1.setAttribute('fill','#6a38a8');b1.setAttribute('fill-opacity','0.40');}
-    if(coat){coat.setAttribute('fill','#b898d8');coat.setAttribute('fill-opacity','0.28');}
+    if(sss){sss.setAttribute('fill','#5a2088');sss.setAttribute('fill-opacity','0.10');}
+    if(b0){b0.setAttribute('fill','#7a38b4');b0.setAttribute('fill-opacity','0.22');}
+    if(b1){b1.setAttribute('fill','#b070d8');b1.setAttribute('fill-opacity','0.20');}
+    if(coat){coat.setAttribute('fill','#f0dcff');coat.setAttribute('fill-opacity','0.42');}
     const hull=hullFrontPath(xyz,cx,cy);
     if(sss) sss.setAttribute('d',hull||superlevelPath(xyz,cx,cy,E,0.05));
-    if(b0) b0.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.26));
-    if(b1) b1.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.52));
-    if(coat) coat.setAttribute('d',superlevelPath(xyz,cx,cy,S,0.62));
+    if(b0) b0.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.18));
+    if(b1) b1.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.40));
+    if(coat) coat.setAttribute('d',superlevelPath(xyz,cx,cy,S,0.28));
     g.setAttribute('opacity','1');
     if(avatar){
       avatar.dataset.cageFill='4';
@@ -2458,27 +2455,27 @@ function applyMeshWarp(contour,mesh){
     if(bloom&&Number.isFinite(sx)&&sx!==0){
       bloom.setAttribute('cx',sx.toFixed(1));
       bloom.setAttribute('cy',sy.toFixed(1));
-      bloom.setAttribute('r','64');
+      bloom.setAttribute('r','72');
       const b0=bloom.querySelector('stop');
-      if(b0){b0.setAttribute('stop-opacity','0.16');b0.setAttribute('stop-color','#c4a0e8');}
+      if(b0){b0.setAttribute('stop-opacity','0.38');b0.setAttribute('stop-color','#f2e4ff');}
     }
     const hx=Number(avatar&&avatar.dataset.cageHotX);
     const hy=Number(avatar&&avatar.dataset.cageHotY);
     if(hot&&Number.isFinite(hx)&&hx!==0){
       hot.setAttribute('cx',hx.toFixed(1));
       hot.setAttribute('cy',(Number.isFinite(hy)?hy:sy).toFixed(1));
-      hot.setAttribute('r','22');
+      hot.setAttribute('r','28');
       const h0=hot.querySelector('stop');
-      if(h0){h0.setAttribute('stop-opacity','0.10');h0.setAttribute('stop-color','#b890e0');}
+      if(h0){h0.setAttribute('stop-opacity','0.32');h0.setAttribute('stop-color','#fff6ff');}
     }else if(hot&&Number.isFinite(sx)&&sx!==0){
       hot.setAttribute('cx',sx.toFixed(1));
       hot.setAttribute('cy',sy.toFixed(1));
-      hot.setAttribute('r','22');
+      hot.setAttribute('r','28');
       const h0=hot.querySelector('stop');
-      if(h0){h0.setAttribute('stop-opacity','0.10');h0.setAttribute('stop-color','#b890e0');}
+      if(h0){h0.setAttribute('stop-opacity','0.26');h0.setAttribute('stop-color','#fff0ff');}
     }
-    if(tssGlintNode)tssGlintNode.setAttribute('opacity',Math.min(0.22,Number(tssGlintNode.getAttribute('opacity')||0)*0.35).toFixed(3));
-    if(tssSheenNode)tssSheenNode.setAttribute('opacity',Math.min(0.10,Number(tssSheenNode.getAttribute('opacity')||0)*0.35).toFixed(3));
+    if(tssGlintNode)tssGlintNode.setAttribute('opacity','0.18');
+    if(tssSheenNode)tssSheenNode.setAttribute('opacity','0.12');
   }
   const liveGridXYZ=new Float32Array(1000*3);
   function bindHullToLiveGrid(pts){
@@ -2528,6 +2525,16 @@ function applyMeshWarp(contour,mesh){
     const nx=new Float32Array(S),ny=new Float32Array(S),sxn=new Float32Array(S),syn=new Float32Array(S),inset=new Float32Array(S);
     const poleX=new Float32Array(S),poleY=new Float32Array(S),chartId=new Uint8Array(S);
     const belowY=cy+(Math.min(plantL.y,plantR.y)-cy)*0.42;
+    const pxA=new Float32Array(n),pyA=new Float32Array(n);
+    for(let i=0;i<n;i++){pxA[i]=pts[i].x||0;pyA[i]=pts[i].y||0;}
+    const insidePoly=(x,y)=>{
+      let w=false;
+      for(let i=0,j=n-1;i<n;j=i++){
+        const yi=pyA[i],yj=pyA[j],xi=pxA[i],xj=pxA[j];
+        if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/((yj-yi)||1e-9)+xi)) w=!w;
+      }
+      return w;
+    };
     for(let s=0;s<S;s++){
       const below=rimY[s]>belowY;
       const dl=Math.hypot(rimX[s]-plantL.x,rimY[s]-plantL.y);
@@ -2549,8 +2556,9 @@ function applyMeshWarp(contour,mesh){
     for(let s=0;s<S;s++){
       const p0x=rimX[(s-1+S)%S],p0y=rimY[(s-1+S)%S],p2x=rimX[(s+1)%S],p2y=rimY[(s+1)%S];
       let tx=p2x-p0x,ty=p2y-p0y,len=Math.hypot(tx,ty)||1;
-      let nnx=ty/len,nny=-tx/len;
-      if(nnx*(poleX[s]-rimX[s])+nny*(poleY[s]-rimY[s])<0){nnx=-nnx;nny=-nny;}
+      tx/=len;ty/=len;
+      let nnx=-ty,nny=tx;
+      if(!insidePoly(rimX[s]+nnx*2.2,rimY[s]+nny*2.2)){nnx=-nnx;nny=-nny;}
       nx[s]=nnx;ny[s]=nny;
     }
     for(let s=0;s<S;s++){
@@ -2559,8 +2567,15 @@ function applyMeshWarp(contour,mesh){
       syn[s]=ny[a]+ny[s]*2+ny[b];
       const nl=Math.hypot(sxn[s],syn[s])||1;
       nx[s]=sxn[s]/nl;ny[s]=syn[s]/nl;
-      const reach=Math.hypot(rimX[s]-poleX[s],rimY[s]-poleY[s]);
-      inset[s]=0.62*Math.max(10,reach);
+      if(!insidePoly(rimX[s]+nx[s]*2.2,rimY[s]+ny[s]*2.2)){nx[s]=-nx[s];ny[s]=-ny[s];}
+      let thick=8;
+      let x=rimX[s]+nx[s]*2,y=rimY[s]+ny[s]*2;
+      for(let k=0;k<90;k++){
+        x+=nx[s]*2;y+=ny[s]*2;
+        if(!insidePoly(x,y)){thick=Math.max(8,(k+1)*2);break;}
+        thick=(k+1)*2;
+      }
+      inset[s]=0.94*thick;
     }
     let sculpted=false;
     const posed=poseSkeleton();
@@ -2612,8 +2627,8 @@ function applyMeshWarp(contour,mesh){
           continue;
         }
         if(!fabricLive){
-          // Identity rest: loft from the canonical rim so coats fill the pearl.
-          const v=Math.pow(r/24,0.55);
+          // Identity rest: offset isolines of the live 512 so the cage is the skin, including the W.
+          const v=Math.pow(r/24,0.62);
           const insetV=(1-v)*inset[s];
           liveGridXYZ[i*3]=rimX[s]-cx+nx[s]*insetV+sx;
           liveGridXYZ[i*3+1]=rimY[s]-cy+ny[s]*insetV+syv;
@@ -2733,29 +2748,24 @@ function applyMeshWarp(contour,mesh){
       return (cx+(xyz[i*3]||0)).toFixed(1)+' '+(cy+(xyz[i*3+1]||0)).toFixed(1);
     };
     const html=[];
-    for(let r=2;r<R;r++){
+    for(let r=0;r<R;r++){
       let d='',pen=false;
       for(let s0=0;s0<=S;s0++){
-        const s=((s0%S)+S)%S,i=r*S+s,p={z:xyz[i*3+2]||0};
-        if(p.z<0){pen=false;continue;}
         d+=(pen?'L':'M')+at(r,s0);pen=true;
       }
       const rim=r>=R-3;
-      if(d) html.push('<path d="'+d+'" fill="none" stroke="'+(rim?'#f4fbff':'#eaf7ff')+'" stroke-width="'+(rim?'1.35':r===R-1?'1.15':'0.6')+'" stroke-opacity="'+(rim?'1':'0.7')+'"/>');
+      if(d) html.push('<path d="'+d+'" fill="none" stroke="'+(rim?'#f4fbff':'#eaf7ff')+'" stroke-width="'+(rim?'1.35':r===R-1?'1.15':'0.55')+'" stroke-opacity="'+(rim?'1':'0.62')+'"/>');
     }
     for(let s0=0;s0<S;s0++){
       let d='',pen=false;
-      for(let r=2;r<R;r++){
-        const i=r*S+s0,p={z:xyz[i*3+2]||0};
-        if(p.z<0){pen=false;continue;}
+      for(let r=0;r<R;r++){
         d+=(pen?'L':'M')+at(r,s0);pen=true;
       }
-      if(d) html.push('<path d="'+d+'" fill="none" stroke="#d9f0ff" stroke-width="0.55" stroke-opacity="0.7"/>');
+      if(d) html.push('<path d="'+d+'" fill="none" stroke="#d9f0ff" stroke-width="0.5" stroke-opacity="0.58"/>');
     }
-    for(let r=3;r<R;r++){
+    for(let r=0;r<R;r++){
       for(let s=0;s<S;s++){
-        const i=r*S+s,p={z:xyz[i*3+2]||0};
-        if(p.z<0) continue;
+        const i=r*S+s;
         const hot=i===selectedGrid;
         const outer=r>=R-4;
         html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.6':outer?'2.7':'2.05')+'" fill="'+(hot?'#fff':outer?'#ffffff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.96')+'" stroke="#0b1a22" stroke-width="0.4"/>');
@@ -2768,7 +2778,7 @@ function applyMeshWarp(contour,mesh){
     // E1 overlay. Authored rest nodes. Does not write #body. Dual killed: extracted-medial = rest-lock.
     let g=$('skeletonOverlay');
     const forced=globalThis.__GASPER_SHOW_SKELETON__;
-    const on=forced===true;
+    const on=forced!==false;
     if(!g){
       g=document.createElementNS('http://www.w3.org/2000/svg','g');
       g.setAttribute('id','skeletonOverlay');

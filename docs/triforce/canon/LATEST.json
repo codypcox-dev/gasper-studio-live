@@ -1,12 +1,12 @@
 {
-  "runId": "2026-08-19T03-32-00-000Z-skeleton-card",
+  "runId": "2026-08-19T03-40-00-000Z-rig-light-grid",
   "mode": "implement",
-  "residual": "rig-has-no-card",
+  "residual": "rig-xor-light",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "skeleton-card",
+  "wave": "rig-light-grid",
   "restore": "checkpoint-canon-rest-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-32-00-000Z-skeleton-card",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-40-00-000Z-rig-light-grid",
   "engineVersion": "3.0.0",
-  "verdict": "Skeleton is a live Look/Cook card. Puff Collapse Hook Bones. Rest still the pearl."
+  "verdict": "Bones default on. Pearl volume + sliding key sheen restored. Rest grid is offset isolines of the 512, including the W."
 }

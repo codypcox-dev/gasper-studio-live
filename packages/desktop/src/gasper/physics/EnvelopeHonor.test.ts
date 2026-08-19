@@ -151,7 +151,7 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
     expect(formMaster).toContain("union-at-rest = canonical");
     expect(formMaster).toContain("canon-rest");
     expect(formMaster).toContain("function frameOccupiedToProfile");
-    expect(formMaster).toContain("loft from the canonical rim");
+    expect(formMaster).toContain("offset isolines of the live 512");
   });
 
   it("morphs the same 5-node fabric — blowfish r↑, paddle collapses plants, face stays", () => {

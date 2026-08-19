@@ -1,0 +1,75 @@
+{
+  "errors": [],
+  "restBones": {
+    "bind": "canon-rest",
+    "occupied": "0",
+    "bonesOn": true,
+    "gridOn": true,
+    "skelKids": 19,
+    "skelOp": "0.95",
+    "gridKids": 1065,
+    "coatLen": 0,
+    "bloomOp": "0.38",
+    "specX": "104.0",
+    "specY": "117.8",
+    "box": {
+      "x": 44.886077880859375,
+      "y": 30.18000030517578,
+      "w": 156.91392517089844,
+      "h": 173.46585083007812
+    },
+    "lookPuff": 1,
+    "lookBones": 1
+  },
+  "both": {
+    "bind": "canon-rest",
+    "occupied": "0",
+    "bonesOn": true,
+    "gridOn": true,
+    "skelKids": 19,
+    "skelOp": "0.95",
+    "gridKids": 1065,
+    "coatLen": 0,
+    "bloomOp": "0.38",
+    "specX": "104.2",
+    "specY": "117.9",
+    "box": {
+      "x": 44.93607711791992,
+      "y": 30.18000030517578,
+      "w": 156.98391723632812,
+      "h": 173.46585083007812
+    },
+    "lookPuff": 1,
+    "lookBones": 1
+  },
+  "light": {
+    "bind": "canon-rest",
+    "occupied": "0",
+    "bonesOn": false,
+    "gridOn": true,
+    "skelKids": 0,
+    "skelOp": "0",
+    "gridKids": 1065,
+    "coatLen": 0,
+    "bloomOp": "0.38",
+    "specX": "104.1",
+    "specY": "117.8",
+    "box": {
+      "x": 44.95000076293945,
+      "y": 30.18000030517578,
+      "w": 157,
+      "h": 173.46585083007812
+    },
+    "lookPuff": 1,
+    "lookBones": 1
+  },
+  "gates": {
+    "restIsCanon": true,
+    "bonesVisible": true,
+    "lookHasRig": true,
+    "gridCovers": true,
+    "bloomBack": true,
+    "height": true,
+    "noPageError": true
+  }
+}
