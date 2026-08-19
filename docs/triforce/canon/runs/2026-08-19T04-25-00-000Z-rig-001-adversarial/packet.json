@@ -1,0 +1,18 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T04-25-00-000Z-rig-001-adversarial",
+  "mode": "plan",
+  "residual": "overlay-rig = body",
+  "engineVersion": "3.0.0",
+  "verdict": "Book locked after two PHDs. Rest loft has no back. τ ≠ puff. Walks are plant Δ on the 512. R1 next.",
+  "corrections": [
+    "n̂·V-on-a-pancake = front — killed",
+    "z<0 = occlusion — killed (pizzas W)",
+    "τ = puff — killed",
+    "occupied-at-walk — killed; identity-offset instead",
+    "voigt.rest as Look — dead, unmark",
+    "Front ⊥ X-ray"
+  ],
+  "chase": "docs/triforce/NORTHSTAR-RIG.md",
+  "book": "docs/triforce/plans/2026-08-19-gasper-rig-001.md"
+}

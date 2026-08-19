@@ -1,12 +1,12 @@
 {
-  "runId": "2026-08-19T04-05-00-000Z-toggles",
-  "mode": "implement",
-  "residual": "toggle-not-false",
-  "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
-  "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "toggles",
+  "runId": "2026-08-19T04-25-00-000Z-rig-001-adversarial",
+  "mode": "plan",
+  "residual": "overlay-rig = body",
+  "blueprint": "docs/triforce/NORTHSTAR-RIG.md",
+  "blueprintId": "GASPER-RIG-001",
+  "wave": "R0-locked",
   "restore": "checkpoint-canon-rest-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T04-05-00-000Z-toggles",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T04-25-00-000Z-rig-001-adversarial",
   "engineVersion": "3.0.0",
-  "verdict": "Bones and Grid are pill switches. Painter honors true only. Clicked film: hide and show both."
+  "verdict": "Front-Cage Rig book locked. Workers corrected rest-has-no-back and τ≠puff. Say go for R1."
 }

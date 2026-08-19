@@ -17,6 +17,16 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-19 · freeform verts, front-only cage, real rig, tunable physics
+
+Cody: I need freeform vertex pulling, isolated vertex view to only the viewers perspective. I need the option to not see back vertices behind his curve in perspective if that makes sense. I need his whole body rigged properly, and those physics reconciled into tunable settings. we need a proper rig setup so that we can drive proper animations and with proper tau and physics settings. get a plan to clean up and amplify my prompt to the next level. infer my meaning. sub agents split work. you are a triforce architect and overseer and you use workers to achieve the comprehensive research backed plan book you're going to write to achieve all of this. GO
+Intention: write a named plan book, not another half-wired overlay. Amplify: (1) freeform pull of the 25×40 as the skin — isolate one vertex, no Gaussian smear unless asked; (2) view-space isolation — hide verts behind the silhouette / backfacing in yaw, like seeing only the front of a 3D cage; (3) the 5-node body is the animation rig, not a gold sticker — plants, crotch, torso, crown drive takes; (4) τ / viscosity / plant-gate / Kelvin–Voigt are Look dials on that same fabric. Dual killed: overlay-rig = body; smear-stamp = isolate; show-backfaces = perspective. Architect writes the book. Workers research. Do not implement the book this pass.
+
+## Owner voice — 2026-08-19 · Investigate grid snapping modes
+
+Cody: Investigate grid snapping modes
+Intention: name the lawful snap modes for Gasper's 25×40 skin (and the studio desk, if it still claims snap). Compare Illustrator / Figma / Blender / Rive. Dual to kill: background-card-snap = cage-snap. Do not break pan. Do not implement this pass unless a single mode is already half-wired and safe.
+
 ## Owner voice — 2026-08-19 · bone toggle and grid fix
 
 Cody: I need bone toggle and grid fix

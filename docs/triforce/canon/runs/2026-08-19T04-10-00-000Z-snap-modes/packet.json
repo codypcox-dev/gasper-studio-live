@@ -1,0 +1,11 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T04-10-00-000Z-snap-modes",
+  "mode": "investigate",
+  "residual": "snap-modes",
+  "question": "Which grid snap modes are lawful for the 25×40 skin, and which would repeat the card-magnet disaster?",
+  "engineVersion": "3.0.0",
+  "verdict": "Three cage modes: Off, Increment, Isoline. Kill absolute world-grid on the desk. stampGridSculpt.snap is a drag snapshot, not a snap mode.",
+  "dualKilled": ["card-magnet = cage-snap", "pixel-grid = organism"],
+  "liveToday": "Free Gaussian stamp. No snap mode. Card magnetize is graph-only."
+}

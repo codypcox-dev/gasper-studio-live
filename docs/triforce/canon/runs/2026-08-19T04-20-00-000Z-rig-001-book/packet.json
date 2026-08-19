@@ -1,0 +1,13 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T04-20-00-000Z-rig-001-book",
+  "mode": "plan",
+  "residual": "overlay-rig = body",
+  "question": "What book executes freeform isolate pull, front-only cage, 5-node animation rig, and one τ writer?",
+  "engineVersion": "3.0.0",
+  "verdict": "GASPER-RIG-001 Front-Cage Rig. Six waves R0–R5. R0 is this deposit. Do not implement until owner says go on R1.",
+  "chase": "docs/triforce/NORTHSTAR-RIG.md",
+  "book": "docs/triforce/plans/2026-08-19-gasper-rig-001.md",
+  "restore": "checkpoint-canon-rest-20260818",
+  "workers": ["live-audit", "front-cage", "tau-rig", "book-outline"]
+}
