@@ -67,4 +67,14 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
     expect(formMaster).not.toContain("paintCageFill(envelopeXYZ");
     expect(formMaster).toContain("sampleEnvelopeXYZ();");
   });
+
+  it("writes interiors from the canal and glues ring 24 to the 512", () => {
+    expect(formMaster).toContain("Ring 24 glued to the live 512");
+    expect(formMaster).toContain("envelopeBind='e3'");
+    expect(formMaster).toContain("const dist=(r/16)*(Lct+Ltx)");
+    expect(formMaster).toContain("const u=(r-16)/7");
+    expect(formMaster).not.toContain("pts = occupiedOutline");
+    expect(formMaster).not.toMatch(/liveGridXYZ\s*=\s*envelopeXYZ\s*;/);
+  });
 });
+

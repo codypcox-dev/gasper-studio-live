@@ -92,6 +92,8 @@ const measure = () =>
         r: globalThis.__GASPER_ENVELOPE_R__ || null,
       },
       envH: av?.dataset?.envelopeH ?? null,
+      bind: av?.dataset?.envelopeBind ?? null,
+      footZ: av?.dataset?.footZCanal ?? null,
       face: (() => {
         const f = document.querySelector("#faceRecessLayer, #faceEmissionLayer");
         return f ? f.getBoundingClientRect() : null;

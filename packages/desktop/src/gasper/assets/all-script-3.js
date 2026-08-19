@@ -46,12 +46,12 @@
   function canalFrame(ax,ay,az,bx,by,bz){
     const dx=bx-ax,dy=by-ay,dz=bz-az,L=Math.hypot(dx,dy,dz)||1;
     const tx=dx/L,ty=dy/L,tz=dz/L;
-    let e1x,e1y,e1z;
-    if(Math.abs(ty)<0.92){e1x=-tz;e1y=0;e1z=tx;}
-    else{e1x=1;e1y=0;e1z=0;}
+    let e2x=0,e2y=0,e2z=1;
+    if(Math.abs(tz)>0.92){e2x=0;e2y=1;e2z=0;}
+    let e1x=ty*e2z-tz*e2y,e1y=tz*e2x-tx*e2z,e1z=tx*e2y-ty*e2x;
     const e1l=Math.hypot(e1x,e1y,e1z)||1;
     e1x/=e1l;e1y/=e1l;e1z/=e1l;
-    const e2x=ty*e1z-tz*e1y,e2y=tz*e1x-tx*e1z,e2z=tx*e1y-ty*e1x;
+    e2x=ty*e1z-tz*e1y;e2y=tz*e1x-tx*e1z;e2z=tx*e1y-ty*e1x;
     return{L,tx,ty,tz,e1x,e1y,e1z,e2x,e2y,e2z};
   }
   function sampleCanal(ax,ay,az,rA,bx,by,bz,rB,u,v,th){
@@ -2131,13 +2131,11 @@ function applyMeshWarp(contour,mesh){
     let specX=0,specY=0,specW=0,hotS=0,hotI=-1;
     const lam=new Float32Array(R*S),spec=new Float32Array(R*S);
     for(let r=0;r<R;r++){
-      const v=cageFeatureV(r,R),z0=58*Math.sqrt(Math.max(0,1-v*v));
-      const r1=Math.min(R-1,r+1),v1=cageFeatureV(r1,R),z1=58*Math.sqrt(Math.max(0,1-v1*v1));
       const ringT=r/Math.max(1,R-1);
       for(let s=0;s<S;s++){
-        const i=r*S+s,s1=(s+1)%S,iu=r*S+s1,iv=r1*S+s;
-        const ux=xyz[iu*3]-xyz[i*3],uy=xyz[iu*3+1]-xyz[i*3+1],uz=0;
-        const vx=xyz[iv*3]-xyz[i*3],vy=xyz[iv*3+1]-xyz[i*3+1],vz=z1-z0;
+        const i=r*S+s,s1=(s+1)%S,iu=r*S+s1,iv=Math.min(R-1,r+1)*S+s;
+        const ux=xyz[iu*3]-xyz[i*3],uy=xyz[iu*3+1]-xyz[i*3+1],uz=xyz[iu*3+2]-xyz[i*3+2];
+        const vx=xyz[iv*3]-xyz[i*3],vy=xyz[iv*3+1]-xyz[i*3+1],vz=xyz[iv*3+2]-xyz[i*3+2];
         let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
         if(nz<0){nx=-nx;ny=-ny;nz=-nz;}
         const nl=Math.hypot(nx,ny,nz)||1;nx/=nl;ny/=nl;nz/=nl;
@@ -2364,20 +2362,67 @@ function applyMeshWarp(contour,mesh){
       inset[s]=0.62*Math.max(10,reach);
     }
     let sculpted=false;
-    const _cageYaw=(Number(globalThis.__GASPER_ORBIT_YAW__??8)||0)*Math.PI/180;
-    const cyaw=Math.cos(_cageYaw),syaw=Math.sin(_cageYaw);
+    const ER=GASPER_ENVELOPE_R,restN=GASPER_SKELETON.nodes;
+    const crotchNode={x:restN.crotch.x,y:restN.crotch.y};
+    const projectBone=(px,py,ax,ay,bx,by)=>{
+      const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy||1;
+      const u=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/L2));
+      const qx=ax+u*dx,qy=ay+u*dy;
+      return{u,d:Math.hypot(px-qx,py-qy),qx,qy};
+    };
+    const boneAt=s=>{
+      if(chartId[s]===1){
+        const p=projectBone(rimX[s],rimY[s],crotchNode.x,crotchNode.y,plantL.x,plantL.y);
+        return{ax:crotchNode.x,ay:crotchNode.y,rA:ER.crotch,bx:plantL.x,by:plantL.y,rB:ER.plant,u:p.u,qx:p.qx,qy:p.qy};
+      }
+      if(chartId[s]===2){
+        const p=projectBone(rimX[s],rimY[s],crotchNode.x,crotchNode.y,plantR.x,plantR.y);
+        return{ax:crotchNode.x,ay:crotchNode.y,rA:ER.crotch,bx:plantR.x,by:plantR.y,rB:ER.plant,u:p.u,qx:p.qx,qy:p.qy};
+      }
+      const ct=projectBone(rimX[s],rimY[s],restN.crown.x,restN.crown.y,restN.torso.x,restN.torso.y);
+      const tx=projectBone(rimX[s],rimY[s],restN.torso.x,restN.torso.y,crotchNode.x,crotchNode.y);
+      if(ct.d<=tx.d) return{ax:restN.crown.x,ay:restN.crown.y,rA:ER.crown,bx:restN.torso.x,by:restN.torso.y,rB:ER.torso,u:ct.u,qx:ct.qx,qy:ct.qy};
+      return{ax:restN.torso.x,ay:restN.torso.y,rA:ER.torso,bx:crotchNode.x,by:crotchNode.y,rB:ER.crotch,u:tx.u,qx:tx.qx,qy:tx.qy};
+    };
+    let footZCanal=0,footN=0;
+    const floorY=Math.max(plantL.y,plantR.y)+1;
+    const Lct=Math.hypot(restN.torso.x-restN.crown.x,restN.torso.y-restN.crown.y);
+    const Ltx=Math.hypot(crotchNode.x-restN.torso.x,crotchNode.y-restN.torso.y);
     for(let s=0;s<S;s++){
+      const B=boneAt(s);
+      const fr=canalFrame(B.ax,B.ay,0,B.bx,B.by,0);
+      const rx=rimX[s]-B.qx,ry=rimY[s]-B.qy;
+      const rimTh=Math.atan2(rx*fr.e2x+ry*fr.e2y,rx*fr.e1x+ry*fr.e1y);
       for(let r=0;r<R;r++){
-        const i=r*S+s,v=cageFeatureV(r,R);
-        const d=(1-v)*inset[s];
-        let ox=rimX[s]+nx[s]*d-cx,oy=rimY[s]+ny[s]*d-cy;
+        const i=r*S+s;
         const sx=gridSculpt[i*2]||0,syv=gridSculpt[i*2+1]||0;
-        if(sx||syv){ox+=sx;oy+=syv;sculpted=true;}
-        // Offset UV + medial feet. Rings hug the live 512. Foot meridians die at plant/crotch.
-        const z0=58*Math.sqrt(Math.max(0,1-v*v));
-        liveGridXYZ[i*3]=ox;
-        liveGridXYZ[i*3+1]=oy;
-        liveGridXYZ[i*3+2]=ox*syaw+z0*cyaw;
+        if(sx||syv) sculpted=true;
+        let P;
+        if(r===R-1){
+          // Ring 24 glued to the live 512. Dual killed: unglue-rim = envelope.
+          P=sampleCanal(B.ax,B.ay,0,B.rA,B.bx,B.by,0,B.rB,B.u,1,rimTh);
+          liveGridXYZ[i*3]=rimX[s]-cx+sx;
+          liveGridXYZ[i*3+1]=rimY[s]-cy+syv;
+          liveGridXYZ[i*3+2]=P[2];
+          continue;
+        }
+        if(r<=16){
+          const dist=(r/16)*(Lct+Ltx);
+          const th=(s/S)*Math.PI*2;
+          P=dist<=Lct
+            ?sampleCanal(restN.crown.x,restN.crown.y,0,ER.crown,restN.torso.x,restN.torso.y,0,ER.torso,dist/Lct,1,th)
+            :sampleCanal(restN.torso.x,restN.torso.y,0,ER.torso,crotchNode.x,crotchNode.y,0,ER.crotch,(dist-Lct)/Ltx,1,th);
+        }else{
+          const u=(r-16)/7;
+          const plant=s<20?plantL:plantR;
+          const th=((s<20?s:s-20)/20)*Math.PI*2;
+          P=sampleCanal(crotchNode.x,crotchNode.y,0,ER.crotch,plant.x,plant.y,0,ER.plant,u,1,th);
+          footZCanal+=Math.abs(P[2]);footN++;
+        }
+        if(P[1]>floorY) P[1]=floorY;
+        liveGridXYZ[i*3]=P[0]-cx+sx;
+        liveGridXYZ[i*3+1]=P[1]-cy+syv;
+        liveGridXYZ[i*3+2]=P[2];
       }
     }
     if(sculpted){
@@ -2399,6 +2444,10 @@ function applyMeshWarp(contour,mesh){
     globalThis.__GASPER_GRID_SCULPT__=gridSculpt;
     globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
     globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
+    if(avatar){
+      avatar.dataset.envelopeBind='e3';
+      avatar.dataset.footZCanal=footN?(footZCanal/footN).toFixed(2):'0';
+    }
     sampleEnvelopeXYZ();
     return pts;
   }

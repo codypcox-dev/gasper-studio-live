@@ -51,16 +51,17 @@ describe("cage hull honor — chase GASPER-CAGED-HULL-001", () => {
     expect(formMaster).toContain("_d[1].setAttribute('opacity','0');");
   });
 
-  it("lofts the live contour for the grid and drops back-facing meridians", () => {
-    expect(formMaster).toContain("z0=58*Math.sqrt(Math.max(0,1-v*v))");
+  it("binds interiors to the canal and keeps ring 24 on the live 512", () => {
+    expect(formMaster).toContain("Ring 24 glued to the live 512");
+    expect(formMaster).toContain("P=sampleCanal");
+    expect(formMaster).toContain("envelopeBind");
+    expect(formMaster).toContain("uz=xyz[iu*3+2]-xyz[i*3+2]");
+    expect(formMaster).toContain("vz=xyz[iv*3+2]-xyz[i*3+2]");
+    expect(formMaster).not.toContain("ox*syaw+z0*cyaw");
     expect(formMaster).not.toContain("z*Math.cos((s/S)*Math.PI*2-_cageYaw)");
-    expect(formMaster).toContain("ox*syaw+z0*cyaw");
-    expect(formMaster).toContain("Offset UV");
-    expect(formMaster).toContain("inset[s]=0.62*Math.max(10");
     expect(formMaster).toContain("if(p.z<0)");
     expect(formMaster).toContain("function setOrbit(yaw,pitch)");
     expect(formMaster).toContain("orbitYawDegrees");
-    expect(formMaster).toContain("58*Math.sqrt(Math.max(0,1-v*v))");
     expect(chase).toContain("360 cage orbit");
     expect(chase).toContain("Proof ritual");
   });

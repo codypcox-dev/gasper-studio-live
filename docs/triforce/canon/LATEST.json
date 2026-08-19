@@ -1,13 +1,13 @@
 {
-  "runId": "2026-08-19T01-53-00-000Z-e2-shadow",
+  "runId": "2026-08-19T02-22-00-000Z-e3-interiors",
   "mode": "cut",
-  "residual": "plan-table = measurement",
+  "residual": "n̂·V-on-a-pancake = occluding-contour",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "E2",
-  "restore": "checkpoint-e1-skeleton-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T01-53-00-000Z-e2-shadow",
+  "wave": "E3",
+  "restore": "checkpoint-e2-shadow-20260818",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T02-22-00-000Z-e3-interiors",
   "book": "docs/triforce/plans/2026-08-19-envelope-001.md",
   "engineVersion": "3.0.0",
-  "verdict": "Shadow envelope live. Fitted 82/56/25/15. Pointer not swapped. Next is E3 interiors only — tag first."
+  "verdict": "Interiors wrap the canal. Ring 24 glued. #body 173.7. Next is E4 plant-yaw — tag first."
 }
