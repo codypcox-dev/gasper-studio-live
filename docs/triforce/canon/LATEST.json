@@ -1,13 +1,13 @@
 {
-  "runId": "2026-08-19T03-20-00-000Z-audit-mix",
-  "mode": "investigate+implement",
-  "residual": "snap-id = interpolation",
+  "runId": "2026-08-19T03-28-00-000Z-canon-rest",
+  "mode": "implement",
+  "residual": "union-at-rest = canonical",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "E7-I-continuous-mix",
-  "restore": "checkpoint-e7-morph-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-20-00-000Z-audit-mix",
-  "book": "docs/triforce/plans/2026-08-19-envelope-001.md",
+  "wave": "canon-rest",
+  "restore": "checkpoint-e7i-mix-20260818",
+  "tag": "checkpoint-canon-rest-20260818",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-28-00-000Z-canon-rest",
   "engineVersion": "3.0.0",
-  "verdict": "Live stack is E6 body + canal interiors. Morph is now a 3-vector lerp with regularity clamp. Do not lerp the 512. Ring-24 glue remains."
+  "verdict": "Rest is the canonical pearl again. Mix still works. We did not rewind the engine."
 }

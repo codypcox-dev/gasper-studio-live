@@ -1,0 +1,21 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T03-28-00-000Z-canon-rest",
+  "mode": "implement",
+  "residual": "union-at-rest = canonical",
+  "question": "Can the envelope keep the mix system without stealing the pearl?",
+  "engineVersion": "3.0.0",
+  "verdict": "Yes. Identity rest inks the gauss WISPWALKER 512 and lofts coats from that rim. Occupied union + canal wrap only while puff/collapse/hook is live.",
+  "film": {
+    "restBind": "canon-rest",
+    "restOccupied": "0",
+    "restBox": { "w": 156.93, "h": 173.47 },
+    "face": "120,112",
+    "profile": "wispwalker",
+    "midOccupied": "1",
+    "backBind": "canon-rest"
+  },
+  "dualKilled": ["union-at-rest = canonical", "union-circle = pearl"],
+  "restore": "checkpoint-e7i-mix-20260818",
+  "tag": "checkpoint-canon-rest-20260818"
+}

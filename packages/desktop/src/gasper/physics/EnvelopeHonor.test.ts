@@ -148,6 +148,10 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
     expect(formMaster).toContain("Voigt not on extracted xy");
     expect(formMaster).not.toContain("radialEnvelope(");
     expect(formMaster).toContain("function closedSpline");
+    expect(formMaster).toContain("union-at-rest = canonical");
+    expect(formMaster).toContain("canon-rest");
+    expect(formMaster).toContain("function frameOccupiedToProfile");
+    expect(formMaster).toContain("loft from the canonical rim");
   });
 
   it("morphs the same 5-node fabric — blowfish r↑, paddle collapses plants, face stays", () => {

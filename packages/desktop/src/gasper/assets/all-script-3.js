@@ -252,6 +252,16 @@
     }
     return out;
   }
+  function frameOccupiedToProfile(pts,profile){
+    // Pivot about FACE_CANON so the face does not slide. Dual killed: union-circle = pearl.
+    const sx=Number(profile&&profile.sx)||1,sy=Number(profile&&profile.sy)||1;
+    const dx=Number(profile&&profile.cx)||0,dy=Number(profile&&profile.cy)||0;
+    return pts.map(p=>{
+      const x=120+dx+(p.x-120)*sx;
+      const y=112+dy+(p.y-112)*sy;
+      return Object.assign({},p,{x,y});
+    });
+  }
   function sampleEnvelopeXYZ(skel){
     // Shadow 25×40 of the posed, mixed canal. Dual killed: rest-table = live mix.
     const n=skel||poseSkeleton();
@@ -2581,6 +2591,8 @@ function applyMeshWarp(contour,mesh){
     const floorY=Math.max(plantL.y,plantR.y)+1;
     const Lct=Math.hypot(posed.torso.x-posed.crown.x,posed.torso.y-posed.crown.y);
     const Ltx=Math.hypot(crotchNode.x-posed.torso.x,crotchNode.y-posed.torso.y);
+    const envNow=envelopeMode();
+    const fabricLive=Math.abs(envNow.rScale-1)>0.004||envNow.collapsePlants>0.004||Math.abs(envNow.torsoHook)>0.5;
     for(let s=0;s<S;s++){
       const B=boneAt(s);
       const fr=canalFrame(B.ax,B.ay,0,B.bx,B.by,0);
@@ -2597,6 +2609,17 @@ function applyMeshWarp(contour,mesh){
           liveGridXYZ[i*3]=rimX[s]-cx+sx;
           liveGridXYZ[i*3+1]=rimY[s]-cy+syv;
           liveGridXYZ[i*3+2]=P[2];
+          continue;
+        }
+        if(!fabricLive){
+          // Identity rest: loft from the canonical rim so coats fill the pearl.
+          const v=Math.pow(r/24,0.55);
+          const insetV=(1-v)*inset[s];
+          liveGridXYZ[i*3]=rimX[s]-cx+nx[s]*insetV+sx;
+          liveGridXYZ[i*3+1]=rimY[s]-cy+ny[s]*insetV+syv;
+          P=sampleCanal(B.ax,B.ay,0,B.rA,B.bx,B.by,0,B.rB,B.u,1-v,rimTh);
+          liveGridXYZ[i*3+2]=P[2];
+          if(r>=17){footZCanal+=Math.abs(P[2]);footN++;}
           continue;
         }
         if(r<=16){
@@ -2661,7 +2684,7 @@ function applyMeshWarp(contour,mesh){
     globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
     globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
     if(avatar){
-      avatar.dataset.envelopeBind=avatar.dataset.occupied==='1'?'e6':'e5';
+      avatar.dataset.envelopeBind=avatar.dataset.occupied==='1'?'e6':(fabricLive?'e5':'canon-rest');
       avatar.dataset.footZCanal=footN?(footZCanal/footN).toFixed(2):'0';
       avatar.dataset.plantYaw=yawDeg.toFixed(1);
       avatar.dataset.plantMx=Mx.toFixed(1);
@@ -3638,16 +3661,27 @@ function applyMeshWarp(contour,mesh){
     pts=applyFabricSnap(pts,formProfile);
     semanticContour=applyFabricSnap(semanticContour,formProfile);
     let occupied=null;
-    if(avatar) avatar.dataset.occTry=(morphProfileId||'')+':'+String(morphMix||0);
+    const envMode=envelopeMode();
+    const fabricLive=Math.abs(envMode.rScale-1)>0.004||envMode.collapsePlants>0.004||Math.abs(envMode.torsoHook)>0.5;
+    if(avatar) avatar.dataset.occTry=(morphProfileId||'')+':'+String(morphMix||0)+':fab='+(fabricLive?1:0);
     if(morphMix<0.0001){
-      occupied=occupiedOutline(poseSkeleton());
-      if(occupied&&occupied.length===512){
-        pts=occupied;
-        semanticContour=occupied;
-        if(avatar){avatar.dataset.envelopeBind='e6';avatar.dataset.occupied='1';}
+      const raw=occupiedOutline(poseSkeleton());
+      if(raw&&raw.length===512){
+        globalThis.__GASPER_OCCUPIED_SHADOW__=raw;
+        if(fabricLive){
+          // Morphing: union is the body. Rest identity stays the canonical 512.
+          // Dual killed: union-at-rest = canonical.
+          occupied=frameOccupiedToProfile(raw,formProfile);
+          pts=occupied;
+          semanticContour=occupied;
+          if(avatar){avatar.dataset.envelopeBind='e6';avatar.dataset.occupied='1';}
+        }else if(avatar){
+          avatar.dataset.occupied='0';
+          avatar.dataset.envelopeBind='canon-rest';
+        }
       }else if(avatar){
         avatar.dataset.occupied='0';
-        avatar.dataset.occLen=occupied?String(occupied.length):'null';
+        avatar.dataset.occLen=raw?String(raw.length):'null';
       }
     }
     let _dgNorm=0;if(DEPTH_GLOW.enabled&&mesh&&mesh.length){let _dgMin=1e9,_dgMax=-1e9;for(const _p of mesh){const _d=_p.projectedDepth||0;if(_d<_dgMin)_dgMin=_d;if(_d>_dgMax)_dgMax=_d;}const _rng=(_dgMax-_dgMin)||0;_dgNorm=Math.min(1,Math.max(0,_rng/DEPTH_GLOW.ref));avatar.dataset.v3DepthRange=_rng.toFixed(4);}else{avatar.dataset.v3DepthRange='0.0000';}depthGlow=lerp(depthGlow,_dgNorm,1-Math.exp(-Math.max(.001,dt)/DEPTH_GLOW.tau)); // D-0040 V3 (A) depth-shaped interior light: ease toward the body's own projectedDepth RANGE — computed HERE (pre-smoothing) because the V2.4 viscoelastic smoothing below low-passes x/y only (D-0071 restored full metadata passthrough after the {x,y}-only strip emptied the galaxy flecks + depth range). yaw 0 => projectedDepth:0 (:906) => range 0 => depthGlow 0 => identity (S1 yaw-0 non-regression). enabled=false => _dgNorm 0. v3DepthRange = raw mesh depth range (debug observable).

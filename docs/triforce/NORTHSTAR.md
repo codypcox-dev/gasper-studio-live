@@ -17,6 +17,11 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · prove canonical forms or rewind
+
+Cody: fix his appearance. If we use this system you must prove his canonical forms quickly or we go back in time.
+Intention: the envelope is only legal if rest (and the named looks) still read as Gasper. Prove WISPWALKER / FACE_CANON / height / W / gloss now. If the union-of-spheres cannot hold the pearl, rewind to the last tagged rest that did.
+
 ## Owner voice — 2026-08-18 · audit, keep moving
 
 Cody: audit, keep moving, keep researching and adversarially improving. Full technical audit of current tech and the gap. Keep going.

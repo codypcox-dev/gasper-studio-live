@@ -2,7 +2,7 @@
 
 **Id:** `GASPER-ENVELOPE-001`  
 **Name:** The Medial Envelope  
-**Status:** E0–E7 landed. E7-I continuous 3-vector mix + regularity clamp landed 2026-08-19T03. Ring-24 glue and FORM_PROFILE morph-drop remain.  
+**Status:** E0–E7 landed. E7-I mix landed. **Rest identity is canonical WISPWALKER 512** (owner 2026-08-18: prove forms or rewind). Occupied union only while the 3-vector is off-identity. Dual killed: `union-at-rest = canonical`.  
 **Engine:** Tri-Force 3.0.0  
 **Parents:** `NORTHSTAR-CAGED-HULL.md`, medial-fabric, isophote-banding, marching-cubes (refused as body)  
 **Packets:**
