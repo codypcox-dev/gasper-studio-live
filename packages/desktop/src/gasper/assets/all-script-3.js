@@ -32,6 +32,16 @@
     ]),
   });
   globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
+  function poseSkeleton(){
+    // E5 — gait writes plants only. Dual killed: walk-z-on-radius = plant-nodes.
+    const rest=GASPER_SKELETON.nodes;
+    const S=globalThis.__GASPER_STANCE__||{};
+    const live=(S.live||0)>0.004&&S.left&&S.right;
+    const plantL=live?{x:S.left.x,y:S.left.y,z:0}:{x:rest.plantL.x,y:rest.plantL.y,z:0};
+    const plantR=live?{x:S.right.x,y:S.right.y,z:0}:{x:rest.plantR.x,y:rest.plantR.y,z:0};
+    const crotch=(live&&S.crotch)?{x:S.crotch.x,y:S.crotch.y,z:0}:{x:rest.crotch.x,y:rest.crotch.y,z:0};
+    return{crown:rest.crown,torso:rest.torso,crotch,plantL,plantR};
+  }
   // E2 — fitted rest radii. Dual killed: plan-table = measurement. Do not feed paint.
   const GASPER_ENVELOPE_R=Object.freeze({
     crown:82,
@@ -1578,7 +1588,8 @@ function sampleBodyForProfile(profileId,st,t){
     const lower=weights.lower,sideR=weights.sideRight,sideL=weights.sideLeft,top=weights.crown;
     r+=(st.wide+stateWide)*(1.8*lower+1.0*(sideR+sideL));r+=(st.crown+stateCrown+stateBeat+statePop*EIGHT_STATE_POP.crownK)*1.6*top;r+=(st.low+stateLow)*(1.05*lower-0.40*top); // D-0049 M2: per-state body stance composed additive over the fixture crown/low/wide levers (stateBeat = M3 transient crown pulse)r+=(st.asym||0)*(1.6*sideR-1.4*sideL+0.55*gaussAngle(th,-0.12,0.42)-0.42*gaussAngle(th,Math.PI+0.12,0.42));
     if(EIGHT_STATE_FORM_VARIANT.enabled&&profileId==='presence'){const _fvG=((globalThis.__GASPER_LIVE_COEFFS__||{}).formVariant||{}).formVariantGain??1;if(_fvG!==0){let _fvR=fvCrown*top+fvLow*lower+fvWide*(sideR+sideL)+fvAsym*(sideR-sideL);const _fvP=EIGHT_STATE_FORM_VARIANT.pinch;_fvR=_fvR>_fvP?_fvP:(_fvR<-_fvP?-_fvP:_fvR);r+=_fvR;const _fvA=Math.abs(_fvR);if(_fvA>fvMaxAbs)fvMaxAbs=_fvA;}} // D-0066 SLICE A: per-state form-variant additive radius on the per-vertex weight basis, composed over the family formRadiusAtFor base + the D-0049 state deltas (composition order: family base -> state recipe -> FORM-VARIANT -> walk/scaffold -> whole-form _formK scale). Gated on presence family only (executing=comet / dormant=gyre keep their own unmistakable profiles) + live-coeff formVariantGain (gain 0 => skipped => BYTE-IDENTICAL). Hard-clamped to +/-pinch per vertex => no-pinch-safe by construction regardless of tuning (D-0059 clamp idiom). fv* already carry the _esMix/_esE ease + gate from the body block, so this is a pure read+clamp+add. Topology-safe (per-vertex radius modulation, no renumber); face-immutable (radius upstream of the face anchors; bumps at crown/base/sides clear of the face plane).
-    r+=scaffoldContourZ(walkZ,th); // GASPER-009 C2: walk lateral mass transfer now rides the scaffold (asym + alternating foot press), zero-mean => no bob
+    // E5 — gait writes plants. Dual killed: walk-z-on-radius = plant-nodes.
+    // r+=scaffoldContourZ(walkZ,th);
     r-=c*(1.55*st.mouthCurve+1.20*st.mouthOpen)*weights.mouthCenter;r-=c*(1.30*st.pullR+0.65*st.mouthCurve)*weights.mouthRight;r-=c*(1.30*st.pullL+0.65*st.mouthCurve)*weights.mouthLeft;r+=c*(0.60*st.mouthCurve+0.42*st.mouthOpen)*(weights.cheekRight+weights.cheekLeft);
     r+=bodyRestGate*_tenStiff*(0.85*drift*Math.sin(t*0.74*(st.tempo||1)+th*2.0+(st.microSeed||1))+0.52*drift*Math.sin(t*0.38*(st.tempo||1)+th*3.5+1.2)+0.34*drift*Math.sin(t*0.27*(st.tempo||1)+th*5.0+2.6)); // V2.4 REST GATE (D-0018): freeze autonomous drift micro when settled
     // GASPER-009 SCAFFOLD COUPLING: inside-out body cohesion. The scaffold
@@ -2367,8 +2378,9 @@ function applyMeshWarp(contour,mesh){
       inset[s]=0.62*Math.max(10,reach);
     }
     let sculpted=false;
-    const ER=GASPER_ENVELOPE_R,restN=GASPER_SKELETON.nodes;
-    const crotchNode={x:restN.crotch.x,y:restN.crotch.y};
+    const ER=GASPER_ENVELOPE_R,posed=poseSkeleton();
+    const crotchNode={x:posed.crotch.x,y:posed.crotch.y};
+    const posedL=posed.plantL,posedR=posed.plantR;
     const projectBone=(px,py,ax,ay,bx,by)=>{
       const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy||1;
       const u=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/L2));
@@ -2377,22 +2389,22 @@ function applyMeshWarp(contour,mesh){
     };
     const boneAt=s=>{
       if(chartId[s]===1){
-        const p=projectBone(rimX[s],rimY[s],crotchNode.x,crotchNode.y,plantL.x,plantL.y);
-        return{ax:crotchNode.x,ay:crotchNode.y,rA:ER.crotch,bx:plantL.x,by:plantL.y,rB:ER.plant,u:p.u,qx:p.qx,qy:p.qy};
+        const p=projectBone(rimX[s],rimY[s],crotchNode.x,crotchNode.y,posedL.x,posedL.y);
+        return{ax:crotchNode.x,ay:crotchNode.y,rA:ER.crotch,bx:posedL.x,by:posedL.y,rB:ER.plant,u:p.u,qx:p.qx,qy:p.qy};
       }
       if(chartId[s]===2){
-        const p=projectBone(rimX[s],rimY[s],crotchNode.x,crotchNode.y,plantR.x,plantR.y);
-        return{ax:crotchNode.x,ay:crotchNode.y,rA:ER.crotch,bx:plantR.x,by:plantR.y,rB:ER.plant,u:p.u,qx:p.qx,qy:p.qy};
+        const p=projectBone(rimX[s],rimY[s],crotchNode.x,crotchNode.y,posedR.x,posedR.y);
+        return{ax:crotchNode.x,ay:crotchNode.y,rA:ER.crotch,bx:posedR.x,by:posedR.y,rB:ER.plant,u:p.u,qx:p.qx,qy:p.qy};
       }
-      const ct=projectBone(rimX[s],rimY[s],restN.crown.x,restN.crown.y,restN.torso.x,restN.torso.y);
-      const tx=projectBone(rimX[s],rimY[s],restN.torso.x,restN.torso.y,crotchNode.x,crotchNode.y);
-      if(ct.d<=tx.d) return{ax:restN.crown.x,ay:restN.crown.y,rA:ER.crown,bx:restN.torso.x,by:restN.torso.y,rB:ER.torso,u:ct.u,qx:ct.qx,qy:ct.qy};
-      return{ax:restN.torso.x,ay:restN.torso.y,rA:ER.torso,bx:crotchNode.x,by:crotchNode.y,rB:ER.crotch,u:tx.u,qx:tx.qx,qy:tx.qy};
+      const ct=projectBone(rimX[s],rimY[s],posed.crown.x,posed.crown.y,posed.torso.x,posed.torso.y);
+      const tx=projectBone(rimX[s],rimY[s],posed.torso.x,posed.torso.y,crotchNode.x,crotchNode.y);
+      if(ct.d<=tx.d) return{ax:posed.crown.x,ay:posed.crown.y,rA:ER.crown,bx:posed.torso.x,by:posed.torso.y,rB:ER.torso,u:ct.u,qx:ct.qx,qy:ct.qy};
+      return{ax:posed.torso.x,ay:posed.torso.y,rA:ER.torso,bx:crotchNode.x,by:crotchNode.y,rB:ER.crotch,u:tx.u,qx:tx.qx,qy:tx.qy};
     };
     let footZCanal=0,footN=0;
     const floorY=Math.max(plantL.y,plantR.y)+1;
-    const Lct=Math.hypot(restN.torso.x-restN.crown.x,restN.torso.y-restN.crown.y);
-    const Ltx=Math.hypot(crotchNode.x-restN.torso.x,crotchNode.y-restN.torso.y);
+    const Lct=Math.hypot(posed.torso.x-posed.crown.x,posed.torso.y-posed.crown.y);
+    const Ltx=Math.hypot(crotchNode.x-posed.torso.x,crotchNode.y-posed.torso.y);
     for(let s=0;s<S;s++){
       const B=boneAt(s);
       const fr=canalFrame(B.ax,B.ay,0,B.bx,B.by,0);
@@ -2415,11 +2427,11 @@ function applyMeshWarp(contour,mesh){
           const dist=(r/16)*(Lct+Ltx);
           const th=(s/S)*Math.PI*2;
           P=dist<=Lct
-            ?sampleCanal(restN.crown.x,restN.crown.y,0,ER.crown,restN.torso.x,restN.torso.y,0,ER.torso,dist/Lct,1,th)
-            :sampleCanal(restN.torso.x,restN.torso.y,0,ER.torso,crotchNode.x,crotchNode.y,0,ER.crotch,(dist-Lct)/Ltx,1,th);
+            ?sampleCanal(posed.crown.x,posed.crown.y,0,ER.crown,posed.torso.x,posed.torso.y,0,ER.torso,dist/Lct,1,th)
+            :sampleCanal(posed.torso.x,posed.torso.y,0,ER.torso,crotchNode.x,crotchNode.y,0,ER.crotch,(dist-Lct)/Ltx,1,th);
         }else{
           const u=(r-16)/7;
-          const plant=s<20?plantL:plantR;
+          const plant=s<20?posedL:posedR;
           const th=((s<20?s:s-20)/20)*Math.PI*2;
           P=sampleCanal(crotchNode.x,crotchNode.y,0,ER.crotch,plant.x,plant.y,0,ER.plant,u,1,th);
           footZCanal+=Math.abs(P[2]);footN++;
@@ -2473,11 +2485,13 @@ function applyMeshWarp(contour,mesh){
     globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
     globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
     if(avatar){
-      avatar.dataset.envelopeBind='e4';
+      avatar.dataset.envelopeBind='e5';
       avatar.dataset.footZCanal=footN?(footZCanal/footN).toFixed(2):'0';
       avatar.dataset.plantYaw=yawDeg.toFixed(1);
       avatar.dataset.plantMx=Mx.toFixed(1);
       avatar.dataset.crownX=crownN?(crownX/crownN).toFixed(1):'';
+      avatar.dataset.posedLY=posedL.y.toFixed(1);
+      avatar.dataset.posedRY=posedR.y.toFixed(1);
     }
     sampleEnvelopeXYZ();
     return pts;
@@ -2571,7 +2585,8 @@ function applyMeshWarp(contour,mesh){
       const Q=rotateAboutM(n.x,n.y,n.z||0,Mx,Mz,th);
       return{x:Q[0],y:Q[1],z:Q[2]};
     };
-    const sk={crown:pose(sk0.crown),torso:pose(sk0.torso),crotch:pose(sk0.crotch),plantL:pose(sk0.plantL),plantR:pose(sk0.plantR)};
+    const posedSk=poseSkeleton();
+    const sk={crown:pose(posedSk.crown),torso:pose(posedSk.torso),crotch:pose(posedSk.crotch),plantL:pose(posedSk.plantL),plantR:pose(posedSk.plantR)};
     const html=[];
     for(const pair of bones){
       const a=sk[pair[0]],b=sk[pair[1]];

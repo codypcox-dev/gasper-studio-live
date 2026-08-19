@@ -70,7 +70,7 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
 
   it("writes interiors from the canal and glues ring 24 to the 512", () => {
     expect(formMaster).toContain("Ring 24 glued to the live 512");
-    expect(formMaster).toContain("envelopeBind='e4'");
+    expect(formMaster).toContain("envelopeBind='e5'");
     expect(formMaster).toContain("const dist=(r/16)*(Lct+Ltx)");
     expect(formMaster).toContain("const u=(r-16)/7");
     expect(formMaster).not.toContain("pts = occupiedOutline");
@@ -80,7 +80,7 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
   it("yaws the canal about the plant midpoint and does not squash the 512", () => {
     expect(formMaster).toContain("function rotateAboutM");
     expect(formMaster).toContain("centroid-yaw = plant-yaw");
-    expect(formMaster).toContain("envelopeBind='e4'");
+    expect(formMaster).toContain("envelopeBind='e5'");
     expect(formMaster).toContain("avatar.dataset.facingCompress='1.0000'");
     expect(formMaster).not.toContain("const _hK=_vmT.facingCompress");
     expect(formMaster).not.toContain("from \"./Mesh3D\"");
@@ -95,6 +95,15 @@ describe("envelope honor — GASPER-ENVELOPE-001 E1", () => {
     expect(x2).toBeGreaterThan(170);
     expect(y2).toBe(30);
     expect(z2).toBeGreaterThan(50);
+  });
+
+  it("lets gait write plant nodes and stops walk-z on the 512 radius", () => {
+    expect(formMaster).toContain("function poseSkeleton");
+    expect(formMaster).toContain("walk-z-on-radius = plant-nodes");
+    expect(formMaster).toContain("envelopeBind='e5'");
+    expect(formMaster).toContain("// r+=scaffoldContourZ(walkZ,th);");
+    expect(formMaster).toContain("posed.x+=(S.left.x-100)*wL");
+    expect(formMaster).not.toContain("pts = occupiedOutline");
   });
 });
 

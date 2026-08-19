@@ -98,7 +98,9 @@ const measure = () =>
       plantMx: av?.dataset?.plantMx ?? null,
       crownX: av?.dataset?.crownX ?? null,
       facingDeg: av?.dataset?.facingDeg ?? null,
-      headingYaw: av?.dataset?.headingYaw ?? null,
+      posedLY: av?.dataset?.posedLY ?? null,
+      posedRY: av?.dataset?.posedRY ?? null,
+      stanceLive: (globalThis.__GASPER_STANCE__ || {}).live ?? null,
       face: (() => {
         const f = document.querySelector("#faceRecessLayer, #faceEmissionLayer");
         return f ? f.getBoundingClientRect() : null;
@@ -164,6 +166,25 @@ if (mon) await page.screenshot({ path: resolve(OUT, "06-strut.png"), clip: mon }
 await page.evaluate(() => {
   globalThis.__GASPER_SHOW_GRID__ = true;
   globalThis.__GASPER_SHOW_SKELETON__ = true;
+  globalThis.__GASPER_STANCE__ = {
+    schema: "gasper.stance.v1",
+    live: 1,
+    side: 1,
+    phase: 1.2,
+    hz: 1.6,
+    left: { x: 96, y: 178, planted: 0, tau: 0.07, theta: 1.83 },
+    right: { x: 144, y: 190, planted: 1, tau: 0.02, theta: 1.31 },
+    crotch: { x: 120, y: 172, planted: 1, tau: 0.42, theta: Math.PI / 2 },
+  };
+  globalThis.SidekickFormMasterRig?.setPaused?.(false);
+});
+await page.waitForTimeout(500);
+const stance = await measure();
+if (mon) await page.screenshot({ path: resolve(OUT, "09-stance.png"), clip: mon });
+
+await page.evaluate(() => {
+  globalThis.__GASPER_SHOW_GRID__ = true;
+  globalThis.__GASPER_SHOW_SKELETON__ = true;
   const rig = globalThis.SidekickFormMasterRig;
   rig?.setPaused?.(true);
   rig?.setHeadingYaw?.(0);
@@ -189,6 +210,7 @@ const packet = {
   gridOn,
   skel,
   walk,
+  stance,
   yaw0,
   yaw42,
 };
