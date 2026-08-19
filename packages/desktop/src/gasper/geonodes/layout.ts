@@ -3,7 +3,7 @@ import { type PillarId, seatOf } from "./pillars";
 
 export { PILLARS, PILLAR_IDS, seatOf, belongsToPillar, ORGAN_PILLAR, type PillarId, type PillarDef, type PillarSeat } from "./pillars";
 
-export const LAYOUT_VERSION = 18;
+export const LAYOUT_VERSION = 19;
 export const CARD_W = 156;
 export const CARD_H = 88;
 const HEADER = 44;
@@ -19,7 +19,7 @@ export const COMPILER_PILLARS: readonly PillarId[] = ["machine", "kernel", "cook
 export const FUNCTION_ORDER: Record<string, readonly string[]> = {
   machine: ["machine", "eight-state", "gsap", "compositor"],
   kernel: ["world-driver", "gait", "support", "walk-scaffold"],
-  cook: ["identity", "cage", "handles", "voigt", "kappa", "couple", "field-api"],
+  cook: ["identity", "envelope", "cage", "handles", "voigt", "kappa", "couple", "field-api"],
   painter: ["orbit", "pearl", "cage-light", "hull", "radial-facing"],
   score: ["northstar-20", "path-take", "curve-track", "rig-controller"],
 };
@@ -38,6 +38,7 @@ export const ACTIVE_LINE = [
   "gait",
   "support",
   "identity",
+  "envelope",
   "cage",
   "handles",
   "voigt",

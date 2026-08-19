@@ -43,6 +43,7 @@ export const ORGAN_PILLAR: Record<string, PillarSeat> = {
 
   "contour-512": { pillar: "cook" },
   identity: { pillar: "cook" },
+  envelope: { pillar: "cook" },
   "lattice-360": { pillar: "cook" },
   "relief-1000": { pillar: "cook" },
   cage: { pillar: "cook" },

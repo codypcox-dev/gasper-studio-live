@@ -1,0 +1,20 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T03-32-00-000Z-skeleton-card",
+  "mode": "implement",
+  "residual": "rig-has-no-card",
+  "question": "Can Cody drive the 5-node body from Look / Cook without host console?",
+  "engineVersion": "3.0.0",
+  "verdict": "Yes. Skeleton card + Look dials (Puff / Collapse / Hook / Bones) write setEnvelopeVec. Rest 1/0/0 stays the pearl. Bones is independent of Grid.",
+  "dualKilled": ["grid-on = bones", "rig-has-no-card"],
+  "audits": [
+    "12ea6470 body-rig: KEEP. Paint only when fabricLive.",
+    "5084e71f grid: rest loft is still pizza; canal is Z costume; ring 24 glue.",
+    "522ecabe settings: no envelope organ until this cut."
+  ],
+  "stillOpen": [
+    "Rest grid is still rim-loft pizza, not grassfire of the canal",
+    "Ring 24 glue",
+    "No named-look buttons on the card yet"
+  ]
+}

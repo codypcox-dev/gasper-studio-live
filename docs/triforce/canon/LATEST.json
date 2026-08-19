@@ -1,13 +1,12 @@
 {
-  "runId": "2026-08-19T03-28-00-000Z-canon-rest",
+  "runId": "2026-08-19T03-32-00-000Z-skeleton-card",
   "mode": "implement",
-  "residual": "union-at-rest = canonical",
+  "residual": "rig-has-no-card",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "canon-rest",
-  "restore": "checkpoint-e7i-mix-20260818",
-  "tag": "checkpoint-canon-rest-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-28-00-000Z-canon-rest",
+  "wave": "skeleton-card",
+  "restore": "checkpoint-canon-rest-20260818",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-32-00-000Z-skeleton-card",
   "engineVersion": "3.0.0",
-  "verdict": "Rest is the canonical pearl again. Mix still works. We did not rewind the engine."
+  "verdict": "Skeleton is a live Look/Cook card. Puff Collapse Hook Bones. Rest still the pearl."
 }

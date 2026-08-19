@@ -17,6 +17,11 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · rig, grid, settings — explain first
+
+Cody: it seems like the rig is a good idea? the body rig? we keep that right? why is the grid still messed up? how do we use the new rig system? is it meaningfully wired and represented in settings? full sub agent audit and redesign. but first explain.
+Intention: do not hide behind more machinery. Name whether the 5-node body rig stays. Name why the painted grid still lies. Name how a human actually uses the rig today. Name whether settings are real or costume. Explain first; audit/redesign only after that explanation is honest.
+
 ## Owner voice — 2026-08-18 · prove canonical forms or rewind
 
 Cody: fix his appearance. If we use this system you must prove his canonical forms quickly or we go back in time.

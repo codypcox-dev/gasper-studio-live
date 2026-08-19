@@ -18,6 +18,7 @@ export type NodeBlueprint = {
 
 const PIPELINE_TYPE: Record<string, NodeTypeId> = {
   "contour-512": "input.identity",
+  envelope: "deform.handles",
   "relief-1000": "input.cage",
   stance: "deform.handles",
   "gait-law": "physics.gait",
@@ -30,6 +31,7 @@ const PIPELINE_TYPE: Record<string, NodeTypeId> = {
 
 const PIPELINE_ID: Record<string, string> = {
   "contour-512": "identity",
+  envelope: "envelope",
   "relief-1000": "cage",
   stance: "handles",
   "gait-law": "gait",
@@ -42,6 +44,7 @@ const PIPELINE_ID: Record<string, string> = {
 
 const CLASS_OF: Record<string, NodeClass> = {
   "contour-512": "input",
+  envelope: "geometry",
   "relief-1000": "input",
   stance: "geometry",
   "gait-law": "physics",
@@ -64,6 +67,12 @@ const META: Record<string, Meta> = {
   "contour-512": { element: "bone", event: "construction", inType: "scalar", outType: "contour", params: [
     { id: "footAmp", label: "Foot nub", min: 0, max: 8, step: 0.1, value: 4, base: 4 },
     { id: "cleftDepth", label: "Cleft", min: 0, max: 6.4, step: 0.1, value: 3.2, base: 3.2 },
+  ]},
+  envelope: { element: "bone", event: "construction", inType: "contour", outType: "contour", params: [
+    { id: "rScale", label: "Puff", min: 0.7, max: 1.07, step: 0.005, value: 1, base: 1 },
+    { id: "collapse", label: "Collapse", min: 0, max: 1, step: 0.01, value: 0, base: 0 },
+    { id: "hook", label: "Hook", min: -24, max: 24, step: 0.5, value: 0, base: 0 },
+    { id: "bones", label: "Bones", min: 0, max: 1, step: 1, value: 0, base: 0 },
   ]},
   "lattice-360": { element: "bone", event: "construction", inType: "contour", outType: "lattice", params: [
     { id: "mass", label: "Mass", min: 0, max: 2, step: 0.05, value: 1 },
@@ -219,6 +228,7 @@ export function blueprintFromOrgan(o: Organ): NodeBlueprint {
     class: CLASS_OF[o.id] ?? "module",
     label: PIPELINE_ID[o.id] ? ({
       identity: "Identity",
+      envelope: "Skeleton",
       cage: "Cage 25×40",
       handles: "Handles",
       gait: "Gait",

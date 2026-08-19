@@ -27,6 +27,8 @@ const CARD: Record<string, string> = {
     "κ-box — curvature cap. After Voigt, any rim turn sharper than θ_cap (0.90 rad) is pulled back. Kills leg spikes. G¹ only.",
   orbit:
     "Orbit — 3D turntable. Yaw ±180° around his face (home 8°). Pitch ±80°. Drives view yaw and cage loft. Center of the slider is canonical.",
+  envelope:
+    "Skeleton — 5-node body rig. Puff scales canal radii (1 = rest pearl). Collapse tucks plants. Hook bends the torso. Bones shows the gold Y. Rest stays the canonical 512 until a dial leaves zero.",
   pearl:
     "Pearl — dark-pearl material stack. Depth is interior volume / SSS. This is light on the cage, not a second skin.",
   hull:
@@ -77,6 +79,10 @@ const PARAM: Record<string, string> = {
   mix: "How hard Couple laws push. 0 = authored dials only.",
   play: "Arm the Northstar 20s take.",
   spec: "Specular response on the cage.",
+  rScale: "Puff. 1 = rest pearl. 1.07 = blowfish. Regularity clamp keeps tubes legal.",
+  collapse: "Tuck plants toward the crotch. 0 = rest feet. 1 = paddle.",
+  hook: "Bend the torso sideways in px. 0 = rest. ±18 is the question look.",
+  bones: "Show the gold 5-node Y. Off at rest. Independent of the grid toggle.",
 };
 
 const UI: Record<string, string> = {

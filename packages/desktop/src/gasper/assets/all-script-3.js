@@ -2767,9 +2767,8 @@ function applyMeshWarp(contour,mesh){
   function paintSkeletonOverlay(){
     // E1 overlay. Authored rest nodes. Does not write #body. Dual killed: extracted-medial = rest-lock.
     let g=$('skeletonOverlay');
-    const gridOn=globalThis.__GASPER_SHOW_GRID__!==false;
     const forced=globalThis.__GASPER_SHOW_SKELETON__;
-    const on=forced===true||(forced!==false&&gridOn);
+    const on=forced===true;
     if(!g){
       g=document.createElementNS('http://www.w3.org/2000/svg','g');
       g.setAttribute('id','skeletonOverlay');

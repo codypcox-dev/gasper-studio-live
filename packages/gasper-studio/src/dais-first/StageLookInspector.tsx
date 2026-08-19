@@ -1,5 +1,5 @@
 /**
- * Stage look inspector — orbit, identity, authored τ field, cage wrap/spec/key.
+ * Stage look inspector — orbit, skeleton, identity, authored τ field, cage wrap/spec/key.
  * Writes Cook params through setNodeParam. Not InstrumentTable.
  */
 import { type ReactElement } from "react";
@@ -19,6 +19,10 @@ type Dial = {
 const DIALS: Dial[] = [
   { testid: "look-orbit-yaw", node: "orbit", param: "yaw", label: "Orbit yaw", min: -180, max: 180, step: 1 },
   { testid: "look-orbit-pitch", node: "orbit", param: "pitch", label: "Orbit pitch", min: -80, max: 80, step: 1 },
+  { testid: "look-puff", node: "envelope", param: "rScale", label: "Puff", min: 0.7, max: 1.07, step: 0.005 },
+  { testid: "look-collapse", node: "envelope", param: "collapse", label: "Collapse", min: 0, max: 1, step: 0.01 },
+  { testid: "look-hook", node: "envelope", param: "hook", label: "Hook", min: -24, max: 24, step: 0.5 },
+  { testid: "look-bones", node: "envelope", param: "bones", label: "Bones", min: 0, max: 1, step: 1 },
   { testid: "look-pearl", node: "pearl", param: "depth", label: "Pearl", min: 0, max: 1.44, step: 0.01 },
   { testid: "look-foot", node: "identity", param: "footAmp", label: "Foot", min: 0, max: 8, step: 0.1 },
   { testid: "look-cleft", node: "identity", param: "cleftDepth", label: "Cleft", min: 0, max: 6.4, step: 0.1 },
@@ -41,7 +45,7 @@ export function StageLookInspector(): ReactElement {
     <aside className="stage-look" data-testid="stage-look-inspector">
       <header>
         <strong>Look</strong>
-        <span>cage · τ · light</span>
+        <span>rig · cage · τ · light</span>
       </header>
       <div className="stage-look__dials">
         {DIALS.map((d) => {

@@ -221,6 +221,7 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const ev = publishGeoEval(evaluateGraph(graph));
   const host = globalThis as {
     __GASPER_SHOW_GRID__?: boolean;
+    __GASPER_SHOW_SKELETON__?: boolean;
     __GASPER_ORBIT_YAW__?: number;
     __GASPER_ORBIT_PITCH__?: number;
     __GASPER_LIVE_COEFFS__?: {
@@ -242,7 +243,11 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     __GASPER_NORTHSTAR_PLAY__?: number;
     __GASPER_MACHINE_GATE__?: number;
     __GASPER_TAU_FIELD__?: { foot: number; waist: number; crown: number };
-    SidekickFormMasterRig?: { setOrbit?: (y: number, p: number) => void; setYaw?: (y: number) => void };
+    SidekickFormMasterRig?: {
+      setOrbit?: (y: number, p: number) => void;
+      setYaw?: (y: number) => void;
+      setEnvelopeVec?: (v: { rScale?: number; collapsePlants?: number; torsoHook?: number }) => void;
+    };
   };
   const byOrgan = (organId: string) => graph.nodes.find((n) => n.organId === organId || n.id === organId);
   const baseOf = (organId: string, paramId: string): number | undefined => {
@@ -345,6 +350,23 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   if (handles.lift !== undefined) host.__GASPER_HANDLE_LIFT__ = liveOrBase(!!ev.mute.handles, "handles", "lift", handles.lift);
   if (handles.advance !== undefined) host.__GASPER_HANDLE_ADVANCE__ = liveOrBase(!!ev.mute.handles, "handles", "advance", handles.advance);
   if (handles.stretch !== undefined) host.__GASPER_HANDLE_STRETCH__ = liveOrBase(!!ev.mute.handles, "handles", "stretch", handles.stretch);
+  const env = ev.params.envelope || {};
+  if (!ev.mute.envelope) {
+    const rScale = env.rScale;
+    const collapse = env.collapse;
+    const hook = env.hook;
+    if (rScale !== undefined || collapse !== undefined || hook !== undefined) {
+      host.SidekickFormMasterRig?.setEnvelopeVec?.({
+        rScale: Number.isFinite(Number(rScale)) ? Number(rScale) : 1,
+        collapsePlants: Number.isFinite(Number(collapse)) ? Number(collapse) : 0,
+        torsoHook: Number.isFinite(Number(hook)) ? Number(hook) : 0,
+      });
+    }
+    if (env.bones !== undefined) host.__GASPER_SHOW_SKELETON__ = Number(env.bones) > 0.5;
+  } else {
+    host.SidekickFormMasterRig?.setEnvelopeVec?.({ rScale: 1, collapsePlants: 0, torsoHook: 0 });
+    host.__GASPER_SHOW_SKELETON__ = false;
+  }
   const world = ev.params["world-driver"] || {};
   if (world.gate !== undefined) host.__GASPER_GAIT_TEMPO__ = liveOrBase(!!ev.mute["world-driver"], "world-driver", "gate", world.gate);
 }

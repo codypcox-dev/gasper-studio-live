@@ -48,7 +48,8 @@ export function defaultGeoGraph(): GeoGraph {
     if (node) nodes.push(node);
   }
   const links = [
-    { from: "identity", to: "cage" },
+    { from: "identity", to: "envelope" },
+    { from: "envelope", to: "cage" },
     { from: "cage", to: "handles" },
     { from: "handles", to: "support" },
     { from: "support", to: "gait" },

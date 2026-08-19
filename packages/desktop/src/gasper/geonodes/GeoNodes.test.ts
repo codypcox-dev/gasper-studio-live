@@ -39,7 +39,9 @@ describe("GeoNodes", () => {
       expect(order.indexOf(spine[i])).toBeGreaterThan(order.indexOf(spine[i - 1]));
     }
     expect(g.output).toBe("hull");
-    expect(arrangeGraph(g).layoutVersion).toBe(18);
+    expect(arrangeGraph(g).layoutVersion).toBe(19);
+    expect(g.nodes.some((n) => n.id === "envelope")).toBe(true);
+    expect(g.nodes.find((n) => n.id === "envelope")?.muted).toBe(false);
     expect(occupiedPillars(g).includes("phase")).toBe(false);
     const cols = compilerColumns(g);
     expect(cols).toHaveLength(5);
@@ -66,6 +68,10 @@ describe("GeoNodes", () => {
     expect((ident?.x ?? 0) !== (g.nodes.find((n) => n.id === "hull")?.x ?? 0)).toBe(true);
     expect(g.nodes.filter((n) => n.muted).length).toBeGreaterThan(10);
     expect(new Set(g.nodes.map((n) => n.event)).size).toBe(4);
+    const env = g.nodes.find((n) => n.id === "envelope");
+    expect(env?.params.find((p) => p.id === "rScale")?.base).toBe(1);
+    expect(env?.params.find((p) => p.id === "collapse")?.value).toBe(0);
+    expect(env?.params.find((p) => p.id === "hook")?.value).toBe(0);
   });
 
   it("refuses a cycle, a type clash, and accepts a legal rewire", () => {
@@ -124,6 +130,7 @@ describe("GeoNodes", () => {
     expect(GASPER_ORGANS.some((o) => o.id === "arap" && o.status === "UNHOOKED")).toBe(true);
     expect(LIVE_PIPELINE).toEqual([
       "contour-512",
+      "envelope",
       "relief-1000",
       "stance",
       "gait-law",
@@ -133,6 +140,7 @@ describe("GeoNodes", () => {
       "pearl",
       "closed-spline",
     ]);
+    expect(GASPER_ORGANS.some((o) => o.id === "envelope" && o.status === "LIVE")).toBe(true);
     expect(NODE_BLUEPRINTS.every((b) => GASPER_ORGANS.some((o) => o.id === b.organId))).toBe(true);
 
     const deadUi = [

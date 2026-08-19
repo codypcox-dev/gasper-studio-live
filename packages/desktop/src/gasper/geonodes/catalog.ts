@@ -61,6 +61,7 @@ export const GASPER_ORGANS: readonly Organ[] = [
   { id: "eight-state", kind: "animation", label: "Eight-state loop", status: "LIVE", file: "eight-state-loop/EightStateLoopController.ts", note: "Presence grammar." },
   { id: "curve-track", kind: "animation", label: "CurveTrack Hermite", status: "LIVE", file: "curves/CurveTrack.ts", note: "Takes. C¹ in time." },
   { id: "field-api", kind: "controller", label: "GasperFieldApi", status: "LIVE", file: "scaffold/GasperFieldApi.ts", note: "25×40 API for UI/MCP." },
+  { id: "envelope", kind: "cage", label: "Body rig", status: "LIVE", lock: "5-node", file: "assets/all-script-3.js", note: "Crown/torso/crotch/plants. Puff/collapse/hook. Rest identity stays the pearl." },
   { id: "rig-controller", kind: "controller", label: "GasperRigController", status: "LIVE", file: "GasperRigController.ts", note: "Takes, play, inspect." },
   { id: "machine", kind: "controller", label: "State machine", status: "LIVE", file: "machine/GasperStateMachine.ts", note: "Three regions. Flags only. No d." },
   { id: "instrument", kind: "ui", label: "Instrument table", status: "DEAD", file: "dais-first/InstrumentTable.tsx", note: "Unmounted sliders. Leftover." },
@@ -88,6 +89,7 @@ export const COOK_ORGANS: readonly Organ[] = GASPER_ORGANS.filter(isCookOrgan);
 
 export const LIVE_PIPELINE = [
   "contour-512",
+  "envelope",
   "relief-1000",
   "stance",
   "gait-law",
