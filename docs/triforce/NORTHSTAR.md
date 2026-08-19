@@ -17,6 +17,26 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-18 · tag stages and keep going
+
+Cody: keep going. Tag these stages for a while as we move so we can rewind states if necessary. This is touchy work.
+Intention: every envelope wave is a named restore point before the next cut. E1 is tagged. Next is E2 — shadow `envelopeXYZ`, fitted `r`, pointer not swapped, `#body` unchanged. Do not invent a second painter. Tags are rewind law for this arc.
+
+## Owner voice — 2026-08-18 · audit scene and keep going
+
+Cody: audit scene and keep going.
+Intention: look at the live organism, name what is still wrong, then execute the next lawful wave. Do not restack Explore packets. Wave 006 isobands are on disk. Next is E1 of GASPER-ENVELOPE-001 (authored 5-node overlay, positions only, #body unchanged) plus the wave-006 residual that the extracted crotch sits on the right equator. Preview is the gate.
+
+## Owner voice — 2026-08-18 · envelope blueprint
+
+Cody: write a named technical blueprint for true vector 3D via the medial envelope. Research every aspect through CanonOps. Synthesize the back half of the implementation plan. Use subagents. Adversarial audit on clean implementation.
+Intention: stop lofting a 2D 512. The cage samples a 3D skeleton+radius envelope. `#body` is the occluding contour of the projection. Lock 25×40 stays. Chase: `docs/triforce/NORTHSTAR-ENVELOPE.md` (`GASPER-ENVELOPE-001`).
+
+## Owner voice — 2026-08-18 · next big wave · better systems
+
+Cody: plan the next big wave from the research; upgrade Gasper to the better systems.
+Intention: stop stacking Explore packets. Ship the lawful painter (isobands, not 960 quads) and start the lawful controller (medial fabric — feet off the belly pole). Poisson and marching cubes stay readers, not a new body. Preview is the gate.
+
 ## Owner voice — 2026-08-18 · finish the planbook, merge to main
 
 Cody: everything fixed, coded, and merged to main. Finish the planbook. Use subs.

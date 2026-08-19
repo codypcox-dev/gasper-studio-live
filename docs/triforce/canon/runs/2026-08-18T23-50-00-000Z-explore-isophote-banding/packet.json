@@ -1,0 +1,49 @@
+{
+  "runId": "2026-08-18T23-50-00-000Z-explore-isophote-banding",
+  "mode": "explore",
+  "residual": "quad-bin = isophote",
+  "question": "What is an isophote band, how is it extracted from the 25×40, and how do we keep it from becoming cel-shading?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "quad-fill = urethane",
+  "dualKilled": [
+    "quad-bin = isophote",
+    "isophote-band = cel-step"
+  ],
+  "curves": {
+    "isophote": "n·L = c (Poeschl 1984) — body turn",
+    "highlight": "reflection of a linear light (Theisel 2001: not the same class) — coat",
+    "isoparametric": "constant u/v — overlay only"
+  },
+  "extract": "marching-squares isobands with linear edge interpolation and center-sample saddle decider; wrap sector 0↔39; skip z<0",
+  "refusedExtract": "union of quads whose mean E sits in a bin",
+  "counts": {
+    "sss": 1,
+    "body": 2,
+    "coat": 1,
+    "dom": "≤6",
+    "thresholds": "fixed in value space; percentile forbidden"
+  },
+  "scalars": {
+    "body": "E or f_base",
+    "coat": "S_coat (GGX α≈0.06), not a brighter E bin"
+  },
+  "temporal": "EMA φ; hysteresis on coat c; never change band count mid-take",
+  "diagnostic": "kinked isophotes on the W = medial-fabric fail, not a blur miss. M1 before M2.",
+  "refused": [
+    "six equal E-steps",
+    "one scalar for body and coat",
+    "percentile bands",
+    "blur 960 quads",
+    "white stroke as Fresnel",
+    "force one coat island"
+  ],
+  "sources": [
+    "Poeschl CAD 1984",
+    "Theisel CAGD 2001",
+    "Lorensen-Cline marching cubes / squares isobands",
+    "Gooch SIGGRAPH 1998",
+    "docs/triforce/canon/runs/2026-08-18T23-40-00-000Z-explore-urethane-vector",
+    "docs/triforce/canon/runs/2026-08-18T23-45-00-000Z-investigate-medial-fabric"
+  ],
+  "fix": "none this pass. Dual + extract spec only."
+}

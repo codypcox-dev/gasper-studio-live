@@ -1,0 +1,25 @@
+{
+  "runId": "2026-08-19T01-05-00-000Z-wave-006",
+  "mode": "implement",
+  "wave": "docs/triforce/plans/2026-08-19-studio-006.md",
+  "engineVersion": "3.0.0",
+  "shipped": {
+    "M2": "paintCageFill is 4 isoband paths (SSS + 2 body E + 1 coat S). Linear crossings. #body stroke none.",
+    "M1thin": "Foot meridians inset toward plant/crotch attractors. Crotch = min-y on the high-mean-y arc between plants."
+  },
+  "film": {
+    "kids": 4,
+    "cageFill": "4",
+    "bodyStroke": "none",
+    "liveN": 1000,
+    "crotch": { "x": 123.8, "y": 195.3 },
+    "plants": { "L": [99.8, 203.4], "R": [147.6, 203.4] },
+    "specTravel600ms": 1.7
+  },
+  "residuals": [
+    "crown still pizza (torso centroid leftover — full grassfire is next)",
+    "coat centroid travel 1.7px in 600ms — EMA too sticky",
+    "faint cell mottling under blur (union of interpolated cells, not 960 quads)"
+  ],
+  "refused": ["Poisson cage", "marching cubes volume", "τ-on-v this wave"]
+}

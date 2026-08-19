@@ -32,6 +32,14 @@ describe("cage hull honor — chase GASPER-CAGED-HULL-001", () => {
     expect(formMaster).toContain("avatar.dataset.cageSpecX");
     expect(formMaster).not.toContain("stop-color','#fffaff'");
     expect(formMaster).toContain("function paintScaffoldGrid(contour,profile)");
+    expect(formMaster).toContain("function paintCageFill");
+    expect(formMaster).toContain("function cageFeatureV");
+    expect(formMaster).toContain("function superlevelCell");
+    expect(formMaster).toContain("function pearlHex");
+    expect(formMaster).toContain("isoPainter");
+    expect(formMaster).toContain("__GASPER_MEDIAL__");
+    expect(formMaster).toContain("GASPER_SKELETON");
+    expect(formMaster).toContain("function paintSkeletonOverlay");
     expect(formMaster).not.toContain("farTuck=0.0*turn");
   });
 

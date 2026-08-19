@@ -1,0 +1,67 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T02-40-00-000Z-investigate-envelope-clean",
+  "mode": "investigate",
+  "residual": "authored-512 = silhouette",
+  "question": "What breaks if we implement GASPER-ENVELOPE-001 cleanly — and what is the first safe cut?",
+  "engineVersion": "3.0.0",
+  "verdict": "E1 only. The plan's rest-lock table is costume. Do not invert #body. Do not sample r_T=64.",
+  "dualKilled": [
+    "authored-512 = silhouette",
+    "n-dot-V-on-a-pancake = occluding-contour",
+    "extracted-medial = rest-lock",
+    "centroid-yaw = plant-yaw",
+    "gauss-W = medial-W",
+    "constant-r = W",
+    "dist≤r = convolution",
+    "plan-table = measurement"
+  ],
+  "liveWriteOrder": [
+    "createBaseContour 1090",
+    "sampleBodyForProfile 1440 (512 xy)",
+    "_lp + kappaBoxLower 3239",
+    "facingCompress about centroid 3357",
+    "bindHullToLiveGrid 2195 (1000 from 512; z = ox·sin + 58√(1−v²)·cos)",
+    "closedSpline → #body 3405",
+    "shadeCagePoints ignores stored z (uz=0, vz from dome) 2044"
+  ],
+  "restLockCostume": {
+    "plan": "crown r=58 at (120,112); torso r=64 at y≈141; plants y=189.80; M*=197.80",
+    "liveCrown": "(120.00, 28.34) polar r≈72",
+    "liveCleft": "(120.00, 192.28)",
+    "livePlants": "(100.25, 201.03) / (140.64, 200.76)",
+    "liveHeight": 172.69,
+    "planEnvelopeHeight": 143.8,
+    "stolenFrom": "r_F=58 is the shade dome; r_T=64 is profileDepthScale; M*=197.80 is the muted-handles kill-sheet",
+    "regularityFail": "|64−8|=56 > L_TC≈40 — torso sphere swallows crotch and plants"
+  },
+  "stanceVsMedial": {
+    "STANCE_REST": "rim handles (100,188)/(140,188)/(120,172)",
+    "medial": "sphere centers. Do not average. Do not sniff __GASPER_MEDIAL__ as rest."
+  },
+  "firstSafeWave": "E1 — 5-node debug overlay, zero paint, do not lock the costume table, do not call bindHullToLiveGrid",
+  "haltBeforeE2": "until r(u) is measured/fit from the living W, not copied from the loft constant 58",
+  "killSwitch": [
+    "closedSpline",
+    "WISPWALKER_CANONICAL_CONTOUR",
+    "paintCageFill 4-path isobands",
+    "muteHardHighlights",
+    "kappaBoxLower",
+    "StanceInstrument rest sockets",
+    "viewFaceTransform (120,112)",
+    "FACE_PLANE",
+    "floor removeAttribute('transform')",
+    "GasperContourSolver firewall",
+    "candidate-script-3.js",
+    "do not create CageHull.ts / EnvelopePainter.ts",
+    "do not wholesale-replace all-script-3.js",
+    "do not green WaveIdentityRenderContract or GaitLaw ground transform"
+  ],
+  "parents": [
+    "docs/triforce/canon/runs/2026-08-19T02-00-00-000Z-explore-canal-sweep",
+    "docs/triforce/canon/runs/2026-08-19T02-10-00-000Z-explore-occluding-contour",
+    "docs/triforce/canon/runs/2026-08-19T02-20-00-000Z-explore-medial-skeleton",
+    "docs/triforce/canon/runs/2026-08-19T01-20-00-000Z-investigate-envelope-audit"
+  ],
+  "fix": "none this pass. Clean-impl audit + corrected rest-lock seed + E1-only go."
+}

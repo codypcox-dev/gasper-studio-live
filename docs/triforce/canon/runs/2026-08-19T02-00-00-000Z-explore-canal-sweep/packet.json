@@ -1,0 +1,38 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T02-00-00-000Z-explore-canal-sweep",
+  "mode": "explore",
+  "residual": "dist≤r = convolution",
+  "question": "What is the lawful 3D body? Canal / sphere-sweep, or a convolution field?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "authored-512 = silhouette",
+  "dualKilled": [
+    "dist≤r = convolution",
+    "volume-iso = body",
+    "constant-r = W",
+    "UDF-polyline = canal"
+  ],
+  "lawfulObject": "canal / sphere-sweep / sphere-mesh EDGE — envelope of spheres along 4 authored bones with linear r(u)",
+  "regularity": "|ṙ| < ‖ċ‖  i.e.  |r_B − r_A| < L  on every bone every frame",
+  "silhouette": "orthographic = union of 5 disks + 4 (tapered) stadiums. Exact. Vector.",
+  "refused": [
+    "Bloomenthal–Shoemake convolution F=∫k",
+    "Cauchy / SCALIS integral surfaces",
+    "smoothmin of bone distances",
+    "sphere-mesh FACE between plantL and plantR",
+    "unsigned distance to the Y-polyline with one r",
+    "marching cubes of any field as skin",
+    "plan first-guess r_T=64 (fails regularity: |64−8|=56 > L_TC≈40)"
+  ],
+  "crotchLaw": "r_C ≤ h − δ; no L–R blend (Guy & Wyvill 1995: blend only authored edges)",
+  "joint": "shared node sphere ⇒ G1. torso–crotch may be interior (crotch ⊂ torso). Surface-generating bones must be regular.",
+  "sources": [
+    "Garcia & Sotomayor 2006 (immersion requires r'<1)",
+    "Thiery, Guy, Boubekeur, Sphere-Meshes, SA 2013",
+    "Tkach, Pauly, Tagliasacchi, SA 2016 (pills → disks + stadiums)",
+    "Bloomenthal & Shoemake SIGGRAPH 1991; Bloomenthal 1997 bulge",
+    "Guy & Wyvill 1995 controlled blending",
+    "Zanni et al. SCALIS 2013 (still a field)"
+  ],
+  "fix": "none this pass. Dual + canal spec only."
+}

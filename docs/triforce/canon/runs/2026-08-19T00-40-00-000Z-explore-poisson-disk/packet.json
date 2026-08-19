@@ -1,0 +1,41 @@
+{
+  "runId": "2026-08-19T00-40-00-000Z-explore-poisson-disk",
+  "mode": "explore",
+  "residual": "poisson-set = fabric-chart",
+  "question": "Which Poisson-disk methods exist, and may any of them write Gasper's 25×40?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "quad-bin = isophote",
+  "dualKilled": "poisson-set = fabric-chart",
+  "siblingDual": "offset-UV-Euclidean = hex-lattice",
+  "law": "d(xi,xj) ≥ r in the fabric metric; blue spectrum; a set, not a chart",
+  "methods": [
+    "Cook 1986 dart throwing",
+    "Bridson 2007 O(n) annulus + background grid, k≈30",
+    "Mitchell best-candidate",
+    "Lloyd relaxation (not Poisson)",
+    "Yuksel 2015 sample elimination — exact N, r implicit, any domain",
+    "Wei 2010 multi-class",
+    "Geodesic / surface MPS (Bowers, Cline, Guo 2015)"
+  ],
+  "lawful": "derived sets only — goose sites via Yuksel-from-1000 or rest-time Bridson in d_fabric; barycentric bind; never live re-throw",
+  "unlawful": [
+    "replace 25×40 with Poisson 1000",
+    "screen-space Bridson as visible sites",
+    "Lloyd named as Poisson",
+    "dart throwing every frame",
+    "Poisson as the pizza fix"
+  ],
+  "metric": "d_fabric now; d_medial after M1. d_screen and d_uv refused for visible sets.",
+  "lock": "liveGridXYZ.length === 3000 stays. Poisson is a second named buffer.",
+  "defer": "M1 medial fabric and M2 isobands do not wait on this.",
+  "sources": [
+    "Cook TOG 1986",
+    "Bridson SIGGRAPH 2007",
+    "Yuksel CGF 2015",
+    "Wei SIGGRAPH 2010",
+    "docs/triforce/canon/runs/2026-08-16T22-55-00-000Z-explore-hex-lattice",
+    "docs/triforce/canon/runs/2026-08-16T22-40-00-000Z-investigate-goose-follicle",
+    "docs/triforce/canon/runs/2026-08-18T23-45-00-000Z-investigate-medial-fabric"
+  ],
+  "fix": "none this pass. Dual only."
+}

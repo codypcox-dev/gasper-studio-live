@@ -42,6 +42,8 @@ describe("cage light on the 1000", () => {
     expect(painter).toContain("viewFixedLights");
     expect(painter).toContain("_lastLightTiltDeg");
     expect(painter).toContain("avatar.dataset.cageSpecX");
+    expect(painter).toContain("function paintCageFill");
+    expect(painter).toContain("overlay-ellipse = cage-surface");
     expect(painter).not.toContain("stop-color','#fffaff'");
     expect(painter).not.toContain("(gel)?goosePapulePaths");
     expect(painter).not.toMatch(/function goosePapulePaths[\s\S]{0,400}collectGoosePapulesLive/);

@@ -1,10 +1,16 @@
 {
-  "runId": "2026-08-18T23-10-00-000Z-explore-uv-unwrapping",
-  "mode": "explore",
-  "residual": "unwrap = bind",
-  "depositPath": "docs/triforce/canon/runs/2026-08-18T23-10-00-000Z-explore-uv-unwrapping",
-  "parentResidual": "homothety = UV",
-  "book": "docs/triforce/plans/2026-08-18-studio-master-003.md",
+  "runId": "2026-08-19T01-46-00-000Z-e1-skeleton",
+  "mode": "cut",
+  "residual": "extracted-medial = rest-lock",
+  "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
+  "blueprintId": "GASPER-ENVELOPE-001",
+  "wave": "E1",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T01-46-00-000Z-e1-skeleton",
+  "book": "docs/triforce/plans/2026-08-19-envelope-001.md",
   "engineVersion": "3.0.0",
-  "before": "docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping"
+  "parents": [
+    "docs/triforce/canon/runs/2026-08-19T02-40-00-000Z-investigate-envelope-clean",
+    "docs/triforce/canon/runs/2026-08-19T01-05-00-000Z-wave-006"
+  ],
+  "verdict": "E1 overlay live. Live cleft in the W. Do not invert #body. Next is E2 shadow envelopeXYZ — fit r first."
 }

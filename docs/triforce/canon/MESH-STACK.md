@@ -79,7 +79,8 @@ Today shade and silhouette do not share it:
 - Puff moves the rim, does not shade.
 - `meshOffsets` dent the 360 in secret.
 
-Lawful workflow: author → bind offset UV (u=sector, v=ring along inward normal of the live 512; not a pole homothety) → apply pressure+relief+captured → **both** `shadeLitMesh` and the rim read the same scalars. Zero is +0, never 8-bit mid-gray.
+Lawful workflow: author → bind **offset isolines + live W cleft** (E1 overlay is the authored 5-node rest; interiors still loft from the 512 until E3) → **isophote urethane** (4 superlevel paths). 960 Gouraud quads are dead. Duals killed: `single-pole = organism`, `quad-fill = urethane`, `extracted-medial = rest-lock`. Zero is +0. Overlay ellipses are not the light.
+
 
 ## Mastery order
 

@@ -1,0 +1,32 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T02-10-00-000Z-explore-occluding-contour",
+  "mode": "explore",
+  "residual": "n̂·V-on-a-pancake = occluding-contour",
+  "question": "What is the lawful #body extractor for a 5-node canal under orthographic view?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "authored-512 = silhouette",
+  "dualKilled": [
+    "authored-512 = silhouette",
+    "n̂·V-on-a-pancake = occluding-contour",
+    "hullFrontPath = body",
+    "radialEnvelope = outline",
+    "farTuck = occlusion",
+    "Pac-Man = W"
+  ],
+  "rank1": "disk + stadium union ∂Ω⁺ — exact ortho silhouette of the canal. Authority at E6.",
+  "rank2": "Hertzmann–Zorin isoline of n̂·V on the 25×40 — coupling check AFTER E3+E4, never #body",
+  "rank3illegal": "hullFrontPath = ring 24 of the authored 512. Costume.",
+  "rank4illegal": "radialEnvelope = star-convex polar ray-cast. Fills the W.",
+  "pancakeProof": "For any graph z=f(x,y), n·V = 1/√(1+|∇f|²) > 0. Γ empty. shadeCagePoints uz=0 makes n̂·V=1 on the rim too.",
+  "gate": "E6 only after E3 (interior rings follow sweep) and E4 (yaw about M). Never invert #body first.",
+  "ink": "closedSpline still the only d. Voigt NOT on extracted xy. kappaBoxLower muted on extracted samples.",
+  "sources": [
+    "Hertzmann & Zorin SIGGRAPH 2000",
+    "Koenderink Perception 1984 (K = κ_p · κ_r)",
+    "Bénard & Hertzmann FnT 2019",
+    "Appel 1967 quantitative invisibility",
+    "Thiery sphere-meshes 2013"
+  ],
+  "fix": "none this pass. Extractor ranking + E6 gate only."
+}

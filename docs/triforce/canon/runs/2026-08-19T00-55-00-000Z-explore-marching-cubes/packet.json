@@ -1,0 +1,38 @@
+{
+  "runId": "2026-08-19T00-55-00-000Z-explore-marching-cubes",
+  "mode": "explore",
+  "residual": "volume-iso = 2.5D-loft",
+  "question": "What is marching cubes 3D geometry, and may it write Gasper?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "quad-bin = isophote",
+  "dualKilled": [
+    "volume-iso = 2.5D-loft",
+    "cubes = better-squares"
+  ],
+  "law": "MC extracts {φ=c} from a 3D voxel field (8 corners, 256/15/33 cases, linear edge interpolant). Output is a triangle surface.",
+  "weHave": "2D 25×40 chart + z loft. A graph z=f(u,v), not a subset of R³.",
+  "family": {
+    "M2": "marching-squares isobands (2D, filled)",
+    "MC1987": "15-case surface, ambiguous",
+    "MC33": "Chernyaev 33, topology of trilinear interpolant",
+    "DC / Surface Nets": "dual verts, sharp features",
+    "CMS 2005": "MC rebuilt from 2D squares on cube faces"
+  },
+  "lawfulNow": "2D MS isobands only. Same interpolant and saddle decider. No K axis.",
+  "lawfulLater": "If a volume is authored (not this book): CMS or MC33, named 3D buffer, 512 still paints #body.",
+  "unlawful": [
+    "voxelize the loft and run MC as the skin",
+    "MC triangles as the 960-quad replacement",
+    "call MC a quality upgrade of MS",
+    "dual contouring for nubs without hermite",
+    "revive AdaptiveShellScaffold as live paint this pass"
+  ],
+  "sources": [
+    "Lorensen & Cline SIGGRAPH 1987",
+    "Chernyaev MC33 1995",
+    "Ho et al. Cubical Marching Squares 2005",
+    "docs/triforce/canon/runs/2026-08-18T23-50-00-000Z-explore-isophote-banding",
+    "docs/triforce/canon/runs/2026-08-16T17-00-00-000Z-investigate-adaptive-shell"
+  ],
+  "fix": "none this pass. Dual only. M2 stays 2D."
+}

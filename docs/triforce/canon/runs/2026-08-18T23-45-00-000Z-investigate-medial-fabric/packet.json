@@ -1,0 +1,46 @@
+{
+  "runId": "2026-08-18T23-45-00-000Z-investigate-medial-fabric",
+  "mode": "investigate",
+  "residual": "single-pole = organism",
+  "question": "From first principles, which grid can be the skin, the morph, the τ field, and the light chart at once?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "quad-fill = urethane",
+  "dualKilled": [
+    "single-pole = organism",
+    "mesh-tool = cage"
+  ],
+  "liveBind": "offset isolines, cageFeatureV=t^0.30, one centroid, pizza meridians",
+  "refused": [
+    "polar homothety",
+    "offset-as-final",
+    "Y-band as bind",
+    "Floater as enough",
+    "LSCM/BFF as positions",
+    "hex lattice as bind",
+    "QuadWild remesh of the lock",
+    "gradient-mesh as the cage",
+    "multi-pole lerp costume",
+    "per-frame Voronoi extract"
+  ],
+  "lawfulController": "medial fabric — authored 4-node skeleton, grassfire v, piecewise u, 25×40 remapped not remeshed",
+  "skeleton": ["crownPole (FACE_CANON)", "torsoStem", "crotchBranch", "leftPlant", "rightPlant"],
+  "coords": {
+    "v": "d_med / (d_med + d_rim) — 0 on skeleton, 1 on rim",
+    "u": "piecewise per medial branch; meridians terminate at the branch, not the centroid"
+  },
+  "lock": "1000 buffer stays. rings 0-16 torso/crown; 17-24 split L/R plant by sector.",
+  "siblings": {
+    "painter": "isophote urethane (quad-fill = urethane)",
+    "physics": "τ(v, chart) after the chart is honest"
+  },
+  "sources": [
+    "Blum 1967 grassfire",
+    "CGAL straight skeleton",
+    "Lan et al. CGI 2017 medial deformation",
+    "Guo 2024 Medial Skeletal Diagram",
+    "Pietroni 2021 feature-line quads",
+    "docs/triforce/canon/runs/2026-08-18T23-00-00-000Z-explore-uv-mapping",
+    "docs/triforce/canon/runs/2026-08-18T23-40-00-000Z-explore-urethane-vector"
+  ],
+  "fix": "none this pass. Dual + remap spec only."
+}

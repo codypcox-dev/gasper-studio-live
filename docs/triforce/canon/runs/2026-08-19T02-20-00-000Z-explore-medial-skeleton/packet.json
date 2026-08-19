@@ -1,0 +1,32 @@
+{
+  "schema": "gasper.canonops.phd-packet.v1",
+  "runId": "2026-08-19T02-20-00-000Z-explore-medial-skeleton",
+  "mode": "explore",
+  "residual": "extracted-medial = rest-lock",
+  "question": "What is an authored 3D medial skeleton + radius, how does 25×40 sample its canal, and why must yaw/gait write plants about M?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "single-pole = organism",
+  "dualKilled": [
+    "extracted-medial = rest-lock",
+    "centroid-yaw = plant-yaw",
+    "gauss-W = medial-W",
+    "constant-r = W",
+    "one-pole = two-legs",
+    "z = 58√(1−v²) = 3D"
+  ],
+  "skeleton": "5 authored nodes like FACE_CANON. Never Voronoi the 512. MAT flickers.",
+  "sample": "P(u,θ,v) = γ(u) + v r(u) n(θ) with n·γ' = −r'. Tilted characteristic, not offset tube.",
+  "chart": "rings 0–16 torso/crown (ring 0 = FACE_CANON). rings 17–24 split L/R plant by sector. ring 24 glued to live 512 until E6. Meridians die at crotch.",
+  "yaw": "X' = M + R_Y(θ)(X−M). Double support M = plant midpoint. Single support M = planted contact. Kill facingCompress about centroid. Kill z = ox·sin + z0·cos.",
+  "gait": "Writes plants only AFTER bones exist. Then retire walkScaffoldZ-on-radius, stance-fold on 512, gaitFlattenRadiusDelta.",
+  "height": "Rest hull.h 173.5±1. Never 'correct' to 168.3.",
+  "sources": [
+    "Blum 1967 grassfire / MAT",
+    "Guo, Wang, Matusik, Medial Skeletal Diagram, TOG 2024",
+    "Thiery Sphere-Meshes SA 2013",
+    "Li et al. Q-MAT 2015",
+    "Rebula & Rouse 2016 foot yaw",
+    "docs/triforce/canon/runs/2026-08-18T23-45-00-000Z-investigate-medial-fabric"
+  ],
+  "fix": "none this pass. Dual + 3D sample spec + E1–E5 recs only."
+}

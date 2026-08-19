@@ -13,6 +13,25 @@
   const ADAPTIVE_STRUCTURAL_TOPOLOGY = SidekickAdaptiveMesh.createPolarTopology({ rings: 15, sectors: 24 });
   const DETAIL_TOPOLOGY = SidekickAdaptiveMesh.createPolarTopology({ rings: 25, sectors: 40 }); // 1000-point canonical relief topology (25×40). VEC-201: retired the 4000-point HIGH tier — feature logo/glasses/embodiment bas-relief now samples the same DETAIL_TOPOLOGY with analytic primitives (no pixel heightmap).
   const FACE_PLANE = SidekickFacePlane.createFacePlane({center:[120,112],eyes:[[84,99],[156,99]],mouth:[121,140],eyeWidth:38});
+  // E1 — authored 5-node overlay. Positions only. Dual killed: extracted-medial = rest-lock.
+  const GASPER_SKELETON=Object.freeze({
+    id:'GASPER-ENVELOPE-001',
+    lock:'positions-only',
+    nodes:Object.freeze({
+      crown:Object.freeze({x:120,y:112,z:0}),
+      torso:Object.freeze({x:120,y:140,z:0}),
+      crotch:Object.freeze({x:120,y:172,z:0}),
+      plantL:Object.freeze({x:100,y:188,z:0}),
+      plantR:Object.freeze({x:140,y:188,z:0}),
+    }),
+    bones:Object.freeze([
+      Object.freeze(['crown','torso']),
+      Object.freeze(['torso','crotch']),
+      Object.freeze(['crotch','plantL']),
+      Object.freeze(['crotch','plantR']),
+    ]),
+  });
+  globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
   const RELIEF_PRESETS = Object.freeze({
     none:Object.freeze([]),
     brow_raise:Object.freeze([{kind:'brow_raise',u:.88,v:.47,radius:.105,amplitude:.76},{kind:'brow_raise',u:.12,v:.47,radius:.105,amplitude:.76}]),
@@ -1897,8 +1916,8 @@ function applyMeshWarp(contour,mesh){
     const base=$('bodyBase');
     if(base){
       const stops=base.querySelectorAll('stop');
-      if(stops[5])stops[5].setAttribute('stop-color','#8454d0');
-      if(stops[6])stops[6].setAttribute('stop-color','#9468d4');
+      const well=['#2a1068','#321472','#3a187c','#432088','#4c2494','#5428a0','#5c2cac'];
+      for(let i=0;i<stops.length&&i<well.length;i++) stops[i].setAttribute('stop-color',well[i]);
     }
     if(opticalDepth)opticalDepth.style.setProperty('opacity','0.22','important');
     if(cyanReservoirPath){cyanReservoirPath.setAttribute('d','');cyanReservoirPath.setAttribute('opacity','0');}
@@ -1908,10 +1927,113 @@ function applyMeshWarp(contour,mesh){
     for(const id of ['cosmicCellA','cosmicCellB','cosmicCellC','cosmicCellD','cosmicCloudPath']){
       const n=$(id);if(n)n.setAttribute('opacity','0');
     }
-    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.30');
+    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.14');
+    if(shellChromaticPath)shellChromaticPath.setAttribute('opacity','0.08');
+    if(innerVolumePath)innerVolumePath.setAttribute('opacity','0.10');
+    if(pearlCorePath)pearlCorePath.setAttribute('opacity','0.08');
+    if(violetCorePath)violetCorePath.setAttribute('opacity','0.10');
+    if(body){
+      body.setAttribute('stroke','none');
+      body.setAttribute('stroke-width','0');
+    }
   }
   let _lastLightTiltDeg=0;
   let _cageSpecSm={x:120,y:90,w:0};
+  let _isoLam=null,_isoSpec=null;
+  function cageFeatureV(r,R){
+    const t=r/Math.max(1,R-1);
+    return Math.pow(t,0.30);
+  }
+  function pearlHex(lam,spec){
+    const L=Math.max(0,Math.min(1,lam*0.78));
+    const S=Math.max(0,Math.min(0.55,spec*0.72));
+    const r=Math.round(34+L*118+S*52);
+    const g=Math.round(10+L*86+S*58);
+    const b=Math.round(92+L*118+S*42);
+    return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+  }
+  function emaField(prev,next,a){
+    if(!next) return prev;
+    if(!prev||prev.length!==next.length) return Float32Array.from(next);
+    for(let i=0;i<next.length;i++) prev[i]=prev[i]*a+next[i]*(1-a);
+    return prev;
+  }
+  function isoLerp(ax,ay,av,bx,by,bv,c){
+    const t=Math.max(0,Math.min(1,(c-av)/((bv-av)||1e-6)));
+    return [ax+(bx-ax)*t,ay+(by-ay)*t];
+  }
+  function superlevelCell(xs,ys,vs,z,c){
+    // Interpolated {φ ≥ c}. Dual killed: quad-bin = isophote.
+    if(z<0) return null;
+    const inC=[vs[0]>=c,vs[1]>=c,vs[2]>=c,vs[3]>=c];
+    let nIn=0;for(const b of inC) if(b) nIn++;
+    if(!nIn) return null;
+    const pts=[];
+    for(let e=0;e<4;e++){
+      const i=e,j=(e+1)&3;
+      if(inC[i]){pts.push(xs[i],ys[i]);}
+      if(inC[i]!==inC[j]){
+        const p=isoLerp(xs[i],ys[i],vs[i],xs[j],ys[j],vs[j],c);
+        pts.push(p[0],p[1]);
+      }
+    }
+    return pts.length>=6?pts:null;
+  }
+  function superlevelPath(xyz,cx,cy,phi,c){
+    const R=25,S=40;
+    let d='';
+    for(let r=0;r<R-1;r++){
+      for(let s=0;s<S;s++){
+        const s1=(s+1)%S;
+        const i00=r*S+s,i10=r*S+s1,i01=(r+1)*S+s,i11=(r+1)*S+s1;
+        const z=(xyz[i00*3+2]+xyz[i10*3+2]+xyz[i01*3+2]+xyz[i11*3+2])*0.25;
+        const xs=[cx+xyz[i00*3],cx+xyz[i10*3],cx+xyz[i11*3],cx+xyz[i01*3]];
+        const ys=[cy+xyz[i00*3+1],cy+xyz[i10*3+1],cy+xyz[i11*3+1],cy+xyz[i01*3+1]];
+        const vs=[phi[i00]||0,phi[i10]||0,phi[i11]||0,phi[i01]||0];
+        const poly=superlevelCell(xs,ys,vs,z,c);
+        if(!poly) continue;
+        d+='M'+poly[0].toFixed(1)+' '+poly[1].toFixed(1);
+        for(let k=2;k<poly.length;k+=2) d+='L'+poly[k].toFixed(1)+' '+poly[k+1].toFixed(1);
+        d+='Z';
+      }
+    }
+    return d;
+  }
+  function hullFrontPath(xyz,cx,cy){
+    const R=25,S=40,rr=R-1;
+    let d='',started=false;
+    for(let s=0;s<S;s++){
+      const i=rr*S+s;
+      if((xyz[i*3+2]||0)<0) continue;
+      const x=(cx+xyz[i*3]).toFixed(1),y=(cy+xyz[i*3+1]).toFixed(1);
+      d+=(started?'L':'M')+x+' '+y;
+      started=true;
+    }
+    return started?d+'Z':'';
+  }
+  function ensureIsoFilters(){
+    const svg=(avatar&&avatar.ownerSVGElement)||document.querySelector('svg');
+    if(!svg) return;
+    const defs=svg.querySelector('defs');
+    if(!defs) return;
+    const ns='http://www.w3.org/2000/svg';
+    const mk=(id,dev)=>{
+      let f=$(id);
+      if(!f){
+        f=document.createElementNS(ns,'filter');
+        f.setAttribute('id',id);
+        f.setAttribute('x','-22%');f.setAttribute('y','-22%');
+        f.setAttribute('width','144%');f.setAttribute('height','144%');
+        f.appendChild(document.createElementNS(ns,'feGaussianBlur'));
+        defs.appendChild(f);
+      }
+      const b=f.querySelector('feGaussianBlur');
+      if(b) b.setAttribute('stdDeviation',dev);
+    };
+    mk('isoFeatherSss','9');
+    mk('isoFeatherBody','8');
+    mk('isoFeatherCoat','3.4');
+  }
   function viewFixedLights(yawDeg){
     // Room key in XZ. Orbit yaw + authored key azimuth turn L around Y.
     // Key elevation tips L in YZ. Do not spin lights in XY.
@@ -1938,8 +2060,9 @@ function applyMeshWarp(contour,mesh){
     let specX=0,specY=0,specW=0,hotS=0,hotI=-1;
     const lam=new Float32Array(R*S),spec=new Float32Array(R*S);
     for(let r=0;r<R;r++){
-      const v=r/Math.max(1,R-1),z0=58*Math.sqrt(Math.max(0,1-v*v));
-      const r1=Math.min(R-1,r+1),v1=r1/Math.max(1,R-1),z1=58*Math.sqrt(Math.max(0,1-v1*v1));
+      const v=cageFeatureV(r,R),z0=58*Math.sqrt(Math.max(0,1-v*v));
+      const r1=Math.min(R-1,r+1),v1=cageFeatureV(r1,R),z1=58*Math.sqrt(Math.max(0,1-v1*v1));
+      const ringT=r/Math.max(1,R-1);
       for(let s=0;s<S;s++){
         const i=r*S+s,s1=(s+1)%S,iu=r*S+s1,iv=r1*S+s;
         const ux=xyz[iu*3]-xyz[i*3],uy=xyz[iu*3+1]-xyz[i*3+1],uz=0;
@@ -1955,8 +2078,8 @@ function applyMeshWarp(contour,mesh){
           Ssum+=L.I*Math.pow(Math.max(0,nx*hx/hl+ny*hy/hl+nz*hz/hl),14);
         }
         lam[i]=Lsum;
-        const cheek=Math.exp(-0.5*Math.pow((v-0.38)/0.22,2));
-        const Svis=Ssum*specGain*(0.28+0.72*cheek);
+        const cheek=Math.exp(-0.5*Math.pow((ringT-0.38)/0.22,2));
+        const Svis=Ssum*specGain*(0.58+0.42*cheek);
         spec[i]=Svis;
         if((xyz[i*3+2]||0)<0) continue;
         const px=cx+xyz[i*3],py=cy+xyz[i*3+1],w=Math.pow(Math.max(0,Svis),2.2);
@@ -1988,30 +2111,63 @@ function applyMeshWarp(contour,mesh){
     return _cageSpecSm;
   }
   function paintCageSpecWash(g,xyz,cx,cy,spec){
-    if(!g||!xyz||!spec){if(g){g.replaceChildren();g.setAttribute('opacity','0');}return;}
-    const R=25,S=40,hits=[];
-    for(let r=6;r<R;r++){
-      for(let s=0;s<S;s++){
-        const i=r*S+s,z=xyz[i*3+2]||0;
-        if(z<0) continue;
-        const sp=spec[i]||0;
-        if(sp<0.18) continue;
-        hits.push({i,r,s,sp,z});
-      }
+    // Overlay ellipses are not the light. Dual killed: overlay-ellipse = cage-surface.
+    if(g){g.replaceChildren();g.setAttribute('opacity','0');}
+  }
+  function ensureCageFillLayer(){
+    let g=$('cageFillLayer');
+    if(!g){
+      g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('id','cageFillLayer');
+      g.setAttribute('clip-path','url(#bodyClip)');
+      g.setAttribute('pointer-events','none');
+      g.setAttribute('data-cage-fill','isoband');
     }
-    hits.sort((a,b)=>b.sp-a.sp);
-    const top=hits.slice(0,10);
-    const html=[];
-    for(const h of top){
-      const x=(cx+(xyz[h.i*3]||0)).toFixed(1);
-      const y=(cy+(xyz[h.i*3+1]||0)).toFixed(1);
-      const rr=(1.6+Math.min(3.2,h.sp*2.4)).toFixed(2);
-      const op=Math.max(0.08,Math.min(0.28,h.sp*0.22)).toFixed(3);
-      html.push('<ellipse cx="'+x+'" cy="'+y+'" rx="'+rr+'" ry="'+(Number(rr)*0.72).toFixed(2)+'" fill="#e4d2ff" fill-opacity="'+op+'"/>');
+    const face=$('faceRecessLayer')||$('expressionOcclusionLayer')||$('faceEmissionLayer');
+    const host=face&&face.parentNode;
+    if(host&&g.parentNode!==host){
+      if(face) host.insertBefore(g,face);
+      else host.appendChild(g);
+    }else if(!g.parentNode){
+      const fallback=stepRig||idleRig||avatar;
+      if(fallback) fallback.insertBefore(g,fallback.firstChild);
     }
-    g.replaceChildren();
-    if(html.length){g.innerHTML=html.join('');g.setAttribute('opacity','0.55');}
-    else g.setAttribute('opacity','0');
+    return g;
+  }
+  function paintCageFill(xyz,cx,cy,lam,spec){
+    // M2: 4 isoband paths, not 960 Gouraud quads. Dual killed: quad-fill = urethane.
+    const g=ensureCageFillLayer();
+    if(!g||!xyz||!lam||xyz.length!==1000*3){
+      if(g){g.replaceChildren();g.setAttribute('opacity','0');}
+      return;
+    }
+    ensureIsoFilters();
+    _isoLam=emaField(_isoLam,lam,0.65);
+    _isoSpec=emaField(_isoSpec,spec,0.65);
+    const E=_isoLam,S=_isoSpec;
+    if(g.childElementCount!==4){
+      g.innerHTML=[
+        '<path id="isoSss" fill="#3a1068" fill-opacity="0.14" stroke="none" filter="url(#isoFeatherSss)"/>',
+        '<path id="isoBody0" fill="#4a2088" fill-opacity="0.58" stroke="none" filter="url(#isoFeatherBody)"/>',
+        '<path id="isoBody1" fill="#6a38a8" fill-opacity="0.40" stroke="none" filter="url(#isoFeatherBody)"/>',
+        '<path id="isoCoat" fill="#b898d8" fill-opacity="0.28" stroke="none" filter="url(#isoFeatherCoat)"/>'
+      ].join('');
+    }
+    const sss=$('isoSss'),b0=$('isoBody0'),b1=$('isoBody1'),coat=$('isoCoat');
+    if(sss){sss.setAttribute('fill','#3a1068');sss.setAttribute('fill-opacity','0.14');}
+    if(b0){b0.setAttribute('fill','#4a2088');b0.setAttribute('fill-opacity','0.58');}
+    if(b1){b1.setAttribute('fill','#6a38a8');b1.setAttribute('fill-opacity','0.40');}
+    if(coat){coat.setAttribute('fill','#b898d8');coat.setAttribute('fill-opacity','0.28');}
+    const hull=hullFrontPath(xyz,cx,cy);
+    if(sss) sss.setAttribute('d',hull||superlevelPath(xyz,cx,cy,E,0.05));
+    if(b0) b0.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.26));
+    if(b1) b1.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.52));
+    if(coat) coat.setAttribute('d',superlevelPath(xyz,cx,cy,S,0.62));
+    g.setAttribute('opacity','1');
+    if(avatar){
+      avatar.dataset.cageFill='4';
+      avatar.dataset.isoPainter='1';
+    }
   }
   function paintSurfaceShade(){
     const g=$('surfaceShade');
@@ -2023,31 +2179,33 @@ function applyMeshWarp(contour,mesh){
     if(xyz&&xyz.length===1000*3&&Number.isFinite(cx)) shadeCagePoints(xyz,cx,cy);
     if(loft&&typeof loft==='object') avatar.dataset.shadeLoft='1';
     const spec=globalThis.__GASPER_CAGE_SPEC__;
+    const lam=globalThis.__GASPER_CAGE_LAM__;
     paintCageSpecWash(g,xyz,cx,cy,spec);
+    paintCageFill(xyz,cx,cy,lam,spec);
     const bloom=$('crownBloomGrad'),hot=$('crownHotGrad');
     const sx=Number(avatar&&avatar.dataset.cageSpecX);
     const sy=Number(avatar&&avatar.dataset.cageSpecY);
     if(bloom&&Number.isFinite(sx)&&sx!==0){
       bloom.setAttribute('cx',sx.toFixed(1));
       bloom.setAttribute('cy',sy.toFixed(1));
-      bloom.setAttribute('r','56');
+      bloom.setAttribute('r','64');
       const b0=bloom.querySelector('stop');
-      if(b0){b0.setAttribute('stop-opacity','0.32');b0.setAttribute('stop-color','#d8c4ff');}
+      if(b0){b0.setAttribute('stop-opacity','0.16');b0.setAttribute('stop-color','#c4a0e8');}
     }
     const hx=Number(avatar&&avatar.dataset.cageHotX);
     const hy=Number(avatar&&avatar.dataset.cageHotY);
     if(hot&&Number.isFinite(hx)&&hx!==0){
       hot.setAttribute('cx',hx.toFixed(1));
       hot.setAttribute('cy',(Number.isFinite(hy)?hy:sy).toFixed(1));
-      hot.setAttribute('r','18');
+      hot.setAttribute('r','22');
       const h0=hot.querySelector('stop');
-      if(h0){h0.setAttribute('stop-opacity','0.26');h0.setAttribute('stop-color','#efe6ff');}
+      if(h0){h0.setAttribute('stop-opacity','0.10');h0.setAttribute('stop-color','#b890e0');}
     }else if(hot&&Number.isFinite(sx)&&sx!==0){
       hot.setAttribute('cx',sx.toFixed(1));
       hot.setAttribute('cy',sy.toFixed(1));
-      hot.setAttribute('r','18');
+      hot.setAttribute('r','22');
       const h0=hot.querySelector('stop');
-      if(h0){h0.setAttribute('stop-opacity','0.26');h0.setAttribute('stop-color','#efe6ff');}
+      if(h0){h0.setAttribute('stop-opacity','0.10');h0.setAttribute('stop-color','#b890e0');}
     }
     if(tssGlintNode)tssGlintNode.setAttribute('opacity',Math.min(0.22,Number(tssGlintNode.getAttribute('opacity')||0)*0.35).toFixed(3));
     if(tssSheenNode)tssSheenNode.setAttribute('opacity',Math.min(0.10,Number(tssSheenNode.getAttribute('opacity')||0)*0.35).toFixed(3));
@@ -2076,12 +2234,53 @@ function applyMeshWarp(contour,mesh){
     let ax=0,ay=0;
     for(let s=0;s<S;s++){ax+=rimX[s];ay+=rimY[s];}
     const cx=ax/S,cy=ay/S;
+    // Live plants = lowest south samples. Dual killed: long-way valley = crotch.
+    let lS=-1,lY=-1e9,rS=-1,rY=-1e9,hiY=-1e9;
+    for(let s=0;s<S;s++) if(rimY[s]>hiY) hiY=rimY[s];
+    const yCut=cy+(hiY-cy)*0.55;
+    for(let s=0;s<S;s++){
+      if(rimY[s]<yCut) continue;
+      if(rimX[s]<cx){if(rimY[s]>lY){lY=rimY[s];lS=s;}}
+      else {if(rimY[s]>rY){rY=rimY[s];rS=s;}}
+    }
+    const plantL={x:lS>=0?rimX[lS]:cx-30,y:lS>=0?rimY[lS]:cy+72};
+    const plantR={x:rS>=0?rimX[rS]:cx+30,y:rS>=0?rimY[rS]:cy+72};
+    let cS=-1,cY=1e9;
+    const xLo=Math.min(plantL.x,plantR.x),xHi=Math.max(plantL.x,plantR.x);
+    const southGate=Math.min(plantL.y,plantR.y)-36;
+    for(let s=0;s<S;s++){
+      if(rimY[s]<southGate) continue;
+      if(rimX[s]<xLo-2||rimX[s]>xHi+2) continue;
+      if(rimY[s]<cY){cY=rimY[s];cS=s;}
+    }
+    const cleft={x:cS>=0?rimX[cS]:(plantL.x+plantR.x)*0.5,y:cS>=0?rimY[cS]:Math.min(plantL.y,plantR.y)-16};
+    const crotch={x:cleft.x,y:cleft.y};
     const nx=new Float32Array(S),ny=new Float32Array(S),sxn=new Float32Array(S),syn=new Float32Array(S),inset=new Float32Array(S);
+    const poleX=new Float32Array(S),poleY=new Float32Array(S),chartId=new Uint8Array(S);
+    const belowY=cy+(Math.min(plantL.y,plantR.y)-cy)*0.42;
+    for(let s=0;s<S;s++){
+      const below=rimY[s]>belowY;
+      const dl=Math.hypot(rimX[s]-plantL.x,rimY[s]-plantL.y);
+      const dr=Math.hypot(rimX[s]-plantR.x,rimY[s]-plantR.y);
+      let ch=0,px=cx,py=cy;
+      if(below&&dl<dr&&rimX[s]<crotch.x+8){
+        ch=1;
+        const inner=Math.max(0,Math.min(1,(crotch.x-rimX[s])/(Math.abs(crotch.x-plantL.x)||1)));
+        px=plantL.x*(1-inner*0.55)+crotch.x*(inner*0.55);
+        py=plantL.y*(1-inner*0.55)+crotch.y*(inner*0.55);
+      }else if(below&&dr<=dl&&rimX[s]>crotch.x-8){
+        ch=2;
+        const inner=Math.max(0,Math.min(1,(rimX[s]-crotch.x)/(Math.abs(plantR.x-crotch.x)||1)));
+        px=plantR.x*(1-inner*0.55)+crotch.x*(inner*0.55);
+        py=plantR.y*(1-inner*0.55)+crotch.y*(inner*0.55);
+      }
+      chartId[s]=ch;poleX[s]=px;poleY[s]=py;
+    }
     for(let s=0;s<S;s++){
       const p0x=rimX[(s-1+S)%S],p0y=rimY[(s-1+S)%S],p2x=rimX[(s+1)%S],p2y=rimY[(s+1)%S];
       let tx=p2x-p0x,ty=p2y-p0y,len=Math.hypot(tx,ty)||1;
       let nnx=ty/len,nny=-tx/len;
-      if(nnx*(cx-rimX[s])+nny*(cy-rimY[s])<0){nnx=-nnx;nny=-nny;}
+      if(nnx*(poleX[s]-rimX[s])+nny*(poleY[s]-rimY[s])<0){nnx=-nnx;nny=-nny;}
       nx[s]=nnx;ny[s]=nny;
     }
     for(let s=0;s<S;s++){
@@ -2090,20 +2289,20 @@ function applyMeshWarp(contour,mesh){
       syn[s]=ny[a]+ny[s]*2+ny[b];
       const nl=Math.hypot(sxn[s],syn[s])||1;
       nx[s]=sxn[s]/nl;ny[s]=syn[s]/nl;
-      inset[s]=0.62*Math.max(10,Math.hypot(rimX[s]-cx,rimY[s]-cy));
+      const reach=Math.hypot(rimX[s]-poleX[s],rimY[s]-poleY[s]);
+      inset[s]=0.62*Math.max(10,reach);
     }
     let sculpted=false;
     const _cageYaw=(Number(globalThis.__GASPER_ORBIT_YAW__??8)||0)*Math.PI/180;
     const cyaw=Math.cos(_cageYaw),syaw=Math.sin(_cageYaw);
     for(let s=0;s<S;s++){
       for(let r=0;r<R;r++){
-        const i=r*S+s,v=Math.pow(r/Math.max(1,R-1),0.55);
+        const i=r*S+s,v=cageFeatureV(r,R);
         const d=(1-v)*inset[s];
         let ox=rimX[s]+nx[s]*d-cx,oy=rimY[s]+ny[s]*d-cy;
         const sx=gridSculpt[i*2]||0,syv=gridSculpt[i*2+1]||0;
         if(sx||syv){ox+=sx;oy+=syv;sculpted=true;}
-        // Offset UV: rings are insets of the live 512, not a homothety pizza.
-        // Front dome. Sector is contour arc, not longitude.
+        // Offset UV + medial feet. Rings hug the live 512. Foot meridians die at plant/crotch.
         const z0=58*Math.sqrt(Math.max(0,1-v*v));
         liveGridXYZ[i*3]=ox;
         liveGridXYZ[i*3+1]=oy;
@@ -2120,9 +2319,15 @@ function applyMeshWarp(contour,mesh){
       }
     }
     globalThis.__GASPER_GRID_XYZ__=liveGridXYZ;
+    globalThis.__GASPER_LIVE_GRID_XYZ__=liveGridXYZ;
+    globalThis.__GASPER_LIVE_GRID__=liveGridXYZ;
+    globalThis.__GASPER_LIVE_GRID_N__=1000;
+    globalThis.__GASPER_SHADE_UV__=true;
     globalThis.__GASPER_GRID_CX__=cx;
     globalThis.__GASPER_GRID_CY__=cy;
     globalThis.__GASPER_GRID_SCULPT__=gridSculpt;
+    globalThis.__GASPER_MEDIAL__={plantL,plantR,crotch,cleft,charts:chartId};
+    globalThis.__GASPER_SKELETON__=GASPER_SKELETON;
     return pts;
   }
   function paintScaffoldGrid(contour,profile){
@@ -2185,6 +2390,42 @@ function applyMeshWarp(contour,mesh){
     }
     g.innerHTML=html.join('');
     g.setAttribute('opacity','0.9');
+  }
+  function paintSkeletonOverlay(){
+    // E1 overlay. Authored rest nodes. Does not write #body. Dual killed: extracted-medial = rest-lock.
+    let g=$('skeletonOverlay');
+    const gridOn=globalThis.__GASPER_SHOW_GRID__!==false;
+    const forced=globalThis.__GASPER_SHOW_SKELETON__;
+    const on=forced===true||(forced!==false&&gridOn);
+    if(!g){
+      g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('id','skeletonOverlay');
+    }
+    const host=stepRig||idleRig||avatar;
+    if(g.parentNode!==host)host.appendChild(g);
+    g.setAttribute('pointer-events','none');
+    if(!on){
+      g.setAttribute('opacity','0');
+      g.replaceChildren();
+      return;
+    }
+    const sk=GASPER_SKELETON.nodes;
+    const bones=GASPER_SKELETON.bones;
+    const html=[];
+    for(const pair of bones){
+      const a=sk[pair[0]],b=sk[pair[1]];
+      if(!a||!b) continue;
+      html.push('<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" stroke="#f0c24a" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.92"/>');
+    }
+    const labels=[['crown','C'],['torso','T'],['crotch','X'],['plantL','L'],['plantR','R']];
+    for(const [id,tag] of labels){
+      const n=sk[id];
+      if(!n) continue;
+      html.push('<circle cx="'+n.x+'" cy="'+n.y+'" r="4.4" fill="#f6d36a" stroke="#1a1204" stroke-width="0.8"/>');
+      html.push('<text x="'+(n.x+6)+'" y="'+(n.y-6)+'" fill="#ffe9a8" font-size="7" font-family="ui-sans-serif,system-ui" stroke="#1a1204" stroke-width="0.3">'+tag+'</text>');
+    }
+    g.innerHTML=html.join('');
+    g.setAttribute('opacity','0.95');
   }
   function renderAdaptiveRelief(contour,profile){
     const started=performance.now(),highDetail=usesHighDetail();
@@ -3223,6 +3464,7 @@ function applyMeshWarp(contour,mesh){
     renderAdaptiveRelief(pts,formProfile);
     paintSurfaceShade(formProfile);
     paintScaffoldGrid(pts,formProfile);
+    paintSkeletonOverlay();
     muteHardHighlights();
     renderRestingFascia(pts,normals,formProfile,organismFrame); // D-0040 V3 (B) resting fascia coherence (neutral only; zero rim; C4-05 safe; reversible via FASCIA.enabled)
     // GASPER-009 C5 SINGULARITY SCAFFOLD COMPOSITION (V6 dormant embodiment): the singularity's silhouette

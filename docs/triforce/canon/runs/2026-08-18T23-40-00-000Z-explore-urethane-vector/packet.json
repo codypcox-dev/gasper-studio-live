@@ -1,0 +1,43 @@
+{
+  "runId": "2026-08-18T23-40-00-000Z-explore-urethane-vector",
+  "mode": "explore",
+  "residual": "quad-fill = urethane",
+  "question": "How does real urethane (clearcoat over tinted gel) get synthesized in vector, and what must replace 960 Gouraud quads?",
+  "engineVersion": "3.0.0",
+  "parentResidual": "unwrap = bind",
+  "dualKilled": "quad-fill = urethane",
+  "stack": {
+    "coat": "second isotropic GGX, IOR 1.5, F0 0.04, alpha 0.04-0.08, spec stays white",
+    "base": "dielectric GGX alpha ~0.20, metallic locked 0",
+    "volume": "Jimenez SSS on the 25x40, occupies the diffuse slot",
+    "pearl": "view-dependent intensity on the long channel, not specularTint"
+  },
+  "vectorPrimitives": [
+    "gradient-mesh / Coons (Illustrator, Sun 2007) — painter gold, no Chromium tag",
+    "diffusion-curves (Orzan 2008) — too slow per frame",
+    "isophote-bands — lawful now, 4-8 fills + blur",
+    "feSpecularLighting — wrong BRDF, debug only",
+    "canvas-image hybrid — last resort, cage still writes",
+    "960 path quads — proved ownership, failed the look"
+  ],
+  "lawfulPainter": "isophote bands + one coat band + one SSS under. 6-8 DOM nodes. #body stroke off.",
+  "refused": [
+    "keep 960 quads and blur them",
+    "overlay ellipses",
+    "second #body gradient",
+    "wait for svg meshGradient",
+    "white rim stroke as Fresnel"
+  ],
+  "sibling": "single-pole = organism (medial fabric)",
+  "sources": [
+    "Burley SIGGRAPH 2012/2015",
+    "Karis UE4 real shading",
+    "Kitware VTK clearcoat 2021",
+    "Orzan diffusion curves 2008",
+    "Sun et al. gradient meshes SIGGRAPH 2007",
+    "Tavmjong SVG mesh 2012",
+    "docs/triforce/canon/runs/2026-08-17T01-07-00-000Z-explore-pbr-shader",
+    "docs/triforce/canon/runs/2026-08-17T01-25-00-000Z-explore-disney-principled"
+  ],
+  "fix": "none this pass. Dual + painter spec only."
+}

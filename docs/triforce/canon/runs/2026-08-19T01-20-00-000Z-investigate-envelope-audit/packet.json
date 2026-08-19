@@ -1,0 +1,42 @@
+{
+  "runId": "2026-08-19T01-20-00-000Z-investigate-envelope-audit",
+  "mode": "investigate",
+  "residual": "authored-512 = silhouette",
+  "question": "What breaks if we invert #body to a derived occluding contour in one cut?",
+  "engineVersion": "3.0.0",
+  "verdict": "Do not invert #body this wave. Live organism is a 2D pancake; envelope is a write-order inversion.",
+  "dualKilled": [
+    "authored-512 = silhouette",
+    "n-dot-V-on-a-pancake = occluding-contour",
+    "extracted-medial = rest-lock",
+    "centroid-yaw = plant-yaw",
+    "gauss-W = medial-W",
+    "constant-r = W"
+  ],
+  "violators": [
+    "sampleBodyForProfile stance fold",
+    "walkScaffoldZ + scaffoldContourZ on radius",
+    "gaitFlattenRadiusDelta",
+    "windStretchRadiusDelta",
+    "_lp on whole 512",
+    "bindHullToLiveGrid sniffing plants off the posed 512"
+  ],
+  "killSwitch": [
+    "closedSpline",
+    "WISPWALKER_CANONICAL_CONTOUR",
+    "paintCageFill isobands",
+    "FACE_CANON / viewFaceTransform (120,112)",
+    "StanceInstrument sockets",
+    "kappaBoxLower",
+    "muteHardHighlights",
+    "floor transform strip",
+    "do not wholesale-replace all-script-3.js"
+  ],
+  "restLock": {
+    "nodes": 5,
+    "bones": 4,
+    "r": { "crown": 58, "torso": 64, "crotch": 8, "plant": 8 },
+    "crotchLaw": "r_C <= h - delta",
+    "yawPivot": "world-Y through plant midpoint M"
+  }
+}
