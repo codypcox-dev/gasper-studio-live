@@ -263,7 +263,7 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const cage = ev.params.cage || ev.params["relief-1000"] || {};
   const gridNode = byOrgan("paint-grid");
   const gridOn = (cage.grid ?? gridNode?.params.find((p) => p.id === "show")?.value ?? 0) > 0.5;
-  if (cage.grid !== undefined || gridNode) host.__GASPER_SHOW_GRID__ = gridOn && !ev.mute.cage;
+  host.__GASPER_SHOW_GRID__ = gridOn && !ev.mute.cage;
   if (!host.__GASPER_LIVE_COEFFS__) host.__GASPER_LIVE_COEFFS__ = {};
   if (cage.coupling !== undefined) {
     const coupling = liveOrBase(!!ev.mute.cage, "cage", "coupling", cage.coupling);

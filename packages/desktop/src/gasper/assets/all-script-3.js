@@ -1889,7 +1889,7 @@ function applyMeshWarp(contour,mesh){
   const onSkinDown=event=>{
     if(event.button!=null&&event.button!==0)return;
     const p=skinPoint(event);
-    if(globalThis.__GASPER_SHOW_GRID__!==false&&globalThis.__GASPER_GRID_XYZ__){
+    if(globalThis.__GASPER_SHOW_GRID__===true&&globalThis.__GASPER_GRID_XYZ__){
       const xyz=globalThis.__GASPER_GRID_XYZ__,cx=Number(globalThis.__GASPER_GRID_CX__),cy=Number(globalThis.__GASPER_GRID_CY__);
       let best=-1,bestD=18;
       for(let i=0;i<1000;i++){
@@ -2720,7 +2720,7 @@ function applyMeshWarp(contour,mesh){
   }
   function paintScaffoldGrid(contour,profile){
     let g=$('scaffoldGridLayer');
-    const on=globalThis.__GASPER_SHOW_GRID__!==false;
+    const on=globalThis.__GASPER_SHOW_GRID__===true;
     if(!g){
       g=document.createElementNS('http://www.w3.org/2000/svg','g');
       g.setAttribute('id','scaffoldGridLayer');
@@ -2764,11 +2764,12 @@ function applyMeshWarp(contour,mesh){
       if(d) html.push('<path d="'+d+'" fill="none" stroke="#d9f0ff" stroke-width="0.5" stroke-opacity="0.58"/>');
     }
     for(let r=0;r<R;r++){
+      if(r>0&&r<R-1&&r%2===1) continue;
       for(let s=0;s<S;s++){
         const i=r*S+s;
         const hot=i===selectedGrid;
         const outer=r>=R-4;
-        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.6':outer?'2.7':'2.05')+'" fill="'+(hot?'#fff':outer?'#ffffff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':'0.96')+'" stroke="#0b1a22" stroke-width="0.4"/>');
+        html.push('<circle cx="'+(cx+(xyz[i*3]||0)).toFixed(1)+'" cy="'+(cy+(xyz[i*3+1]||0)).toFixed(1)+'" r="'+(hot?'3.4':outer?'2.3':'1.55')+'" fill="'+(hot?'#fff':outer?'#ffffff':'#eaf7ff')+'" fill-opacity="'+(hot?'1':outer?'0.95':'0.72')+'" stroke="#0b1a22" stroke-width="0.35"/>');
       }
     }
     g.innerHTML=html.join('');
@@ -2778,7 +2779,7 @@ function applyMeshWarp(contour,mesh){
     // E1 overlay. Authored rest nodes. Does not write #body. Dual killed: extracted-medial = rest-lock.
     let g=$('skeletonOverlay');
     const forced=globalThis.__GASPER_SHOW_SKELETON__;
-    const on=forced!==false;
+    const on=forced===true;
     if(!g){
       g=document.createElementNS('http://www.w3.org/2000/svg','g');
       g.setAttribute('id','skeletonOverlay');
@@ -3535,8 +3536,12 @@ function applyMeshWarp(contour,mesh){
 
   function render(now,forcedDeltaMs){
     const _ge=globalThis.__GASPER_GEONODES_EVAL__;
-    if(_ge&&_ge.params&&_ge.params.cage&&_ge.params.cage.grid!==undefined)
-      globalThis.__GASPER_SHOW_GRID__=!_ge.mute?.cage&&+_ge.params.cage.grid>0.5;
+    if(_ge&&_ge.params){
+      const cage=_ge.params.cage||_ge.params['relief-1000']||{};
+      if(cage.grid!==undefined) globalThis.__GASPER_SHOW_GRID__=!_ge.mute?.cage&&+cage.grid>0.5;
+      const env=_ge.params.envelope||{};
+      if(env.bones!==undefined) globalThis.__GASPER_SHOW_SKELETON__=!_ge.mute?.envelope&&+env.bones>0.5;
+    }
     const scriptStarted=performance.now(),organismFrame=materialOrganismFrame(),dt=Math.max(0,Math.min(.05,(forcedDeltaMs??(organismClock.getDeltaMs?.()||0))/1000));lastTime=now;elapsed=organismFrame.elapsedMs/1000;
     if(!paused&&emotionDemoMode&&!runtimeDormant){emotionDemoClock+=dt;const hold=2.65;if(emotionDemoClock>=hold){emotionDemoClock=0;emotionDemoIndex=(emotionDemoIndex+1)%EMOTION_DEMO_SEQUENCE.length;setEmotionFixture(EMOTION_DEMO_SEQUENCE[emotionDemoIndex],{source:'demo'});}}
     let morphProfileId=silhouetteProfile,nextMorphProfileId=silhouetteProfile,morphMix=0,morphArc=null;

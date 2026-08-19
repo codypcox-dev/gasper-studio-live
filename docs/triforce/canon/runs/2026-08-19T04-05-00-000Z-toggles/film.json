@@ -1,0 +1,47 @@
+{
+  "errors": [],
+  "bonesOff": {
+    "bonesFlag": false,
+    "gridFlag": true,
+    "skelKids": 0,
+    "skelOp": "0",
+    "gridKids": 585,
+    "gridOp": "0.9",
+    "lookBones": "0",
+    "lookGrid": "1",
+    "railBones": "0",
+    "railGrid": "1"
+  },
+  "bothOn": {
+    "bonesFlag": true,
+    "gridFlag": true,
+    "skelKids": 19,
+    "skelOp": "0.95",
+    "gridKids": 585,
+    "gridOp": "0.9",
+    "lookBones": "1",
+    "lookGrid": "1",
+    "railBones": "1",
+    "railGrid": "1"
+  },
+  "gridOff": {
+    "bonesFlag": true,
+    "gridFlag": false,
+    "skelKids": 19,
+    "skelOp": "0.95",
+    "gridKids": 0,
+    "gridOp": "0",
+    "lookBones": "1",
+    "lookGrid": "0",
+    "railBones": "1",
+    "railGrid": "0"
+  },
+  "gates": {
+    "bonesHide": true,
+    "bonesShow": true,
+    "gridShow": true,
+    "gridHide": true,
+    "pillsExist": true,
+    "noPageError": true
+  }
+}

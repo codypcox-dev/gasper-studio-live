@@ -42,6 +42,7 @@ function StudioDeskInner(): ReactElement {
   const [loopOn, setLoopOn] = useState(true);
   const [recOn, setRecOn] = useState(false);
   const gridOn = (graph.nodes.find((n) => n.id === "cage")?.params.find((p) => p.id === "grid")?.value ?? 1) > 0.5;
+  const bonesOn = (graph.nodes.find((n) => n.id === "envelope")?.params.find((p) => p.id === "bones")?.value ?? 1) > 0.5;
 
   useEffect(() => {
     dispatchField("showGrid", { on: gridOn });
@@ -65,9 +66,16 @@ function StudioDeskInner(): ReactElement {
 
   const toggleGrid = useCallback(() => {
     const next = !gridOn;
+    (globalThis as { __GASPER_SHOW_GRID__?: boolean }).__GASPER_SHOW_GRID__ = next;
     commit((g) => setNodeParam(g, "cage", "grid", next ? 1 : 0));
     dispatchField("showGrid", { on: next });
   }, [commit, gridOn]);
+
+  const toggleBones = useCallback(() => {
+    const next = !bonesOn;
+    (globalThis as { __GASPER_SHOW_SKELETON__?: boolean }).__GASPER_SHOW_SKELETON__ = next;
+    commit((g) => setNodeParam(g, "envelope", "bones", next ? 1 : 0));
+  }, [commit, bonesOn]);
 
   const toggleRec = useCallback(() => {
     const api =
@@ -91,6 +99,8 @@ function StudioDeskInner(): ReactElement {
           onMode={setMode}
           gridOn={gridOn}
           onGrid={toggleGrid}
+          bonesOn={bonesOn}
+          onBones={toggleBones}
           loopOn={loopOn}
           onLoop={toggleLoop}
           recOn={recOn}

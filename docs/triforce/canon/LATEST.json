@@ -1,12 +1,12 @@
 {
-  "runId": "2026-08-19T03-40-00-000Z-rig-light-grid",
+  "runId": "2026-08-19T04-05-00-000Z-toggles",
   "mode": "implement",
-  "residual": "rig-xor-light",
+  "residual": "toggle-not-false",
   "blueprint": "docs/triforce/NORTHSTAR-ENVELOPE.md",
   "blueprintId": "GASPER-ENVELOPE-001",
-  "wave": "rig-light-grid",
+  "wave": "toggles",
   "restore": "checkpoint-canon-rest-20260818",
-  "depositPath": "docs/triforce/canon/runs/2026-08-19T03-40-00-000Z-rig-light-grid",
+  "depositPath": "docs/triforce/canon/runs/2026-08-19T04-05-00-000Z-toggles",
   "engineVersion": "3.0.0",
-  "verdict": "Bones default on. Pearl volume + sliding key sheen restored. Rest grid is offset isolines of the 512, including the W."
+  "verdict": "Bones and Grid are pill switches. Painter honors true only. Clicked film: hide and show both."
 }

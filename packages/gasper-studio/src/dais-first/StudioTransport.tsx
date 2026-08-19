@@ -23,6 +23,8 @@ export function StudioTransport({
   onMode,
   gridOn,
   onGrid,
+  bonesOn,
+  onBones,
   loopOn,
   onLoop,
   recOn,
@@ -34,6 +36,8 @@ export function StudioTransport({
   onMode: (m: DeskMode) => void;
   gridOn: boolean;
   onGrid: () => void;
+  bonesOn: boolean;
+  onBones: () => void;
   loopOn: boolean;
   onLoop: () => void;
   recOn: boolean;
@@ -156,6 +160,17 @@ export function StudioTransport({
         </div>
 
         <div className="studio-transport__tools" role="group" aria-label="Stage tools">
+          <button
+            type="button"
+            className="studio-transport__switch"
+            data-testid="lumen-bones-toggle"
+            data-active={bonesOn ? "1" : "0"}
+            role="switch"
+            aria-checked={bonesOn}
+            onClick={onBones}
+          >
+            Bones
+          </button>
           <button
             type="button"
             className="studio-transport__switch"

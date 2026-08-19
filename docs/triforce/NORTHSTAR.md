@@ -17,6 +17,11 @@ records go in DECISION_LOG.
 - S5 · 5174 dev server never killed/restarted without consent.
 - S6 · Character-design law (D-0110): Gasper's face grammar is pupil-less; visual/character-design changes require owner approval FIRST; behavioral/law changes may proceed. Pupils are permanently banned absent explicit owner approval.
 
+## Owner voice — 2026-08-19 · bone toggle and grid fix
+
+Cody: I need bone toggle and grid fix
+Intention: Bones must be a real on/off that shows or hides the gold Y immediately. The rest grid must stay the skin of the 512 (W included) and honor the Grid toggle. Dual killed: bones-default-on = no toggle; grid-on = bones.
+
 ## Owner voice — 2026-08-18 · rig + better light + true skin grid
 
 Cody: keep going with what you're doing, but where did the rig go? also, the light rendering of gasper was much better right before you added the rig. I want both. bring back that better key lighting and deeper control and the more realistic surface light on gasper. his grid still isn't true to form. we need the real skin grid and the rig and the better lighting system!

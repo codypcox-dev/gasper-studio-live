@@ -22,7 +22,6 @@ const DIALS: Dial[] = [
   { testid: "look-puff", node: "envelope", param: "rScale", label: "Puff", min: 0.7, max: 1.07, step: 0.005 },
   { testid: "look-collapse", node: "envelope", param: "collapse", label: "Collapse", min: 0, max: 1, step: 0.01 },
   { testid: "look-hook", node: "envelope", param: "hook", label: "Hook", min: -24, max: 24, step: 0.5 },
-  { testid: "look-bones", node: "envelope", param: "bones", label: "Bones", min: 0, max: 1, step: 1 },
   { testid: "look-pearl", node: "pearl", param: "depth", label: "Pearl", min: 0, max: 1.44, step: 0.01 },
   { testid: "look-foot", node: "identity", param: "footAmp", label: "Foot", min: 0, max: 8, step: 0.1 },
   { testid: "look-cleft", node: "identity", param: "cleftDepth", label: "Cleft", min: 0, max: 6.4, step: 0.1 },
@@ -41,12 +40,42 @@ function readParam(graph: { nodes: { id: string; params: { id: string; value: nu
 
 export function StageLookInspector(): ReactElement {
   const { graph, commit } = useStudioSession();
+  const bonesOn = readParam(graph, "envelope", "bones", 1) > 0.5;
+  const gridOn = readParam(graph, "cage", "grid", 1) > 0.5;
+  const flip = (node: string, param: string, next: boolean, flag: "__GASPER_SHOW_SKELETON__" | "__GASPER_SHOW_GRID__") => {
+    (globalThis as Record<string, unknown>)[flag] = next;
+    commit((g) => setNodeParam(g, node, param, next ? 1 : 0));
+  };
   return (
     <aside className="stage-look" data-testid="stage-look-inspector">
       <header>
         <strong>Look</strong>
         <span>rig · cage · τ · light</span>
       </header>
+      <div className="stage-look__switches">
+        <button
+          type="button"
+          className="stage-look__switch"
+          data-testid="look-bones"
+          data-active={bonesOn ? "1" : "0"}
+          role="switch"
+          aria-checked={bonesOn}
+          onClick={() => flip("envelope", "bones", !bonesOn, "__GASPER_SHOW_SKELETON__")}
+        >
+          Bones
+        </button>
+        <button
+          type="button"
+          className="stage-look__switch"
+          data-testid="look-grid"
+          data-active={gridOn ? "1" : "0"}
+          role="switch"
+          aria-checked={gridOn}
+          onClick={() => flip("cage", "grid", !gridOn, "__GASPER_SHOW_GRID__")}
+        >
+          Grid
+        </button>
+      </div>
       <div className="stage-look__dials">
         {DIALS.map((d) => {
           const value = readParam(graph, d.node, d.param, (d.min + d.max) / 2);

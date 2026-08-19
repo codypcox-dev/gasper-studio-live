@@ -2071,6 +2071,27 @@
 }
 .stage-look header strong { font-size: 13px; letter-spacing: 0.04em; }
 .stage-look header span { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(236,232,225,0.5); }
+.stage-look__switches {
+  display: flex;
+  gap: 8px;
+  padding: 0 10px 8px;
+}
+.stage-look__switch {
+  flex: 1;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(236,232,225,0.18);
+  background: rgba(255,255,255,0.04);
+  color: rgba(236,232,225,0.62);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.stage-look__switch[data-active="1"] {
+  background: #d8c9a4;
+  color: #1a1610;
+  border-color: #d8c9a4;
+}
 .stage-look__dials {
   display: grid;
   grid-template-columns: 1fr 1fr;
