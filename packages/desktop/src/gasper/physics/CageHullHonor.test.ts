@@ -59,7 +59,8 @@ describe("cage hull honor — chase GASPER-CAGED-HULL-001", () => {
     expect(formMaster).toContain("vz=xyz[iv*3+2]-xyz[i*3+2]");
     expect(formMaster).not.toContain("ox*syaw+z0*cyaw");
     expect(formMaster).not.toContain("z*Math.cos((s/S)*Math.PI*2-_cageYaw)");
-    expect(formMaster).toContain("if(p.z<0)");
+    expect(formMaster).toContain("function orbitAboutM");
+    expect(formMaster).toContain("function rotatePitchAboutM");
     expect(formMaster).toContain("function setOrbit(yaw,pitch)");
     expect(formMaster).toContain("orbitYawDegrees");
     expect(chase).toContain("360 cage orbit");

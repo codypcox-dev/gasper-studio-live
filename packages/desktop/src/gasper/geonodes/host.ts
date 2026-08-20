@@ -9,7 +9,7 @@ import type { GeoGraph, GraphNode, NodeTypeId } from "./types";
 import { GEONODES_SCHEMA, socketsCompatible } from "./types";
 import { ensureCoupleLinks } from "./coupling";
 
-const STORAGE_KEY = "gasper.geonodes.v5";
+const STORAGE_KEY = "gasper.geonodes.v6";
 
 export function loadGeoGraph(): GeoGraph {
   if (typeof localStorage === "undefined") return defaultGeoGraph();
@@ -18,11 +18,33 @@ export function loadGeoGraph(): GeoGraph {
     if (!raw) return defaultGeoGraph();
     const parsed = JSON.parse(raw) as GeoGraph;
     if (parsed?.schema !== GEONODES_SCHEMA || !Array.isArray(parsed.nodes)) return defaultGeoGraph();
-    return ensureCoupleLinks(ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(stripUiChrome(relayoutIfCollapsed(parsed)))))));
+    return ensureCoupleLinks(ensureLayout(sanitizeGraph(hydrateMeta(mergeMissingOrgans(stripUiChrome(relayoutIfCollapsed(forceLookRest(parsed))))))));
 
   } catch {
     return defaultGeoGraph();
   }
+}
+
+function forceLookRest(graph: GeoGraph): GeoGraph {
+  const zero = (id: string, param: string): GeoGraph => ({
+    ...graph,
+    nodes: graph.nodes.map((n) => {
+      if (n.id !== id && n.organId !== id) return n;
+      return {
+        ...n,
+        params: n.params.map((p) => (p.id === param ? { ...p, value: 0 } : p)),
+      };
+    }),
+  });
+  let g = zero("cage", "grid");
+  g = {
+    ...g,
+    nodes: g.nodes.map((n) => {
+      if (n.id !== "envelope" && n.organId !== "envelope") return n;
+      return { ...n, params: n.params.map((p) => (p.id === "bones" ? { ...p, value: 0 } : p)) };
+    }),
+  };
+  return g;
 }
 
 function ensureLayout(graph: GeoGraph): GeoGraph {
@@ -72,7 +94,6 @@ function mergeMissingOrgans(graph: GeoGraph): GeoGraph {
 }
 
 function hydrateMeta(graph: GeoGraph): GeoGraph {
-  const showBones = (graph.layoutVersion ?? 0) < 20;
   return {
     ...graph,
     nodes: graph.nodes.map((n) => {
@@ -80,7 +101,7 @@ function hydrateMeta(graph: GeoGraph): GeoGraph {
       if (!bp) return n;
       const params = bp.params.map((p) => {
         const cur = n.params.find((x) => x.id === p.id);
-        const raw = p.id === "bones" && showBones ? 1 : cur ? cur.value : p.value;
+        const raw = cur ? cur.value : p.value;
         const value = Math.max(p.min, Math.min(p.max, raw));
         return { ...p, value };
       });
@@ -224,8 +245,17 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const host = globalThis as {
     __GASPER_SHOW_GRID__?: boolean;
     __GASPER_SHOW_SKELETON__?: boolean;
+    __GASPER_ISOLATE__?: boolean;
+    __GASPER_SOFT_RADIUS__?: number;
+    __GASPER_FRONT_CAGE__?: boolean;
+    __GASPER_CAGE_XRAY__?: boolean;
+    __GASPER_WEIGHT_PAINT__?: boolean;
+    __GASPER_WEIGHT_BONE__?: number;
+    __GASPER_WEIGHT_GAIN__?: number;
+    __GASPER_WEIGHT_ITERS__?: number;
     __GASPER_ORBIT_YAW__?: number;
     __GASPER_ORBIT_PITCH__?: number;
+    __GASPER_TURNTABLE__?: boolean;
     __GASPER_LIVE_COEFFS__?: {
       scaffold?: { scaffoldCoupling?: number };
       wispwalker?: { footAmp?: number; cleftDepth?: number };
@@ -248,8 +278,10 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
     SidekickFormMasterRig?: {
       setOrbit?: (y: number, p: number) => void;
       setYaw?: (y: number) => void;
+      setProfile?: (id: string, settle?: boolean | string) => void;
       setEnvelopeVec?: (v: { rScale?: number; collapsePlants?: number; torsoHook?: number }) => void;
     };
+    __GASPER_EMBODIMENT__?: string;
   };
   const byOrgan = (organId: string) => graph.nodes.find((n) => n.organId === organId || n.id === organId);
   const baseOf = (organId: string, paramId: string): number | undefined => {
@@ -264,6 +296,19 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
   const gridNode = byOrgan("paint-grid");
   const gridOn = (cage.grid ?? gridNode?.params.find((p) => p.id === "show")?.value ?? 0) > 0.5;
   host.__GASPER_SHOW_GRID__ = gridOn && !ev.mute.cage;
+  const isolateOn = (cage.isolate ?? 1) > 0.5;
+  const softR = Number(cage.soft ?? 0);
+  host.__GASPER_ISOLATE__ = isolateOn && !(softR > 0.05);
+  host.__GASPER_SOFT_RADIUS__ = Number.isFinite(softR) && softR > 0.05 ? softR : 0;
+  host.__GASPER_FRONT_CAGE__ = (cage.front ?? 1) > 0.5;
+  host.__GASPER_CAGE_XRAY__ = (cage.xray ?? 0) > 0.5;
+  host.__GASPER_WEIGHT_PAINT__ = (cage.paint ?? 0) > 0.5;
+  const bone = Number(cage.bone);
+  host.__GASPER_WEIGHT_BONE__ = Number.isFinite(bone) ? Math.max(0, Math.min(4, Math.round(bone))) : 2;
+  const gain = Number(cage.paintGain);
+  host.__GASPER_WEIGHT_GAIN__ = Number.isFinite(gain) ? Math.max(-1, Math.min(1, gain)) : 0.35;
+  const iters = Number(cage.heatIters);
+  host.__GASPER_WEIGHT_ITERS__ = Number.isFinite(iters) ? Math.max(0, Math.min(24, Math.round(iters))) : 10;
   if (!host.__GASPER_LIVE_COEFFS__) host.__GASPER_LIVE_COEFFS__ = {};
   if (cage.coupling !== undefined) {
     const coupling = liveOrBase(!!ev.mute.cage, "cage", "coupling", cage.coupling);
@@ -278,14 +323,26 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
       ...(host.__GASPER_LIVE_COEFFS__.wispwalker ?? {}),
       ...(ident.footAmp !== undefined ? { footAmp: ident.footAmp } : {}),
       ...(ident.cleftDepth !== undefined ? { cleftDepth: ident.cleftDepth } : {}),
+      ...(ident.crownAmp !== undefined ? { crownAmp: ident.crownAmp } : {}),
+      ...(ident.lobeAmp !== undefined ? { lobeAmp: ident.lobeAmp } : {}),
     };
+    const FORMS = ["presence", "singularity", "comet", "dormant-orbit", "wispwalker", "halo", "lantern", "low-orbit"];
+    if (ident.form !== undefined) {
+      const idx = Math.max(0, Math.min(7, Math.round(Number(ident.form))));
+      const id = FORMS[idx] || "wispwalker";
+      if (host.__GASPER_EMBODIMENT__ !== id) {
+        host.__GASPER_EMBODIMENT__ = id;
+        host.SidekickFormMasterRig?.setProfile?.(id, "settle");
+      }
+    }
   }
   const orbit = ev.params.orbit || {};
-  if (!ev.mute.orbit && orbit.yaw !== undefined) {
+  if (host.__GASPER_TURNTABLE__ === true) {
+    // Clock owns yaw/pitch. Dual killed: two-yaw = one-orbit.
+  } else if (!ev.mute.orbit && orbit.yaw !== undefined) {
     host.__GASPER_ORBIT_YAW__ = orbit.yaw;
     host.__GASPER_ORBIT_PITCH__ = orbit.pitch ?? 0;
     host.SidekickFormMasterRig?.setOrbit?.(orbit.yaw, orbit.pitch ?? 0);
-    host.SidekickFormMasterRig?.setYaw?.(orbit.yaw);
   } else if (ev.mute.orbit) {
     const yaw = baseOf("orbit", "yaw");
     const pitch = baseOf("orbit", "pitch") ?? 0;
@@ -293,24 +350,33 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
       host.__GASPER_ORBIT_YAW__ = yaw;
       host.__GASPER_ORBIT_PITCH__ = pitch;
       host.SidekickFormMasterRig?.setOrbit?.(yaw, pitch);
-      host.SidekickFormMasterRig?.setYaw?.(yaw);
     }
   } else if (!ev.mute["radial-facing"] && ev.params["radial-facing"]?.yaw !== undefined) {
     host.SidekickFormMasterRig?.setYaw?.(ev.params["radial-facing"].yaw);
   }
   const voigt = ev.params.voigt || {};
+  const foot = Number(voigt.foot);
+  const waist = Number(voigt.waist);
+  const crown = Number(voigt.crown);
+  // R5 — Look 3-band is the only authored field. Dual killed: voigt.tau = 3-band.
+  if (!ev.mute.voigt && Number.isFinite(foot) && Number.isFinite(waist) && Number.isFinite(crown)) {
+    host.__GASPER_TAU_FIELD__ = {
+      foot: Math.max(0.02, foot),
+      waist: Math.max(0.02, waist),
+      crown: Math.min(0.6, Math.max(0.04, crown)),
+    };
+  }
   if (!ev.mute.voigt && voigt.tau !== undefined) {
     host.__GASPER_VISCO_TAU__ = voigt.tau;
-    const t = Number(voigt.tau);
-    if (Number.isFinite(t)) {
-      const foot = Number(voigt.foot);
-      const waist = Number(voigt.waist);
-      const crown = Number(voigt.crown);
-      host.__GASPER_TAU_FIELD__ = {
-        foot: Number.isFinite(foot) ? Math.max(0.02, foot) : Math.max(0.02, t * 0.55),
-        waist: Number.isFinite(waist) ? Math.max(0.02, waist) : t,
-        crown: Number.isFinite(crown) ? Math.min(0.6, crown) : Math.min(0.6, t * 2.4),
-      };
+    if (!host.__GASPER_TAU_FIELD__) {
+      const t = Number(voigt.tau);
+      if (Number.isFinite(t)) {
+        host.__GASPER_TAU_FIELD__ = {
+          foot: Math.max(0.02, t * 0.55),
+          waist: t,
+          crown: Math.min(0.6, t * 2.4),
+        };
+      }
     }
   }
   if (!ev.mute.voigt && voigt.rest !== undefined) host.__GASPER_VISCO_TAU_REST__ = voigt.rest;
@@ -365,7 +431,7 @@ export function applyGeoEvalToHost(graph: GeoGraph): void {
       });
     }
     if (env.bones !== undefined) host.__GASPER_SHOW_SKELETON__ = Number(env.bones) > 0.5;
-    else host.__GASPER_SHOW_SKELETON__ = true;
+    else host.__GASPER_SHOW_SKELETON__ = false;
   } else {
     host.SidekickFormMasterRig?.setEnvelopeVec?.({ rScale: 1, collapsePlants: 0, torsoHook: 0 });
     host.__GASPER_SHOW_SKELETON__ = false;

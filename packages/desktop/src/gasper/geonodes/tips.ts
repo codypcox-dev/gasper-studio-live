@@ -4,9 +4,9 @@ import type { GraphNode } from "./types";
 
 const CARD: Record<string, string> = {
   identity:
-    "Identity — the 512-sample silhouette. This is Gasper’s outline. Foot nub and cleft set the W at the floor. Locked: mute it and there is no body.",
+    "Identity — the 512-sample silhouette. This is Gasper’s outline. Foot height and cleft set the W at the floor. Locked: mute it and there is no body.",
   "contour-512":
-    "Identity — the 512-sample silhouette. Sole hull. Foot nub / cleft shape the W. Locked.",
+    "Identity — the 512-sample silhouette. Sole hull. Foot height / cleft shape the W. Locked.",
   cage:
     "Cage 25×40 — 1000-point pressure field over the hull. Coupling pushes the rim. Grid toggle paints the meridians. This is the skin lattice, not a second body.",
   "relief-1000":
@@ -28,9 +28,9 @@ const CARD: Record<string, string> = {
   orbit:
     "Orbit — 3D turntable. Yaw ±180° around his face (home 8°). Pitch ±80°. Drives view yaw and cage loft. Center of the slider is canonical.",
   envelope:
-    "Skeleton — 5-node body rig. Puff scales canal radii (1 = rest pearl). Collapse tucks plants. Hook bends the torso. Bones shows the gold Y. Rest stays the canonical 512 until a dial leaves zero.",
+    "Skeleton — 5-node body rig. Puff scales canal radii (1 = rest). Collapse tucks plants. Hook bends the torso. Bones shows the 5-node Y overlay. Rest stays the canonical 512 until a control leaves zero.",
   pearl:
-    "Pearl — dark-pearl material stack. Depth is interior volume / SSS. This is light on the cage, not a second skin.",
+    "Surface — material stack. Depth is interior volume / SSS. This is light on the cage, not a second skin.",
   hull:
     "Hull — closedSpline, Catmull-Rom τ = 1/6. The only writer of SVG path d. Locked: mute it and the renderer goes blank.",
   "closed-spline":
@@ -42,7 +42,7 @@ const CARD: Record<string, string> = {
   "northstar-20":
     "Northstar 20s — scored walk take. Replays the authored 20-second sequence over time.",
   couple:
-    "Couple — driven keys. Mix blends authored dials into physics laws: Hz→τ, gate→lift, yaw→pearl, k→τ. Park to isolate sliders.",
+    "Couple — driven keys. Mix blends authored controls into physics laws: Hz→τ, gate→lift, yaw→depth, k→τ. Park to isolate sliders.",
   "field-api":
     "Field API — 25×40 region API (pinch, bas-relief, MCP). Talks to the cage.",
   "radial-facing":
@@ -60,10 +60,18 @@ const CARD: Record<string, string> = {
 };
 
 const PARAM: Record<string, string> = {
-  footAmp: "Foot nub height. Canonical 4. Builds the W with cleft.",
+  footAmp: "Foot height. Canonical 4. Builds the W with cleft.",
   cleftDepth: "Crotch depth. Canonical 3.2. With footAmp this is the W, not a U.",
-  coupling: "Cage-to-rim couple. 0 = field stays inside. + pushes nubs. − sucks them in.",
+  coupling: "Cage-to-rim couple. 0 = field stays inside. + pushes the feet. − pulls them in.",
   grid: "Paint the 25×40 meridians on the skin.",
+  front: "Hide cage verts behind the solid when the canal is live. Rest loft has no back.",
+  xray: "See and pick back verts. Separate from Front.",
+  paint: "Weight paint. Cage dots become the selected bone's heat. Drag up adds, down subtracts.",
+  bone: "Which bone's weights you see and paint. 0 crown · 1 torso · 2 crotch · 3 plantL · 4 plantR.",
+  paintGain: "Brush signed gain. Center 0.35. Full left subtracts. Full right floods.",
+  heatIters: "Jacobi heat iterations. 10 is the Pinocchio default. Reheat after changing.",
+  isolate: "Pull one cage point. Neighbors stay. Default for sculpt.",
+  soft: "Gaussian smear radius in chart (r,s). 0 = isolate. ~2.6 is the old stamp.",
   lift: "Swing height of the planted handles. 1 is canonical.",
   advance: "How far a swing foot leads. 1 is canonical.",
   hz: "Steps per second. Canonical 2.6. Faster also stiffens τ via Couple.",
@@ -75,14 +83,14 @@ const PARAM: Record<string, string> = {
   gate: "Gait gate / machine flag. 1 allows walk.",
   yaw: "Turntable yaw in degrees. Center = home 8°. Full tilt ±180°.",
   pitch: "Turntable pitch. Center 0. Full tilt ±80°.",
-  depth: "Pearl optical depth / SSS. Canonical 0.72.",
+  depth: "Optical depth / SSS. Canonical 0.72.",
   mix: "How hard Couple laws push. 0 = authored dials only.",
   play: "Arm the Northstar 20s take.",
   spec: "Specular response on the cage.",
-  rScale: "Puff. 1 = rest pearl. 1.07 = blowfish. Regularity clamp keeps tubes legal.",
+  rScale: "Puff. 1 = rest radii. 1.07 = max legal tube scale. Regularity clamp keeps tubes legal.",
   collapse: "Tuck plants toward the crotch. 0 = rest feet. 1 = paddle.",
   hook: "Bend the torso sideways in px. 0 = rest. ±18 is the question look.",
-  bones: "Show the gold 5-node Y. Off at rest. Independent of the grid toggle.",
+  bones: "Show the 5-node Y overlay. Off at rest. Independent of the grid toggle.",
 };
 
 const UI: Record<string, string> = {

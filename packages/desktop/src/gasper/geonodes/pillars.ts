@@ -18,7 +18,7 @@ export const PILLARS: readonly PillarDef[] = [
   { id: "machine", label: "Machine", law: "May I?", allow: "Rest, Walk, Presence.", refuse: "Never move mass. Never draw.", tint: "#c4a574" },
   { id: "kernel", label: "Kernel", law: "Mass", allow: "COM, plants, tempo.", refuse: "Never decide Rest/Walk.", tint: "#c17a5a" },
   { id: "cook", label: "Cook", law: "Silhouette", allow: "Shape, τ, cage.", refuse: "Never a second hull.", tint: "#7d9a6f" },
-  { id: "painter", label: "Painter", law: "Draw", allow: "Hull, pearl, orbit.", refuse: "Never a second d.", tint: "#6d8aa8" },
+  { id: "painter", label: "Painter", law: "Draw", allow: "Hull, surface, orbit.", refuse: "Never a second d.", tint: "#6d8aa8" },
   { id: "score", label: "Score", law: "Replay", allow: "Takes.", refuse: "Never Delay.", tint: "#8b7394" },
   { id: "phase", label: "Phase", law: "Where are we in the step?", allow: "Read φ. Plant predicates.", refuse: "Not a mode you click.", tint: "#8a8680" },
 ];

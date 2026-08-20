@@ -65,21 +65,32 @@ type Meta = {
 
 const META: Record<string, Meta> = {
   "contour-512": { element: "bone", event: "construction", inType: "scalar", outType: "contour", params: [
-    { id: "footAmp", label: "Foot nub", min: 0, max: 8, step: 0.1, value: 4, base: 4 },
+    { id: "footAmp", label: "Foot height", min: 0, max: 8, step: 0.1, value: 4, base: 4 },
     { id: "cleftDepth", label: "Cleft", min: 0, max: 6.4, step: 0.1, value: 3.2, base: 3.2 },
+    { id: "crownAmp", label: "Crown", min: -10, max: 2, step: 0.1, value: -5, base: -5 },
+    { id: "lobeAmp", label: "Lobe", min: 0, max: 8, step: 0.1, value: 3.2, base: 3.2 },
+    { id: "form", label: "Form", min: 0, max: 7, step: 1, value: 4, base: 4 },
   ]},
   envelope: { element: "bone", event: "construction", inType: "contour", outType: "contour", params: [
     { id: "rScale", label: "Puff", min: 0.7, max: 1.07, step: 0.005, value: 1, base: 1 },
     { id: "collapse", label: "Collapse", min: 0, max: 1, step: 0.01, value: 0, base: 0 },
     { id: "hook", label: "Hook", min: -24, max: 24, step: 0.5, value: 0, base: 0 },
-    { id: "bones", label: "Bones", min: 0, max: 1, step: 1, value: 1, base: 1 },
+    { id: "bones", label: "Bones", min: 0, max: 1, step: 1, value: 0, base: 0 },
   ]},
   "lattice-360": { element: "bone", event: "construction", inType: "contour", outType: "lattice", params: [
     { id: "mass", label: "Mass", min: 0, max: 2, step: 0.05, value: 1 },
   ]},
   "relief-1000": { element: "bone", event: "forwards", inType: "scalar", outType: "relief", params: [
     { id: "coupling", label: "Rim couple", min: -2, max: 2, step: 0.05, value: 0, base: 0 },
-    { id: "grid", label: "Grid", min: 0, max: 1, step: 1, value: 1 },
+    { id: "grid", label: "Grid", min: 0, max: 1, step: 1, value: 0 },
+    { id: "isolate", label: "Isolate", min: 0, max: 1, step: 1, value: 1, base: 1 },
+    { id: "soft", label: "Soft", min: 0, max: 6, step: 0.1, value: 0, base: 0 },
+    { id: "front", label: "Front", min: 0, max: 1, step: 1, value: 1, base: 1 },
+    { id: "xray", label: "X-ray", min: 0, max: 1, step: 1, value: 0, base: 0 },
+    { id: "paint", label: "Weights", min: 0, max: 1, step: 1, value: 0, base: 0 },
+    { id: "bone", label: "Bone", min: 0, max: 4, step: 1, value: 2, base: 2 },
+    { id: "paintGain", label: "Brush", min: -1, max: 1, step: 0.02, value: 0.35, base: 0.35 },
+    { id: "heatIters", label: "Heat", min: 0, max: 24, step: 1, value: 10, base: 10 },
   ]},
   "topology-lock": { element: "null", event: "construction", inType: "contour", outType: "contour", params: [
     { id: "lock", label: "Lock", min: 0, max: 1, step: 1, value: 1 },
@@ -235,7 +246,7 @@ export function blueprintFromOrgan(o: Organ): NodeBlueprint {
       voigt: "Voigt τ",
       kappa: "κ-box",
       orbit: "Orbit",
-      pearl: "Pearl",
+      pearl: "Surface",
       hull: "Hull",
     } as Record<string, string>)[PIPELINE_ID[o.id]] ?? o.label : o.label,
     organId: o.id,

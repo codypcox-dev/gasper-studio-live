@@ -53,7 +53,7 @@ export const COUPLE_LAWS: readonly CoupleLaw[] = [
   },
   {
     id: "yaw-pearl",
-    label: "Yaw → pearl",
+    label: "Yaw → depth",
     why: "Facing the key light thickens optical depth. Profile thins it.",
     from: { node: "orbit", param: "yaw" },
     to: { node: "pearl", param: "depth" },

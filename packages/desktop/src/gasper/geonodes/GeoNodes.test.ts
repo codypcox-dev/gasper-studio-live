@@ -71,7 +71,7 @@ describe("GeoNodes", () => {
     const env = g.nodes.find((n) => n.id === "envelope");
     expect(env?.params.find((p) => p.id === "rScale")?.base).toBe(1);
     expect(env?.params.find((p) => p.id === "collapse")?.value).toBe(0);
-    expect(env?.params.find((p) => p.id === "bones")?.value).toBe(1);
+    expect(env?.params.find((p) => p.id === "bones")?.value).toBe(0);
   });
 
   it("refuses a cycle, a type clash, and accepts a legal rewire", () => {
