@@ -81,6 +81,42 @@ Today shade and silhouette do not share it:
 
 Lawful workflow: author → bind **offset isolines + live W cleft** (E1 overlay is the authored 5-node rest; interiors still loft from the 512 until E3) → **isophote urethane** (4 superlevel paths). 960 Gouraud quads are dead. Duals killed: `single-pole = organism`, `quad-fill = urethane`, `extracted-medial = rest-lock`. Zero is +0. Overlay ellipses are not the light.
 
+## Volumetric mesh (Investigate 2026-08-19T15:00)
+
+A height graph is not a volume mesh. Dual: `z-loft = volume-mesh`.
+
+| Generator | Role |
+|---|---|
+| Teddy inflate of the live 512 | **Rest solid.** Height already F1. Hoop must follow `chartId` (V1). |
+| Canal / sphere-mesh `(u,v,θ)` | **fabricLive solid.** Structured prism. |
+| MC / CMS / Dual Contouring | Reader only, if a volume is authored |
+| TetWild / hex fill | Reader only (SSS / mass). Never paint |
+| Visual hull of one silhouette | Prism / card. Forbidden as body |
+
+Lock unchanged: 25×40, no remesh, `#body` is the occluding contour. Packet: `canon/runs/2026-08-19T15-00-00-000Z-investigate-volumetric-mesh`.
+
+## Live topology errors (watched 2026-08-19T20:10)
+
+Packet: `canon/runs/2026-08-19T20-10-00-000Z-mesh-topology`. Duals below are **in the live cage**, not theory.
+
+The 25×40 never remeshes. The errors are the **embedding** and the **edges the 960 quads actually join**.
+
+| Id | Error | Live number |
+|---|---|---|
+| T1 | Disk chart on a W. `chartId` computed, ignored at rest. | torso 27 / L 6 / R 7 |
+| T2 | Offset isolines of a W self-cross. | **16** bowtie rings at rest; r6 = 39 crossings. r0 peri **851** > rim **513** |
+| T3 | Polar sine Z. One foot = −z, other = +z. | `sineShare`; L 42/42 neg, R 42/42 pos |
+| T4 | C4 sew is an open strip. r11–r12 is a Z-wall. r23–r24 leaps the pillow. Front never meets the rim. | y45 r23↔r24 = **153 px**; y90 = **157 px** |
+| T5 | Ring 24 glue dies when the solid turns. | rest 1.93 px · y90 **31.5 / 70.8**; r24w = **0** |
+| T6 | Side silhouette = convex of a line + polar thickness. No foot shelf. | y90 `#body` 141.6×171.7 |
+| T7 | `envelopeXYZ` ≠ `liveGridXYZ` | RMS **99–107 px**. two-grid |
+| T8 | `DETAIL_TOPOLOGY` polar+stagger ≠ isoline cage | second connectivity on the same index |
+| T9 | 512→40 undersamples the cleft | 8 px notch on a 40-gon |
+| T10 | Face winding flip (`if nz<0 flip`) | 666 / 960 honest n̂z < 0 |
+| T11 | y90 sliver quads | maxAspect **78** |
+| T12 | `wrapFoot` dead at rest (keep it that way) | V1 two-component. Dual: wrapFoot-at-rest = two-mass |
+
+Do not remesh. Next cut is **P(r,s)**: sew front and back onto ring 24, rest Z by `chartId` (Teddy, not V1), envelope becomes a reader.
 
 ## Mastery order
 

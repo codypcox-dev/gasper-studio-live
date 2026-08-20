@@ -161,6 +161,36 @@
     const c=Math.cos(th),s=Math.sin(th),dx=x-Mx,dz=z-Mz;
     return[Mx+dx*c+dz*s,y,Mz-dx*s+dz*c];
   }
+  function wrapSigned180(d){
+    let y=((Number(d)+180)%360+360)%360-180;
+    return y===-180?180:y;
+  }
+  function rotatePitchAboutM(x,y,z,My,Mz,ph){
+    const c=Math.cos(ph),s=Math.sin(ph),dy=y-My,dz=z-Mz;
+    return[x,My+dy*c+dz*s,Mz-dy*s+dz*c];
+  }
+  function orbitAboutM(x,y,z,Mx,My,Mz,yaw,pitch){
+    const P=Math.abs(pitch)>1e-6?rotatePitchAboutM(x,y,z,My,Mz,pitch):[x,y,z];
+    return Math.abs(yaw)>1e-6?rotateAboutM(P[0],P[1],P[2],Mx,Mz,yaw):P;
+  }
+  function liveOrbitPitch(){
+    const p=Number(globalThis.__GASPER_ORBIT_PITCH__||0);
+    return Number.isFinite(p)?Math.max(-80,Math.min(80,p)):0;
+  }
+  function liveOrbitYaw(){
+    const y=Number(globalThis.__GASPER_ORBIT_YAW__);
+    if(!Number.isFinite(y)) return 8;
+    return wrapSigned180(y);
+  }
+  function orbitingNow(){
+    return Math.abs(liveOrbitPitch())>0.5||Math.abs(liveOrbitYaw()-8)>1.5;
+  }
+  function orbitSolidK(){
+    const y=Math.abs(liveOrbitYaw()-8)/82;
+    const p=Math.abs(liveOrbitPitch())/55;
+    const t=Math.max(0,Math.min(1,Math.max(y,p)));
+    return t*t*(3-2*t);
+  }
   function occupiedOutline(skel){
     // E6 — Rank-1 disk/stadium union. Dual killed: gauss-W = medial-W.
     const th=((typeof effectiveViewYaw==='function'?effectiveViewYaw():0)||0)*Math.PI/180;
@@ -1041,7 +1071,10 @@
   }
   function getViewMetrics(profile=FORM_PROFILES[silhouetteProfile]){
     const frame=formProjectionFrame(profile),amount=viewAmount(),sgn=amount<0?-1:1,absAmt=Math.abs(amount),faceCenter=authorKeyViewPoint({x:frame.cx,y:frame.cy+1},profile,1);
-    const effDeg=effectiveViewYaw(),absDeg=Math.abs(effDeg);
+    const effDeg=(function(){
+      const o=liveOrbitYaw();
+      return Math.abs(o-8)>1.5?wrapSigned180(o+headingYawDeg+attentionYawDeg):effectiveViewYaw();
+    })(),absDeg=Math.abs(effDeg);
     // Illustrator turntable (illustrator-turntable-2p5d-phd-memo): painted
     // width is the finite-thickness ellipse — C-inf on S1. No 45° gate,
     // no reciprocal height, no card squash. θ=0 => facingCompress=1.
@@ -1214,11 +1247,16 @@
       // pearl later as the new-system upgrade.
       const _wc=(globalThis.__GASPER_LIVE_COEFFS__||{}).wispwalker||{};
       const _wcc=WISPWALKER_CANONICAL_CONTOUR;
+      const _s=Math.sin(wrapSigned180(liveOrbitYaw()-8)*Math.PI/180);
+      const _lN=(1+0.10*Math.max(0,-_s))*(1-0.16*Math.max(0,_s));
+      const _rN=(1+0.10*Math.max(0,_s))*(1-0.16*Math.max(0,-_s));
       radius+=(_wc.crownAmp??_wcc.crownAmp)*gaussAngle(th,_wcc.crownTheta,_wcc.crownSigma);
       radius-=_wcc.lowerBowlTrimAmp*gaussAngle(th,_wcc.lowerBowlTrimTheta,_wcc.lowerBowlTrimSigma);
       radius+=(_wc.chinAmp??_wcc.chinAmp)*gaussAngle(th,_wcc.chinTheta,_wcc.chinSigma);
       radius+=(_wc.lobeAmp??_wcc.lobeAmp)*(gaussAngle(th,_wcc.leftLobeTheta,_wcc.lobeSigma)+gaussAngle(th,_wcc.rightLobeTheta,_wcc.lobeSigma));
+      radius+=(_wc.lobeAmp??_wcc.lobeAmp)*(gaussAngle(th,_wcc.leftLobeTheta,_wcc.lobeSigma)*(_lN-1)+gaussAngle(th,_wcc.rightLobeTheta,_wcc.lobeSigma)*(_rN-1));
       radius+=(_wc.rootAmp??_wcc.rootAmp)*(gaussAngle(th,_wcc.leftRootTheta,_wcc.rootSigma)+gaussAngle(th,_wcc.rightRootTheta,_wcc.rootSigma));
+      radius+=(_wc.rootAmp??_wcc.rootAmp)*(gaussAngle(th,_wcc.leftRootTheta,_wcc.rootSigma)*(_lN-1)+gaussAngle(th,_wcc.rightRootTheta,_wcc.rootSigma)*(_rN-1));
       radius-=(_wc.cleftDepth??_wcc.cleftDepth)*gaussAngle(th,_wcc.cleftTheta,_wcc.cleftSigma);
       // Identity ends here. The sole gait articulation pass is the downstream
       // posed-point block, after yaw/view deformation and before viscoelastic
@@ -2185,22 +2223,11 @@ function applyMeshWarp(contour,mesh){
     if(keyReflectionLayer)keyReflectionLayer.setAttribute('opacity','0');
     if(lobeGlintsLayer)lobeGlintsLayer.setAttribute('opacity','0');
     if(secondaryReflectionLayer)secondaryReflectionLayer.setAttribute('opacity','0');
-    const base=$('bodyBase');
-    if(base){
-      const stops=base.querySelectorAll('stop');
-      const well=['#3a1478','#4c1c94','#5e28ac','#7034c0','#8248cc','#9460d4','#a878dc'];
-      for(let i=0;i<stops.length&&i<well.length;i++) stops[i].setAttribute('stop-color',well[i]);
-    }
-    if(opticalDepth)opticalDepth.style.setProperty('opacity','0.46','important');
-    if(cyanReservoirPath) cyanReservoirPath.setAttribute('opacity','0.16');
-    if(cyanFieldNode)cyanFieldNode.setAttribute('opacity','0.14');
+    if(cyanReservoirPath) cyanReservoirPath.setAttribute('opacity','0');
+    if(cyanFieldNode)cyanFieldNode.setAttribute('opacity','0.18');
     const cosmic=$('cosmicTextureLayer');
-    if(cosmic)cosmic.setAttribute('opacity','0.20');
-    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.40');
-    if(shellChromaticPath)shellChromaticPath.setAttribute('opacity','0.14');
-    if(innerVolumePath)innerVolumePath.setAttribute('opacity','0.28');
-    if(pearlCorePath)pearlCorePath.setAttribute('opacity','0.22');
-    if(violetCorePath)violetCorePath.setAttribute('opacity','0.24');
+    if(cosmic)cosmic.setAttribute('opacity','0.58');
+    if(shellChromaticPath)shellChromaticPath.setAttribute('opacity','0.30');
     if(body){
       body.setAttribute('stroke','none');
       body.setAttribute('stroke-width','0');
@@ -2320,7 +2347,7 @@ function applyMeshWarp(contour,mesh){
   }
   function shadeCagePoints(xyz,cx,cy){
     const R=25,S=40;
-    const tilt=Number(globalThis.__GASPER_ORBIT_YAW__??globalThis.__GASPER_FACING_YAW__??8)||0;
+    const tilt=liveOrbitYaw();
     _lastLightTiltDeg=tilt;
     const lights=viewFixedLights(tilt);
     const live=((globalThis.__GASPER_LIVE_COEFFS__||{}).cageLight)||{};
@@ -2430,10 +2457,52 @@ function applyMeshWarp(contour,mesh){
     if(b0) b0.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.18));
     if(b1) b1.setAttribute('d',superlevelPath(xyz,cx,cy,E,0.40));
     if(coat) coat.setAttribute('d',superlevelPath(xyz,cx,cy,S,0.28));
-    g.setAttribute('opacity','1');
+    paintBodyWell(E,S);
+    g.setAttribute('opacity','0');
     if(avatar){
-      avatar.dataset.cageFill='4';
+      avatar.dataset.cageFill='1';
       avatar.dataset.isoPainter='1';
+    }
+  }
+  function paintBodyWell(lam,spec){
+    // Canon well + traveling key. Dual killed: hard-paint = cage-spec; raster-hull = adobe.
+    const base=$('bodyBase');
+    if(!base) return;
+    const authored=['#2a1068','#3a1a88','#4d249c','#6230b0','#7a44c8','#a060e0','#d4a8f8'];
+    const live=((globalThis.__GASPER_LIVE_COEFFS__||{}).cageLight)||{};
+    const specGain=Math.max(0.35,Math.min(2.2,1+0.85*(Number(live.light_spec)||0)));
+    let Smean=0,nS=0;
+    if(spec&&spec.length){
+      for(let i=0;i<spec.length;i+=8){Smean+=spec[i]||0;nS++;}
+    }
+    Smean=(nS?Smean/nS:0.18)*specGain;
+    const lift=Math.max(0.04,Math.min(0.22,0.06+0.16*Math.min(1,Smean*1.3)));
+    const stops=base.querySelectorAll('stop');
+    for(let i=0;i<stops.length&&i<authored.length;i++){
+      const hex=authored[i];
+      const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+      const k=i>=5?Math.min(1,lift*1.2):lift;
+      const rr=Math.min(255,Math.round(r+(220-r)*k));
+      const gg=Math.min(255,Math.round(g+(200-g)*k));
+      const bb=Math.min(255,Math.round(b+(255-b)*k));
+      stops[i].setAttribute('stop-color','#'+((1<<24)+(rr<<16)+(gg<<8)+bb).toString(16).slice(1));
+    }
+    const sx=_cageSpecSm.x,sy=_cageSpecSm.y;
+    if(Number.isFinite(sx)&&sx!==0){
+      base.setAttribute('cx',sx.toFixed(1));
+      base.setAttribute('cy',(Number.isFinite(sy)?sy:118).toFixed(1));
+      base.setAttribute('fx',sx.toFixed(1));
+      base.setAttribute('fy',(Number.isFinite(sy)?sy:118).toFixed(1));
+    }
+    base.setAttribute('r','101');
+    if(opticalDepth)opticalDepth.style.setProperty('opacity','0.40','important');
+    if(innerVolumePath)innerVolumePath.setAttribute('opacity','0.34');
+    if(pearlCorePath)pearlCorePath.setAttribute('opacity','0.30');
+    if(violetCorePath)violetCorePath.setAttribute('opacity','0.32');
+    if(crownBloomPath)crownBloomPath.setAttribute('opacity','0.52');
+    if(avatar){
+      avatar.dataset.wellLift=lift.toFixed(3);
+      avatar.dataset.wellSpec=Smean.toFixed(3);
     }
   }
   function paintSurfaceShade(){
@@ -2478,6 +2547,151 @@ function applyMeshWarp(contour,mesh){
     if(tssSheenNode)tssSheenNode.setAttribute('opacity','0.12');
   }
   const liveGridXYZ=new Float32Array(1000*3);
+  function splineLoop(loop,n){
+    const m=loop.length,out=new Array(n);
+    for(let i=0;i<n;i++){
+      const u=i/n*m;
+      const s0=((Math.floor(u)%m)+m)%m,s1=(s0+1)%m,f=u-Math.floor(u);
+      out[i]={x:loop[s0].x*(1-f)+loop[s1].x*f,y:loop[s0].y*(1-f)+loop[s1].y*f};
+    }
+    return out;
+  }
+  function chaikinLoop(loop,passes){
+    let cur=loop;
+    for(let p=0;p<passes;p++){
+      const nxt=[];
+      for(let i=0;i<cur.length;i++){
+        const a=cur[i],b=cur[(i+1)%cur.length];
+        nxt.push({x:a.x*0.75+b.x*0.25,y:a.y*0.75+b.y*0.25});
+        nxt.push({x:a.x*0.25+b.x*0.75,y:a.y*0.25+b.y*0.75});
+      }
+      cur=nxt;
+    }
+    return cur;
+  }
+  function pearlContour(xyz,cx,cy,n){
+    const R=25,S=40;
+    const rx=new Float32Array(S),ry=new Float32Array(S);
+    let xMin=1e9,xMax=-1e9,mx=0,my=0;
+    for(let s=0;s<S;s++){
+      const i=(R-1)*S+s;
+      rx[s]=cx+(xyz[i*3]||0);
+      ry[s]=cy+(xyz[i*3+1]||0);
+      mx+=rx[s];my+=ry[s];
+      if(rx[s]<xMin)xMin=rx[s];
+      if(rx[s]>xMax)xMax=rx[s];
+    }
+    mx/=S;my/=S;
+    let yLo=1e9,yHi=-1e9;
+    for(let s=0;s<S;s++){if(ry[s]<yLo)yLo=ry[s];if(ry[s]>yHi)yHi=ry[s];}
+    const thin=(xMax-xMin)<88;
+    const loop=new Array(S);
+    for(let s=0;s<S;s++){
+      // T2 — outermost projected sample of this sector (all 25 rings), not rim+puff.
+      let bestX=rx[s],bestY=ry[s],best= -1e9;
+      const ox=rx[s]-mx,oy=ry[s]-my,ol=Math.hypot(ox,oy)||1;
+      const ux=ox/ol,uy=oy/ol;
+      for(let r=0;r<R;r++){
+        const i=r*S+s;
+        const x=cx+(xyz[i*3]||0),y=cy+(xyz[i*3+1]||0);
+        const d=(x-mx)*ux+(y-my)*uy;
+        if(d>best){best=d;bestX=x;bestY=y;}
+      }
+      if(thin){
+        const south=Math.max(0,(bestY-my)/((yHi-my)||1));
+        const extra=18+(south>0.50?10:0);
+        bestX+=ux*extra*0.15;
+      }
+      loop[s]={x:bestX,y:bestY};
+    }
+    return splineLoop(thin?chaikinLoop(loop,1):loop,n);
+  }
+  function polarSilhouette(xyz,cx,cy,n){ return pearlContour(xyz,cx,cy,n); }
+  function cageSilhouette(xyz,cx,cy,n){ return pearlContour(xyz,cx,cy,n); }
+  function orbitSilhouette(xyz,cx,cy,n){
+    // Visual hull of the projected 25×40. Dual killed: inflate-rim = 3D-orbit.
+    const R=25,S=40,N=R*S;
+    if(!xyz||xyz.length<N*3) return pearlContour(xyz,cx,cy,n);
+    let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+    for(let i=0;i<N;i++){
+      const x=cx+(xyz[i*3]||0),y=cy+(xyz[i*3+1]||0);
+      if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y;
+    }
+    if(!(maxX>minX+1&&maxY>minY+1)) return pearlContour(xyz,cx,cy,n);
+    const pad=8;
+    minX-=pad;maxX+=pad;minY-=pad;maxY+=pad;
+    const GW=100,GH=120;
+    const occ=new Uint8Array(GW*GH);
+    const dx=maxX-minX,dy=maxY-minY,sx=GW-1,sy=GH-1;
+    function fillTri(ax,ay,bx,by,cx3,cy3){
+      let xA=(ax-minX)/dx*sx,yA=(ay-minY)/dy*sy;
+      let xB=(bx-minX)/dx*sx,yB=(by-minY)/dy*sy;
+      let xC=(cx3-minX)/dx*sx,yC=(cy3-minY)/dy*sy;
+      if(yA>yB){let t=xA;xA=xB;xB=t;t=yA;yA=yB;yB=t;}
+      if(yB>yC){let t=xB;xB=xC;xC=t;t=yB;yB=yC;yC=t;}
+      if(yA>yB){let t=xA;xA=xB;xB=t;t=yA;yA=yB;yB=t;}
+      const y0=Math.max(0,Math.floor(yA)),y1=Math.min(GH-1,Math.ceil(yC));
+      const edge=(x0e,y0e,x1e,y1e,y)=>Math.abs(y1e-y0e)<1e-6?x0e:x0e+(x1e-x0e)*(y-y0e)/(y1e-y0e);
+      for(let y=y0;y<=y1;y++){
+        let xa,xb;
+        if(y<yB){xa=edge(xA,yA,xC,yC,y);xb=edge(xA,yA,xB,yB,y);}
+        else{xa=edge(xA,yA,xC,yC,y);xb=edge(xB,yB,xC,yC,y);}
+        if(xa>xb){const t=xa;xa=xb;xb=t;}
+        const x0i=Math.max(0,Math.floor(xa)),x1i=Math.min(GW-1,Math.ceil(xb));
+        const row=y*GW;
+        for(let x=x0i;x<=x1i;x++) occ[row+x]=1;
+      }
+    }
+    for(let r=0;r<R-1;r++){
+      for(let s=0;s<S;s++){
+        const s1=(s+1)%S;
+        const a=r*S+s,b=r*S+s1,c=(r+1)*S+s,d=(r+1)*S+s1;
+        const ax=cx+(xyz[a*3]||0),ay=cy+(xyz[a*3+1]||0);
+        const bx=cx+(xyz[b*3]||0),by=cy+(xyz[b*3+1]||0);
+        const px=cx+(xyz[c*3]||0),py=cy+(xyz[c*3+1]||0);
+        const qx=cx+(xyz[d*3]||0),qy=cy+(xyz[d*3+1]||0);
+        fillTri(ax,ay,bx,by,qx,qy);
+        fillTri(ax,ay,qx,qy,px,py);
+      }
+    }
+    const dil=new Uint8Array(GW*GH);
+    for(let y=0;y<GH;y++){
+      for(let x=0;x<GW;x++){
+        const i=y*GW+x;
+        if(occ[i]){dil[i]=1;continue;}
+        let hit=0;
+        for(let oy=-1;oy<=1&&!hit;oy++){
+          for(let ox=-1;ox<=1;ox++){
+            const xx=x+ox,yy=y+oy;
+            if(xx>=0&&yy>=0&&xx<GW&&yy<GH&&occ[yy*GW+xx]){hit=1;break;}
+          }
+        }
+        if(hit) dil[i]=1;
+      }
+    }
+    let sx0=-1,sy0=-1;
+    outer:for(let x=0;x<GW;x++){
+      for(let y=0;y<GH;y++) if(dil[y*GW+x]){sx0=x;sy0=y;break outer;}
+    }
+    if(sx0<0) return pearlContour(xyz,cx,cy,n);
+    const DX=[1,1,0,-1,-1,-1,0,1],DY=[0,1,1,1,0,-1,-1,-1];
+    const loop=[];
+    let x=sx0,y=sy0,dir=4,guard=GW*GH*3;
+    do{
+      loop.push({x:minX+x/sx*dx,y:minY+y/sy*dy});
+      const start=(dir+6)&7;
+      let found=false;
+      for(let k=0;k<8;k++){
+        const d=(start+k)&7;
+        const nx=x+DX[d],ny=y+DY[d];
+        if(nx>=0&&ny>=0&&nx<GW&&ny<GH&&dil[ny*GW+nx]){x=nx;y=ny;dir=d;found=true;break;}
+      }
+      if(!found) break;
+    }while((x!==sx0||y!==sy0)&&--guard>0);
+    if(loop.length<12) return pearlContour(xyz,cx,cy,n);
+    return splineLoop(chaikinLoop(loop,1),n);
+  }
+  const wrapFoot=(arr)=>{return arr;};
   function bindHullToLiveGrid(pts){
     const R=25,S=40,n=pts.length;
     if(!n)return pts;
@@ -2628,13 +2842,21 @@ function applyMeshWarp(contour,mesh){
         }
         if(!fabricLive){
           // Identity rest: offset isolines of the live 512 so the cage is the skin, including the W.
+          // F1 — elliptical ±Z from the pearl's own inset. Dual killed: rimTh-canal = volume.
+          // C0 — V1 wrapFoot/scanline reverted. Dual killed: two-mass = one-pearl.
+          // union-at-rest = canonical
           const v=Math.pow(r/24,0.62);
           const insetV=(1-v)*inset[s];
           liveGridXYZ[i*3]=rimX[s]-cx+nx[s]*insetV+sx;
           liveGridXYZ[i*3+1]=rimY[s]-cy+ny[s]*insetV+syv;
-          P=sampleCanal(B.ax,B.ay,0,B.rA,B.bx,B.by,0,B.rB,B.u,1-v,rimTh);
-          liveGridXYZ[i*3+2]=P[2];
-          if(r>=17){footZCanal+=Math.abs(P[2]);footN++;}
+          const zAmp=inset[s]*0.46;
+          const th3=(s/S)*Math.PI*2;
+          // liveGridXYZ[i*3+2]=zAmp*Math.sin(th3)*Math.sqrt(Math.max(0,1-v*v))
+          const ell=Math.sqrt(Math.max(0,1-v*v));
+          const front=r<12;
+          const sit=(chartId[s]===1?6:chartId[s]===2?-6:0)*Math.max(0,Math.cos(wrapSigned180(liveOrbitYaw()-8)*Math.PI/180))**2;
+          liveGridXYZ[i*3+2]=(front?1:-1)*zAmp*1.55*ell+(front?sit:-sit*0.2)*ell;
+          if(r>=17){footZCanal+=Math.abs(liveGridXYZ[i*3+2]);footN++;}
           continue;
         }
         if(r<=16){
@@ -2656,21 +2878,56 @@ function applyMeshWarp(contour,mesh){
         liveGridXYZ[i*3+2]=P[2];
       }
     }
-    const yawDeg=(typeof effectiveViewYaw==='function'?effectiveViewYaw():0)||0;
+    const yawDeg=liveOrbitYaw();
+    const pitchDeg=liveOrbitPitch();
     const th=yawDeg*Math.PI/180;
-    const Mx=(plantL.x+plantR.x)*0.5,Mz=0;
+    const ph=pitchDeg*Math.PI/180;
+    const Mx=(plantL.x+plantR.x)*0.5,My=(plantL.y+plantR.y)*0.5,Mz=0;
+    const pitched=Math.abs(ph)>0.008;
+    const yawed=Math.abs(yawDeg-8)>1.5;
+    const orbiting=pitched||yawed;
+    if(orbiting&&!fabricLive){
+      for(let s=0;s<S;s++){
+        const t=Math.max((inset[s]||0)*0.82,44)*(chartId[s]?1.12:1);
+        const sit=(chartId[s]===1?6:chartId[s]===2?-6:0)*Math.max(0,Math.cos(wrapSigned180(liveOrbitYaw()-8)*Math.PI/180))**2;
+        for(let r=0;r<R;r++){
+          const i=r*S+s;
+          const sx=gridSculpt[i*2]||0,syv=gridSculpt[i*2+1]||0;
+          if(r===0||r===R-1){
+            liveGridXYZ[i*3]=rimX[s]-cx+sx;
+            liveGridXYZ[i*3+1]=rimY[s]-cy+syv;
+            liveGridXYZ[i*3+2]=r===R-1&&sit?sit*0.45:0;
+            continue;
+          }
+          const front=r<12;
+          const rr=front?(11-r):(r-12);
+          const v=Math.pow(rr/11,0.62);
+          const insetV=(1-v)*inset[s];
+          liveGridXYZ[i*3]=rimX[s]-cx+nx[s]*insetV+sx;
+          liveGridXYZ[i*3+1]=rimY[s]-cy+ny[s]*insetV+syv;
+          const ell=Math.sqrt(Math.max(0,1-v*v));
+          liveGridXYZ[i*3+2]=(front?1:-1)*t*ell+(front?sit:-sit*0.2)*ell;
+        }
+      }
+    }
     let crownX=0,crownN=0;
-    if(Math.abs(th)>1e-6){
-      for(let r=0;r<R-1;r++){
+    if(orbiting){
+      for(let r=0;r<R;r++){
         for(let s=0;s<S;s++){
           const i=r*S+s;
           const wx=cx+liveGridXYZ[i*3],wy=cy+liveGridXYZ[i*3+1],wz=liveGridXYZ[i*3+2];
-          const Q=rotateAboutM(wx,wy,wz,Mx,Mz,th);
+          const Q=orbitAboutM(wx,wy,wz,Mx,My,Mz,th,ph);
           liveGridXYZ[i*3]=Q[0]-cx;
           liveGridXYZ[i*3+1]=Q[1]-cy;
           liveGridXYZ[i*3+2]=Q[2];
-          if(r<=3&&Q[2]>=0){crownX+=Q[0];crownN++;}
         }
+      }
+      const f=460,MxS=Mx-cx,MyS=My-cy;
+      for(let i=0;i<R*S;i++){
+        const z=liveGridXYZ[i*3+2]||0;
+        const s=f/Math.max(180,f-z);
+        liveGridXYZ[i*3]=MxS+(liveGridXYZ[i*3]-MxS)*s;
+        liveGridXYZ[i*3+1]=MyS+(liveGridXYZ[i*3+1]-MyS)*s;
       }
     }else{
       for(let s=0;s<S;s++){
@@ -2687,6 +2944,19 @@ function applyMeshWarp(contour,mesh){
         pts[i].x=cx+liveGridXYZ[a*3]*(1-f)+liveGridXYZ[b*3]*f;
         pts[i].y=cy+liveGridXYZ[a*3+1]*(1-f)+liveGridXYZ[b*3+1]*f;
       }
+    }else if(orbiting){
+      // C4 — occluding contour of the Teddy sample. Dual killed: card = closed-pearl.
+      // Adobe 2.5D owns #body. Dual killed: raster-hull = turntable.
+      const thW=wrapSigned180(yawDeg-8)*Math.PI/180;
+      const wK=Math.sqrt(Math.cos(thW)*Math.cos(thW)+0.81*Math.sin(thW)*Math.sin(thW));
+      for(let i=0;i<n;i++) pts[i].x=Mx+(pts[i].x-Mx)*wK;
+      if(avatar) avatar.dataset.formSolid='inflate-contour';
+      if(avatar) avatar.dataset.formOutline='hz-loop';
+      if(avatar) avatar.dataset.adobe='1';
+      if(avatar) avatar.dataset.adobeW=wK.toFixed(4);
+    }else if(avatar){
+      avatar.dataset.formSolid='';
+      avatar.dataset.formOutline='';
     }
     globalThis.__GASPER_GRID_XYZ__=liveGridXYZ;
     globalThis.__GASPER_LIVE_GRID_XYZ__=liveGridXYZ;
@@ -2712,6 +2982,8 @@ function applyMeshWarp(contour,mesh){
       avatar.dataset.envelopeHook=mode.torsoHook.toFixed(2);
       avatar.dataset.envelopeMixId=String(mode.id||'rest');
       avatar.dataset.envelopeMix=mode.mix.toFixed(4);
+      avatar.dataset.formHoop=String(globalThis.__GASPER_HOOP__?.sineShare?1:0);
+      avatar.dataset.sineShare=String(globalThis.__GASPER_HOOP__?.sineShare?1:0);
       avatar.dataset.envelopeCrownR=ER.crown.toFixed(2);
       avatar.dataset.envelopeTorsoR=ER.torso.toFixed(2);
     }
@@ -3051,10 +3323,37 @@ function applyMeshWarp(contour,mesh){
   function setYaw(value){viewYawDegrees=clampYaw(value);yaw.value=String(viewYawDegrees);$('yawValue').textContent=`${viewYawDegrees.toFixed(0)}°`;applyFormPresence();}
   let orbitYawDegrees=8,orbitPitchDegrees=0;
   function setOrbit(yaw,pitch){
-    orbitYawDegrees=Number(yaw)||0;
+    orbitYawDegrees=wrapSigned180(Number(yaw)||0);
     orbitPitchDegrees=Number(pitch)||0;
     globalThis.__GASPER_ORBIT_YAW__=orbitYawDegrees;
     globalThis.__GASPER_ORBIT_PITCH__=orbitPitchDegrees;
+    if(avatar){avatar.dataset.orbitYaw=String(orbitYawDegrees);avatar.dataset.orbitPitch=String(orbitPitchDegrees);}
+    applyFormPresence();
+    requestFormMasterFrame();
+  }
+  // Visualize 3D rotation. Dual killed: costume-spin = orbit-solid.
+  let turntableOn=false,turntableT0=0;
+  const TURNTABLE_YAW_PERIOD=AMORPH_PHI*AMORPH_PHI*AMORPH_PHI*AMORPH_PHI*AMORPH_PHI;
+  const TURNTABLE_PITCH_PERIOD=TURNTABLE_YAW_PERIOD*AMORPH_PHI;
+  const TURNTABLE_PITCH_AMP=18;
+  function tickTurntable(elapsedSec){
+    if(!turntableOn) return;
+    if(typeof reducedMotion!=='undefined'&&reducedMotion) return;
+    const t=Math.max(0,Number(elapsedSec)||0)-turntableT0;
+    const yaw=wrapSigned180(8+(t/TURNTABLE_YAW_PERIOD)*360);
+    const pitch=TURNTABLE_PITCH_AMP*Math.sin((Math.PI*2)*t/TURNTABLE_PITCH_PERIOD);
+    setOrbit(yaw,pitch);
+    if(avatar) avatar.dataset.turntable='1';
+  }
+  function setTurntable(on,restore){
+    turntableOn=!!on;
+    globalThis.__GASPER_TURNTABLE__=turntableOn;
+    if(turntableOn){
+      turntableT0=0;
+    }else if(restore){
+      setOrbit(8, 0);
+      if(avatar) avatar.dataset.turntable='0';
+    }
   }
   function renderSilhouetteProfileButtons(){document.querySelectorAll('[data-form-profile]').forEach(button=>{button.classList.toggle('active',button.dataset.formProfile===silhouetteProfile);button.onclick=()=>setDemoSilhouetteProfile(button.dataset.formProfile);});}
   function setPreviewSize(size){previewSize=size;avatar.style.setProperty('--avatar-size',`${size}px`);document.querySelectorAll('[data-preview-size]').forEach(button=>button.classList.toggle('active',Number(button.dataset.previewSize)===size));}
@@ -3543,6 +3842,7 @@ function applyMeshWarp(contour,mesh){
       if(env.bones!==undefined) globalThis.__GASPER_SHOW_SKELETON__=!_ge.mute?.envelope&&+env.bones>0.5;
     }
     const scriptStarted=performance.now(),organismFrame=materialOrganismFrame(),dt=Math.max(0,Math.min(.05,(forcedDeltaMs??(organismClock.getDeltaMs?.()||0))/1000));lastTime=now;elapsed=organismFrame.elapsedMs/1000;
+    tickTurntable(elapsed);
     if(!paused&&emotionDemoMode&&!runtimeDormant){emotionDemoClock+=dt;const hold=2.65;if(emotionDemoClock>=hold){emotionDemoClock=0;emotionDemoIndex=(emotionDemoIndex+1)%EMOTION_DEMO_SEQUENCE.length;setEmotionFixture(EMOTION_DEMO_SEQUENCE[emotionDemoIndex],{source:'demo'});}}
     let morphProfileId=silhouetteProfile,nextMorphProfileId=silhouetteProfile,morphMix=0,morphArc=null;
     if(manualMorph){
@@ -3835,6 +4135,12 @@ function applyMeshWarp(contour,mesh){
     { // E4 — plant-yaw owns turn. Dual killed: centroid-yaw = plant-yaw.
       avatar.dataset.facingCompress='1.0000';
       avatar.dataset.facingVerticalScale='1.0000';
+      if(Math.abs(_vmT.facingCompress-1)>0.002&&avatar.dataset.adobe!=='1'){
+        let _mx=0; for(const _p of pts) _mx+=_p.x||0; _mx/=pts.length||1;
+        for(const _p of pts) _p.x=_mx+((_p.x||0)-_mx)*_vmT.facingCompress;
+        for(const _p of renderMesh) _p.x=_mx+((_p.x||0)-_mx)*_vmT.facingCompress;
+      }
+      if(Math.abs(_vmT.facingCompress-1)>0.002) avatar.dataset.facingCompress=_vmT.facingCompress.toFixed(4);
       avatar.dataset.facingFaceFade=_vmT.faceTurnFade.toFixed(4);
       avatar.dataset.materialFacingYaw=materialFacingYawDeg.toFixed(2);
       avatar.dataset.nearLobeScale=_vmT.nearLobeScale.toFixed(4);
@@ -4251,6 +4557,7 @@ _d[1].setAttribute('opacity','0');} avatar.dataset.spatialGain=_sdlG.toFixed(4);
   }
   globalThis.SidekickFormMasterRig={
     setOrbit,
+    setTurntable,
     setYaw,
     setEnvelopeMorph(id){
       const key=String(id||'rest');

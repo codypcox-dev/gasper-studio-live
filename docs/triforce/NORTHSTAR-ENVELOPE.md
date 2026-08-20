@@ -2,7 +2,7 @@
 
 **Id:** `GASPER-ENVELOPE-001`  
 **Name:** The Medial Envelope  
-**Status:** E0–E7 landed. E7-I mix landed. **Rest identity is canonical WISPWALKER 512** (owner 2026-08-18: prove forms or rewind). Occupied union only while the 3-vector is off-identity. Dual killed: `union-at-rest = canonical`.  
+**Status:** E0–E7 landed. E7-I mix landed. **F1 form-solid landed** — rest identity is canonical WISPWALKER 512; interiors carry elliptical ±Z so orbit is a solid, not a card. Occupied union only while the 3-vector is off-identity (or as a polar spike brake). Dual killed: `union-at-rest = canonical`, `polar-card = canal-solid`. **V0 volumetric-mesh Investigate landed** — F1 is still a graph, not a closed volume. Dual killed: `z-loft = volume-mesh`. **V1 teddy-hoop REVERTED by C0** — wrapFoot + scanline tore two-mass. Form chase: `NORTHSTAR-SOLID.md`. Dual still law: `polar-sine = two-tube-W` (paint only when fabricLive).  
 **Engine:** Tri-Force 3.0.0  
 **Parents:** `NORTHSTAR-CAGED-HULL.md`, medial-fabric, isophote-banding, marching-cubes (refused as body)  
 **Packets:**
@@ -11,13 +11,13 @@
 - `canon/runs/2026-08-19T02-20-00-000Z-explore-medial-skeleton`
 - `canon/runs/2026-08-19T02-40-00-000Z-investigate-envelope-clean`
 
-**Chase this** for shape. Chat is transport.
+**This file is the shape specification.**
 
 ---
 
 ## 0. One sentence
 
-Gasper is the **envelope of spheres along an authored 3D medial skeleton**; the 25×40 are **samples of that envelope**; `#body` is the **occluding contour of the projection** this frame — never an authored 2D pancake with a z sticker.
+Gasper is the **envelope of spheres along an authored 3D medial skeleton**; the 25×40 are **samples of that envelope**; `#body` is the **occluding contour of the projection** this frame — never a 2D silhouette with a z height-graph.
 
 ## 1. Duals (already earned, now locked)
 
@@ -35,11 +35,11 @@ Gasper is the **envelope of spheres along an authored 3D medial skeleton**; the 
 | centroid-yaw = plant-yaw | Yaw about the navel tips the floor. Pivot is plant midpoint |
 | gauss-W = medial-W | Two gaussians on a polyline are not two tubes |
 | constant-r = W | A sausage cannot cleft. `r_C ≤ h − δ` |
-| n̂·V-on-a-pancake = occluding-contour | Extractor on today’s loft is ring 24. Costume |
+| n̂·V-on-a-pancake = occluding-contour | Extractor on today’s loft is ring 24. Unused as `#body`. |
 | hullFrontPath = body | Front rim of the cage is not the silhouette of the solid |
 | radialEnvelope = outline | Star-convex polar ray-cast fills the W |
 | farTuck = occlusion | Far foot dies interior to the union, not by an x-pull |
-| plan-table = measurement | First-guess `r_F=58, r_T=64` is costume. Fit `r(u)` |
+| plan-table = measurement | First-guess `r_F=58, r_T=64` is unused. Fit `r(u)` |
 
 ## 2. Objects
 

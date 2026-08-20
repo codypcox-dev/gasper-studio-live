@@ -2045,10 +2045,13 @@
 .node-inspector__couple em { font-style: normal; color: #d8c9a4; }
 .node-inspector__couple span { color: rgba(236,232,225,0.62); }
 .stage-look {
-  position: fixed;
-  z-index: 24;
-  top: 18px;
-  right: 16px;
+  position: relative;
+  inset: auto;
+  top: auto;
+  right: auto;
+  left: auto;
+  bottom: auto;
+  z-index: auto;
   width: min(320px, 34vw);
   max-height: calc(100vh - 168px);
   overflow-y: auto;
@@ -2073,11 +2076,13 @@
 .stage-look header span { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(236,232,225,0.5); }
 .stage-look__switches {
   display: flex;
-  gap: 8px;
-  padding: 0 10px 8px;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 0 8px;
 }
 .stage-look__switch {
-  flex: 1;
+  flex: 1 1 30%;
+  min-width: 72px;
   height: 28px;
   border-radius: 999px;
   border: 1px solid rgba(236,232,225,0.18);
@@ -2092,10 +2097,78 @@
   color: #1a1610;
   border-color: #d8c9a4;
 }
+.stage-look__pages {
+  display: flex;
+  gap: 6px;
+  padding: 0 0 8px;
+}
+.stage-look__page {
+  flex: 1;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(236,232,225,0.12);
+  background: transparent;
+  color: rgba(236,232,225,0.55);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.stage-look__page[data-active="1"] {
+  background: rgba(216,201,164,0.16);
+  color: #d8c9a4;
+  border-color: rgba(216,201,164,0.4);
+}
+.stage-look__forms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 0 8px;
+}
+.stage-look__form {
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(236,232,225,0.14);
+  background: transparent;
+  color: rgba(236,232,225,0.68);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.stage-look__form[data-active="1"] {
+  background: #d8c9a4;
+  color: #1a1610;
+  border-color: #d8c9a4;
+}
+.stage-look__bones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 0 8px;
+}
+.stage-look__bone {
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(236,232,225,0.14);
+  background: transparent;
+  color: rgba(236,232,225,0.62);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.stage-look__bone[data-active="1"] {
+  background: #ff6a4a;
+  color: #1a100c;
+  border-color: #ff6a4a;
+}
 .stage-look__dials {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px 10px;
+}
+.stage-look__dials label[hidden] {
+  display: none !important;
 }
 .stage-look__dials label {
   display: grid;

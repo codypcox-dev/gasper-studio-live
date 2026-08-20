@@ -14,9 +14,9 @@ one is a CanonOps Pressure Cooker run (N20 / N335). Not a chat summary.
 
 | Button | Earns |
 |---|---|
-| **Explore** | Corpus + external grounding against the wall |
-| **Summarize** | Existing canon compressed onto the wall |
-| **Investigate** | Full Pressure Cooker PHD: wall → laws → invariants → fix spec |
+| **Explore** | Corpus + external grounding against the residual |
+| **Summarize** | Existing canon compressed onto the residual |
+| **Investigate** | Full Pressure Cooker PHD: residual → laws → invariants → fix spec |
 
 ## Packet (Capstone §7)
 
@@ -33,7 +33,57 @@ Only reusable findings promote into the Tri-Force canon.
 
 ## Current residual
 
-`authored-512 = silhouette` — the live organism is a 2D polar pancake; the envelope is the opposite write order. Duals also killed this run: `dist≤r = convolution`, `n̂·V-on-a-pancake = occluding-contour`, `extracted-medial = rest-lock`, `plan-table = measurement`.
+`side-pear = sitting-W`. **On GasperPrime.** Audit 00:45: Adobe 10-yaw table pass (err ≤ 0.003, height ±0.55). Rest 173.47 W. Yaw 90 = squeezed W. Canon fill layers missing (`innerVolume` / `pearlCore` / `violetCore` / `crownBloom`). No painter cut.
+
+**Latest:** `docs/triforce/canon/runs/2026-08-20T00-45-00-000Z-audit-prime`
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001`)
+**Latest:** `docs/triforce/canon/runs/2026-08-19T21-40-00-000Z-wisp-glory`
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001`)
+**Latest Explore:** `docs/triforce/canon/runs/2026-08-19T21-25-00-000Z-explore-bones-grid-pair`
+**Prior execute:** `docs/triforce/canon/runs/2026-08-19T21-20-00-000Z-s0-selection`
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001`)
+**Latest:** `docs/triforce/canon/runs/2026-08-19T21-20-00-000Z-s0-selection`
+**Prior Investigate:** `docs/triforce/canon/runs/2026-08-19T21-15-00-000Z-investigate-ui-patterns`
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001`)
+**Latest Investigate:** `docs/triforce/canon/runs/2026-08-19T21-15-00-000Z-investigate-ui-patterns`
+**Prior Explore:** `docs/triforce/canon/runs/2026-08-19T21-00-00-000Z-explore-y-monotone-decomp`
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001`)
+**Latest Explore:** `docs/triforce/canon/runs/2026-08-19T21-00-00-000Z-explore-y-monotone-decomp`
+**Sibling:** `docs/triforce/canon/runs/2026-08-19T20-50-00-000Z-explore-y-sort`
+**Prior film:** `docs/triforce/canon/runs/2026-08-19T20-45-00-000Z-sit-lock`
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001`)
+**Latest Explore:** `docs/triforce/canon/runs/2026-08-19T20-50-00-000Z-explore-y-sort`
+**Prior film:** `docs/triforce/canon/runs/2026-08-19T20-45-00-000Z-sit-lock`
+
+Prior: `card = closed-pearl` — **C4 landed (watched).** Yaw 90 is a plump one-mass solid (~130×177), not a gold-Y line. Rest 173.47 WISPWALKER. Pitch ±36 one mass. Restore holds. Edge-on writer is convex sausage of the projected 1000. Fill isobands still fragment (C1). Two-tube W is C5.
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001` C4) · parents `NORTHSTAR-RIG.md`, `NORTHSTAR-ENVELOPE.md`.
+**Proof:** `docs/triforce/canon/runs/2026-08-19T16-40-00-000Z-c4-solid`.
+**Plan:** `docs/triforce/plans/2026-08-19-gasper-solid-001.md`.
+**This run (reader, not a residual cut):** live turntable visualizes the C4 solid. Dual killed: `costume-spin = orbit-solid`. Residual stays C1 fill-union.
+
+Prior: `two-mass = one-pearl` — **C0 restore held rest-W. Orbit was a card.** V1 wrapFoot + scanline unwound. Yaw 90 `bodyW=0` was stamped "honest" and rejected by the owner. Dual remains: two-mass = one-pearl.
+
+**Blueprint:** `docs/triforce/NORTHSTAR-SOLID.md` (`GASPER-SOLID-001` C0) · parents `NORTHSTAR-RIG.md`, `NORTHSTAR-ENVELOPE.md`.
+**Proof:** `docs/triforce/canon/runs/2026-08-19T16-00-00-000Z-c0-restore`.
+**Plan:** `docs/triforce/plans/2026-08-19-gasper-solid-001.md` (C0 restore; C4 now landed).
+
+Prior: `polar-sine = two-tube-W` — **V1 painted, then REVERTED.** Foot meridians remapped onto a full hoop. Scanline hull on orbit tore a crown/bowl (false-land: bbox 125px, no pitch film). Dual remains law; paint only when fabricLive (C5).
+**Proof:** `docs/triforce/canon/runs/2026-08-19T15-10-00-000Z-v1-teddy-hoop`.
+
+Prior: `z-loft = volume-mesh` — **Investigate landed. Painter not recut.** F1 sine-Z is a height graph. Lawful solid = Teddy of the live 512 (rest) + canal sample (fabricLive). MC / TetWild / voxels refused as body.
+**Proof:** `docs/triforce/canon/runs/2026-08-19T15-00-00-000Z-investigate-volumetric-mesh`.
+
+Prior: `polar-card = canal-solid` — **F1 landed.** Rest is WISPWALKER. Interiors carry elliptical ±Z (zAmp ≈ 65).
+**Proof:** `docs/triforce/canon/runs/2026-08-19T14-20-00-000Z-form-solid`.
+
+Prior: `authored-512 = silhouette` — the live organism is a 2D polar pancake; the envelope is the opposite write order. Duals also killed this run: `dist≤r = convolution`, `n̂·V-on-a-pancake = occluding-contour`, `extracted-medial = rest-lock`, `plan-table = measurement`.
 
 **Blueprint:** `docs/triforce/NORTHSTAR-ENVELOPE.md` (`GASPER-ENVELOPE-001` — The Medial Envelope).
 **Plan:** `docs/triforce/plans/2026-08-19-envelope-001.md` (E0–E7; E1 only is safe to code; owner go required).

@@ -1,4 +1,4 @@
-# NORTHSTAR — Caged Hull (the chase document)
+# NORTHSTAR — Caged Hull
 
 **Id:** `GASPER-CAGED-HULL-001`  
 **Status:** LIVE-OBSERVED — G1–G11 machine-proven and agent-watched on 2026-08-17. Not owner acceptance (S3).  
@@ -7,7 +7,7 @@
 **Authority:** this file wins over chat memory, prior plans, and any new composer an agent wants to invent.  
 **Live paint:** FormMaster `packages/desktop/src/gasper/assets/all-script-3.js` (`legacy-authority-formmaster-v655`). TypeScript scaffold modules are twins or contracts. They do not paint unless this file says they do.
 
-Chat is transport. This file is the product we agreed to. Every turn re-reads it before editing. One residual at a time. No parallel systems.
+This file is the product we agreed to. Every turn re-reads it before editing. One residual at a time. No parallel systems.
 
 ---
 
@@ -40,7 +40,7 @@ If hull, grid, and light disagree, the system is wrong. Do not add a fourth writ
 C = Γ(L) + Σ s_i
 ```
 
-- `L` is rest pearl (identity).
+- `L` is rest identity.
 - `s_i` are named sources: nubs, W / feet, stance, yaw perspective, relief / goose, authored morphs.
 - Amplitude 0 is identity. Topology never remeshes. Shape is an embedding.
 - Polar lock: 25 rings × 40 sectors = 1000 verts. Rim ring 24 is the silhouette coupling.

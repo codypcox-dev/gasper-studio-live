@@ -6,6 +6,7 @@ import { bootstrapPackagedIdentity } from "./operational/identities";
 import "../../desktop/src/studio/tokens.css";
 import "../../desktop/src/styles.css";
 import "../../desktop/src/studio/shell.css";
+import "./modes/mode-shell.css";
 
 // Optional: if AgentBridge is up, fetch bridge works; if not, Studio still runs.
 try {

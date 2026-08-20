@@ -1,7 +1,7 @@
 # START HERE — Tri-Force Engine is law in this repo
 
 **You are in a Tri-Force governed repository.**  
-Chat is transport. Disk is truth. Unmeasured claims are not PASS.
+Disk is the source of truth. Unmeasured claims are not PASS.
 
 ## Boot (always, first action)
 

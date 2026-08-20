@@ -1,16 +1,3 @@
-/**
- * Dais-first stage host — primary live character canvas + StudioDesk.
- * Composes IntegratedGasperStage (or any stage child) as the open workspace focus.
- * Dais remains render-only; shell rail owns AUTHORING tools.
- *
- * Review mode: state-isolated presentation that hides irrelevant chrome and
- * exposes character crop + external state labels for high-res facial review.
- *
- * Keyboard single-dispatch contract:
- * - Host React onKeyDown owns all Dais keys when focus is inside the host.
- * - Window listener only for Dais-only keys when focus is OUTSIDE host.
- * Does not claim Cody visual acceptance.
- */
 import {
   useCallback,
   useEffect,
@@ -44,6 +31,17 @@ import {
 import type { TuningLabSession } from "../tuning/tuningRegistry";
 import type { ReferenceTrainingSession } from "../training/ReferenceTrainingSession";
 import type { StudioPilotSession } from "../training/StudioPilotSession";
+import { ModeToggle } from "../modes/ModeToggle";
+import { DraggablePanel } from "../environments/DraggablePanel";
+import { VWebGLRuntime } from "../environments/vwebgl/VWebGLRuntime";
+import { ENVIRONMENTS } from "../environments/registry";
+import {
+  readStoredMode,
+  writeStoredMode,
+  type StudioModeId,
+} from "../modes/registry";
+import "../modes/mode-shell.css";
+import "../environments/EnvironmentHost.css";
 
 const HOST_TEST_ID = "dais-first-stage-host";
 
@@ -74,6 +72,51 @@ export function DaisFirstStageHost({
   reviewMode: reviewModeProp,
 }: DaisFirstStageHostProps): React.ReactElement {
   const [take, setTake] = useState<SkinTake>("neutral");
+  const [studioMode, setStudioMode] = useState<StudioModeId>(() => readStoredMode());
+
+  const onStudioMode = useCallback((id: StudioModeId) => {
+    writeStoredMode(id);
+    setStudioMode(id);
+    try {
+      const rig = (window as unknown as { SidekickFormMasterRig?: { setPaused?: (v: boolean) => void } })
+        .SidekickFormMasterRig;
+      rig?.setPaused?.(id !== "vector");
+    } catch {
+      /* */
+    }
+  }, []);
+
+  useEffect(() => {
+    writeStoredMode(studioMode);
+  }, [studioMode]);
+
+  const resetScene = useCallback(() => {
+    if (studioMode === "hybrid") {
+      window.dispatchEvent(new CustomEvent("gasper-reset-vwebgl"));
+      return;
+    }
+    try {
+      const rig = (
+        window as unknown as {
+          SidekickFormMasterRig?: {
+            setOrbit?: (y: number, p: number) => void;
+            setYaw?: (y: number) => void;
+            setTurntable?: (on: boolean, restore?: boolean) => void;
+            setProfile?: (id: string, settle?: string) => void;
+          };
+        }
+      ).SidekickFormMasterRig;
+      rig?.setTurntable?.(false, true);
+      rig?.setProfile?.("wispwalker", "settle");
+      rig?.setOrbit?.(8, 0);
+      rig?.setYaw?.(8);
+      (window as unknown as { __GASPER_ORBIT_YAW__?: number }).__GASPER_ORBIT_YAW__ = 8;
+      (window as unknown as { __GASPER_SHOW_GRID__?: boolean }).__GASPER_SHOW_GRID__ = false;
+      (window as unknown as { __GASPER_SHOW_SKELETON__?: boolean }).__GASPER_SHOW_SKELETON__ = false;
+    } catch {
+      /* */
+    }
+  }, [studioMode]);
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -180,6 +223,8 @@ export function DaisFirstStageHost({
       data-facial-review-scale={chrome.facialReviewScale ? "1" : "0"}
       data-character-crop-primary={chrome.characterCropPrimary ? "1" : "0"}
       data-studio-v2="1"
+      data-mode={studioMode}
+      data-runtime={ENVIRONMENTS[studioMode].runtime}
       tabIndex={0}
       onKeyDown={onKeyDown}
       role="region"
@@ -191,7 +236,38 @@ export function DaisFirstStageHost({
         data-hierarchy-role="stage-canvas"
         data-facial-review-scale={chrome.facialReviewScale ? "1" : "0"}
       >
-        {children}
+        <DraggablePanel
+          id="mode-rail-v2"
+          variant="rail"
+          defaultX={Math.max(24, (typeof window !== "undefined" ? window.innerWidth : 1280) / 2 - 120)}
+          defaultY={10}
+          testId="gasper-mode-bar"
+          headerExtra={
+            <>
+              <ModeToggle mode={studioMode} onChange={onStudioMode} />
+              <button
+                type="button"
+                className="gasper-mode-reset"
+                data-testid="scene-reset"
+                onClick={resetScene}
+              >
+                Reset
+              </button>
+            </>
+          }
+        >
+          {null}
+        </DraggablePanel>
+        <div
+          className="env-layer"
+          data-testid="env-vector"
+          data-runtime="formmaster-svg"
+          hidden={studioMode !== "vector"}
+          aria-hidden={studioMode !== "vector"}
+        >
+          {children}
+        </div>
+        <VWebGLRuntime active={studioMode === "hybrid"} />
         {reviewMode ? (
           <div
             className="dais-review-overlay"

@@ -1,6 +1,6 @@
 # Gasper pillars
 
-**Status:** ACTIVE — the template. Chase this.
+**Status:** ACTIVE — the template. Use this.
 **Version:** 2026-08-17 · `GASPER-PILLARS-001`
 **Engine:** 3.0.0
 

@@ -1,12 +1,12 @@
-# NORTHSTAR — Gasper Studio (the instrument)
+# NORTHSTAR — Gasper Studio
 
 **Id:** `GASPER-STUDIO-MASTER-001`  
 **Status:** REAL-SYSTEM CHECKPOINT — 2026-08-18. Live cage drag. Joined undo. Publish looks.  
 **Proof:** `docs/triforce/canon/runs/2026-08-18T20-55-00-000Z-revision-publish`  
-**Chase this.** Chat is transport. This file plus the day book win over memory.  
+**This file plus the day book win over memory.**  
 **Parent locks:** `NORTHSTAR-CAGED-HULL.md`, `NORTHSTAR-PILLARS.md`  
 **Checkpoint restore:** `checkpoint-real-system-20260818`  
-**Organism restore:** Factory / Autosave / Save look (`gasper.revision.v1`) — not a git tag. Dual: `tag = organism`.  
+**Look restore:** Factory / Autosave / Save look (`gasper.revision.v1`) — not a git tag. Dual: `tag = organism`.  
 **Prior restore:** `checkpoint-live-skin-20260818` · `checkpoint-glued-cage-20260818`  
 **Engine:** Tri-Force lock 3.0.0 (CLI absent in this host; disk is still law)
 
@@ -18,33 +18,34 @@
 
 The 20s take is a fire list. Easing a fire is a category error.  
 Compositing one hull is a category error.  
-The graph is a mixer rack wearing Cavalry chrome.
+The graph is a mixer rack.
 
-Duals to kill this book:
+Duals for this book:
 
-| Lie | Law |
+| Dual | Meaning |
 |---|---|
 | easing = physics | τ interpolates flesh. Curves interpolate Score parameters |
 | bezier = take-beat | A beat is an impulse. A curve needs an interval |
 | composite = one hull | There is no plate B |
-| rack = visual-script | Wires must carry typed buffers or they are costume |
+| rack = visual-script | Wires must carry typed buffers or they are unused |
 | layer = organ | One embedding |
 | clip-FSM = presence | Locomotion ⊥ Presence ⊥ Take |
 | wall-clock = organism-clock | VEC-401 only |
 | mute = skip-write | Mute is `out = in` |
 | catalog LIVE = paint path | Catalog matches the mount |
+| page-bag = selection-inspector | Look pages are a fallback when nothing is selected. Inspector follows the pick. |
 
-Lead force this book: **PlanOps** (work). ThinkOps names. DesignOps crystals the chrome. CodeOps executes one wave at a time.
+Lead force this book: **PlanOps** (work). ThinkOps names. DesignOps owns the UI. CodeOps executes one wave at a time.
 
 ---
 
 ## 1. What this product is
 
-**Gasper Studio is the instrument on which you displace, take, and replay a single locked vector fabric — Construction, Forwards, Score — under one clock, one τ, one `#body` — where the graph is the Cook, the transport is the Score, and the Machine only answers “may I?”**
+**Gasper Studio is the tool on which you displace, take, and replay a single locked vector fabric — Construction, Forwards, Score — under one clock, one τ, one `#body` — where the graph is the Cook, the transport is the Score, and the Machine only answers “may I?”**
 
-Anything that cannot be said inside that sentence is someone else’s product wearing our chrome.
+Anything that cannot be said inside that sentence is a different product.
 
-He is one organism. 25×40 cage = skin = shape = motion = light. 512 is the rim. FormMaster writes `d` once.
+25×40 cage = skin = shape = motion = light. 512 is the rim. FormMaster writes `d` once.
 
 ---
 
@@ -79,7 +80,7 @@ Studio V2’s “AE transport + Rive Stage/Graph + Cavalry nodes” is three met
 | Time | Analog | Owns | Must never |
 |---|---|---|---|
 | **Construction** | Spine Setup, Harmony Setup | Identity `L`, rest W, face lock | Mutate during play |
-| **Forwards** | Every organism frame | handles → 512 → Voigt → κ → orbit → pearl → `d` | A second writer |
+| **Forwards** | Every frame | handles → 512 → Voigt → κ → orbit → pearl → `d` | A second writer |
 | **Score** | AE / Rive timeline | `τ ∈ [0, T]` on **parameters** | Key the 512, key world pose, ease a plant |
 
 Gait `φ` is a phase, not a Score and not a Machine state.
@@ -101,7 +102,7 @@ LIVE you can see: `DaisFirstStageHost` + `StudioDesk` + `StudioTransport` + `Nod
 
 About **six sliders** move him: foot, cleft, coupling, voigt.tau, gait.hz, handles, orbit.yaw, kappa.cap, support.k, grid.
 
-Dead dressed as dials: pearl.depth, voigt.rest, machine.gate, northstar-20.play global.
+Unused controls: pearl.depth, voigt.rest, machine.gate, northstar-20.play global.
 
 Two autoplays fire the 20s (host 1400ms + app boot).
 
