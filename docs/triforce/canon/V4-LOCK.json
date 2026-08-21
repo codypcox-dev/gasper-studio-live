@@ -1,0 +1,52 @@
+{
+  "id": "GASPER-V4-REAL-001",
+  "engine": "Tri-Force 4.0",
+  "status": "ARCHITECT_LOCK",
+  "date": "2026-08-21",
+  "primaryEmbodiment": "wispwalker",
+  "authority": [
+    "docs/triforce/v4/CANON-V4.md",
+    "docs/triforce/NORTHSTAR-V4-REAL-GASPER.md",
+    "docs/triforce/plans/2026-08-21-gasper-v4-real-form-refactor.md",
+    "docs/triforce/plans/2026-08-21-grokforce-v4-divide-conquer.md",
+    "docs/triforce/v4/ACCEPTANCE-GATES.md"
+  ],
+  "preserve": {
+    "historicalRig": "sidekickex-gasper-v6.5.5-standalone.html",
+    "embodiments": [
+      "presence",
+      "wispwalker",
+      "comet",
+      "singularity",
+      "dormant-orbit",
+      "halo",
+      "lantern",
+      "low-orbit"
+    ],
+    "frontContourSamples": 512,
+    "reliefField": "25x40/1000",
+    "structuralLattice": "360/672",
+    "face": "vector",
+    "animation": "GSAP semantic orchestration",
+    "humanVisualAuthority": true
+  },
+  "newAuthority": {
+    "body": "GasperVolumeMesh watertight shared topology",
+    "depth": "explicit multi-view/profile authoring; never front-only acceptance",
+    "relief": "25x40 attaches to body, does not close body",
+    "faceBinding": "FaceSurfaceBinder vector-to-3D projection",
+    "renderer": "WebGL/Three or equivalent permitted; renderer is not canon"
+  },
+  "retiredConflicts": [
+    "25x40 connectivity equals final closed body topology",
+    "front 512 alone determines canonical 3D depth",
+    "WebGL body categorically forbidden",
+    "offset-isoline sewing of W is canonical manifold",
+    "polar-sine depth is universal Wispwalker solid"
+  ],
+  "promotion": {
+    "candidate": "automated structural/projection gates",
+    "reviewed": "proof packet + architect review",
+    "acceptedCanon": "explicit human visual approval"
+  }
+}
