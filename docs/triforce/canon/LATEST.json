@@ -1,10 +1,12 @@
 {
-  "runId": "GasperPrime",
-  "mode": "restore",
-  "residual": "side-pear = sitting-W",
-  "blueprint": "docs/triforce/NORTHSTAR-CAGED-HULL.md",
-  "commit": "57a8608",
-  "repo": "https://github.com/codypcox-dev/GasperPrime",
-  "score": 94,
-  "verdict": "Live painter is GasperPrime again. Adobe 2.5D. Rest 173.47. Far-tuck reverted."
+  "runId": "GASPER-V4-REAL-001",
+  "mode": "refactor",
+  "residual": "pressed-candy pseudo-volume from invalid 25x40-as-body authority",
+  "blueprint": "docs/triforce/NORTHSTAR-V4-REAL-GASPER.md",
+  "canon": "docs/triforce/v4/CANON-V4.md",
+  "lock": "docs/triforce/canon/V4-LOCK.json",
+  "plan": "docs/triforce/plans/2026-08-21-gasper-v4-real-form-refactor.md",
+  "grokforce": "docs/triforce/plans/2026-08-21-grokforce-v4-divide-conquer.md",
+  "primaryEmbodiment": "wispwalker",
+  "verdict": "Tri-Force 4.0 authority: preserve historical identity/vector semantics, replace failed pseudo-volume with watertight GasperVolumeMesh, attach 25x40 as relief, then bind living vector face. Human visual acceptance required."
 }
